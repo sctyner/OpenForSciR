@@ -14,6 +14,7 @@ My running list of open forensics software
 ## Shoe prints / Tire tracks
 
 - Guillermo & Martin's work
+- [`solefinder`](https://github.com/CSAFE-ISU/solefinder) R package
 
 ## Glass 
 
