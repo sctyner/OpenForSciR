@@ -34,4 +34,9 @@ My running list of open forensics software
 **Disclaimer** I am aware that this 'section' does not belong here. I just do not know where this should be (if anywhere).
 
 - Would it be possible to include shiny apps or references to them in a project like this? It would be appealing for forensic practitioners or forensic scientists to be able to play with the software via a shiny app, like Eric's app or the one that Martin and I are working on (where you will be able to upload your own images, preprocess them and analyze them).
+    - I think that's a great idea! We can have a chapter on interactivity and online resources
 - I believe we could convince Alicia and Soyoung to bundle all their code into an R package to be included in the shoeprints and glass sections as well.
+    - I think you mean Soyoung ;P But, I agree it's a good idea! 
+    - It is also worth considering reaching out to other CSAFE institutions to see what R packages they have. I remember one from CMU that was presented at the all hands meeting. 
+
+
