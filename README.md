@@ -10,24 +10,34 @@ My running list of open forensics software
 ## Firearms/Toolmarks
 
 - [`bulletr`](https://github.com/erichare/bulletr) R package
+- Jeremy Hadler's work? 
 
 ## Shoe prints / Tire tracks
 
 - Guillermo & Martin's work
 - [`solefinder`](https://github.com/CSAFE-ISU/solefinder) R package
+- Soyoung's work
 
 ## Glass 
 
 - Soyoung's work
+- bundle code into R package
 
 ## Fingerprints
 
 - Steve's work 
+- [Anguli](http://dsl.cds.iisc.ac.in/projects/Anguli/
+- [NIST Biometric Image Software (NBIS)](https://www.nist.gov/services-resources/software/nist-biometric-image-software-nbis)
 
 ## Handwriting 
 
 - Amy's work
 - Steve's work
+- Nick's work (?) 
+
+## Steganography
+
+- [stegasaur](https://github.com/richfitz/stegasaur) R package
 
 ## Discussion Points
 
