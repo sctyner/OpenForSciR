@@ -11,6 +11,7 @@ My running list of open forensics software
 
 - [`bulletr`](https://github.com/erichare/bulletr) R package
 - Jeremy Hadler's work? 
+- [cartridges](https://github.com/xhtai/cartridges) R package 
 
 ## Shoe prints / Tire tracks
 
