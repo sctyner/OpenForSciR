@@ -1,0 +1,39 @@
+# Shoe Outsole Impression Evidence {#shoe}
+
+![Source: https://www.pexels.com/photo/grayscale-photo-of-shoe-sole-163369/](img/shoesole.png)
+
+## What is shoe outsole impression evidence? 
+
+In the mess of a crime scene, one of the most abundant pieces of evidence is a shoe outsole impression. A shoe outsole impression is the trace of a shoe that is left behind. The pattern of the sole is transferred to the walking surface. Impressions are also often left in pliable materials such as sand, dirt, snow, or blood. These crime scene impressions are lifted using dusting or casting techniques to obtain the print left behind. The 
+
+- Crime scene impression
+- Definition
+- How used in forensic science? 
+
+## Sources of variability in shoe outsole impressions
+
+There are many characteristics of shoes that are examined. First, the size of the shoe is determined, then the style and manufacturer. These characteristics are known as *class characteristics* because there are many, many shoes that share these characteristics, but they can be used to easily exclude most other shoes. For instance, a very popular shoe in the United States is the Nike Air Force one, pictured below. So, seeing a Nike logo and concentric circles in an impression from a Men's size 13 instantly excludes all shoes that are not Nike Air Force Ones in Men's size 13. 
+
+![](https://c.static-nike.com/a/images/t_PDP_1728_v1/f_auto/q3byyhcazwdatzj7si11/air-force-1-mid-07-womens-shoe-0nT1KyYW.jpg)
+
+Next, *subclass characteristics* are examined. These characteristics are shared by a subset of elements in a class, but not by all elements in the class. In shoe impressions, subclass characteristics usually occur during the manufacturing process. For instance, air bubbles may form in one manufacturing run but not in another. Also, the different molds used to create the same style and size shoes can have slight differences, such as where pattern elements intersect [@mfrshoes]. Just like with class characteristics, subclass characteristics can be used to eliminate possible shoes very easily. 
+
+Finally, the most unique parts of a shoe outsole impression are the randomly acquired characteristics (RACs) left behind. The RACs are smaller knicks, gouges, and debris in soles of shoes that are acquired over time, seemingly at random, as the shoes are worn. These are the *identifying* characteristics of shoe impressions, and examiners look for these irregularities in the crime scene impressions to make an identification. 
+
+To make an identification, a shoe that investigators think could have caused the print is studied for its class, subclass, and randomly acquired characteristics. 
+
+1. Size 
+2. Manufacturer (Nike, Adidas, Converse, etc.)
+3. Style (Air Force One, Chuck Taylor All-Star, etc.)
+4. Mold used in manufacture
+5. Other manufacturing process variability
+6. Randomly acquired characteristics (RACs)
+    a. gouge
+    b. rocks
+    c. knicks 
+7. Transfer of outsole to surface    
+    
+1-3 : class characteristics
+4-5 : subclass characteristics
+6 : indentifying characterisics
+7 : random 

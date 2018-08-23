@@ -1,0 +1,19 @@
+# Trace glass evidence: chemical composition  {#glass}
+
+![Source: https://www.pexels.com/photo/black-and-white-broken-dark-glass-235727/](img/brokenglass.png)
+
+## What is trace glass evidence?
+
+It is easy to imagine a crime scene with glass fragments: a burglar may have broken a glass door, a glass bottle could have been used in an assault, or a domestic disturbance may involve throwing something through a window. There are many ways that glass can break and that glass fragments can be transferred. The study of glass fragments is important to forensic science because the glass broken at the scene can transfer to the perpetrator's shoes or other clothing, or even their hair [@curranbook].  
+
+Crime scene investigators collect fragments of glass at the scene as a part of the evidence collection process and the fragments are sent to the forensics lab for processing. Similarly, evidence such as clothing and shoes are collected from a suspect, and if glass is found, the fragments are compared to the fragments found at the scene. The question that the analyst usually tries to answer is, "Did these glass fragments come from the same source?" This is a *source level* question, meaning that the comparison of the fragments will only tell the investigators whether or not the person came in contact with the broken glass at the scene. It will not tell them *how* they came into contact (*activity level*) with the glass or if they committed the crime (*offense level*) [@hop].  
+
+
+## Comparing glass fragments 
+
+In order to determine if two glass fragments come from the same source, a forensic analyst considers many properties of the glass, including color, fluorescence, thickness, surface features, curvature, and chemical composition. All methods for examining these properties, except for methods of chemical composition analysis, are non-destructive. If the fragments are large, exclusion are easy to reach if the glass are of different colors because of the wide variety of glass colors possible in manufacturing. Typically, however, glass fragments are quite small and color determination is very difficult. Similarly, thickness of glass is dictated by the manufacturing process, which aims for uniform thickness, so if two glass fragments differ in thickness by more than 0.25mm, an exclusion is made [@glassbackground]. For glass fragments of the same color and thickness, microscopic techniques for determining light absorption (fluorescence), curvature, surface features (such as coatings), are used before the destructive chemical composition analysis. 
+
+## Chemical composition of glass 
+
+The process for determining the chemical composition of a glass fragment is given in great detail in @astm. This destructive method determines elemental composition with Inductively Coupled Plasma Mass Spectrometry (ICP-MS). Up to 40 elements can be detected in a glass fragment using this method. In @weisglass, only 18 elements are used: calcium, sodium and magnesium are the major elements, followed by aluminum, potassium and iron as minor elements, and lithium, titanium, manganese, rubidium, strontium, zirconium, barium, lanthanum, cerium, neodymium, hafnium, and lead as the trace elements. The methods of @weisglass use standard deviations ($\sigma$) of repeated measurements of the same fragment to create intervals around the measurements. Intervals of width $2\sigma, 4\sigma, 6\sigma, 8\sigma, 10\sigma, 12\sigma, 16\sigma, 20\sigma, 30\sigma,$ and $40\sigma$ are considered for overlap. 
+

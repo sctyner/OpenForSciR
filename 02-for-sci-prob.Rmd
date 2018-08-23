@@ -1,0 +1,11 @@
+# Forensic Science Problems {#forscip}
+
+The purpose of this chapter is to introduce the general type of problem that will be covered in the book. In doing forensic science, there are three main hypothesis "levels" that are under consideration. The ultimate goal that forensic sciences want to acheive can be described as "figuring out who did X", where X is usually "committing a crime," but can be any other possible action that would result in forensic evidence. 
+
+First, let's define some terms: 
+
+forensic evidence
+forensic science
+source hypothesis
+activity hypothesis
+offense hypothesis
