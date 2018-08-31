@@ -9,6 +9,7 @@ Thank you also to the many contributors of this book's chapters:
 - Chris Galbraith
 - Amanda Luby
 - Karen Pan
+- Nick Berry
 - ...
 
 Finally, thank you to my wonderful PI, Alicia Carriquiry, who allowed me to dedicate my time as a postdoc at CSAFE to this work. 
