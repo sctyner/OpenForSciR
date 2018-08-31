@@ -4,13 +4,21 @@
 
 (ref: DOJ fingerprint handbook)
 
-![temp tineline, edit/add to, probably move out of image format](img/fingerprint_timeline.jpg)
+![](img/fingerprint_timeline.JPG)
 
-![Level 1 detail: friction ridge flow, pattern type, and general morphological information. Source: https://mrthomascooper.weebly.com/](img/level1_detail.jpg)
+placeholder tineline, edit/add to, probably move out of image format
 
-![Level 2 detail: individual friction ridge paths and associated events, including minutiae (features). Source: http://syhrl.blogspot.com/2012/04/036-fyp-minutiae.html](img/minutiae.png)
+![Source: https://mrthomascooper.weebly.com/](img/level1_detail.jpg)
 
-![Level 3 detail: friction ridge dimensional attributes, such as width, edge shapes, pores, scars. Source: http://onin.com/fp/level123.html](img/level3_detail.jpg)
+Level 1 detail: friction ridge flow, pattern type, and general morphological information.
+
+![Source: http://syhrl.blogspot.com/2012/04/036-fyp-minutiae.html](img/minutiae.png)
+
+Level 2 detail: individual friction ridge paths and associated events, including minutiae (features).
+
+![Source: http://onin.com/fp/level123.html](img/level3_detail.jpg)
+
+Level 3 detail: friction ridge dimensional attributes, such as width, edge shapes, pores, scars.
 
 Terminology? latent, exemplar, dusting, lifting
 
