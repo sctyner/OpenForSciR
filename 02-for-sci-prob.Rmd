@@ -1,6 +1,16 @@
 # Forensic Science Problems {#forscip}
 
-The purpose of this chapter is to introduce the general type of problem that will be covered in the book. In doing forensic science, there are three main hypothesis "levels" that are under consideration. The ultimate goal that forensic sciences want to acheive can be described as "figuring out who did X", where X is usually "committing a crime," but can be any other possible action that would result in forensic evidence. 
+The purpose of this chapter is to introduce the general type of problem that will be covered in the book. Investigators use forensic science resources to help solve crimes. At the highest level, the investigator is in charge of answering a very different question than the forensic scientist examining the evidence. The investigator wants to know who committed the crime, while the forensic scientist wants to determine the source of the evidence. The former is known as an *offense level hypothesis*, while the latter is the *source level hypothesis.* To write these hypotheses in the form of statistical hypothesis for testing, we write: 
+\begin{align*}
+H_0: & \text{The suspect committed the crime.} \\
+H_A: & \text{The suspect did not commit the crime.}
+\end{align*}
+for the offense level and 
+\begin{align*}
+H_0: & \text{The suspect is the source of the evidence.} \\
+H_A: & \text{The suspect is not the source of the evidence.}
+\end{align*}
+for the source level. Notice the distinction: the forensic scientist is not a criminal investigator, so their main concern is "catching the bad guy." Instead, they are concerned with coming to the correct conclusion using science.
 
 First, let's define some terms: 
 

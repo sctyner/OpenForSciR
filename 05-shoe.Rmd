@@ -2,7 +2,7 @@
 
 ![Source: https://www.pexels.com/photo/grayscale-photo-of-shoe-sole-163369/](img/shoesole.png)
 
-## What is shoe outsole impression evidence? 
+## Introduction
 
 In the mess of a crime scene, one of the most abundant pieces of evidence is a shoe outsole impression. A shoe outsole impression is the trace of a shoe that is left behind. The pattern of the sole is transferred to the walking surface. Impressions are also often left in pliable materials such as sand, dirt, snow, or blood. These crime scene impressions are lifted using dusting or casting techniques to obtain the print left behind. The 
 
@@ -10,9 +10,9 @@ In the mess of a crime scene, one of the most abundant pieces of evidence is a s
 - Definition
 - How used in forensic science? 
 
-## Sources of variability in shoe outsole impressions
+### Sources of variability in shoe outsole impressions
 
-There are many characteristics of shoes that are examined. First, the size of the shoe is determined, then the style and manufacturer. These characteristics are known as *class characteristics* because there are many, many shoes that share these characteristics, but they can be used to easily exclude most other shoes. For instance, a very popular shoe in the United States is the Nike Air Force one, pictured below. So, seeing a Nike logo and concentric circles in an impression from a Men's size 13 instantly excludes all shoes that are not Nike Air Force Ones in Men's size 13. 
+There are many characteristics of shoes that are examined. First, the size of the shoe is determined, then the style and manufacturer. These characteristics are known as *class characteristics* because there are many, many shoes that share these characteristics, but they can be used to easily exclude most other shoes. For instance, a very popular shoe in the United States is the Nike Air Force one, pictured below [@fbishoes]. So, seeing a Nike logo and concentric circles in an impression from a Men's size 13 instantly excludes all shoes that are not Nike Air Force Ones in Men's size 13. 
 
 ![](https://c.static-nike.com/a/images/t_PDP_1728_v1/f_auto/q3byyhcazwdatzj7si11/air-force-1-mid-07-womens-shoe-0nT1KyYW.jpg)
 
@@ -37,3 +37,12 @@ To make an identification, a shoe that investigators think could have caused the
 4-5 : subclass characteristics
 6 : indentifying characterisics
 7 : random 
+
+
+## Data 
+
+## R Package(s)
+
+## Drawing Conclusions
+
+## Case Study

@@ -1,4 +1,4 @@
-# DNA Evidence {#dna}
+# Latent Fingerprints {#fingerprints}
 
 ## Introduction
 

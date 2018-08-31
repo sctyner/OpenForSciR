@@ -1,0 +1,14 @@
+# Acknowledgements
+
+This book was made possible by an award from the ROpenSci Foundation. My eternal gratitude goes to Karthik Ram and the rest of the ROpenSci awards committee! 
+
+Thank you also to the many contributors of this book's chapters: 
+
+- Eric Hare 
+- Soyoung Park
+- Chris Galbraith
+- Amanda Luby
+- Karen Pan
+- ...
+
+Finally, thank you to my wonderful PI, Alicia Carriquiry, who allowed me to dedicate my time as a postdoc at CSAFE to this work. 
