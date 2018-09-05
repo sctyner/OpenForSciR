@@ -10,9 +10,10 @@ This repository is the home of "Open Forensic Science with R".
 ## For authors: 
 
 If you're stuck, start with the Data section of your chapter. The data chapter should answer the following questions: 
-    * How are the physical (aka "real-world") data collected?
-    * How are the physical data processed to create digital data? 
-    * Once converted to digital, what should the data look like before we can analyze it in R? 
+
+    - How are the physical (aka "real-world") data collected?
+    - How are the physical data processed to create digital data? 
+    - Once converted to digital, what should the data look like before we can analyze it in R? 
         
 ## For your R packages: 
 
