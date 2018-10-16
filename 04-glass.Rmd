@@ -8,6 +8,7 @@ It is easy to imagine a crime scene with glass fragments: a burglar may have bro
 
 Crime scene investigators collect fragments of glass at the scene as a part of the evidence collection process and the fragments are sent to the forensics lab for processing. Similarly, evidence such as clothing and shoes are collected from a suspect, and if glass is found, the fragments are compared to the fragments found at the scene. The question that the analyst usually tries to answer is, "Did these glass fragments come from the same source?" This is a *source level* question, meaning that the comparison of the fragments will only tell the investigators whether or not the person came in contact with the broken glass at the scene. It will not tell them *how* they came into contact (*activity level*) with the glass or if they committed the crime (*offense level*) [@hop].  
 
+## Data 
 
 ### Comparing glass fragments 
 
@@ -16,8 +17,6 @@ In order to determine if two glass fragments come from the same source, a forens
 ### Chemical composition of glass 
 
 The process for determining the chemical composition of a glass fragment is given in great detail in @astm. This destructive method determines elemental composition with Inductively Coupled Plasma Mass Spectrometry (ICP-MS). Up to 40 elements can be detected in a glass fragment using this method. In @weisglass, only 18 elements are used: calcium, sodium and magnesium are the major elements, followed by aluminum, potassium and iron as minor elements, and lithium, titanium, manganese, rubidium, strontium, zirconium, barium, lanthanum, cerium, neodymium, hafnium, and lead as the trace elements. The methods of @weisglass use standard deviations ($\sigma$) of repeated measurements of the same fragment to create intervals around the measurements. Intervals of width $2\sigma, 4\sigma, 6\sigma, 8\sigma, 10\sigma, 12\sigma, 16\sigma, 20\sigma, 30\sigma,$ and $40\sigma$ are considered for overlap. 
-
-## Data 
 
 ## R Package(s)
 

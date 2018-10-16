@@ -10,7 +10,9 @@ for the offense level and
 H_0: & \text{The suspect is the source of the evidence.} \\
 H_A: & \text{The suspect is not the source of the evidence.}
 \end{align*}
-for the source level. Notice the distinction: the forensic scientist is not a criminal investigator, so their main concern is "catching the bad guy." Instead, they are concerned with coming to the correct conclusion using science.
+for the source level. Notice the distinction: the forensic scientist is not a criminal investigator, so their main concern is not "catching the bad guy." Instead, they are concerned with coming to the best conclusion using science.
+
+
 
 First, let's define some terms: 
 
