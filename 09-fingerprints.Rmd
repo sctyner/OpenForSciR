@@ -1,43 +1,102 @@
 # Latent Fingerprints {#fingerprints}
 
+<!-- image sources
+fingerprint.jpg 			https://archives.fbi.gov/archives/about-us/lab/forensic-science-communications/fsc/jan2001/lpu.pdf
+fingerprint_brush.jpg 		http://www.stapletonandassociates.com/images/MagPowder.jpg
+fingerprint_powders.png 	https://www.kinseimatec.co.jp/en/wp-content/uploads/2016/02/C2-%E8%8B%B1%E8%AA%9E1.png
+level1_detail.jpg  			https://mrthomascooper.weebly.com/
+level3_detail.jpg 			http://onin.com/fp/level123.html
+minutiae.png 				http://syhrl.blogspot.com/2012/04/036-fyp-minutiae.html
+tenprint_card.png 			https://www.fbi.gov/@@dvpdffiles/d/3/d38ffbd5d46a43728b385c5db47e74fc/normal/dump_1.gif
+-->
+
 ## Introduction
 
-(ref: DOJ fingerprint handbook)
+A Qin Dynasty document from around 200 B.C. contains the first known detailing of friction ridge impressions for use as forensic evidence [@doj_fingerprint_sourcebook]. Since then, fingerprints were generally understood to be of use for individualization and often used to sign documents and contracts. Fingerprints were recognized as unique in Europe in 1788, and later established as unique and persistent in Sir Francis Galton's 1892 book, *Finger Prints*.
 
-![](img/fingerprint_timeline.JPG)
-
-placeholder tineline, edit/add to, probably move out of image format
-
-![Source: https://mrthomascooper.weebly.com/](img/level1_detail.jpg)
-
-Level 1 detail: friction ridge flow, pattern type, and general morphological information.
-
-![Source: http://syhrl.blogspot.com/2012/04/036-fyp-minutiae.html](img/minutiae.png)
-
-Level 2 detail: individual friction ridge paths and associated events, including minutiae (features).
-
-![Source: http://onin.com/fp/level123.html](img/level3_detail.jpg)
-
-Level 3 detail: friction ridge dimensional attributes, such as width, edge shapes, pores, scars.
-
-Terminology? latent, exemplar, dusting, lifting
-
-ACE-V process - Analysis, Comparison, Evaluation, Verification
-
-AFIS/(I)AFIS - (Integrated) Automatic Fingerprint Identification System used by the FBI, black box. Takes a fingerprint image and returns the top _n_ matches in a database, which LPEs use to go through the ACE-V process manually
-
-## Fingerprint Quality Metrics and Algorithms
-
-Fingerprint quality metrics/algorithms (generally) fall into two types: global and feature specific. Global scores assign a single score to an entire fingerprint image, while feature specific algorithms give a score to each feature or minutiae. This requires having marked minutiae, either by a latent print examiner (LPE) or an automated method (MINDTCT, etc.)
-
-Peskin and Kafadar algorithm: feature specific, score from 0-100 for each feature.
 
 ## Data 
 
-NIST SD27a database that used to be available online. Contains just under 300 latent and exemplar print pairs that two or more LPEs have agreed "match"; i.e., these are not guaranteed to be ground truth matches.
+### Data collection
+
+As almost everyone is born with fingerprints, friction ridge impressions are naturally a common source of evidence retrieved from crime scenes. These latent prints are left behind on any item a person touches in the form of sweat, which is comprised of water, oils, and proteins and amino acids.
+
+```{r, out.width = "400px", echo = FALSE}
+knitr::include_graphics("img/fingerprint_brush.jpg")
+```
+
+One of the oldest and most common methods for recovering unseen prints is dusting. Moisture clinging powder is gently brushed onto a surface using soft brushes to detect and increase the visibility of prints. Magnetic powders exist that can be applied without a brush, and reduce possible damage to a print. After a print has been brushed, they are usually recorded by lifting - placing a piece of transparent tape over the dusted fingerprint, removing any air bubbles, then transferring the tape onto a card of contrasting color. Photographs may also be taken of the powdered print. Clearly visible prints (patent prints) such as those made by paint or blood, may be directly photographed without dusting. If the fingerprint is left on an object that can easily transferred to a forensics lab, the object should brought in and photographed to create a digital image.
+
+```{r, out.width = "600px", echo = FALSE}
+knitr::include_graphics("img/fingerprint_powders.png")
+```
+
+These photographs and fingerprint cards may then be scanned and run through a fingerprint database to search for matches, or directly compared to a suspect's exemplar prints (known fingerprints, for example those taken on a ten print card at a police station).
+
+### Fingerprint details, ACE-V, and AFIS
+
+The information contained in a fingerprint can be divided into three levels [@doj_fingerprint_sourcebook].
+
+Level 1 detail is the most general, consisting of overall pattern type, ridge flow, and morphological information. 
+
+```{r, out.width = "400px", echo = FALSE}
+knitr::include_graphics("img/level1_detail.jpg")
+```
+
+Level 2 detail consists of minutiae and individual friction ridge paths. Minutiae are also called "Galton details," as Sir Francis Galton was the first to define and name specific minutiae (bifurcation, enclosure, ridge endings, island) [@galton_fingerprints].
+
+```{r, out.width = "300px", echo = FALSE}
+knitr::include_graphics("img/minutiae.png")
+```
+
+Level 3 detail is the most specific, including friction ridge dimensional attributes such as width, edge shapes, and pores. These details may or may appear on an exemplar print and are the least reliable.
+<!-- require high quality images for detailed examination [@https://ieeexplore.ieee.org/abstract/document/5432204] -->
+
+```{r, out.width = "400px", echo = FALSE}
+knitr::include_graphics("img/level3_detail.jpg")
+```
+
+Fingerprint comparisons are carried out manually by latent print examiners (LPEs) in a process called ACE-V, which may take up to 40 days [@tackett?].
+
+* Analysis: a digitized latent print is analyzed to determine if it is "suitable" for examination. During this process, LPEs mark clear, high quality sections of a print in green, moderate quality in yellow, and unclear or distorted sections in red. These colors correspond to features that can be used in comparison, may possible be used, and will not likely be useful for comparison respectfully. As level 3 detail is unreliable, LPEs use level 1 and 2 detail to determine if a print is suitable to continue to the comparison step. Otherwise, the ACE-V process ends here.
+* Comparison: the latent and exemplar prints (usually a ten print card) are compared side by side. In addition to overall pattern and ridge flow, examiners may look for the existence of target groups, unique clusters of minutiae, that correspond between a latent and exemplar. New features unmarked during the analysis stage may be marked in orange.
+* Evaluation: a decision of *identification* (formerly "individualization"), *exclusion*, or *inconclusive* is made based on OSAC standards. An inconclusive conclusion may be reached if either print does not contain enough information for a decision. Examiners may request consultation with a colleague before reaching a decision, who would perform an independent markup on the latent.
+* Verification: a decision may or may not be verified by another examiner who performs an independent markup of the latent. If the second examiner does not know the first examiner's decision, it is considered a blind verification.
+
+Detained suspects usually have their fingerprints taken at a police station in the form of a ten print card.
+
+```{r, out.width = "500px", echo = FALSE}
+knitr::include_graphics("img/tenprint_card.png")
+```
+
+Otherwise, a latent print may be run through a fingerprint database in search of potential matches. IAFIS is the black box Integrated Automatic Fingerprint Identification System developed and maintained by the US FBI [@iafis_article]. It contains criminal history information, photographs, and fingerprints, as well as information on military and civil federal employees. Given a fingerprint, IAFIS will scan through ten print cards and latents to return the top *n* matches. Examiners can then perform the ACE-V process on matches returned by IAFIS until a match is found.
+
+
+## Fingerprint Quality Metrics and Software
+
+Fingerprint quality metrics/algorithms (generally) fall into two types: global and feature specific. Global scores assign a single score to an entire fingerprint image, while feature specific algorithms give a score to each feature or minutiae. This requires having marked minutiae, either by a latent print examiner or an automated algorithm (MINDTCT, etc.).
+
+As each fingerprint examiner incorporates their different experiences during the ACE-V process, automated algorithms and software may provide a more objective and consistent metric.
+
+### Peskin and Kafadar algorithm
+
+The Peskin and Kafadar algorithm is a feature specific algorithm, giving a score ranging from 0-100 for each minutiae [@cite]. First, a grayscale image is converted into an array of pixel values.
+
+
+### others:
+
+* Anguli http://dsl.cds.iisc.ac.in/projects/Anguli/
+* NIST Biometric Image Software (NBIS) https://www.nist.gov/services-resources/software/nist-biometric-image-software-nbis
+* DFIQI
+* LQM
+
 
 ## R Package(s)
 
+
 ## Drawing Conclusions
 
+
 ## Case Study
+
+NIST SD27a database that used to be available online. Contains just under 300 latent and exemplar print pairs that two or more LPEs have agreed "match"; i.e., these are not guaranteed to be ground truth matches.
