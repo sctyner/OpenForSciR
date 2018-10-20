@@ -3,6 +3,13 @@
 ## Introduction
 
 ## Data 
+NIST maintains a Ballistics Toolmark Research Database (https://tsapps.nist.gov/NRBTD), an open-access research database of bullet and cartridge case toolmark data. The database contains images from test fires originating from studies conducted by various groups in the firearm and toolmark community. These cartridge cases were originally conducted for different purposes, for example the Laura Lightstone study investigated whether firearms examiners were able to differentiate cartridge cases from consecutively manufactured pistol slides [@Lightstone2010]. Majority of the data available are of cartridge cases that were sent to NIST for imaging, but the website also allows users to upload their own data in a standardized format.
+
+There are a total of 2305 images (as of 8/21/2018), and among these are data sets involving consecutively manufactured pistol slides, a large number of firings (termed persistence studies because they investigate the persistence of marks), as well as different makes and models of guns and ammunition. Gun manufacturers include Glock, Hi-Point, Ruger, Sig Sauer, and Smith \& Wesson, and ammunition brands include CCI, Federal, PMC, Remington, Speer, Wolf and Winchester.
+
+Measurements are primarily made using a Leica FS M 2D reflectance microscope, and a Nanofocus uSurf disc scanning confocal microscope. The former captures photo images while the latter captures 3D topographies. Detailed metadata are available for each of these images, for example for photo images, the magnification was 2X with a lateral resolution of $2.53 \mu m$, producing $2592 \times 1944$ pixel, 256-grayscale PNG images. For 3D, various magnifications were used, for example an objective of 10X results in a lateral resolution of $3.125 \mu m$, and images that are around $1200 \times 1200$. The 3D data are in x3p format, and more information about this file format can be found in Chapter 7. 
+
+The subsequent analysis uses images from NIST's database. 
 
 ## R Package(s)
 

@@ -3,8 +3,27 @@
 ## Introduction
 
 ## Data 
+In order to do this analysis, we will need marketplace scrapes of user profiles and item listings. There are various tools that have been developed for scraping pages on the dark web (see e.g. Christin et al., 2015). These scrapes need to be parsed to produce data in roughly the following format. 
+
+- Feedback data should be unique feedback entries (timestamped), that can be matched to their corresponding item listings. We also want the amount transacted. 
+- Item data should be unique items with item titles, that can be matched to the corresponding vendor account. We also want a predicted category for the item title (e.g. cannabis, benzos, digital goods, etc.).
+- User data should be unique users with IDs, marketplaces, most common category sold, and diversity of products. 
+
+There exist publicly available, anonymized data in the above format at https://arima.cylab.cmu.edu/markets/cybercrime.php. It is also possible to request for unanonymized data through this website.
+
+Additionally, we also want raw, timestamped scrapes of profiles and item listings. This is to extract profile and item descriptions, as well as PGP keys.
+
+Note that if you have some subset of these variables, the analysis can still be done, with some modifications. At a minimum, this is what we need:
+
+- Unique feedback entries (timestamped), that can be matched to their corresponding item listings
+- Unique item titles, that can be matched to the corresponding vendor account
+- Unique users with IDs and marketplaces
+- Some means of extracting PGP keys (e.g. from user profiles, item descriptions)
+
 
 ## R Package(s)
+https://github.com/xhtai/heisenbrgr
+
 
 ## Drawing Conclusions
 
