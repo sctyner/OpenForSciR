@@ -1,8 +1,12 @@
 # Firearms: bullets {#bullets}
 
+![Source: https://www.pexels.com/photo/close-up-of-microscope-256262/](img/microscope.jpeg)
+
 ## Introduction
 
 When a bullet is fired from a gun barrel, striation markings from imperfections in the barrel manufacturering process are imprinted onto what is called the Land Impression region of the bullet. These impressions are assumed to be unique to individual gun barrels, and as a result, traditional forensic science methods have employed trained forensic examiners to assess the likelihood of two bullets being fired from the same barrel (a "match"). Conventionally, this has been done using the metric Consecutively Matching Striae, or CMS. However, no official standards have been established to scientifically delineate a number that effectively separates matches from non-matches. Therefore, significant work has been done, and continues to be done, in order to add scientific rigor to the bullet matching process.
+
+In this chapter, we outline the new standard data format used to store three-dimensional bullet scans. We proceed by outlying relevant R packages for the processing and analysis of these scans. Finally, we discuss ways in which to draw conclusions based on these results, and tie it all together in the form of a relevant case study.
 
 ## Data 
 
@@ -13,6 +17,8 @@ Figure \@ref(fig:x3pcontain) shows an illustration of the internal structure of 
 ```{r x3pcontain, echo=FALSE, fig.cap='An illustration of the internal structure of the x3p file format. x3p files contain an XML data file with metadata on the bullet scans, as well as binary data containing the surface topology measurements.'}
 knitr::include_graphics("img/x3p_container.png")
 ```
+
+The use of the x3p format has positively impacted procedures relating to forensic analysis of bullets. Because the format is an open standard, researchers on a wide range of computing platforms can access and analyze the data. Due to the x3p container holding a rich set of metadata, the limitations of traditional "black box"-type file formats are eliminated. The source, parameters, and raw data contained within each 3D scan is readily available for critical analysis and examination.
 
 ## R Package(s)
 
