@@ -1,8 +1,12 @@
 # Glossary {#glossary}
 
 forensic evidence
+
 forensic science
+
 source hypothesis
+
 activity hypothesis
+
 offense hypothesis
 

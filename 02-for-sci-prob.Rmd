@@ -17,7 +17,12 @@ for the source level. Notice the distinction: the forensic scientist is not a cr
 First, let's define some terms: 
 
 forensic evidence
+
 forensic science
+
 source hypothesis
+
 activity hypothesis
+
 offense hypothesis
+
