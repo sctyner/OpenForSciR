@@ -18,6 +18,12 @@ In order to determine if two glass fragments come from the same source, a forens
 
 The process for determining the chemical composition of a glass fragment is given in great detail in @astm. This destructive method determines elemental composition with Inductively Coupled Plasma Mass Spectrometry (ICP-MS). Up to 40 elements can be detected in a glass fragment using this method. In @weisglass, only 18 elements are used: calcium, sodium and magnesium are the major elements, followed by aluminum, potassium and iron as minor elements, and lithium, titanium, manganese, rubidium, strontium, zirconium, barium, lanthanum, cerium, neodymium, hafnium, and lead as the trace elements. The methods of @weisglass use standard deviations ($\sigma$) of repeated measurements of the same fragment to create intervals around the measurements. Intervals of width $2\sigma, 4\sigma, 6\sigma, 8\sigma, 10\sigma, 12\sigma, 16\sigma, 20\sigma, 30\sigma,$ and $40\sigma$ are considered for overlap. 
 
+
+### Data source
+
+CSAFE have collected float glass data on the chemical composition of float glass samples, where the details of these dataset are explained in @park2018. These data were collected as part of an effort to construct a dataset to be put in the public domain. The dataset includes 31 panes of float glass manufactured by Company A and 17 panes manufactured by Company B, both located in the United States. The Company A panes are labeled AA, AB, ... , AAR, and the Company B panes are labeled BA, BB, ... ,BR.  The panes from Company A were produced within 3 weeks (Jan. 3 - Jan. 24, 2017) and the panes from Company B were produced within 2 weeks (Dec. 5 - Dec. 16, 2016). To understand variability within a ribbon of glass, two glass panes were collected on almost all days in each company, one  from the left side and one from the right side of the ribbon. Twenty four fragments were randomly sampled from each glass pane. Five replicate measurements were obtained for 21 of the 24 fragments in each pane; for the remaining three fragments in each pane, we obtained 20 replicate measurements. Therefore, each pane has 165 measurements for 18 elements.  In some panes, there may be a fragment with fewer than five replicate measurements.  The unit for all measurements is parts per million (ppm).
+
+
 ## R Package(s)
 
 ## Drawing Conclusions

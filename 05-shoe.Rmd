@@ -41,6 +41,23 @@ To make an identification, a shoe that investigators think could have caused the
 
 ## Data 
 
+Real data that we can utilize to test a matching algorithm for footwear comparison is very limited with the several reasons; (1) Shoe impressions found at the crime scene is credential because those are a part of evidence to link the suspect, (2)  Although some of real crime scene data is actually available, we don't know the true source of the impression, (3) Since most of shoe impressions found at the crime scene is partial, degraded, blurred or damaged, they are not appropriate to test the performance of developing algorithm.  
+
+
+CSAFE collected shoe impressions using two-dimensional EverOS footwear scanner (\url{http://www.shopevident.com}{http://www.shopevident.com}). The scanner is designed to scan the shoe outsole as person step onto the scanner by recording the weight distribution. The scanned images are 300 dpi resolution. As more pressure is put on the scanner, then there will be more detailed patterns detected from the outsole. Also, the scanner is not only scanning the outsole details, but also it shows the yellow line of ruler to allow to measure the size of scanned impression. Figure \ref{everos_ex} shows the exmaple impressions scanned from EverOS scanner. First two left shoe images are replicated impressions from the same shoe of ID 1 and two right shoes are also replicated impressions from the same shoe of ID 2. By getting impressions repeatedly, the overall patterns are very similar but there are some measurement differences by different amount of pressure.
+
+
+<img src="img/everos_ex.PNG">
+
+
+This 2D EverOS scanner enables to collect shoe impressions with ground truth. By collecting replicated impressions from the same shoe, the comparison of known mated is possible and by comparing impressions from two different shoe, the known non-mated comparison is available. CSAFE collected a large collection of shoe outsole impressions from EverOS scanner. With this database, we test the performance of developing matching algorithm with the full shoe images and furthermore, we can degrade shoe impressions to mimic the crime scene like images.      
+
+
+We collected 150 shoes that are used for certain period of time and scanned the outsole impressions 5 times from each of left and right shoes. This results in 1,500 images of shoe outsole impressions. For shoe ID 1, there are 5 impressions from left shoe and 5 impressions from the right shoe. Some of impressions have the exact same shoe brand and model but most of shoes have different class characteristic.  
+
+
+
+
 ## R Package(s)
 
 ## Drawing Conclusions
