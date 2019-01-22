@@ -1,11 +1,124 @@
 # Human Factors {#humans}
 
+__Abstract:__
+
+Even as automated tools for pattern evidence comparisons become increasingly advanced, final decisions often rely on individual examiner judgment. Given the same comparison task, different forensic examiners may come to different conclusions and/or use different criteria for coming to those decisions. High-profile examples of misidentification have inspired efforts to better estimate overall error rates as well as understand underlying decision-making processes in forensic analyses. 
+
+Item response theory (IRT), a class of models used in educational testing (among other fields), can provide valuable insight into these studies by accounting for both individual differences among examiners as well as comparison tasks of varying difficulty. This chapter provides an introduction to basic IRT models, discussion of human factors in pattern evidence analysis, and an example analysis in R of an error rate study using the FBI ``black box'' study.
+
 ## Introduction
 
+Although forensic measurement and analysis tools are increasingly accurate and objective, final decisions in forensic science are largely left to individual examiners, investigators, or witnesses [@pcast]. Human decision-makers continue to play a central role in forensic science, and it is unrealistic to assume that, within our current criminal justice system, either a) human decision-making can be removed from the process entirely, b) forensic decision-making tasks can be standardized to a single difficulty or discrimination, or c) these differences among individuals and/or tasks never impact the outcome of a case. 
+
+There are (at minimum) two ways in which individual differences among forensic decision-makers manifest. The first is in the decision-makers' underlying proficiency. Ignoring differences in underlying proficiency among a group, which often include trainees or non-experts, may bias the overall results from a proficiency test or laboratory study. There may also exist differences in the decision-making thresholds used by individuals. Many forensic decisions can be cast as an evaluation of the source of evidence (e.g. Did fingerprint A come from person X?). Currently, source conclusions are often reported as an identification (same source), exclusion (different sources), or inconclusive. Different decision-makers may use different thresholds for determining the boundary between each of these three options, and accounting for these threshold differences may lead to a better understanding of examiner performance and provide strategies for examiner training.
+
+In addition to differences among the decision-makers, there also exist differences among the tasks themselves. Properties of the evidence, such as the quality, quantity, concentration, or rarity of properties may make it easier or harder to evaluate. Some pieces of evidence, regardless of how skilled the examiner is, will not have enough information to result in an identification or exclusion in a comparison task. An inconclusive response, in this case, should be treated differently than an inconclusive response for a more straightforward comparison. In addition to the physical evidence itself, oftentimes evidence must be pre-processed into a form conducive to examination. Physical evidence then becomes pattern evidence in the form of an image (i.e. fingerprints, firearm cartridges, handwriting, tire treads, etc.). Information in the form of specific, identifiable features is present in these images, and there may also be additional information to be found in the images themselves. These extracted features and information could provide covariates to account for the varying difficulty of comparison tasks. 
+
+It is difficult, however, to accurately measure the effects of individual differences in forensic applications. The vast majority of forensic decision-making occurs in casework, which is not made available to researchers due to privacy concerns or active investigation policies. Besides real-world casework, data on forensic decision-making is collected through proficiency test results and in laboratory experiments. 
+
 ## Data 
+
+TODO:
+
+- Description of proficiency tests
+- Description of error rate studies
+- Relate to ed. testing scenario
+
+## A Brief Overview of Item Response Models 
+
+Both latent print examination and eyewitness identification can be represented as a set of individuals responding to different items, in which responses can be scored as either correct or incorrect. For instance, latent print examiners make decisions about whether pairs of prints came from the same source, and these decisions can be either correct or incorrect. 
+
+More formally, for $P$ individuals responding to $I$ items, we can then express the binary responses as a $P\times I$ matrix, $Y$. Item Response Theory (IRT) is based on the idea that the probability of a correct response depends on individual *proficiency*, $\theta_p, p = 1, \ldots, P$, and item *difficulty*, $b_i, i = 1, \ldots I$. 
+
+A strength of item response models is their capacity to estimate person proficiencies and item difficulties separately, but on the same scale, allowing for a direct comparison. 
+
+### Rasch Model 
+
+The Rasch Model [@rasch1960studies @raschbook] is a relatively simple, yet powerful, item response model, and serves as the base for extensions introduced later. The probability of a correct response is modeled as the logit function of difference of the person proficiency, $\theta_p$, and the item difficulty, $b_i$:
+
+\begin{equation}
+\text{logit}(P(Y_{pi} = 1)) = \theta_p - b_i. 
+\label{rasch}
+\end{equation}
+
+To identify the model, we use the convention of constraining the mean of the person parameters ($\mu_\theta$) to be equal to zero. Other common conventions include setting a particular $b_i$ or the mean of the $b_i$s, equal to zero. 
+
+The item characteristic curve (ICC) describes the relationship between proficiency and performance on a particular item (see Figure \@ref(fig:extensionsexample) for examples). For item parameters estimated under a Rasch model, all ICCs are standard logistic curves with different locations on the latent difficulty/proficiency scale. 
+
+Note that Equation~\ref{rasch} also describes a generalized linear model (GLM), where $\theta_p - b_i$ is the linear component, with a logit link function. By formulating the Rasch Model as a hierarchical GLM with prior distributions on both $\theta_p$ and $b_i$, the identifiability problem is solved. For simplicity, we assign $\theta_p \sim N(0, \sigma_\theta^2)$ and $b_i \sim N(\mu_b, \sigma_b^2) $
+
+### 2PL and 3PL Models 
+
+The *two-parameter logistic model* (2PL) and *three-parameter logistic model* (3PL) are popular generalized nonlinear models [@lord1980applications]. They are both similar to the Rasch model in that the probability of a correct response depends on person proficiency and item difficulty, but additional parameters are included. 
+
+The 2PL model includes an item *discrimination* parameter, $a_i$, which determines the slope of the ICC:
+
+\begin{equation}
+P(Y_{pi} = 1)  = \frac{1}{1+\exp(-a_i (\theta_p - b_i))}. 
+\label{2pl}
+\end{equation}
+
+Larger values of $a_i$ denote a higher discrimination, meaning that respondents with a lower proficiency have a lower probability of correctly answering the question than respondents with a higher proficiency. This is illustrated in Figure \@ref(fig:extensionsexample) with the Rasch model in black and the 2PL models in blue, all with difficulty $b=0$ for simplicity. 
+
+In general, items with a larger discrimination are preferred. A test including items with higher discriminations leads to increased Fisher information for $\theta$ as compared to a test with less discriminating items. An ideal test for accurately estimating theta would have a variety of highly discriminating items spread over a large range of difficulties [@van2013handbook].  
+
+The 3PL model includes an item *pseudo-guessing* parameter, $c_i$, which determines the lower asymptote of the ICC: 
+
+\begin{equation}
+P(Y_{pi} = 1)  = c_i + \frac{1-c_i}{1+\exp(-a_i (\theta_p - b_i))}. 
+\label{3pl}
+\end{equation}
+
+Including $c_i$ increases the ``base probability'' of correctly answering a question. For instance, in a classic multiple choice question, even respondents with extremely low proficiencies will sometimes get a question right by chance. 
+
+There may be options in a multiple choice question that are obviously incorrect, to the point where even low-proficiency respondents will not choose that option, which may not be known before the exam is administered. Using an IRT approach accounts for these effects by using the observed data to estimate $c_i$, rather than determining the value of $c_i$ from the question itself. 
+
+3PL models are illustrated in Figure \@ref(fig:extensionsexample) with green lines. These models have the same difficulty ($b=0$) and discriminations ($a=0.5$ and $a=2$) as the other models shown in the graph, but include a guessing parameter of $c=0.3$. 
+
+```{r extensionsexample, echo = FALSE, fig.cap = "Item Characteristic Curve (ICC) examples for the Rasch, 2PL, and 3PL models."}
+library(RColorBrewer)
+theta = seq(-8, 8, by = .01)
+
+brewer.colors = c(1, brewer.pal(4, "Paired"))
+line.rasch = 1/(1+exp(-(theta - 0)))
+line.2pl.sm = 1/(1+exp(-.5*(theta - 0)))
+line.2pl.big = 1/(1+exp(-2*(theta - 0)))
+line.3pl.sm = .3 + (1-.3)/(1+exp(-.5*(theta - 0)))
+line.3pl.big = .3 + (1-.3)/(1+exp(-2*(theta - 0)))
+
+plot(line.rasch~theta, type = 'l', lwd = 2,col = brewer.colors[1], ylab = "Probability", 
+     xlab = expression(theta), xlim = c(-6,6), ylim = c(0,1), main = "P(Correct)", family = 'serif')
+points(line.2pl.sm~theta, type = 'l', lwd = 2,col = brewer.colors[2])
+points(line.2pl.big~theta, type = 'l', lwd = 2,col = brewer.colors[3])
+points(line.3pl.sm~theta, type = 'l', lwd = 2,col = brewer.colors[4])
+points(line.3pl.big~theta, type = 'l', lwd = 2,col = brewer.colors[5])
+legend("bottomright", legend = 
+         c('Rasch, b=0', '2PL, a=0.5', '2PL, a=2', '3PL, a=0.5, c=0.3', '3PL, a=2, c=0.3'),  lty = rep(1,5),
+       bty = 'n', lwd = rep(1.5,5), col = brewer.colors, cex = .8)
+```
 
 ## R Package(s)
 
 ## Drawing Conclusions
 
+- Not exactly sure what should go here?
+
 ## Case Study
+
+We use the FBI black box study data \citep{ulery2011} to illustrate the utility of IRT analysis in forensic science, and to show how different methods of scoring the inconclusive responses can lead to different results. 
+
+Inconclusive responses complicate the scoring of the exam due to both their ambiguity and prevalence. `Inconclusive' is never keyed as the correct response by the FBI, which leads to the ambiguity in scoring. There are a large number of inconclusive answers (4,907 of 17,121 responses), and examiners vary on which latent print pairs are inconclusive. 
+
+TODO: distributions of inconclusive responses for each examiner and item
+
+To explore the impact of inconclusives on proficiency exams, the inconclusive responses were scored in four ways:
+
+1. Score all inconclusive responses as incorrect (*Inconclusive Incorrect*). This may penalize participants who were shown more vague or harder questions and therefore reported more inconclusives. 
+2. Treat inconclusive responses as missing completely at random (*Inconclusive MCAR*). This decreases the amount of data included in the analysis, and does not explicitly penalize examiners who report many inconclusives. This is the scoring method most similar to the method used in [@ulery2011] to compute false positive and false negative rates. 
+3. Score inconclusive as correct if the reason given for an inconclusive is "correct". Since the ground truth "correct" inconclusive reason is unknown, the consensus reason from other inconclusive responses for that question is used. If no consensus reason exists, the inconclusive response was scored in one of two ways:
+	a. Treat inconclusive responses as incorrect if no consensus reason exists (*No consensus incorrect*). 
+	b. Treat inconclusive responses as missing completely at random if no consensus reason exists (*No consensus MCAR*). 
+
+TODO: Comparisons of IRT results for each of the scoring schemes
+
+TODO: Discussion of results
