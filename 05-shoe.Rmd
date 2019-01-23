@@ -10,6 +10,10 @@ In the mess of a crime scene, one of the most abundant pieces of evidence is a s
 - Definition
 - How used in forensic science? 
 
+## Question of interest
+
+
+
 ### Sources of variability in shoe outsole impressions
 
 There are many characteristics of shoes that are examined. First, the size of the shoe is determined, then the style and manufacturer. These characteristics are known as *class characteristics* because there are many, many shoes that share these characteristics, but they can be used to easily exclude most other shoes. For instance, a very popular shoe in the United States is the Nike Air Force one, pictured below [@fbishoes]. So, seeing a Nike logo and concentric circles in an impression from a Men's size 13 instantly excludes all shoes that are not Nike Air Force Ones in Men's size 13. 
@@ -39,6 +43,16 @@ To make an identification, a shoe that investigators think could have caused the
 7 : random 
 
 
+
+
+## Method for matching
+
+### Interest feature
+
+### Method
+
+
+
 ## Data 
 
 Real data that we can utilize to test a matching algorithm for footwear comparison is very limited with the several reasons; (1) Shoe impressions found at the crime scene is credential because those are a part of evidence to link the suspect, (2)  Although some of real crime scene data is actually available, we don't know the true source of the impression, (3) Since most of shoe impressions found at the crime scene is partial, degraded, blurred or damaged, they are not appropriate to test the performance of developing algorithm.  
@@ -60,6 +74,13 @@ We collected 150 shoes that are used for certain period of time and scanned the 
 
 ## R Package(s)
 
+shoeprintr
+
 ## Drawing Conclusions
 
+
 ## Case Study
+
+
+
+

@@ -8,7 +8,16 @@ It is easy to imagine a crime scene with glass fragments: a burglar may have bro
 
 Crime scene investigators collect fragments of glass at the scene as a part of the evidence collection process and the fragments are sent to the forensics lab for processing. Similarly, evidence such as clothing and shoes are collected from a suspect, and if glass is found, the fragments are compared to the fragments found at the scene. The question that the analyst usually tries to answer is, "Did these glass fragments come from the same source?" This is a *source level* question, meaning that the comparison of the fragments will only tell the investigators whether or not the person came in contact with the broken glass at the scene. It will not tell them *how* they came into contact (*activity level*) with the glass or if they committed the crime (*offense level*) [@hop].  
 
+
+
+## Question of interest
+
+
 ## Data 
+
+- Elemental compositions 
+- Data collection 
+
 
 ### Comparing glass fragments 
 
@@ -25,6 +34,9 @@ CSAFE have collected float glass data on the chemical composition of float glass
 
 
 ## R Package(s)
+
+-caret package to fit the data to random forest on cross-validation 
+
 
 ## Drawing Conclusions
 
