@@ -10,6 +10,8 @@ Thank you also to the many contributors of this book's chapters:
 - Amanda Luby
 - Karen Pan
 - Nick Berry
+- Peter Vallone
+- Sarah Riman
 - ...
 
 Finally, thank you to my wonderful PI, Alicia Carriquiry, who allowed me to dedicate my time as a postdoc at CSAFE to this work. 

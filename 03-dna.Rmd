@@ -1,6 +1,27 @@
-# DNA Evidence {#dna}
+# Validation of DNA Evidence Systems {#dna}
 
 ## Introduction
+
+The earliest documented (https://www.bbc.co.uk/sounds/play/b008fcdz at 19:23) use of DNA profiling in the legal system was an immigration dispute in the United Kingdom. A young man of Ghanain (sp?) descent with family in the UK was believed to have forged his Ghanaian passport and had an expired British passport. DNA profiling techniques developed by Sir Alec Jeffreys were used to prove that the he was indeed his mother's son, and thus he did have a right to immigrate to the UK. The technique was subsequently used for many other parentage cases, and soon after, DNA profiling was used for the first time to convict someone of a crime. (Cite for colin pitchfork) 
+
+When DNA profiling began, a blood sample was taken to create someone's "DNA fingerprint." Now, DNA can be taken by a cheek swab, and the most minute traces of DNA can tie a perpetrator to the scene of the crime. This is thanks to the polymerase chain reaction, or PCR, a method of copying a DNA sample over and over again to amplify the genetic signal for profile extraction. Once a DNA sample is amplified with PCR, different DNA markers can be analyzed to make an identification. The standard for forensic DNA typing is to use short tandem repeats or STRs as the DNA marker. Other markers, single nucleotide polymorphisms (SNPs) and the mitochondrial genome (mtDNA), have different uses. SNPs can be used to identify ancestry or visible traits of a human, while mtDNA is used in cases where DNA is highly degraded [@dnareview]. Because STR is the standard, we dedicate the rest of this chapter to its methodology. 
+
+### Procedure for DNA Analysis using STRs
+
+In order to understand the STR methodology and analysis, we first need to understand what is being analysed. We present the comparison of genetic and printed information from @butler09 in Table \@ref(tab:comparetable). When forensic scientists analyze a DNA sample, they are looking for repeated "words" or DNA sequences in different "paragraphs," or loci. The locus information is stored in the chromosome, which is the "page" the genetic information is on. Your *chromosomes* exist in the *nucleus* of every *cell* in your body, just like a *page* is within a *chapter* in a *book* in a *library*.  STR markers are a set of loci or genes. At each locus, the number of times a tetranucleotide sequence repeats is counted [@butler05]. This count indicates the allele, or gene variation, at that particular locus. 
+
+```{r comparetable, results='asis', echo = FALSE}
+x <- c("Library", "Book", "Chapter", "Page", "Paragraph", "Word", "Letter")
+y <- c("Body", "Cell", "Nucleus", "Chromosome", "Locus or gene", "Short DNA sequence", "DNA nucleotide")
+knitr::kable(data.frame(x,y), col.names = c("Printed Information", "Genetic Information"), caption = "Recreation of Table 2.1 from @butler09")
+```
+
+In forensic DNA profiling, a particular set of 12-20 loci are examined for comparison. The number of loci in the set depends on the equipment and database being used for comparison.  These sets of loci were chosen because of their high variability in the population. To find the alleles at each loci, the DNA sample is amplified using PCR, and then run through capillary electrophoresis (CE). The result of CE is the DNA profile, with the alleles on each locus indicated by different colored peaks. 
+
+This method of DNA profiling has known errors, and different labs may use different machines and other materials, so validation of methods and materials is a crutial step. According to the Scientific Working Group on DNA Analysis Methods (SWGDAM), "validation is a process by which a procedure is evaluated to determine its efficacy and reliability for forensic casework and/or database analysis" [@swgdamval] Validation helps minimize error in forensic DNA analysis and helps keep results consistent across laboratories. 
+
+The process of validation for forensic DNA methodology is expensive, time consuming, and unstandardized [@strval]. The R package `strvalidator` was created to help solve these problems in the forensic DNA field. In the remainder of this chapter, we'll introduce the data for this package, how to use the package, and show the entirety of the validation process in R. 
+
 
 ## Data 
 
