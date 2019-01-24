@@ -52,7 +52,7 @@ For the successful matching result, we need two things;(1) Good features that ar
 
 
 ### Interest feature
-We want to introduce several kinds of interest feature that can be detected from shoe outsole impressions. By identifying points of interest, the selected features are used as a information of given shoeprint. For example, edges (boundaries of patterns) and corners (intersection of patterns) could be possible points of interest. MSER, SIFT, SURF are also possible features to be detected and used as a information to be compared. In this Section, we will use edge detection (by Prewitt operator) as the feature to be compared. By using entire edges which is the boundaries of patterns of shoe outsole impressions, edges will contain class, subclass and possible RAC to uniquely indentify the suspect.   
+We want to introduce several kinds of interest feature that can be detected from shoe outsole impressions. By identifying points of interest, the selected features are used as a information of given shoeprint. For example, edges (boundaries of patterns) and corners (intersection of patterns) could be possible points of interest. MSER, SIFT, SURF are also possible features to be detected and used as a information to be compared. In this Section, we will use edge detection (by Prewitt operator) as the feature to be compared. By detecting entire edges which are boundaries of patterns of shoe outsole impression, edges will contain class, subclass and possible RACs to uniquely indentify the suspect.   
 
 
 ### Method
@@ -75,6 +75,8 @@ This 2D EverOS scanner enables to collect shoe impressions with ground truth. By
 
 We collected 150 shoes that are used for certain period of time and scanned the outsole impressions 5 times from each of left and right shoes. This results in 1,500 images of shoe outsole impressions. For shoe ID 1, there are 5 impressions from left shoe and 5 impressions from the right shoe. Some of impressions have the exact same shoe brand and model but most of shoes have different class characteristic.  
 
+
+As a preprocessing step, we used Matlab to down sample all of images at 20%. With the down-sampled images, edges are detected by Prewitt operator. The location of edges are recorded as .csv file. Each edge point has ($x$,$y$) of coordinate information, with lower left corner of (0,0).   
 
 
 
