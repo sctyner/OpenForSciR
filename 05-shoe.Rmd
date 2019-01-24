@@ -11,10 +11,10 @@ In the mess of a crime scene, one of the most abundant pieces of evidence is a s
 - How used in forensic science? 
 
 ## Question of interest
+Once we find shoe outsole impressions at the crime scene, the question of interest is who left this impression. From the database of shoeprint, we want to find the closest shoeprint image to the questioned shoe impressions to give the hint of shoe brand. Or, if we have information about the suspect's shoes, then we need to investigate whether the questioned shoe impressions show the major similarity with shoes that the suspect have. Statistically, the summary statistic we need to assess is the degree of correspondence between questioned shoe outsole impression ($Q$) and known shoeprint ($K$). If the similarity between $Q$ and $K$ is high enough, then we may conclude that the source for $Q$ and $K$ would be the same. Thus, the goal is how to quantify the degree of correspondence between two shoe outsole impressions.  
 
 
-
-### Sources of variability in shoe outsole impressions
+## Sources of variability in shoe outsole impressions
 
 There are many characteristics of shoes that are examined. First, the size of the shoe is determined, then the style and manufacturer. These characteristics are known as *class characteristics* because there are many, many shoes that share these characteristics, but they can be used to easily exclude most other shoes. For instance, a very popular shoe in the United States is the Nike Air Force one, pictured below [@fbishoes]. So, seeing a Nike logo and concentric circles in an impression from a Men's size 13 instantly excludes all shoes that are not Nike Air Force Ones in Men's size 13. 
 
@@ -45,12 +45,18 @@ To make an identification, a shoe that investigators think could have caused the
 
 
 
+
 ## Method for matching
+There are rich literature on comparison of 2D shoe impressions. Region based, points of interest based.... blah.. 
+For the successful matching result, we need two things;(1) Good features that are well-representative to the given shoe impressions and (2) Good matching method to quantify the similarity well between features from $Q$ and $K$.   
+
 
 ### Interest feature
+We want to introduce several kinds of interest feature that can be detected from shoe outsole impressions. By identifying points of interest, the selected features are used as a information of given shoeprint. For example, edges (boundaries of patterns) and corners (intersection of patterns) could be possible points of interest. MSER, SIFT, SURF are also possible features to be detected and used as a information to be compared. In this Section, we will use edge detection (by Prewitt operator) as the feature to be compared. By using entire edges which is the boundaries of patterns of shoe outsole impressions, edges will contain class, subclass and possible RAC to uniquely indentify the suspect.   
+
 
 ### Method
-
+MC-COMP on three circular area matching via maximum clique
 
 
 ## Data 
