@@ -12,6 +12,8 @@ Measurements are primarily made using a Leica FS M 2D reflectance microscope, an
 The subsequent analysis uses images from NIST's database. 
 
 ## R Package(s)
+https://github.com/xhtai/cartridges  
+https://github.com/xhtai/cartridges3D
 
 ## Drawing Conclusions
 
