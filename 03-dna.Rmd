@@ -1,4 +1,4 @@
-# Validation of DNA Evidence Systems {#dna}
+# Validation of DNA Evidence Systems {#dnaval}
 
 ## Introduction
 
@@ -16,7 +16,7 @@ y <- c("Body", "Cell", "Nucleus", "Chromosome", "Locus or gene", "Short DNA sequ
 knitr::kable(data.frame(x,y), col.names = c("Printed Information", "Genetic Information"), caption = "Recreation of Table 2.1 from @butler09")
 ```
 
-In forensic DNA profiling, a particular set of 12-20 loci are examined for comparison. The number of loci in the set depends on the equipment and database being used for comparison.  These sets of loci were chosen because of their high variability in the population. To find the alleles at each loci, the DNA sample is amplified using PCR, and then run through capillary electrophoresis (CE). The result of CE is the DNA profile, with the alleles on each locus indicated by different colored peaks. 
+In forensic DNA profiling, a particular set of 12-20 loci are examined for comparison. The number of loci in the set depends on the equipment and database being used for comparison.  These sets of loci were chosen because of their high variability in the population. To find the alleles at each loci, the DNA sample is amplified using PCR, and then run through capillary electrophoresis (CE). The result of CE is the DNA profile, with the alleles on each locus indicated by different colored peaks from a chemical dyeing process. 
 
 This method of DNA profiling has known errors, and different labs may use different machines and other materials, so validation of methods and materials is a crutial step. According to the Scientific Working Group on DNA Analysis Methods (SWGDAM), "validation is a process by which a procedure is evaluated to determine its efficacy and reliability for forensic casework and/or database analysis" [@swgdamval] Validation helps minimize error in forensic DNA analysis and helps keep results consistent across laboratories. 
 

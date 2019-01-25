@@ -1,0 +1,23 @@
+# Mixture DNA {#mixdna}
+
+## Introduction
+
+Start with a brief intro to the simplicity of single-source DNA. 
+
+As discussed in Chapter \@ref(dnaval), forensic DNA analysis relies on the counts of alleles at particular loci on the human genome. 
+
+Describe why (in broad strokes) mixture DNA is more difficult. 
+
+What is the procedure for mixture dna? How can you tell when there are many profiles? What is done? (Step-by-step) 
+
+There are probabilistic models for determining the number of contributors, how much each person contributed, etc. 
+
+## Data
+
+
+
+## R Package(s)
+
+## Drawing Conclusions
+
+## Case Study
