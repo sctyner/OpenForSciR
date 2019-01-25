@@ -24,32 +24,38 @@ TODO:
 - Description of error rate studies
 - Relate to ed. testing scenario
 
+We have identified two settings where data regarding human factors in forensic science is available. The first is through *proficiency tests*: annual competency exams that must be completed for forensic laboratories to maintain their certification. The second setting is *error rate studies*: independent research studies designed to measure casework error rates. As their names suggest, these two data collection scenarios serve completely different purposes. Proficiency tests are (currently) designed to assess basic competency, and mistakes are rare. Error rate studies are designed with the goal of mimicking the difficulty of evidence in casework, and mistakes are more common. Proficiency tests are often administered at the laboratory level, rather than given to individual examiners. If a laboratory has multiple latent print examiners, for example, there is no way to determine which individual analyst completed which exam, or track performance of individual examiners over time. Error rate studies, on the other hand, operate independently of laboratories and individuals decide whether to participate in the study or not. 
+
+Stringent privacy protections exist for both proficiency test data and results from error rate studies. *More description* 
+
+*Koehler's type 2 proficiency test* 
+
+Results from both proficiency tests and from error rate studies can be represented as a set of individuals responding to different items, in which responses can be scored as correct or incorrect. This is not unlike an educational testing scenario such as the SAT, ACT, GRE, etc, where students (individuals) answer questions (items) either correctly or incorrectly.  There is a rich body of statistical methods for estimating student proficiency and item difficulty from test responses. *CITE IRT THINGS* 
+
 ## A Brief Overview of Item Response Models 
 
-Both latent print examination and eyewitness identification can be represented as a set of individuals responding to different items, in which responses can be scored as either correct or incorrect. For instance, latent print examiners make decisions about whether pairs of prints came from the same source, and these decisions can be either correct or incorrect. 
-
-More formally, for $P$ individuals responding to $I$ items, we can then express the binary responses as a $P\times I$ matrix, $Y$. Item Response Theory (IRT) is based on the idea that the probability of a correct response depends on individual *proficiency*, $\theta_p, p = 1, \ldots, P$, and item *difficulty*, $b_i, i = 1, \ldots I$. 
+More formally, for $P$ individuals responding to $I$ items, we can express the binary responses as a $P\times I$ matrix, $Y$. Item Response Theory (IRT) is based on the idea that the probability of a correct response depends on individual *proficiency*, $\theta_p, p = 1, \ldots, P$, and item *difficulty*, $b_i, i = 1, \ldots I$. 
 
 A strength of item response models is their capacity to estimate person proficiencies and item difficulties separately, but on the same scale, allowing for a direct comparison. 
 
 ### Rasch Model 
 
-The Rasch Model [@rasch1960studies @raschbook] is a relatively simple, yet powerful, item response model, and serves as the base for extensions introduced later. The probability of a correct response is modeled as the logit function of difference of the person proficiency, $\theta_p$, and the item difficulty, $b_i$:
+The Rasch Model [@rasch1960studies @raschbook] is a relatively simple, yet powerful, item response model, and serves as the base for extensions introduced later. The probability of a correct response is modeled as the logit function of difference of the person proficiency, $\theta_p$ ($p=1, \dots, P$), and the item difficulty, $b_i$ ($i=1, \dots, I$):
 
 \begin{equation}
 \text{logit}(P(Y_{pi} = 1)) = \theta_p - b_i. 
 \label{rasch}
 \end{equation}
 
-To identify the model, we use the convention of constraining the mean of the person parameters ($\mu_\theta$) to be equal to zero. Other common conventions include setting a particular $b_i$ or the mean of the $b_i$s, equal to zero. 
+To identify the model, we use the convention of constraining the mean of the person parameters ($\mu_\theta$) to be equal to zero. This allows for a nice interpretation of both person and item parameters relative to the "average person". If $\theta_p >0$, person $p$ is of "above average" proficiency and if $\theta_p <0$, person $p$ is of "below average" proficiency. Similarily, if $b_i < 0$ question $i$ is an "easier" question and the average person is more likely to correctly answer question $i$. If $b_i >0$ then question $i$ is a "difficult" question and the average person is more likely to incorrectly answer question $i$. Other common conventions for identifying the model include setting a particular $b_i$ or the mean of the $b_i$s equal to zero. 
 
 The item characteristic curve (ICC) describes the relationship between proficiency and performance on a particular item (see Figure \@ref(fig:extensionsexample) for examples). For item parameters estimated under a Rasch model, all ICCs are standard logistic curves with different locations on the latent difficulty/proficiency scale. 
 
-Note that Equation~\ref{rasch} also describes a generalized linear model (GLM), where $\theta_p - b_i$ is the linear component, with a logit link function. By formulating the Rasch Model as a hierarchical GLM with prior distributions on both $\theta_p$ and $b_i$, the identifiability problem is solved. For simplicity, we assign $\theta_p \sim N(0, \sigma_\theta^2)$ and $b_i \sim N(\mu_b, \sigma_b^2) $
+Note that Equation~\ref{rasch} also describes a generalized linear model (GLM), where $\theta_p - b_i$ is the linear component, with a logit link function. By formulating the Rasch Model as a hierarchical GLM with prior distributions on both $\theta_p$ and $b_i$, the identifiability problem is solved. We assign $\theta_p \sim N(0, \sigma_\theta^2)$ and $b_i \sim N(\mu_b, \sigma_b^2) $, although more complicated prior distributions are certainly possible. 
 
 ### 2PL and 3PL Models 
 
-The *two-parameter logistic model* (2PL) and *three-parameter logistic model* (3PL) are popular generalized nonlinear models [@lord1980applications]. They are both similar to the Rasch model in that the probability of a correct response depends on person proficiency and item difficulty, but additional parameters are included. 
+The *two-parameter logistic model* (2PL) and *three-parameter logistic model* (3PL) are additional popular item response models [@lord1980applications]. They are both similar to the Rasch model in that the probability of a correct response depends on person proficiency and item difficulty, but additional item parameters are also included.
 
 The 2PL model includes an item *discrimination* parameter, $a_i$, which determines the slope of the ICC:
 
@@ -58,7 +64,7 @@ P(Y_{pi} = 1)  = \frac{1}{1+\exp(-a_i (\theta_p - b_i))}.
 \label{2pl}
 \end{equation}
 
-Larger values of $a_i$ denote a higher discrimination, meaning that respondents with a lower proficiency have a lower probability of correctly answering the question than respondents with a higher proficiency. This is illustrated in Figure \@ref(fig:extensionsexample) with the Rasch model in black and the 2PL models in blue, all with difficulty $b=0$ for simplicity. 
+Larger values of $a_i$ denote a higher discrimination, and better separation of lower/higher proficiency test-takers. This is illustrated in Figure \@ref(fig:extensionsexample) with the Rasch model in black and the 2PL models in blue, all with difficulty $b=0$ for simplicity. 
 
 In general, items with a larger discrimination are preferred. A test including items with higher discriminations leads to increased Fisher information for $\theta$ as compared to a test with less discriminating items. An ideal test for accurately estimating theta would have a variety of highly discriminating items spread over a large range of difficulties [@van2013handbook].  
 
@@ -87,7 +93,7 @@ line.3pl.sm = .3 + (1-.3)/(1+exp(-.5*(theta - 0)))
 line.3pl.big = .3 + (1-.3)/(1+exp(-2*(theta - 0)))
 
 plot(line.rasch~theta, type = 'l', lwd = 2,col = brewer.colors[1], ylab = "Probability", 
-     xlab = expression(theta), xlim = c(-6,6), ylim = c(0,1), main = "P(Correct)", family = 'serif')
+     xlab = expression(theta), xlim = c(-6,6), ylim = c(0,1), main = bquote(P(Y["pi"]==1)), family = 'serif')
 points(line.2pl.sm~theta, type = 'l', lwd = 2,col = brewer.colors[2])
 points(line.2pl.big~theta, type = 'l', lwd = 2,col = brewer.colors[3])
 points(line.3pl.sm~theta, type = 'l', lwd = 2,col = brewer.colors[4])
@@ -97,27 +103,68 @@ legend("bottomright", legend =
        bty = 'n', lwd = rep(1.5,5), col = brewer.colors, cex = .8)
 ```
 
+### Partial Credit Model 
+
+The *partial credit model* (PCM, @masters1982) is distinct from the Rasch, 2PL, and 3PL models discussed above because it allows for the response variable, $Y_{pi}$, to take additional values beyond zero (incorrect) and one (correct). This is especially useful for modeling partially correct responses, although may be applied in other contexts where the responses can be ordered. When $Y_{pi}$ is binary, the partial credit model is equivalent to the Rasch model. Under the PCM, the probability of response $Y_{pi}$ depends on $\theta_p$, the proficiency of person $p$ as in the above models; $m_i$, the maximum score for item $i$ (and the number of step parameters); and $\beta_{il}$, the $l^{th}$ step parameter for item $i$ ($l=0, \dots, m_i$):
+
+\begin{equation}
+P(Y_{pi} = 0)  = \frac{1}{1+\sum_{k=1}^{m_i} \exp \sum_{l=1}^k (\theta_p - \beta_{il})} \\
+P(Y_{pi} = y, y>0)  = \frac{\exp\sum_{l=1}^y(\theta_p - \beta_{il})}{1+\sum_{k=1}^{m_i}\exp \sum_{l=1}^k (\theta_p - \beta_{il})}.
+\label{pcm}
+\end{equation}
+
+We display an example PCM below by plotting the probabilities of observing each of three categories as a function of $\theta_p$ (analagous to the ICC curves above). 
+
+```{r pcmexample, echo = FALSE, fig.cap = "Category response functions for the PCM."}
+brewer.colors = brewer.pal(4, "Set1")[2:4]
+theta = seq(-8, 8, by = .01)
+beta1=-2
+beta2=2
+line.cat0 = 1/(1+exp(theta-beta1) + exp(2*theta - beta1 - beta2))
+line.cat1 = exp(theta-beta1)/(1+exp(theta-beta1) + exp(2*theta - beta1 - beta2))
+line.cat2 = exp(2*theta-beta1-beta2)/(1+exp(theta-beta1) + exp(2*theta - beta1 - beta2))
+
+plot(line.cat0~theta, type = 'l', lwd = 2,col = brewer.colors[1], ylab = "Probability", 
+     xlab = expression(theta), xlim = c(-6,6), ylim = c(0,1), main = bquote(P(Y["pi"]==0,1,2)), family = 'serif')
+points(line.cat1~theta, type = 'l', lwd = 2,col = brewer.colors[2])
+points(line.cat2~theta, type = 'l', lwd = 2,col = brewer.colors[3])
+abline(v=c(beta1, beta2), lty = 2)
+text(beta1+.6, .9, bquote(beta[1] == .(beta1)))
+text(beta2+.6, .9, bquote(beta[2] == .(beta2)))
+legend("right", legend = 
+         c(bquote(Y[pi]==0), bquote(Y[pi]==0), bquote(Y[pi]==0)),  lty = rep(1,3),
+       bty = 'n', lwd = rep(1.5,3), col = brewer.colors, cex = .8)
+```
+
 ## R Package(s)
+
+- `Stan`: estimate parameters for the model using MCMC 
+- `rstan`: implementation of Stan for R 
+- `blackboxstudyR`: provides some standard IRT models in Stan and functions for working with the black box data
 
 ## Drawing Conclusions
 
-- Not exactly sure what should go here?
+Results from an IRT analysis can be separated into two categories: 
+1. Information about the test itself (e.g. question difficulty)
+2. Information about the test-takers (e.g. proficiency)
+
 
 ## Case Study
 
-We use the FBI black box study data \citep{ulery2011} to illustrate the utility of IRT analysis in forensic science, and to show how different methods of scoring the inconclusive responses can lead to different results. 
+The FBI ``black box'' study [@ulery2011] was the first large-scale study to assess the accuracy and reliability of latent print examiners.  169 participants examined 50-100 pairs of latent and reference fingerprint from a larger pool of 744 pairs. The questions were designed to include a range of attributes and quality seen in casework, and to be representative of searches from an automated fingerprint identification system. Although the purpose of the study was to estimate false positive and false negative error rates, examiners were also given an "inconclusive" option to evaluate pairs of prints.
 
 Inconclusive responses complicate the scoring of the exam due to both their ambiguity and prevalence. `Inconclusive' is never keyed as the correct response by the FBI, which leads to the ambiguity in scoring. There are a large number of inconclusive answers (4,907 of 17,121 responses), and examiners vary on which latent print pairs are inconclusive. 
 
 TODO: distributions of inconclusive responses for each examiner and item
 
-To explore the impact of inconclusives on proficiency exams, the inconclusive responses were scored in four ways:
+To explore the impact of inconclusives on proficiency exams, the inconclusive responses were scored in five ways:
 
 1. Score all inconclusive responses as incorrect (*Inconclusive Incorrect*). This may penalize participants who were shown more vague or harder questions and therefore reported more inconclusives. 
 2. Treat inconclusive responses as missing completely at random (*Inconclusive MCAR*). This decreases the amount of data included in the analysis, and does not explicitly penalize examiners who report many inconclusives. This is the scoring method most similar to the method used in [@ulery2011] to compute false positive and false negative rates. 
 3. Score inconclusive as correct if the reason given for an inconclusive is "correct". Since the ground truth "correct" inconclusive reason is unknown, the consensus reason from other inconclusive responses for that question is used. If no consensus reason exists, the inconclusive response was scored in one of two ways:
 	a. Treat inconclusive responses as incorrect if no consensus reason exists (*No consensus incorrect*). 
 	b. Treat inconclusive responses as missing completely at random if no consensus reason exists (*No consensus MCAR*). 
+4. Score inconclusive responses as ``partial credit'' (*Partial Credit*). 
 
 TODO: Comparisons of IRT results for each of the scoring schemes
 
