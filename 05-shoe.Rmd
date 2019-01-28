@@ -58,9 +58,23 @@ We want to introduce several kinds of interest feature that can be detected from
 ### Method
 MC-COMP on three circular area matching via maximum clique
 
+It is a crucial for calculating the similarity to adjust the rotation and translation to compare $Q$ and $K$. In our analysis, we use the concept called 'maximum clique' in the graph theory (some references.....). A graph is an object consited with vertices or nodes connected with edges or lines. When comparing two graphs, the maximum clique from two graphs is defined as the largest complete subgraph, meaning the subset of nodes with the same geometrical relationship between two graphs. In the shoe outsole comparison application, The interest features detected from impression are becoming vertices and the distances among them become edges. The maximum clique is a good tool to reflect the fact that geometrics in the patterns (at least class characteristics) of shoe outsole are not changing a lot. In Figure, we want to compare Image 1 and Image 2. In Image 1, a set of nodes is \{'a','b','c','d','e','f','g'\} and a set of nodes for Image 2 is \{'1','2','3','4','5','6'\}. When we look closely, the distances bewteen 'a' and three 'd','e' and 'g' in Image 1 are the same with distances between '1' and three '3', '6' and '5'. This way, pairwise distances among nodes defined as correspondence should have the same geometrics and the largest complete correspondence between two images are \{'a1','d3','e6','g5'\}. Some nodes in two images such as \{'b','c','f'\} in Image 1 and \{'2','4'\} in Image 2 are examples of noises that might be apppeared in impressions.
+ 
+
+<img src="img/maxclique_ex2.png">
+
+
+### Signature of the questioned shoe outsole impression
+Refer Soyoung's dissertation
+
+Defining the signature of $Q$ is helpful to measure the similarity between two impressions $Q$ and $K$. As footwear exaiminer does to compare $Q$ and $K$, we define the signature of $Q$ as subareas that we think the most interesting part such as unique pattern that shoe has and the part with some RACs. As you find in Figure, there are three circular areas that we selected and each circle contains edge points (detected by Prewitt operator) and its coordinate information. The goal is to find the most similar three circular areas in $K$. The final similarity between two impressions are summarized from the similarity of each corresnponding circle and geometrics between three centers of circles in $Q$ and $K$, using the congruence of traingle. If two impressions are from the same shoe, then the similarities from three corresponding circles from $Q$ and $K$ are high and the geometrics of triangle from centers of circles are very similar. 
+
+
+<img src="img/signature.png">
 
 ## Data 
 
+### Data collection 
 Real data that we can utilize to test a matching algorithm for footwear comparison is very limited with the several reasons; (1) Shoe impressions found at the crime scene is credential because those are a part of evidence to link the suspect, (2)  Although some of real crime scene data is actually available, we don't know the true source of the impression, (3) Since most of shoe impressions found at the crime scene is partial, degraded, blurred or damaged, they are not appropriate to test the performance of developing algorithm.  
 
 
@@ -80,9 +94,14 @@ As a preprocessing step, we used Matlab to down sample all of images at 20%. Wit
 
 
 
+### Definition of classes
+To test the method and the signature we defined, we are using our data collection to come up with known mated (KM) comparisons and known non-mated (KNM) comparisons. The KM means a match between two repeated impressions from the same shoe source. The KNM means a match between two impressions from two different shoes. By the data collection set up, all of shoes have the same class characteristics, meaning the outsole pattern with no wear should be the same across the shoes. Based on results of KM and KNM, we will test the performance of the matching method whether it can discriminate well two classes, KM and KNM. Also, we want for the matching method to produce score distributions well separating two classes.  
+ 
+
 ## R Package(s)
 
-shoeprintr
+R package called 'shoeprintr' is developed for shoe outsole comparison (reference - Soyoung's paper). Especially, the command 'boosted$_$clique' is finding the set of maximum clique on the parallelized version to speed up the algorithm. The command 'boosted$_$clique' adjusts the rotation and translation of two sets of edges and then produces several similarity features such as the number of cliques, how much two sets of edges overlapped after the alignment is applied and the median distances between overlapped edges. For sub area in $K$, it finds the circle information in $K$ that is the most similar pattern with sub area in $Q$ that we asked to compare. 
+
 
 ## Drawing Conclusions
 
