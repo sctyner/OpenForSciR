@@ -100,7 +100,7 @@ To test the method and the signature we defined, we are using our data collectio
 
 ## R Package(s)
 
-R package called 'shoeprintr' is developed for shoe outsole comparison (reference - Soyoung's paper). Especially, the command 'boosted$_$clique' is finding the set of maximum clique on the parallelized version to speed up the algorithm. The command 'boosted$_$clique' adjusts the rotation and translation of two sets of edges and then produces several similarity features such as the number of cliques, how much two sets of edges overlapped after the alignment is applied and the median distances between overlapped edges. For sub area in $K$, it finds the circle information in $K$ that is the most similar pattern with sub area in $Q$ that we asked to compare. 
+R package called 'shoeprintr' is developed for shoe outsole comparison (reference - Soyoung's paper). Especially, the command $boosted\_clique$ is finding the set of maximum clique on the parallelized version to speed up the algorithm. The command $boosted\_clique$ adjusts the rotation and translation of two sets of edges and then produces several similarity features such as the number of cliques, how much two sets of edges overlapped after the alignment is applied and the median distances between overlapped edges. For sub area in $K$, it finds the circle information in $K$ that is the most similar pattern with sub area in $Q$ that we asked to compare. 
 
 
 ## Drawing Conclusions
