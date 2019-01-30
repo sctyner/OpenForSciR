@@ -4,7 +4,9 @@
 
 ## Introduction
 
-When a bullet is fired from a gun barrel, striation markings from imperfections in the barrel manufacturering process are imprinted onto what is called the Land Impression region of the bullet. These impressions are assumed to be unique to individual gun barrels, and as a result, traditional forensic science methods have employed trained forensic examiners to assess the likelihood of two bullets being fired from the same barrel (a "match"). Conventionally, this has been done using the metric Consecutively Matching Striae, or CMS. However, no official standards have been established to scientifically delineate a number that effectively separates matches from non-matches. Therefore, significant work has been done, and continues to be done, in order to add scientific rigor to the bullet matching process.
+When a bullet is fired from a gun barrel, striation markings from imperfections in the barrel manufacturering process are imprinted onto what is called the Land Impression region of the bullet. These impressions are assumed to be unique to individual gun barrels, and as a result, traditional forensic science methods have employed trained forensic examiners to assess the likelihood of two bullets being fired from the same barrel (a "match"). Conventionally, this has been done using the metric Consecutively Matching Striae, or CMS [@biasotti:1959]. However, no official standards have been established to scientifically delineate a number that effectively separates matches from non-matches. Therefore, significant work has been done, and continues to be done, in order to add scientific rigor to the bullet matching process.
+
+The 2009 National Academy of Sciences Report [@NAS:2009] may have been the "call-to-arms" that the field needed. This report both criticized the lack of rigor seen to this date, but also described the "path forward". As the authors saw it, the path forward included an aption of standards. A standard format to represent the structure of bullets opened the door for much of what you'll read about in this chapter, including opening up the formerly unknown process of bullet matching to a much wider audience, and providing the foundations for truly automated and statistical algorithms to perform the procedure.
 
 In this chapter, we outline the new standard data format used to store three-dimensional bullet scans. We proceed by outlying relevant R packages for the processing and analysis of these scans. Finally, we discuss ways in which to draw conclusions based on these results, and tie it all together in the form of a relevant case study.
 
@@ -21,6 +23,10 @@ knitr::include_graphics("img/x3p_container.png")
 The use of the x3p format has positively impacted procedures relating to forensic analysis of bullets. Because the format is an open standard, researchers on a wide range of computing platforms can access and analyze the data. Due to the x3p container holding a rich set of metadata, the limitations of traditional "black box"-type file formats are eliminated. The source, parameters, and raw data contained within each 3D scan is readily available for critical analysis and examination.
 
 ## R Package(s)
+
+The first R package created to read and process x3p files was `x3pr` [@x3pr]. This package includes reading routines, to read in both the data as well as the metadata, of a particular bullet land, as well as some plotting functions and a writing routine to create x3p files. A new package, `x3ptools` [@x3ptools], was created to handle some limitations in x3p and expand upon the functionality. A companion package, `bulletr` [@bulletr], expands upon x3ptools and provides functions to perform an automated bullet analysis routine based on the algorithms described in @hare2017.
+
+The two packages `x3ptools` and `bulletr` will be the focus of the remainder of this chapter.
 
 ## Drawing Conclusions
 
