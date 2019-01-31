@@ -28,6 +28,75 @@ The first R package created to read and process x3p files was `x3pr` [@x3pr]. Th
 
 The two packages `x3ptools` and `bulletr` will be the focus of the remainder of this chapter.
 
+### x3ptools
+
+Although `x3ptools` isn't written specifically for the purposes of handling bullet scans, it is the package of choice to begin a bullet analysis. In fact, the package itself is generic and can handle a wide range of data types that use the x3p container format.
+
+To begin, the package can be installed from CRAN:
+
+```{r, eval=FALSE}
+install.packages("x3ptools")
+```
+
+We will load the package and use some pre-provided x3p data to get a feel for the package functionality. We will work with the Center for Statistical Applications in Forensic Evidence (CSAFE) logo. In its original colored form, the logo looks like this:
+
+```{r}
+knitr::include_graphics("img/csafe-logo.jpeg")
+```
+
+A scan of a 3D version of this logo is available, where portions of the logo are raised and recessed. This makes for a good test case in introducing `x3ptools` and the idea behind 3D scans of objects, as we transition towards bullet analysis.
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(x3ptools)
+
+logo <- read_x3p(system.file("csafe-logo.x3p", package = "x3ptools"))
+names(logo)
+```
+
+We can see that there are five elements to the list object returned:
+
+- **header.info** - Provides us information on the resolution of the scan
+- **surface.matrix** - The actual surface data of the scan
+- **feature.info** - Properties of the scan itself
+- **general.info** - Information on how the data was captured
+- **matrix.info** - Some information expanding upon header.info
+
+The two most relevant for our purposes are **header.info** and **surface.matrix**. To begin to understand this container format better, we can use the `image_x3p` function to produce a visualization of the surface. In interactive mode, this would be an interactive display. Here we're using the `file` parameter to export as a static image for purposes of viewing in this book.
+
+```{r}
+image_x3p(logo, file = "img/csafe-logo-scan.png")
+knitr::include_graphics("img/csafe-logo-scan.png")
+```
+
+We can use the function `x3p_to_df` in order to convert this structure into a standard R data frame, which will allow us to do any number of data manipulation and plotting routines:
+
+```{r}
+logo_df <- x3p_to_df(logo)
+
+ggplot(data = logo_df, aes(x = x, y = y, color = value)) +
+  geom_point()
+```
+
+A key feature of the data is that the `value` column represents the height of the pixel corresponding to the particular location. In this logo, we can see that the fingerprint section of the logo is raised above the background quite clearly. As we transition to operating on images of bullets, this will be important to note.
+
+One other important feature of the package is the ability to sample. Depending on the size and resolution of a particular scan, the resulting object could be quite large. This CSAFE logo, despite being a relatively small physical size, still results in a 310,479 row data frame. Though manageable, this means that certain routines, such as producing the above scatterplot, can be quite slow.
+
+At times where resolution isn't a huge concern, we may elect to sample the data to reduce the resulting size. This can be done with the `sample_x3p` function. The function takes a parameter `m` to indicate the sampling factor to use. For example, a value of `m = 4` will sample every 4th height value from the 3D scan.
+
+```{r}
+sample_logo <- sample_x3p(logo, m = 4)
+
+sample_logo_df <- x3p_to_df(sample_logo)
+
+ggplot(data = sample_logo_df, aes(x = x, y = y, color = value)) +
+  geom_point()
+```
+
+You can see the clarity of the resulting plot has noticeably declined, but the overall structure has been maintained. Depending on the application, this could be a solution for making a slow statistical process a bit faster.
+
+### bulletr
+
 ## Drawing Conclusions
 
 ## Case Study
