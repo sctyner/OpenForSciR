@@ -184,4 +184,118 @@ One other approach to drawing conclusions is to use the generated signatures as 
 
 ## Case Study
 
-We will now walk through the process of performing a bullet match. We will take three bullets, two of which were in fact fired from the same gun barrel, and one which was fired from a different gun barrel. Without that knowledge, we will see what the algorithm suggests is the probability of each occurrence.
+We will now walk through the process of performing a bullet match. We will take three bullet lands, with one pair that matches, and two pairs that do not match. 
+
+```{r, echo=FALSE}
+get_features <- function(res, g1_inc_x = diff(res$bullets$y)[1]) {
+    lofX <- res$bullets
+    b12 <- unique(lofX$bullet)
+
+    subLOFx1 <- subset(lofX, bullet==b12[1])
+    subLOFx2 <- subset(lofX, bullet==b12[2]) 
+
+    ys <- dplyr::intersect(round(subLOFx1$y, digits = 3), round(subLOFx2$y, digits = 3))
+
+    idx1 <- which(round(subLOFx1$y, digits = 3) %in% ys)
+    idx2 <- which(round(subLOFx2$y, digits = 3) %in% ys)
+
+    distr.dist <- sqrt(mean(((subLOFx1$val[idx1] - subLOFx2$val[idx2]) * g1_inc_x / 1000)^2, na.rm=TRUE))
+    distr.sd <- sd(subLOFx1$val * g1_inc_x / 1000, na.rm=TRUE) + sd(subLOFx2$val * g1_inc_x / 1000, na.rm=TRUE)
+
+    km <- which(res$lines$match)
+    knm <- which(!res$lines$match)
+    if (length(km) == 0) km <- c(length(knm)+1,0)
+    if (length(knm) == 0) knm <- c(length(km)+1,0)
+
+    signature.length <- min(nrow(subLOFx1), nrow(subLOFx2))
+
+    doublesmoothed <- lofX %>%
+      group_by(y) %>%
+      mutate(avgl30 = mean(l30, na.rm = TRUE)) %>%
+      ungroup() %>%
+      mutate(smoothavgl30 = smoothloess(x = y, y = avgl30, span = 0.3),
+             l50 = l30 - smoothavgl30)
+
+    final_doublesmoothed <- doublesmoothed %>%
+      filter(round(y, digits = 3) %in% ys)
+
+    rough_cor <- cor(na.omit(final_doublesmoothed$l50[final_doublesmoothed$bullet == b12[1]]), 
+                     na.omit(final_doublesmoothed$l50[final_doublesmoothed$bullet == b12[2]]),
+                     use = "pairwise.complete.obs")
+
+    ccf_temp <- c(
+      ccf=res$ccf, 
+      rough_cor = rough_cor, 
+      lag=res$lag / 1000, 
+      D=distr.dist, 
+      sd_D = distr.sd,
+      b1=b12[1], b2=b12[2],
+      signature_length = signature.length * g1_inc_x / 1000,
+      overlap = length(ys) / signature.length,
+      matches = sum(res$lines$match) * (1000 / g1_inc_x) / length(ys),
+      mismatches = sum(!res$lines$match) * 1000 / abs(diff(range(c(subLOFx1$y, subLOFx2$y)))),
+      cms = res$maxCMS * (1000 / g1_inc_x) / length(ys),
+      cms2 = bulletr::maxCMS(subset(res$lines, type==1 | is.na(type))$match) * (1000 / g1_inc_x) / length(ys),
+      non_cms = bulletr::maxCMS(!res$lines$match) * 1000 / abs(diff(range(c(subLOFx1$y, subLOFx2$y)))),
+      left_cms = max(knm[1] - km[1], 0) * (1000 / g1_inc_x) / length(ys),
+      right_cms = max(km[length(km)] - knm[length(knm)],0) * (1000 / g1_inc_x) / length(ys),
+      left_noncms = max(km[1] - knm[1], 0) * 1000 / abs(diff(range(c(subLOFx1$y, subLOFx2$y)))),
+      right_noncms = max(knm[length(knm)]-km[length(km)],0) * 1000 / abs(diff(range(c(subLOFx1$y, subLOFx2$y)))),
+      sum_peaks = sum(abs(res$lines$heights[res$lines$match])) * (1000 / g1_inc_x) / length(ys)
+    )
+
+    ccf <- t(as.data.frame(ccf_temp)) %>%
+      as.data.frame() %>%
+      dplyr::select(profile1_id = b1, profile2_id = b2, ccf, rough_cor, lag, D, sd_D, signature_length, overlap,
+                    matches, mismatches, cms, non_cms, sum_peaks)
+    ccf[,-(1:2)] <- lapply(ccf[,-(1:2)], function(x) { as.numeric(as.character(x)) })
+    
+    return(ccf)
+}
+```
+
+```{r}
+bullet_temp <- tibble(
+  Name = c("br411", "br423", "br424"),
+  File = replicate(3, tempfile()),
+  URL = c("https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/e7ac7796-d98c-4c00-beab-2a74ec0dab17", "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/4227f885-60a6-4d3b-b4b2-307b9845415b", "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/f159930c-2d34-465d-9915-f1920bbd8039")
+)
+
+mapply(curl_download, bullet_temp$URL, bullet_temp$File)
+
+bullets <- bullet_temp %>%
+  rowwise() %>%
+  mutate(Bullet = list(read_x3p(File)),
+         BestCut = bulletCheckCrossCut(path = "", bullet = Bullet),
+         CrossCut = list(get_crosscut(bullet = Bullet, x = BestCut)),
+         Grooves = list(get_grooves(bullet = CrossCut)))
+
+bullets_processed <- bullets %>%
+  mutate(Processed = list(processBullets(bullet = Bullet,
+                                         name = Name,
+                                         x = BestCut,
+                                         span = 0.75,
+                                         grooves = Grooves$groove)),
+         Smoothed = list(bulletSmooth(Processed) %>% filter(!is.na(l30))))
+
+br411_br423 <- bulletGetMaxCMS(bullets_processed$Smoothed[bullets_processed$Name == "br411"][[1]], 
+                        bullets_processed$Smoothed[bullets_processed$Name == "br423"][[1]],
+                        column = "l30", 
+                        span = 25)
+
+br411_br424 <- bulletGetMaxCMS(bullets_processed$Smoothed[bullets_processed$Name == "br411"][[1]], 
+                        bullets_processed$Smoothed[bullets_processed$Name == "br424"][[1]],
+                        column = "l30", 
+                        span = 25)
+
+br423_br424 <- bulletGetMaxCMS(bullets_processed$Smoothed[bullets_processed$Name == "br423"][[1]], 
+                        bullets_processed$Smoothed[bullets_processed$Name == "br424"][[1]],
+                        column = "l30", 
+                        span = 25)
+
+rbind(
+  get_features(br411_br423),
+  get_features(br411_br424),
+  get_features(br423_br424)
+)
+```
