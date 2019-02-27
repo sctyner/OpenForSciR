@@ -176,5 +176,12 @@ The bullet signature is the key piece for extraction out of the `bulletr` packag
 
 ## Drawing Conclusions
 
+We have seen the process of extracting the signature of a bullet and plotting it using R. But recall that the application of these procedures demands an answer to the question of whether this bullet was fired from the same gun barrel as another bullet. The question becomes, does this bullet signature "match" the signature of another bullet with high probability?
+
+This answer could be derived quite seamlessly given a reference database of all bullets in existence in the world that have been fired. We simply compute the signatures for all of them and we can then make probabilistic judgments based on the similarities of signatures fired from the same barrel versus those from different barrels. Without this database, the best we can do is begin a large data collection procedure given reference bullets, such as the NIST Hamby study. We need to quantify the similarity of two land signatures that were part of bullets fired from the same barrel. This will be the focus of the Case Study section.
+
+One other approach to drawing conclusions is to use the generated signatures as a supplement to the manual examination by trained forensic examiners. This semi-automated procedure maintains the valuable expertise of the examiner and provides a scientific backing to some of the conclusions made. In the cases where conclusions may differ, this can lead to either refinement of the examination procedure, or refinement of the automated algorithms described.
+
 ## Case Study
 
+We will now walk through the process of performing a bullet match. We will take three bullets, two of which were in fact fired from the same gun barrel, and one which was fired from a different gun barrel. Without that knowledge, we will see what the algorithm suggests is the probability of each occurrence.
