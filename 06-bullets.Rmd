@@ -24,9 +24,9 @@ The use of the x3p format has positively impacted procedures relating to forensi
 
 ## R Package(s)
 
-The first R package created to read and process x3p files was `x3pr` [@x3pr]. This package includes reading routines, to read in both the data as well as the metadata, of a particular bullet land, as well as some plotting functions and a writing routine to create x3p files. A new package, `x3ptools` [@x3ptools], was created to handle some limitations in x3p and expand upon the functionality. A companion package, `bulletr` [@bulletr], expands upon x3ptools and provides functions to perform an automated bullet analysis routine based on the algorithms described in @hare2017.
+The first R package created to read and process x3p files was `x3pr` [@x3pr]. This package includes reading routines, to read in both the data as well as the metadata, of a particular bullet land, as well as some plotting functions and a writing routine to create x3p files. A new package, `x3ptools` [@x3ptools], was created to handle some limitations in x3p and expand upon the functionality. A companion package, `bulletxtrctr` [@bulletxtrctr], expands upon x3ptools and provides functions to perform an automated bullet analysis routine based on the algorithms described in @hare2017.
 
-The two packages `x3ptools` and `bulletr` will be the focus of the remainder of this chapter.
+The two packages `x3ptools` and `bulletxtrctr` will be the focus of the remainder of this chapter.
 
 ### x3ptools
 
@@ -95,84 +95,79 @@ ggplot(data = sample_logo_df, aes(x = x, y = y, color = value)) +
 
 You can see the clarity of the resulting plot has noticeably declined, but the overall structure has been maintained. Depending on the application, this could be a solution for making a slow statistical process a bit faster.
 
-### bulletr
+### bulletxtrctr
 
-As mentioned, we will use the `bulletr` package to process 3D surface scans of bullets. This package depends on `x3ptools` for the reading and writing portion (involving x3p files) but otherwise focuses on statistical routines for matching bullets. The package is available on CRAN, and can be installed as follows:
+As mentioned, we will use the `bulletxtrctr` package to process 3D surface scans of bullets. This package depends on `x3ptools` for the reading and writing portion (involving x3p files) but otherwise focuses on statistical routines for matching bullets. The package is not yet available on CRAN, but can be installed from GitHub:
 
 ```{r, eval=FALSE}
-install.packages("bulletr")
+devtools::install_github("heike/bulletxtrctr")
 ```
 
-We are going to pull data from the National Ballistics Toolmark Research Database at NIST. We will download the surface scan for a bullet from the Hamby Study [@hamby:2009].
+We are going to pull data from the National Ballistics Toolmark Research Database at NIST. We will download the surface scan for a bullet from the Hamby Study [@hamby:2009], using built-in functions in this package, and rotate the images so that the long axis is the horizontal.
 
 ```{r, message=FALSE}
-library(bulletr)
-library(curl)
+library(randomForest)
+library(bulletxtrctr)
 
-bullet_temp <- tempfile()
-
-curl_download("https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/0a59a13e-a7db-47bd-a96e-f2dc7895ec1f", bullet_temp)
-
-br1_b1_l1 <- x3ptools::read_x3p(bullet_temp)
+br1_b1 <- read_bullet(urllist = hamby252demo[[1]]) %>%
+    mutate(x3p = x3p %>% purrr::map(.f = x3p_m_to_mum)) %>%
+    mutate(x3p = x3p %>% purrr::map(.f = function(x) x %>% 
+                             rotate_x3p(angle = -90) %>%
+                             y_flip_x3p()))
 ```
 
-A note on the naming convention: A bullet is composed of a certain number of **land impressions**. The rifling of the barrel induces these land impressions, which can be seen as a series of alternating raised and recessed portions on the fired bullet. In addition, manufacturing defects imprint **stariation markings** on the bullet as it travels through the gun barrel when fired [@afte:1992].
+A note on the naming convention: A bullet is composed of a certain number of **land impressions**. The rifling of the barrel induces these land impressions, which can be seen as a series of alternating raised and recessed portions on the fired bullet. In addition, manufacturing defects imprint **striation markings** on the bullet as it travels through the gun barrel when fired [@afte:1992].
 
-Why is this relevant to this portion? The data we just read in is of one single land. That is, it is a portion of the bullet that is assumed to contain striation markings. You'll notice the naming convention `br1_b1_l1`. This indicates that we are looking at a bullet that was fired from Barrel 1 (`br1`). It's the first bullet (`b1`), and the first land on that bullet (`l1`). When working with lots of bullet data, it's important to stay organized in terms of the naming convention of objects in your R session.
+Why is this relevant to this portion? The data we just read in is of one single land. That is, it is a portion of the bullet that is assumed to contain striation markings. You'll notice the naming convention `br1_b1`. This indicates that we are looking at a bullet that was fired from Barrel 1 (`br1`). It's the first bullet (`b1`). There will be 6 observations in this data frame corresponding to each land impression.  When working with lots of bullet data, it's important to stay organized in terms of the naming convention of objects in your R session.
 
 Let's take a quick look at what we see on this bullet land (Figure \@ref(fig:b111)).
 
 ```{r b111, fig.cap='Land 1 of Bullet 1 from Barrel 1 of the Hamby Study (Set 44).'}
-image_x3p(br1_b1_l1, file = "img/b111-scan.png")
+image_x3p(br1_b1$x3p[[1]], file = "img/b111-scan.png")
 knitr::include_graphics("img/b111-scan.png")
 ```
 
-Immediately, the vertical striation markings become clear. To better visualize these markings, we can extract a cross-section from the bullet and plot in two dimensions. To accomplish this, `bulletr` provides us with a function `bulletCheckCrossCut` to choose the ideal location at which to do so. We set the `path` parameter to a blank string because we've already read in the bullet land, so there is no need to do so again.
+Immediately, the vertical striation markings become clear. To better visualize these markings, we can extract a cross-section from the bullet and plot in two dimensions. To accomplish this, `bulletxtrctr` provides us with a function `x3p_crosscut_optimize` to choose the ideal location at which to do so.
 
 ```{r}
-br1_b1_l1 <- bulletr::read_x3p(bullet_temp)
-cc_b11 <- bulletCheckCrossCut(path = "", bullet = br1_b1_l1)
+cc_b11 <- x3p_crosscut_optimize(br1_b1$x3p[[1]])
 cc_b11
 ```
 
-This value provides us with the location, in number of pixels, at which the algorithm believes is a good place to extract a cross-section. The two primary criteria for determining this are:
+This value provides us with the location, in percentage of pixels, at which the algorithm believes is a good place to extract a cross-section. The two primary criteria for determining this are:
 
 1. The location should be nearest the barrel ($x = 0$) because the striae are most pronounced there.
 2. Cross-sections taken near this location should be similar to this cross-section (stability).
 
-`bulletCheckCrossCut` looks for the first cross-section meeting this criteria, searching upwards from the base of the bullet land. With this value, we can extract and plot the cross-seciton like so (Figure \@ref(fig:cc)):
+`x3p_crosscut_optimize` looks for the first cross-section meeting this criteria, searching upwards from the base of the bullet land. With this value, we can extract and plot the cross-seciton like so (Figure \@ref(fig:cc)):
 
 ```{r cc, fig.cap='Cross-section of the bullet land at the ideal cross-section location.', warning=FALSE}
-ccdata_b11 <- get_crosscut(bullet = br1_b1_l1, x = cc_b11) 
+ccdata_b11 <- x3p_crosscut(br1_b1$x3p[[1]], y = cc_b11)
 
-ggplot(data = ccdata_b11, aes(x = y, y = value)) +
+ggplot(data = ccdata_b11, aes(x = x, y = value)) +
   geom_line() +
   theme_bw()
 ```
 
-Most of the scans exhibit the pattern that we see here, where there are "wedges" on the left and right side - This area is called the **shoulder**, and its the area separating the land impression (the curved region in the middle) from the groove (the area not scanned because it doesn't exhibit striations). In other words, to better hone in on the striae along the land, we should subset this region to include only the middle curved land impression portion. Fortunately, `bulletr` provides us with functionality to automatically do that. First, we use the `get_grooves` function to detect the location of the grooves. This returns a list object, with one element being the two locations along the axis, and the lother element being the plot, given in Figure \@ref(fig:grooveloc).
+Most of the scans exhibit the pattern that we see here, where there are "wedges" on the left and right side - This area is called the **shoulder**, and its the area separating the land impression (the curved region in the middle) from the groove (the area not scanned because it doesn't exhibit striations). In other words, to better hone in on the striae along the land, we should subset this region to include only the middle curved land impression portion. Fortunately, `bulletxtrctr` provides us with functionality to automatically do that. First, we use the `cc_locate_grooves` function to detect the location of the grooves. This returns a list object, with one element being the two locations along the axis, and the lother element being the plot, given in Figure \@ref(fig:grooveloc).
 
 ```{r, grooveloc, fig.cap='Location of the grooves in our bullet scan, as detected by the get_grooves function.', warning=FALSE}
-grooves_b11 <- get_grooves(bullet = ccdata_b11, groove_cutoff = 700, adjust = 60)
+grooves_b11 <- cc_locate_grooves(ccdata_b11, return_plot = TRUE, method = "middle")
 grooves_b11$plot
 ```
 
 With the grooves detected, we can now smooth out the surface using a LOESS [@cleveland:1979]. Once we do so, we obtain what we call a **bullet signature**, Figure \@(fig:loess), representing the clearest picture yet of the striation markings along the surface of the land.
 
 ```{r loess, fig.cap='LOESS-smoothed version of our bullet profile, called the bullet signature.', warning=FALSE}
-b111_processed <- processBullets(bullet = br1_b1_l1,
-                                 name = "b111",
-                                 x = ccdata_b11$x[1],
-                                 span = 0.75,
-                                 grooves = grooves_b11$groove) %>%
-  bulletSmooth(span = 0.03)
+b111_processed <- cc_get_signature(ccdata = ccdata_b11, grooves = grooves_b11, span1 = 0.75, span2 = 0.03) %>%
+  filter(!is.na(sig), !is.na(raw_sig))
 
-ggplot(data = b111_processed, aes(x = y, y = l30)) +
+ggplot(data = b111_processed, aes(x = x, y = sig)) +
   geom_line() +
   theme_bw()
 ```
 
-The bullet signature is the key piece for extraction out of the `bulletr` package. With multiple bullet signatures, matches can quickly and easily be made using the `bulletGetMaxCMS` function, which we will discuss later on in the chapter.
+The bullet signature is the key piece for extraction out of the `bulletxtrctr` package. With multiple bullet signatures, matches can quickly and easily be made using the `sig_align` function, in conjuction with the `extract_feature` family of functions, which we will discuss later on in the chapter.
 
 ## Drawing Conclusions
 
@@ -184,118 +179,209 @@ One other approach to drawing conclusions is to use the generated signatures as 
 
 ## Case Study
 
-We will now walk through the process of performing a bullet match. We will take three bullet lands, with one pair that matches, and two pairs that do not match. 
+We will now walk through the process of performing a bullet match. We will take two bullets, which will include 6 lands each. Thus, there are 36 land-to-land comparisons to be made, of which 6 are known matches, and 30 are known non-matches.
 
-```{r, echo=FALSE}
-get_features <- function(res, g1_inc_x = diff(res$bullets$y)[1]) {
-    lofX <- res$bullets
-    b12 <- unique(lofX$bullet)
-
-    subLOFx1 <- subset(lofX, bullet==b12[1])
-    subLOFx2 <- subset(lofX, bullet==b12[2]) 
-
-    ys <- dplyr::intersect(round(subLOFx1$y, digits = 3), round(subLOFx2$y, digits = 3))
-
-    idx1 <- which(round(subLOFx1$y, digits = 3) %in% ys)
-    idx2 <- which(round(subLOFx2$y, digits = 3) %in% ys)
-
-    distr.dist <- sqrt(mean(((subLOFx1$val[idx1] - subLOFx2$val[idx2]) * g1_inc_x / 1000)^2, na.rm=TRUE))
-    distr.sd <- sd(subLOFx1$val * g1_inc_x / 1000, na.rm=TRUE) + sd(subLOFx2$val * g1_inc_x / 1000, na.rm=TRUE)
-
-    km <- which(res$lines$match)
-    knm <- which(!res$lines$match)
-    if (length(km) == 0) km <- c(length(knm)+1,0)
-    if (length(knm) == 0) knm <- c(length(km)+1,0)
-
-    signature.length <- min(nrow(subLOFx1), nrow(subLOFx2))
-
-    doublesmoothed <- lofX %>%
-      group_by(y) %>%
-      mutate(avgl30 = mean(l30, na.rm = TRUE)) %>%
-      ungroup() %>%
-      mutate(smoothavgl30 = smoothloess(x = y, y = avgl30, span = 0.3),
-             l50 = l30 - smoothavgl30)
-
-    final_doublesmoothed <- doublesmoothed %>%
-      filter(round(y, digits = 3) %in% ys)
-
-    rough_cor <- cor(na.omit(final_doublesmoothed$l50[final_doublesmoothed$bullet == b12[1]]), 
-                     na.omit(final_doublesmoothed$l50[final_doublesmoothed$bullet == b12[2]]),
-                     use = "pairwise.complete.obs")
-
-    ccf_temp <- c(
-      ccf=res$ccf, 
-      rough_cor = rough_cor, 
-      lag=res$lag / 1000, 
-      D=distr.dist, 
-      sd_D = distr.sd,
-      b1=b12[1], b2=b12[2],
-      signature_length = signature.length * g1_inc_x / 1000,
-      overlap = length(ys) / signature.length,
-      matches = sum(res$lines$match) * (1000 / g1_inc_x) / length(ys),
-      mismatches = sum(!res$lines$match) * 1000 / abs(diff(range(c(subLOFx1$y, subLOFx2$y)))),
-      cms = res$maxCMS * (1000 / g1_inc_x) / length(ys),
-      cms2 = bulletr::maxCMS(subset(res$lines, type==1 | is.na(type))$match) * (1000 / g1_inc_x) / length(ys),
-      non_cms = bulletr::maxCMS(!res$lines$match) * 1000 / abs(diff(range(c(subLOFx1$y, subLOFx2$y)))),
-      left_cms = max(knm[1] - km[1], 0) * (1000 / g1_inc_x) / length(ys),
-      right_cms = max(km[length(km)] - knm[length(knm)],0) * (1000 / g1_inc_x) / length(ys),
-      left_noncms = max(km[1] - knm[1], 0) * 1000 / abs(diff(range(c(subLOFx1$y, subLOFx2$y)))),
-      right_noncms = max(knm[length(knm)]-km[length(km)],0) * 1000 / abs(diff(range(c(subLOFx1$y, subLOFx2$y)))),
-      sum_peaks = sum(abs(res$lines$heights[res$lines$match])) * (1000 / g1_inc_x) / length(ys)
-    )
-
-    ccf <- t(as.data.frame(ccf_temp)) %>%
-      as.data.frame() %>%
-      dplyr::select(profile1_id = b1, profile2_id = b2, ccf, rough_cor, lag, D, sd_D, signature_length, overlap,
-                    matches, mismatches, cms, non_cms, sum_peaks)
-    ccf[,-(1:2)] <- lapply(ccf[,-(1:2)], function(x) { as.numeric(as.character(x)) })
-    
-    return(ccf)
-}
+```{r}
+b1 <- read_bullet(urllist = hamby252demo[[1]])
+b2 <- read_bullet(urllist = hamby252demo[[2]])
 ```
 
 ```{r}
-bullet_temp <- tibble(
-  Name = c("br411", "br423", "br424"),
-  File = replicate(3, tempfile()),
-  URL = c("https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/e7ac7796-d98c-4c00-beab-2a74ec0dab17", "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/4227f885-60a6-4d3b-b4b2-307b9845415b", "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/f159930c-2d34-465d-9915-f1920bbd8039")
+b1$bullet <- 1
+b2$bullet <- 2
+b1$land <- 1:6
+b2$land <- 1:6
+bullets <- rbind(b1, b2)
+```
+
+```{r}
+bullets <- bullets %>%
+    mutate(x3p = x3p %>% purrr::map(.f = x3p_m_to_mum)) %>%
+    mutate(x3p = x3p %>% purrr::map(.f = function(x) x %>% 
+                             rotate_x3p(angle = -90) %>%
+                             y_flip_x3p()))
+```
+
+```{r}
+bullets <- bullets %>% mutate(
+  crosscut = x3p %>% purrr::map_dbl(.f = x3p_crosscut_optimize)
 )
 
-mapply(curl_download, bullet_temp$URL, bullet_temp$File)
-
-bullets <- bullet_temp %>%
-  rowwise() %>%
-  mutate(Bullet = list(read_x3p(File)),
-         BestCut = bulletCheckCrossCut(path = "", bullet = Bullet),
-         CrossCut = list(get_crosscut(bullet = Bullet, x = BestCut)),
-         Grooves = list(get_grooves(bullet = CrossCut)))
-
-bullets_processed <- bullets %>%
-  mutate(Processed = list(processBullets(bullet = Bullet,
-                                         name = Name,
-                                         x = BestCut,
-                                         span = 0.75,
-                                         grooves = Grooves$groove)),
-         Smoothed = list(bulletSmooth(Processed) %>% filter(!is.na(l30))))
-
-br411_br423 <- bulletGetMaxCMS(bullets_processed$Smoothed[bullets_processed$Name == "br411"][[1]], 
-                        bullets_processed$Smoothed[bullets_processed$Name == "br423"][[1]],
-                        column = "l30", 
-                        span = 25)
-
-br411_br424 <- bulletGetMaxCMS(bullets_processed$Smoothed[bullets_processed$Name == "br411"][[1]], 
-                        bullets_processed$Smoothed[bullets_processed$Name == "br424"][[1]],
-                        column = "l30", 
-                        span = 25)
-
-br423_br424 <- bulletGetMaxCMS(bullets_processed$Smoothed[bullets_processed$Name == "br423"][[1]], 
-                        bullets_processed$Smoothed[bullets_processed$Name == "br424"][[1]],
-                        column = "l30", 
-                        span = 25)
-
-rbind(
-  get_features(br411_br423),
-  get_features(br411_br424),
-  get_features(br423_br424)
+bullets <- bullets %>% mutate(
+  ccdata = purrr::map2(.x = x3p, .y = crosscut, 
+                       .f = x3p_crosscut)
 )
+```
+
+```{r}
+crosscuts <- bullets %>% tidyr::unnest(ccdata)
+
+crosscuts %>% 
+  ggplot(aes(x = x, y = value)) + 
+  geom_line() +
+  facet_grid(bullet~land, labeller="label_both") +
+  theme_bw()
+```
+
+```{r}
+bullets <- bullets %>% mutate(
+  grooves = ccdata %>% 
+    purrr::map(.f = cc_locate_grooves, method = "middle", 
+               adjust = 30, return_plot = TRUE)
+)
+
+do.call(gridExtra::grid.arrange, lapply(bullets$grooves, `[[`, 2))
+```
+
+```{r}
+bullets <- bullets %>% mutate(
+  sigs = purrr::map2(
+    .x = ccdata, .y = grooves, 
+    .f = function(x, y) {
+      cc_get_signature(
+        ccdata = x, grooves = y, span1 = 0.75, span2 = 0.03)
+    })
+)
+```
+
+```{r}
+signatures <- bullets %>% select(source, sigs) %>% tidyr::unnest()
+
+signatures %>% 
+  filter(!is.na(sig),!is.na(raw_sig)) %>%
+  ggplot(aes(x = x)) + 
+  geom_line(aes(y = raw_sig), colour = "grey70") +
+  geom_line(aes(y = sig), colour = "grey30") +
+  facet_wrap(~source, ncol = 6) +
+  ylim(c(-5,5)) +
+  theme_bw()
+```
+
+```{r}
+bullets$bulletland <- paste0(bullets$bullet,"-", bullets$land)
+lands <- unique(bullets$bulletland)
+comparisons <- data.frame(
+  expand.grid(land1 = lands, land2 = lands), stringsAsFactors = FALSE)
+
+comparisons <- comparisons %>% mutate(
+  aligned = purrr::map2(.x = land1, .y = land2, .f = function(xx, yy) {
+    land1 <- bullets$sigs[bullets$bulletland == xx][[1]]
+    land2 <- bullets$sigs[bullets$bulletland == yy][[1]]
+    land1$bullet <- "first-land"
+    land2$bullet <- "second-land"
+    
+    sig_align(land1$sig, land2$sig)
+  })
+)
+
+subset(comparisons, land1=="2-4" & land2 =="1-2")$aligned[[1]]$lands %>% 
+  tidyr::gather(sigs, value, sig1, sig2) %>% 
+  ggplot(aes(x = x, y = value, colour = sigs)) + 
+    geom_line() +
+  theme_bw() +
+  scale_color_brewer(palette = "Dark2")
+```
+
+```{r}
+comparisons <- comparisons %>% mutate(
+  ccf0 = aligned %>% 
+    purrr::map_dbl(.f = function(x) extract_feature_ccf(x$lands)),
+  lag0 = aligned %>% 
+    purrr::map_dbl(.f = function(x) extract_feature_lag(x$lands)),
+  D0 = aligned %>% 
+    purrr::map_dbl(.f = function(x) extract_feature_D(x$lands)),
+  length0 = aligned %>% 
+    purrr::map_dbl(.f = function(x) extract_feature_length(x$lands)),
+  overlap0 = aligned %>% 
+    purrr::map_dbl(.f = function(x) extract_feature_overlap(x$lands)),
+  striae = aligned %>% purrr::map(.f = sig_cms_max, span = 75),
+    cms_per_mm = purrr::map2(striae, aligned, .f = function(s, a) {
+    extract_feature_cms_per_mm(s$lines, a$lands, resolution=1.5625)
+  }),
+  matches0 = striae %>% purrr::map_dbl(.f = function(s) {
+    bulletxtrctr:::extract_helper_feature_n_striae(s$lines, type = "peak", match = TRUE)
+  }),
+  mismatches0 = striae %>% purrr::map_dbl(.f = function(s) {
+    bulletxtrctr:::extract_helper_feature_n_striae(s$lines, type = "peak", match = FALSE)
+  }),
+  bulletA = gsub("([1-2])-([1-6])","\\1",land1),
+  bulletB = gsub("([1-2])-([1-6])","\\1",land2),
+  landA = gsub("([1-2])-([1-6])","\\2",land1),
+  landB = gsub("([1-2])-([1-6])","\\2",land2)
+)
+```
+
+```{r}
+comparisons <- comparisons %>% mutate(
+  features = purrr::map2(.x = aligned, .y = striae, .f = extract_features_all, resolution = 1.5625)
+)
+
+comparisons <- comparisons %>% mutate(
+  legacy_features = purrr::map(striae, extract_features_all_legacy, resolution = 1.5625)
+)
+
+comparisons <- comparisons %>% tidyr::unnest(legacy_features) 
+# scale features before using them in the random forest, legacy features can be used out of the box
+
+
+# quick visualization:
+comparisons %>% 
+  ggplot(aes(x = landA, y = landB, fill = ccf)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "grey80", high = "darkorange", 
+                       midpoint = 0.5) +
+  facet_grid(bulletB~bulletA, labeller = "label_both") +
+  xlab("Land A") +
+  ylab("Land B") +
+  theme(aspect.ratio = 1)
+```
+
+```{r}
+# devtools::install_github("CSAFE-ISU/bulletr", ref = "restructure")
+comparisons$rfscore <- predict(bulletr::rtrees, newdata = comparisons, type = "prob")[,2]
+
+comparisons %>% 
+  ggplot(aes(x = landA, y = landB, fill = rfscore)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "grey80", high = "darkorange", 
+                       midpoint = .5) +
+  facet_grid(bulletB~bulletA, labeller = "label_both") +
+  xlab("Land A") +
+  ylab("Land B") +
+  theme(aspect.ratio = 1)
+```
+
+```{r}
+bullet_scores <- comparisons %>% group_by(bulletA, bulletB) %>% tidyr::nest()
+bullet_scores <- bullet_scores %>% mutate(
+  bullet_score = data %>% purrr::map_dbl(
+    .f = function(d) max(compute_average_scores(land1 = d$landA, land2 = d$landB, d$rfscore)))
+)
+bullet_scores %>% select(-data)
+```
+
+```{r}
+bullet_scores <- bullet_scores %>% mutate(
+  data = data %>% purrr::map(
+    .f = function(d) {
+      d$samesource = bullet_to_land_predict(
+        land1 = d$landA, land2 = d$landB, 
+        d$rfscore, difference=0.1)
+      d
+    })
+)
+comparisons <- bullet_scores %>% tidyr::unnest(data)
+comparisons %>% 
+  ggplot(aes(x = landA, y = landB, 
+             fill = rfscore, colour=samesource)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "grey80", high = "darkorange", 
+                       midpoint = .5) +
+  scale_colour_manual(values = c("grey80", "darkorange")) +
+  geom_tile(size = 1, 
+            data = comparisons %>% filter(samesource)) +
+  facet_grid(bulletB~bulletA, labeller = "label_both") +
+  xlab("Land A") +
+  ylab("Land B") +
+  theme(aspect.ratio = 1)
 ```
