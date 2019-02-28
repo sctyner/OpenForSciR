@@ -179,12 +179,14 @@ One other approach to drawing conclusions is to use the generated signatures as 
 
 ## Case Study
 
-We will now walk through the process of performing a bullet match. We will take two bullets, which will include 6 lands each. Thus, there are 36 land-to-land comparisons to be made, of which 6 are known matches, and 30 are known non-matches.
+We will now walk through the process of performing a bullet match. We will take two bullets, which will include 6 lands each. Thus, there are 36 land-to-land comparisons to be made, of which 6 are known matches, and 30 are known non-matches. We begin by reading the bullets.
 
 ```{r}
 b1 <- read_bullet(urllist = hamby252demo[[1]])
 b2 <- read_bullet(urllist = hamby252demo[[2]])
 ```
+
+For ease of analysis, we'll bind the bullets in a single dataframe, and identify them using numeric values inside the data frame. We also indicate the six different lands.
 
 ```{r}
 b1$bullet <- 1
@@ -194,6 +196,8 @@ b2$land <- 1:6
 bullets <- rbind(b1, b2)
 ```
 
+As before, we want to rotate the bullets such that the long axis is along the horizontal, as the functions within the associated R packages assume this format.
+
 ```{r}
 bullets <- bullets %>%
     mutate(x3p = x3p %>% purrr::map(.f = x3p_m_to_mum)) %>%
@@ -202,7 +206,9 @@ bullets <- bullets %>%
                              y_flip_x3p()))
 ```
 
-```{r}
+We extract the ideal cross-sections from all 12 bullet lands, which allows us to plot Figure \@ref(fig:cscrosscut). We see a rather standard curved pattern, with the exception of Land 6 of Bullet 1, which appears to exhibit some sort of deformation, either in the bullet surface itself, or in the scanning procedure.
+
+```{r cscrosscut, fig.cap='Ideal cross-sections for all 12 bullet lands.'}
 bullets <- bullets %>% mutate(
   crosscut = x3p %>% purrr::map_dbl(.f = x3p_crosscut_optimize)
 )
@@ -211,9 +217,7 @@ bullets <- bullets %>% mutate(
   ccdata = purrr::map2(.x = x3p, .y = crosscut, 
                        .f = x3p_crosscut)
 )
-```
 
-```{r}
 crosscuts <- bullets %>% tidyr::unnest(ccdata)
 
 crosscuts %>% 
@@ -223,7 +227,9 @@ crosscuts %>%
   theme_bw()
 ```
 
-```{r}
+Next, with each of these profiles, we need to extract the grooves. In Figure \@ref(fig:csgrooves), we can see that the groove locations of the 12 bullet lands appear to be detected acceptably well, such that the middle portion between the two vertical blue lines represents a good sample of the land-engraved area.
+
+```{r csgrooves, fig.cap='Groove locations of each of the 12 bullet lands.'}
 bullets <- bullets %>% mutate(
   grooves = ccdata %>% 
     purrr::map(.f = cc_locate_grooves, method = "middle", 
@@ -233,7 +239,9 @@ bullets <- bullets %>% mutate(
 do.call(gridExtra::grid.arrange, lapply(bullets$grooves, `[[`, 2))
 ```
 
-```{r}
+With the groove locations detected, we proceed as before by using a Loess in order to smooth out the curvature of the surface and focus on the striation markings. Figure \@ref(fig:cssigs) shows us the raw signatures of the 12 lands. The striation markings are much more visible now.
+
+```{r cssigs, warning=FALSE, fig.cap='Signatures for the 12 bullet lands.'}
 bullets <- bullets %>% mutate(
   sigs = purrr::map2(
     .x = ccdata, .y = grooves, 
@@ -242,9 +250,7 @@ bullets <- bullets %>% mutate(
         ccdata = x, grooves = y, span1 = 0.75, span2 = 0.03)
     })
 )
-```
 
-```{r}
 signatures <- bullets %>% select(source, sigs) %>% tidyr::unnest()
 
 signatures %>% 
@@ -257,7 +263,9 @@ signatures %>%
   theme_bw()
 ```
 
-```{r}
+Because we are working with 12 signatures, our goal will be to align all pairwise comparisons (36 comparisons total) between the six lands in each bullet. Figure \@ref(fig:csalign) shows the alignment of Bullet 2 Land 4 with Bullet 1 Land 2, two of the known matches. Immediately it is clear that the pattern of the signatures appears very similar between the two lands.
+
+```{r csalign, warning=FALSE, fig.cap='Alignment of two bullet lands (2-4 & 1-2)'}
 bullets$bulletland <- paste0(bullets$bullet,"-", bullets$land)
 lands <- unique(bullets$bulletland)
 comparisons <- data.frame(
@@ -281,6 +289,8 @@ subset(comparisons, land1=="2-4" & land2 =="1-2")$aligned[[1]]$lands %>%
   theme_bw() +
   scale_color_brewer(palette = "Dark2")
 ```
+
+Though the visual evidence is strong, we want to quantify the similarity. To do this, we're going to use a number of functions which extract features from the aligned signatures of the bullets. We'll extract the Cross-Correlation, the matching striae count, the non-matching striae count, and many more.
 
 ```{r}
 comparisons <- comparisons %>% mutate(
@@ -311,20 +321,15 @@ comparisons <- comparisons %>% mutate(
 )
 ```
 
-```{r}
-comparisons <- comparisons %>% mutate(
-  features = purrr::map2(.x = aligned, .y = striae, .f = extract_features_all, resolution = 1.5625)
-)
+We are now ready to begin matching the bullets. We'll start by looking at Figure \@ref(fig:cscompare), which aligns the two bullets by bullet land and colors each of the cells (comparisons) by the CCF value. Encouragingly, we see a diagonal pattern to the matrix appear, which is to be expected given the assumption that the bullet scans were rotated and stored in rotational order. Note that we're also comparing each land to itself in two of the four panels, which as expected exhibit the highest CCF for matches.
 
+```{r cscompare, fig.cap='Land-to-Land Comparison of the two bullets colored by the CCF.'}
 comparisons <- comparisons %>% mutate(
+  features = purrr::map2(.x = aligned, .y = striae, .f = extract_features_all, resolution = 1.5625),
   legacy_features = purrr::map(striae, extract_features_all_legacy, resolution = 1.5625)
-)
+) %>%
+  tidyr::unnest(legacy_features) 
 
-comparisons <- comparisons %>% tidyr::unnest(legacy_features) 
-# scale features before using them in the random forest, legacy features can be used out of the box
-
-
-# quick visualization:
 comparisons %>% 
   ggplot(aes(x = landA, y = landB, fill = ccf)) +
   geom_tile() +
@@ -336,7 +341,9 @@ comparisons %>%
   theme(aspect.ratio = 1)
 ```
 
-```{r}
+We can improve upon these results by using the Random Forest in order to assess the probability of a match. Figure \@ref(fig:csrf) displays the random forest score, or match probability, of each of the land-to-land comparisons. The results are even stronger than using pure CCF in this case.
+
+```{r csrf, fig.cap='Random forest matching probabilities of all land-to-land comparisons.'}
 # devtools::install_github("CSAFE-ISU/bulletr", ref = "restructure")
 comparisons$rfscore <- predict(bulletr::rtrees, newdata = comparisons, type = "prob")[,2]
 
@@ -351,7 +358,7 @@ comparisons %>%
   theme(aspect.ratio = 1)
 ```
 
-```{r}
+```{r, include=FALSE}
 bullet_scores <- comparisons %>% group_by(bulletA, bulletB) %>% tidyr::nest()
 bullet_scores <- bullet_scores %>% mutate(
   bullet_score = data %>% purrr::map_dbl(
@@ -360,7 +367,9 @@ bullet_scores <- bullet_scores %>% mutate(
 bullet_scores %>% select(-data)
 ```
 
-```{r}
+Finally, we can visualize the accuracy of our comparisons by highlighting the cells in which they were in fact matches (same-source). Figure \@ref(fig:csss) shows this, indicating that for the comparison between the two bullets, a couple of the lands didn't exhibit a high match probability. With that said, given that the other four lands exhibited a strong probability, this is high evidence these bullets were in fact fired from the same barrel.
+
+```{r csss, fig.cap='All Land-to-Land Comparisons of the bullets, highlighting same-source lands.'}
 bullet_scores <- bullet_scores %>% mutate(
   data = data %>% purrr::map(
     .f = function(d) {
