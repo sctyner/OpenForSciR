@@ -138,18 +138,17 @@ legend("right", legend =
 
 ## R Packages {#rpackages}
 
-*TODO still needs more filling out*
+The case study makes use of the [`blackboxstudyR`](https://github.com/aluby/blackboxstudyR) R package, which provides functions for working with the black box data, implementations of basic IRT models in the MCMC sampler Stan [@R-rstan], and plotting functions for results. 
 
-The case study will make use of the `blackboxstudyR` R package, which provides functions for working with the black box data, implementations of basic IRT models in the MCMC sampler Stan (CITE STAN), and plotting functions for results. Main Functions include: 
-    + `score_bb_data()`: Scores the FBI "Black Box" data under one of five scoring schemes.
-    + `irt_data_bb()`: Formats the FBI "Black Box" data into a form appropriate for fitting a Stan model.
-    + `fit_irt()`: Wrapper for Stan to fit standard IRT models (need not be the FBI data). Models currently available:
-        - Rasch Model
-        - 2PL Model
-        - Partial Credit Model
-        
-        
-* Installation Instructions * 
+Main Functions include:
+
+* `score_bb_data()`: Scores the FBI "Black Box" data under one of five scoring schemes.
+* `irt_data_bb()`: Formats the FBI "Black Box" data into a form appropriate for fitting a Stan model.
+* `fit_irt()`: Wrapper for Stan to fit standard IRT models (need not be the FBI data). Models currently available:
+    + Rasch Model
+    + 2PL Model
+    + Partial Credit Model
+* `plot_difficulty_posteriors` and `plot_proficiency_posteriors`: Plot posterior intervals for difficulty and proficiency estimates, respectively.
 
 ## Drawing Conclusions {#humans-conclusions}
 
