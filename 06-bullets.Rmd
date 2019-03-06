@@ -344,8 +344,7 @@ comparisons %>%
 We can improve upon these results by using the Random Forest in order to assess the probability of a match. Figure \@ref(fig:csrf) displays the random forest score, or match probability, of each of the land-to-land comparisons. The results are even stronger than using pure CCF in this case.
 
 ```{r csrf, fig.cap='Random forest matching probabilities of all land-to-land comparisons.'}
-# devtools::install_github("CSAFE-ISU/bulletr", ref = "restructure")
-comparisons$rfscore <- predict(bulletr::rtrees, newdata = comparisons, type = "prob")[,2]
+comparisons$rfscore <- predict(bulletxtrctr::rtrees, newdata = comparisons, type = "prob")[,2]
 
 comparisons %>% 
   ggplot(aes(x = landA, y = landB, fill = rfscore)) +
