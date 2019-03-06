@@ -41,6 +41,7 @@ The following case study uses the same pair of images as in the Examples section
 
 We first load the package:
 ```{r}
+# devtools::install_github("xhtai/cartridges")
 library(cartridges)
 ```
 

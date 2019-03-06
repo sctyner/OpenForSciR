@@ -3,3 +3,21 @@ language:
   ui:
     chapter_name: "Chapter "
 delete_merged_file: true
+rmd_files: [
+  "index.Rmd",
+  "01-intro.Rmd",
+  "02-for-sci-prob.Rmd",
+  "03-dna.Rmd",
+  "035-dna-mixure.Rmd",
+  "04-glass.Rmd",
+  "05-shoe.Rmd",
+  "06-bullets.Rmd",
+  "07-casings.Rmd" ,
+  "08-digital1.Rmd",
+  "09-fingerprints.Rmd",
+  "10-handwriting.Rmd",
+  "11-toolmarks.Rmd" ,
+  "97-acknowlegements.Rmd",
+  "98-glossary.Rmd",
+  "99-references.Rmd"
+]
