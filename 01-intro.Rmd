@@ -65,7 +65,7 @@ install_cran_missings("kableExtra")
 # TBD
 
 # Chapter 12: Human Factors
-# install_dev_missings("blackboxstudyR", "aluby")
+install_dev_missings("blackboxstudyR", "aluby")
 install_cran_missings("rstan")
 install_cran_missings("RColorBrewer")
 install_cran_missings("gridExtra")

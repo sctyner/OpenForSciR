@@ -17,6 +17,7 @@ rmd_files: [
   "09-fingerprints.Rmd",
   "10-handwriting.Rmd",
   "11-toolmarks.Rmd" ,
+  "12-human-factors.Rmd",
   "97-acknowlegements.Rmd",
   "98-glossary.Rmd",
   "99-references.Rmd"
