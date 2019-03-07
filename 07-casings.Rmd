@@ -1,5 +1,7 @@
 # Firearms: casings {#casings}
 
+#### *Xiao Hui Tai* {-}
+
 ## Introduction
 
 Marks are left on cartridge cases due to the firing process of a gun, in a similar way that marks are left on bullets. In the case of cartridge cases, there are at least two types of marks that are of interest. First, the firing pin hits the primer material at the base of the cartridge, leaving a firing pin impression. The subsequent explosion (which launches the bullet) also causes the cartridge case to be pressed against the breech block of the gun, leaving impressed marks known as breechface marks. Both these types of marks are thought to individualize a gun, hence law enforcement officers frequently collect cartridge cases from crime scenes, in hopes of connecting these to retrieved guns, or connecting crime scenes where the same weapon was used.
@@ -41,24 +43,23 @@ The following case study uses the same pair of images as in the Examples section
 
 We first load the package:
 ```{r}
-# devtools::install_github("xhtai/cartridges")
 library(cartridges)
 ```
 
 We can read in and plot the images as follows. If using a downloaded image, one can simply replace `system.file("extdata", "NBIDE R BF 118.png", package = "cartridges")` with the location of the downloaded image.
 
 ```{r, fig.width = 4, fig.height = 3}
-exampleImage <- cartridges::readCartridgeImage(system.file("extdata", "NBIDE R BF 118.png", package = "cartridges"))
-cartridges::plotImage(exampleImage, type = "original")
-exampleImage2 <- cartridges::readCartridgeImage(system.file("extdata", "NBIDE R BF 129.png", package = "cartridges"))
-cartridges::plotImage(exampleImage2, type = "original")
+exampleImage <- readCartridgeImage(system.file("extdata", "NBIDE R BF 118.png", package = "cartridges"))
+plotImage(exampleImage, type = "original")
+exampleImage2 <- readCartridgeImage(system.file("extdata", "NBIDE R BF 129.png", package = "cartridges"))
+plotImage(exampleImage2, type = "original")
 ```
 
 Now, all the pre-processing can be done using `allPreprocess(exampleImage)`. The processed images can be plotted using `plotImage`. The pre-processed images are available within the package as `processedExample` and `processedExample2`.
 
 ```{r, fig.width = 3, fig.height = 3}
-cartridges::plotImage(processedExample, type = "any")
-cartridges::plotImage(processedExample2, type = "any")
+plotImage(processedExample, type = "any")
+plotImage(processedExample2, type = "any")
 ```
 
 Now, to compare these two images, we use 
