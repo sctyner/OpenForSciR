@@ -1,11 +1,11 @@
 # Latent Fingerprints {#fingerprints}
 
-
-
+#### *Karen Pan* {-}
+<!--
 __Abstract:__
 
 A new measurement to quantify the quality of individual features ("minutiae") in a latent fingerprint is developed. Currently latent fingerprint quality is based on an overall score for an entire print. However, minutiae of sufficiently high quality can be useful for identification even in prints having large sections of low fidelity. We develop a metric with a scale of 0-100 (low to high quality) that characterizes (via gradients) the clarity of ridge features, and calculate the quality metrics on minutiae from NIST's SD27A latent fingerprint database containing prints judged by experts as "good," "bad," or "ugly." The proposed minutiae quality metrics correlate well with the general classification from fingerprint examiners and serve as objective, versus subjective, measures of minutiae quality. The objective quality measure enables examiners to focus on only the highest-scoring minutiae for fingerprint analyses and to discard low-scoring minutiae, thereby removing some aspects of the subjectivity involved in selecting minutiae for comparisons. We then design a procedure to determine a threshold of minutiae quality to distinguish between useful and non-useful minutiae in a forensic identification. We simulate a range of different quality prints by degrading prints of good quality images in a systematic and defined way to find the threshold below which a slated percentage of experts are unable to reliably identify fingerprint features.
-
+-->
 
 
 ## Introduction
@@ -22,13 +22,13 @@ Different features (minutiae) on a latent print supply different amounts of info
 
 ## Data
 
-```{r, out.width = "350px", echo = FALSE}
+```{r, out.width = "350px", echo = FALSE, fig.align='center', fig.cap="A fingerprint brush. Source: TBD"}
 knitr::include_graphics("img/fingerprint_brush.jpg")
 ```
 
 A common method for recovering unseen latent prints is dusting. Moisture clinging powder is gently brushed onto a surface using soft brushes to detect and increase the visibility of fingerprints. Magnetic powders that cling to a metal rod instead of brush exist that may help minimize possible damage to a print that may occur during dusting. After dusting, prints are usually recorded by lifting -- placing a piece of transparent tape over the fingerprint then transferring the tape, along with the powder, onto a card of contrasting color. Photographs may also be taken of the powdered print. In place of dusting, prints may be chemically processed (superglue, ninhydrin, Rhodamine 6G (R6G), etc.). Clearly visible prints (patent prints) such as those made by paint or blood may be photographed directly. If the fingerprint is left on an object that is easily transported, the object should sent to the forensics lab and photographed to create a digital image.
 
-```{r, out.width = "550px", echo = FALSE}
+```{r, out.width = "550px", echo = FALSE, fig.align="center", fig.cap="TBD"}
 knitr::include_graphics("img/fingerprint_powders.png")
 ```
 
@@ -38,19 +38,19 @@ The information contained in a fingerprint can be divided into three levels [@do
 
 Level 1 detail is the most general, consisting of overall pattern type, friction ridge flow, and morphological information. While insufficient for individualization, level 1 detail may be used for exclusion. "Fingerprint pattern classification" refers to overall fingerprint patterns (e.g., loop, whorl) and their subcategories (e.g., left/right slanted) [@hicklin_2011].
 
-```{r, out.width = "400px", echo = FALSE}
+```{r, out.width = "400px", echo = FALSE, fig.align='center', fig.cap="The three types of Level 1 detail in a fingerprint."}
 knitr::include_graphics("img/level1_detail.jpg")
 ```
 
 Level 2 detail consists of minutiae and individual friction ridge paths. Minutiae are also called "Galton details" after Sir Francis Galton, the first to define and name specific minutiae (bifurcation, enclosure, ridge endings, island) [@galton_fingerprints].
 
-```{r, out.width = "275px", echo = FALSE}
+```{r, out.width = "275px", echo = FALSE, fig.align='center', fig.cap="Diagram showing the different types of Level 2 details or minutiae."}
 knitr::include_graphics("img/minutiae.png")
 ```
 
 Level 3 detail is the most specific, including friction ridge dimensional attributes such as width, edge shapes, and pores. These details may or may not appear on an exemplar print and are the least reliable.
 
-```{r, out.width = "350px", echo = FALSE}
+```{r, out.width = "350px", echo = FALSE, fig.align='center', fig.cap="Level 3 detail of a fingerprint."}
 knitr::include_graphics("img/level3_detail.jpg")
 ```
 
@@ -85,30 +85,45 @@ The contrast measurement differs from the gradient measurement because it highli
 
 ## Case Study -- NIST SD27A latents
 
-To illustrate this measurement, we first look at the gradient values on a clear print with well defined minutiae. Figure 1 shows such a print. Along with it are close-up views of three minutiae from the print, where the ridge ending and bifurcations are clearly seen. One would expect these very clear minutiae to be at the high end of the quality scale when measuring latent minutiae quality. They are at pixel locations (97, 100), (126, 167), and (111, 68), from the upper left corner. The largest gradients at these 3 locations are 94.0, 66.5, and 88.0 intensity units per grid unit. Looking at gradient values in each $5 \times 5$ neighborhood, we find slightly higher gradient values for each minutia: 107.0, 122.0, and 121.0. For each minutia, we shift our focus point to the new $(x_0, y_0)$ corresponding to the slightly higher gradient value. For these $n_3(x_0, y_0)$ neighborhoods, we find the largest intensity differences to get the contrast. Contrast measures for the three locations are, respectively, 0.447, 0.651, and 0.561, yielding quality metrics 107.0 $\times$ 0.447 = 47.84, 122.0 $\times$ 0.651 = 79.42, and 121.0 $\times$ 0.561 = 67.85. The quality metric ranges from 0.133-100.0 (see Table 1) for NIST's SD27A latent fingerprint database, which has 15008 defined minutia locations. A quality metric value cannot exceed 100.0, and any larger scores are capped at 100.0 (out of the 15008 minutia, only 54 produced quality metrics over 100.0). We now turn to the issue of applying this quality metric to determine the usability of minutiae information in a latent print.
+<!-- Karen, are these images from another paper? If so, you need to reference the paper in the figure caption and the Figure in the paper where you got these images from. i.e. it should say "This is Figure 1 from Peskin & Kafadar (2017)." --> 
 
-```{r, out.width = "450px", echo = FALSE, fig.cap = "**Fig. 1.** Example of a clear fingerprint and close-up views of three minutiae from this print. Each horizontal green line in the whole print ends at one of the minutia."}
+To illustrate this measurement, we first look at the gradient values on a clear print with well defined minutiae. Figure \@ref(fig:clearprint) shows such a print. Along with it are close-up views of three minutiae from the print, where the ridge ending and bifurcations are clearly seen. One would expect these very clear minutiae to be at the high end of the quality scale when measuring latent minutiae quality. They are at pixel locations (97, 100), (126, 167), and (111, 68), from the upper left corner. The largest gradients at these 3 locations are 94.0, 66.5, and 88.0 intensity units per grid unit. Looking at gradient values in each $5 \times 5$ neighborhood, we find slightly higher gradient values for each minutia: 107.0, 122.0, and 121.0. For each minutia, we shift our focus point to the new $(x_0, y_0)$ corresponding to the slightly higher gradient value. For these $n_3(x_0, y_0)$ neighborhoods, we find the largest intensity differences to get the contrast. Contrast measures for the three locations are, respectively, 0.447, 0.651, and 0.561, yielding quality metrics 107.0 $\times$ 0.447 = 47.84, 122.0 $\times$ 0.651 = 79.42, and 121.0 $\times$ 0.561 = 67.85. The quality metric ranges from 0.133-100.0 (see Table 1) for NIST's SD27A latent fingerprint database, which has 15008 defined minutia locations. A quality metric value cannot exceed 100.0, and any larger scores are capped at 100.0 (out of the 15008 minutia, only 54 produced quality metrics over 100.0). We now turn to the issue of applying this quality metric to determine the usability of minutiae information in a latent print.
+
+```{r clearprint, out.width = "450px", echo = FALSE, fig.align = 'center', fig.cap = "Example of a clear fingerprint and close-up views of three minutiae from this print. Each horizontal green line in the whole print ends at one of the minutia."}
 knitr::include_graphics("img/pk_fig1.png")
 ```
 
-The high quality minutiae above are contrasted with those in a latent print. Previously available database NIST SD27A included latent prints classified as "good," "bad," and "ugly" by forensic examiners to which we apply our quality metric. Figure 2 shows three typical latent fingerprints from this data set, one from each class. Figure 3 shows a closer look at one of the highest quality minutiae on each of these three latent fingerprints.
+The high quality minutiae above are contrasted with those in a latent print. Previously available database NIST SD27A included latent prints classified as "good," "bad," and "ugly" by forensic examiners to which we apply our quality metric. Figure \@ref(fig:gbugly1) shows three typical latent fingerprints from this data set, one from each class. Figure \@ref(fig:gbugly2) shows a closer look at one of the highest quality minutiae on each of these three latent fingerprints.
 
-```{r, out.width = "450px", echo = FALSE, fig.cap = "**Fig. 2.** Examples of a good, bad, and ugly latent print from the SD27A set: G043, B132, and U296."}
+```{r gbugly1, out.width = "450px", echo = FALSE,  fig.align="center", fig.cap = "Examples of a good, bad, and ugly latent print from the SD27A set: G043, B132, and U296."}
 knitr::include_graphics("img/pk_fig2.png")
 ```
 
-```{r, out.width = "450px", echo = FALSE, fig.cap = "**Fig. 3.** Examples of good, bad, and ugly minutiae of approximately the same quality. G043: (502, 741), quality = 21.9, B132: (553, 651), quality = 27.3, and U296: (548, 655), quality = 24.3. Each minutia is located at the center of the 40 × 40 cropped image."}
+```{r gbugly2, out.width = "450px", echo = FALSE, fig.align="center", fig.cap = "Examples of good, bad, and ugly minutiae of approximately the same quality. G043: (502, 741), quality = 21.9, B132: (553, 651), quality = 27.3, and U296: (548, 655), quality = 24.3. Each minutia is located at the center of the 40 × 40 cropped image."}
 knitr::include_graphics("img/pk_fig3.png")
 ```
 
-To understand how our quality measure compares with an examiner's assessment, we select one of the latent prints and show minutiae that were selected by one examiner at different quality levels. Figure 4 shows a "bad" latent and close-up views of three minutiae with quality scores 5.0, 15.2, and 28.8. The gradient and contrast measures increase from left to right in these $20 \times 20$ pixel images, and the quality metric is calculated within the central one-fourth ($5 \times 5$) of the image.
+To understand how our quality measure compares with an examiner's assessment, we select one of the latent prints and show minutiae that were selected by one examiner at different quality levels. Figure \@ref(fig:badlatents) shows a "bad" latent and close-up views of three minutiae with quality scores 5.0, 15.2, and 28.8. The gradient and contrast measures increase from left to right in these $20 \times 20$ pixel images, and the quality metric is calculated within the central one-fourth ($5 \times 5$) of the image.
 
-```{r, out.width = "450px", echo = FALSE, fig.cap = "**Fig. 4.** One of the fingerprints labeled as bad, B110, and an expanded view of three of the minutiae from one examiner, in order of quality: (742, 903), quality = 5.0; (727, 741), quality = 15.2; and (890, 405), quality = 28.8. For each minutiae point, the examiner-marked location is at the center of a 20 × 20 square of pixels."}
+```{r badlatents, out.width = "450px", echo = FALSE, fig.align = "center", fig.cap = "One of the fingerprints labeled as bad, B110, and an expanded view of three of the minutiae from one examiner, in order of quality: (742, 903), quality = 5.0; (727, 741), quality = 15.2; and (890, 405), quality = 28.8. For each minutiae point, the examiner-marked location is at the center of a 20 × 20 square of pixels."}
 knitr::include_graphics("img/pk_fig4.png")
 ```
 
 The SD27A set of latent prints is associated with 849 sets of forensic examiner data, each an ANSI/NIST formatted record, containing the locations of all marked minutiae. From these, we can compare our algorithm's quality metric with the examiner's assessment of "good," "bad," or "ugly." In Table 1, we tabulate the number of minutiae that a forensic examiner located in each set, and the average quality metric of all minutiae in each set. In addition to calculating the average quality metric across all minutiae on the print, we also calculate the average for only those subsets of minutiae with quality metric exceeding 10.0, 20.0, and 30.0. In each set of results, latent prints labeled "good" have more higher-scoring minutiae than prints labeled "bad," and substantially more than prints labeled "ugly." The average minutiae quality metric for each set is similar, suggesting that the assigned label of "good," "bad," or "ugly" is highly influenced by the number of distinguishable (high-scoring) minutiae on the print.
 
+```{r gbutable, results='asis', message = FALSE, echo=FALSE, warning = FALSE}
+gbudata <- readr::read_csv("dat/minutiae-table.csv")
+gbudata <- gbudata %>% select(-X6, -X7)
+names(gbudata)[1] <- "Measurement"
+gbudata %>% group_by(type) %>% 
+  gt::gt() %>% 
+  gt::tab_header("Table 1: Numbers of minutiae and average minutiae quality metric (Q) for three sets of minutiae for all sets combined and subsets defined by Q.") %>% 
+  gt::tab_footnote("SD = standard deviation", locations = gt::cells_data(
+      columns = vars(Measurement),
+      rows = Measurement == "(SD)"))
+```
+
+<!--
 \begin{table}
 	\begin{tabular}{lrrr}
 		& good & bad & ugly \\
@@ -145,10 +160,11 @@ The SD27A set of latent prints is associated with 849 sets of forensic examiner 
 ```{r, out.width = "350px", echo = FALSE, fig.cap = "**Table 1.** Numbers of minutiae and average minutiae quality metric ($Q$) for three sets of minutia for: all sets combined, and subsets defined by $Q$ (SD = standard deviation)."}
 knitr::include_graphics("img/pk_tab1.png")
 ```
+--> 
 
-We then compared our minutiae quality metric to the ridge quality map, which is provided in record 9.308 of the American National Standard for Information Systems data format for the Interchange of Fingerprint, Facial, and other Biometric Information [@nist_itl]. The 9.308 record contains a small grid of scores for individual pixels on small sections of the latent print, ranked for the quality of a ridge present in that section, with 5 representing the highest score and 0 the lowest. From these grids of 0-5 values, we obtained the ridge quality scores for individual minutia locations. We compare our (objective) quality metric scores with observer (subjective) ridge qualities for all 15008 minutia in the database. Of the 15008 minutiae, 76 scored 1, 10829 scored 2, 3940 scored 3, 144 scored 4, and 17 scored 5. The corresponding mean quality metric values for scores 1-5 are: 18.6 (measured on the 76 with scores of 1), 23.7, 26.5, 43.2, and 39.9. Corresponding standard deviation values are: 19.9, 17.1, 18.2, 26.1, and 14.8. The means and standard deviations are illustrated with boxplots in Figure 5.
+We then compared our minutiae quality metric to the ridge quality map, which is provided in record 9.308 of the American National Standard for Information Systems data format for the Interchange of Fingerprint, Facial, and other Biometric Information [@nist_itl]. The 9.308 record contains a small grid of scores for individual pixels on small sections of the latent print, ranked for the quality of a ridge present in that section, with 5 representing the highest score and 0 the lowest. From these grids of 0-5 values, we obtained the ridge quality scores for individual minutia locations. We compare our (objective) quality metric scores with observer (subjective) ridge qualities for all 15008 minutia in the database. Of the 15008 minutiae, 76 scored 1, 10829 scored 2, 3940 scored 3, 144 scored 4, and 17 scored 5. The corresponding mean quality metric values for scores 1-5 are: 18.6 (measured on the 76 with scores of 1), 23.7, 26.5, 43.2, and 39.9. Corresponding standard deviation values are: 19.9, 17.1, 18.2, 26.1, and 14.8. The means and standard deviations are illustrated with boxplots in Figure \@ref(fig:minqual).
 
-```{r, out.width = "450px", echo = FALSE, fig.cap = "**Fig. 5.** Minutiae quality vs. ridge quality for all images from the SD27A set, which include 15008 minutiae. Each box height represents the standard deviation of measurements at that ridge quality."}
+```{r minqual, out.width = "450px", echo = FALSE, fig.align = "center", fig.cap = "Minutiae quality vs. ridge quality for all images from the SD27A set, which include 15008 minutiae. Each box height represents the standard deviation of measurements at that ridge quality."}
 knitr::include_graphics("img/pk_fig5.png")
 ```
 
@@ -156,13 +172,13 @@ knitr::include_graphics("img/pk_fig5.png")
 
 We designed a procedure to identify a threshold for this quality metric, below which the feature is unreliable, and above which it may provide reliable information for comparison purposes. Clear fingerprint images are systematically degraded and quality metric scores calculated for the minutiae accompanying each degraded image. We start by recognizing that a typical clear print has background intensity values of 255 on a scale of 0-255. Accordingly, we simulate different levels of image quality, decreasing the quality of clear prints by lowering the background intensity levels to levels lower than 255. As the background quality is lowered, the contrast between minutiae and background decreases. In this way, we create a series of images from each clear print with different levels of minutiae quality. We can then ask experts to evaluate, in a statistically designed experiment, which minutiae are, in their judgments, sufficiently distinguishable to be useful in a fingerprint analysis, and then note their conclusions following an actual comparison ("correct match found" or "incorrect match found"). This way, a range of $Q$ for minutiae that are highly correlated with accuracy of analysis can be estimated. Clearly, one cannot use actual latent prints for such a study, because (a) the background on latent prints is not well characterized; and (b) "ground truth" is unknown.
 
-Figure 6 shows an example of a clear print with background starting at 255 followed by a series of prints in which the background is progressively lowered to 100. Figure 7 magnifies the region around three of the minutiae for background values equal to 255 and 100 to show the decreased visibility of the minutiae when the gradients and contrast are severely reduced.
+Figure \@ref(fig:fptrans) shows an example of a clear print with background starting at 255 followed by a series of prints in which the background is progressively lowered to 100. Figure \@ref(fig:fptranszoom) magnifies the region around three of the minutiae for background values equal to 255 and 100 to show the decreased visibility of the minutiae when the gradients and contrast are severely reduced.
 
-```{r, out.width = "550px", echo = FALSE, fig.cap = "**Fig. 6.** A clear fingerprint on the left and a series of transformations with background intensity lowered from 255 to 220, 200, 180, 160, 140, 120, and 100."}
+```{r fptrans, out.width = "550px", echo = FALSE, fig.cap = "A clear fingerprint on the left and a series of transformations with background intensity lowered from 255 to 220, 200, 180, 160, 140, 120, and 100."}
 knitr::include_graphics("img/pk_fig6.png")
 ```
 
-```{r, out.width = "400px", echo = FALSE, fig.cap = "**Fig. 7.** Three of the minutiae from Figure 6 with background = 255 (top row) and background = 100 (bottom row)."}
+```{r fptranszoom, out.width = "400px", echo = FALSE, fig.cap = "Three of the minutiae from Figure \\@ref(fig:fptrans) with background = 255 (top row) and background = 100 (bottom row)."}
 knitr::include_graphics("img/pk_fig7.png")
 ```
 
@@ -207,7 +223,7 @@ quality_scores(t(text_image), min_file)
 
 ## Case Study -- Simple latent
 
-```{r, out.width = "650px", echo = FALSE}
+```{r fingerglass, out.width = "650px", echo = FALSE, fig.cap="Five simple fingerprints on a clean glass plate."}
 knitr::include_graphics("img/fingerprint_card.png")
 ```
 
@@ -236,7 +252,7 @@ kableExtra::kable(pk_scores, align=rep('c', 5)) %>% kable_styling(full_width = F
 <div class="clearer"></div>
 
 <div class="twoC">
-```{r out.width = "200px", echo = FALSE}
+```{r markedmin, out.width = "200px", echo = FALSE}
 knitr::include_graphics("img/print_case_study_3.bmp")
 ```
 ```{r echo=FALSE}
@@ -248,7 +264,7 @@ kableExtra::kable(pk_scores, align=rep('c', 5)) %>% kable_styling(full_width = F
 </div>
 <div class="clearer"></div>
 
-**Fig. 8a (top), 8b (bottom).** Five marked minutiae from latent number 2 (top) and 3 (bottom).
+<!--**Fig. 8a (top), 8b (bottom).** Five marked minutiae from latent number 2 (top) and 3 (bottom).-->
 
 
 Although only five features are marked in the latents above, many more would be identified in casework. In cases where large number of minutiae are identified, minutiae quality scores could allow examiners to focus first on those with higher quality, from which presumably the most reliable information may be obtained. The minutiae in the first image above are relatively clear even to an unexperienced observer, and clearly of better contrast than minutiae in the second image, which the quality scores reflect. Using the quality scores, examiners may be able to focus on high scoring features first, or ignore minutiae scoring below a certain threshold.
