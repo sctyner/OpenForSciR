@@ -229,17 +229,23 @@ knitr::include_graphics("img/fingerprint_card.png")
 
 Five simple fingerprints were created on a clean glass plate using a single finger with differing levels of pressure. These levels range from one to five, with one indicating the largest amount of pressure applied. The glass plate was dusted using a black magnetic powder and the revealed prints lifted with tape onto the back of a white fingerprint card. As expected, as pressure decreases, the latents decrease in overall quality (visually, the ridges are less thick and lose some continuity) and amount of friction ridge area captured. The entire fingerprint card was scanned and each print was cropped into its own grayscale image file. These cropped images were converted into their equivalent 2D pixel array values (0 to 255, black to white).
 
-Five features (ridge endings (E) and bifurcations (B)) from the second and third prints were analyzed using the Peskin and Kafadar quality metric. As the metric is interested in contrast and gradients, the darker, blacker ridges in the Figure 8a receive overall higher scores than the lighter gray ridges in the Figure 8b (feature 3 is an exception).
+Five features (ridge endings (E) and bifurcations (B)) from the second and third prints were analyzed using the Peskin and Kafadar quality metric. As the metric is interested in contrast and gradients, the darker, blacker ridges in the Figure \@ref(fig:markedtwo) receive overall higher scores than the lighter gray ridges in the Figure \@ref(fig:markedthree) (feature 3 is an exception).
+
+<!--
+```{r csfp1, fig.cap="two images", fig.show='hold', echo = FALSE}
+knitr::include_graphics(c("img/print_case_study_2.bmp" ,"img/print_case_study_3.bmp"))
+```
+-->
 
 <style type="text/css">
 .twoC {width: 80%}
 .clearer {clear: both}
 .twoC .table {max-width: 40%; float: right}
-.twoC img {max-width: 40%; float: left}
+.twoC img {max-width: 40%; float: left; margin-top:50px;}
 </style>
 
 <div class="twoC">
-```{r out.width = "200px", echo = FALSE}
+```{r markedtwo, out.width = "200px", echo = FALSE, fig.cap="Second print"}
 knitr::include_graphics("img/print_case_study_2.bmp")
 ```
 ```{r echo=FALSE}
@@ -252,7 +258,7 @@ kableExtra::kable(pk_scores, align=rep('c', 5)) %>% kable_styling(full_width = F
 <div class="clearer"></div>
 
 <div class="twoC">
-```{r markedmin, out.width = "200px", echo = FALSE}
+```{r markedthree, out.width = "200px", echo = FALSE, fig.cap="Third print"}
 knitr::include_graphics("img/print_case_study_3.bmp")
 ```
 ```{r echo=FALSE}
@@ -263,6 +269,7 @@ kableExtra::kable(pk_scores, align=rep('c', 5)) %>% kable_styling(full_width = F
 ```
 </div>
 <div class="clearer"></div>
+
 
 <!--**Fig. 8a (top), 8b (bottom).** Five marked minutiae from latent number 2 (top) and 3 (bottom).-->
 
