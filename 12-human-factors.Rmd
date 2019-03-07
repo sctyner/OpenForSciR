@@ -1,25 +1,23 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 # Human Factors {#humans}
 
+#### *Amanda Luby* {-}
+
+<!-- I like the idea, but I dont think we need abstracts here! 
 __Abstract:__
 
 Even as automated tools for pattern evidence comparisons become increasingly advanced, final decisions often rely on individual examiner judgment. Given the same comparison task, different forensic examiners may come to different conclusions and/or use different criteria for coming to those decisions. High-profile examples of misidentification have inspired efforts to better estimate overall error rates as well as understand underlying decision-making processes in forensic analyses. 
 
 Item response theory (IRT), a class of models used in educational testing (among other fields), can provide valuable insight into these studies by accounting for both individual differences among examiners as well as comparison tasks of varying difficulty. This chapter provides an introduction to basic IRT models, discussion of human factors in pattern evidence analysis, and an example analysis in R of an error rate study using the FBI ``black box'' study.
-
+--> 
 ## Introduction
 
 Although forensic measurement and analysis tools are increasingly accurate and objective, many final decisions are largely left to individiual examiners [@pcast]. Human decision-makers will continue to play a central role in forensic science for the foreseeable future, and it is unrealistic to assume that, within our current criminal justice system, either a) there are no differences in the decision-making process between examiners, b) day-to-day forensic decision-making tasks are equally difficult, or c) human decision-making can be removed from the process entirely. 
 
-The role of human decisions in forensic science is perhaps most studied in the fingerprint domain, which will be the focus of this chapter. High-profile examples of misidentification have inspired studies showing that fingerprint examiners, like all humans, may be susceptible to biased instructions and unreliable in final decisions [@dror2008meta] or influenced by external factors or contextual information [@dror2006, @dror2010vision]. These studies contradict common perceptions of the accuracy of fingerprint examination, and demonstrate that fingerprint analysis is far from error-free. 
+The role of human decisions in forensic science is perhaps most studied in the fingerprint domain, which will be the focus of this chapter. High-profile examples of misidentification have inspired studies showing that fingerprint examiners, like all humans, may be susceptible to biased instructions and unreliable in final decisions [@dror2008meta] or influenced by external factors or contextual information [@dror2006; @dror2010vision]. These studies contradict common perceptions of the accuracy of fingerprint examination, and demonstrate that fingerprint analysis is far from error-free. 
 
-Although fingerprint examination is the focus of this chapter, it is not the only forensic domain that relies on human decision-making. Firearms examination (See, e.g., @nas2009 pg. 150-155) is similar to latent print examination in many ways, particularly in that examiners rely on pattern evidence to determine whether two cartridges originated from the same source. Handwriting comparison (See Chapter \@ref(handwriting) for introduction, @nas2009 pg. 163-167 on `Questioned Document Examination' and @stoelshaky for discussion) consists of examiners determining whether two smples of handwriting were authored by the same person, taking potential forgery or disguise into account. A third example is interpreting mixtures of DNA evidence (Chapter \@ref(dna), @pcast Section 5.2). A DNA mixture is a biological sample that contains DNA from two or more donors and requires analysts to make subjective decisions to determine how many individuals contributed to the DNA profile. The President's Council of Advisors on Science and Technology (@pcast) has recommended increased "black box" error rate studies for subjective forensic methods.
+Although fingerprint examination is the focus of this chapter, it is not the only forensic domain that relies on human decision-making. Firearms examination (See, e.g., @nas2009 pg. 150-155) is similar to latent print examination in many ways, particularly in that examiners rely on pattern evidence to determine whether two cartridges originated from the same source. Handwriting comparison (See Chapter \@ref(handwriting) for introduction, @nas2009 pg. 163-167 on "Questioned Document Examination" and @stoelshaky for discussion) consists of examiners determining whether two smples of handwriting were authored by the same person, taking potential forgery or disguise into account. A third example is interpreting mixtures of DNA evidence (Chapter \@ref(dna), @pcast Section 5.2). A DNA mixture is a biological sample that contains DNA from two or more donors and requires analysts to make subjective decisions to determine how many individuals contributed to the DNA profile. The President's Council of Advisors on Science and Technology (@pcast) has recommended increased "black box" error rate studies for subjective forensic methods.
 
-The FBI "Black Box" study [@ulery2011] was the first large-scale study performed to assess the accuracy and reliability of latent print examiners' decisions.  The questions were designed to include a range of attributes and quality seen in casework, and to be representative of searches from an automated fingerprint identification system. The overall false positive rate in the study was $0.1\%$ and the overall false negative rate was $7.5\%$. These computed quantities, however, have excluded all "inconclusive" responses (i.e. neither identifications nor exclusions). This is noteworthy, as nearly a third of all responses were inconclusive and respondents varied on how often they reported inconclusives. Respondents who report a large number of inconclusives, and only make identification or exclusion decisions for the most pristine prints, will likely make far fewer false positive and false negative decisions than respondents who reported fewer inconclusives. The authors of the study also note that it is difficult to compare the error rates and inconclusive rates of individual examiners because each examiner saw a different set of fingerprint images (@ulery2011 Appendix 3). In other words, it would be unfair to compare the error rate of someone who was given a set of "easy" questions to the error rate of someone who was given a set of "difficult" questions. A better measure of examiner skill would account for both error rates and difficulty of prints that were examined. 
+The FBI "Black Box" study [@ulery2011] was the first large-scale study performed to assess the accuracy and reliability of latent print examiners' decisions.  The questions were designed to include a range of attributes and quality seen in casework, and to be representative of searches from an automated fingerprint identification system. The overall false positive rate in the study was 0.1% and the overall false negative rate was 7.5%. These computed quantities, however, have excluded all "inconclusive" responses (i.e. neither identifications nor exclusions). This is noteworthy, as nearly a third of all responses were inconclusive and respondents varied on how often they reported inconclusives. Respondents who report a large number of inconclusives, and only make identification or exclusion decisions for the most pristine prints, will likely make far fewer false positive and false negative decisions than respondents who reported fewer inconclusives. The authors of the study also note that it is difficult to compare the error rates and inconclusive rates of individual examiners because each examiner saw a different set of fingerprint images (@ulery2011, Appendix 3). In other words, it would be unfair to compare the error rate of someone who was given a set of "easy" questions to the error rate of someone who was given a set of "difficult" questions. A better measure of examiner skill would account for both error rates and difficulty of prints that were examined. 
 
 Accurately measuring proficiency, or examiner skill, is valuable not only for determining whether a forensic examiner has met baseline competency requirements, but for training purposes as well. Personalized feedback after participating in a study could lead to targeted training for examiners in order to improve their proficiency. Additionally, if proficiency is not accounted for among a group of study participants, which often include trainees or non-experts as well as experienced examiners, the overall results from the study may be biased. 
 
@@ -43,7 +41,7 @@ For $P$ individuals responding to $I$ test items, we can express the binary resp
 
 ### Rasch Model
 
-The Rasch Model [@rasch1960studies @raschbook] is a relatively simple, yet powerful, item response model, and serves as the basis for extensions introduced later. The probability of a correct response is modeled as the logit function of the difference between the participant proficiency, $\theta_p$ ($p=1, \dots, P$), and the item difficulty, $b_i$ ($i=1, \dots, I$):
+The Rasch Model [@rasch1960studies; @raschbook] is a relatively simple, yet powerful, item response model, and serves as the basis for extensions introduced later. The probability of a correct response is modeled as the logit function of the difference between the participant proficiency, $\theta_p$ ($p=1, \dots, P$), and the item difficulty, $b_i$ ($i=1, \dots, I$):
 
 \begin{equation}
 P(Y_{pi} = 1) = \frac{1}{1-\exp(-(\theta_p - b_i))}. 
@@ -58,7 +56,7 @@ Note that Equation \ref{rasch} also describes a generalized linear model (GLM), 
 
 The *two-parameter logistic model* (2PL) and *three-parameter logistic model* (3PL) are additional popular item response models [@lord1980applications]. They are both similar to the Rasch model in that the probability of a correct response depends on participant proficiency and item difficulty, but additional item parameters are also included. We omit a full discussion of these models here, but further reading may be found in @van2013handbook and @eirtbook. 
 
----
+<!--- Use this syntax for comments
 # The 2PL model includes an item *discrimination* parameter, $a_i$, which determines the slope of the ICC:
 
 # \begin{equation}
@@ -76,7 +74,7 @@ The *two-parameter logistic model* (2PL) and *three-parameter logistic model* (3
 # \end{equation}
 
 # Including $c_i$ increases the ``base probability'' of correctly answering a question. 3PL models are illustrated in Figure \@ref(fig:extensionsexample) with green lines. These models have the same difficulty ($b=0$) and discriminations ($a=0.5$ and $a=2$) as the other models shown in the graph, but include a guessing parameter of $c=0.3$. 
----
+--> 
 
 ```{r extensionsexample, echo = FALSE, fig.cap = "Item Characteristic Curve (ICC) examples for the Rasch, 2PL, and 3PL models."}
 library(RColorBrewer)
@@ -102,7 +100,7 @@ legend("bottomright", legend =
 
 ### Partial Credit Model 
 
-The *partial credit model* (PCM, @masters1982) is distinct from the models discussed above because it allows for the response variable, $Y_{pi}$, to take additional values beyond zero (incorrect) and one (correct). This is especially useful for modeling partially correct responses, although may be applied in other contexts where the responses can be ordered. When $Y_{pi}$ is binary, the partial credit model is equivalent to the Rasch model. Under the PCM, the probability of response $Y_{pi}$ depends on $\theta_p$, the proficiency of participant $p$ as in the above models; $m_i$, the maximum score for item $i$ (and the number of step parameters); and $\beta_{il}$, the $l^{th}$ step parameter for item $i$ ($l=0, \dots, m_i$):
+The *partial credit model* (PCM) [@masters1982] is distinct from the models discussed above because it allows for the response variable, $Y_{pi}$, to take additional values beyond zero (incorrect) and one (correct). This is especially useful for modeling partially correct responses, although may be applied in other contexts where the responses can be ordered. When $Y_{pi}$ is binary, the partial credit model is equivalent to the Rasch model. Under the PCM, the probability of response $Y_{pi}$ depends on $\theta_p$, the proficiency of participant $p$ as in the above models; $m_i$, the maximum score for item $i$ (and the number of step parameters); and $\beta_{il}$, the $l^{th}$ step parameter for item $i$ ($l=0, \dots, m_i$):
 
 \begin{equation}
 P(Y_{pi} = 0)  = \frac{1}{1+\sum_{k=1}^{m_i} \exp \sum_{l=1}^k (\theta_p - \beta_{il})}
@@ -164,9 +162,9 @@ In the forensic setting, completing an IRT analysis will often include an additi
 library(blackboxstudyR)
 # Figure out why packages aren't loading and remove lines below
 library(dplyr)
-library(bayesplot)
-library(ggplot2)
-library(rstan)
+#library(bayesplot)
+#library(ggplot2)
+#library(rstan)
 library(gridExtra)
 library(tidyr)
 library(ggplot2)
@@ -175,8 +173,6 @@ library(ggpubr)
 
 #rstan_options(auto_write = TRUE)
 #options(mc.cores = parallel::detectCores())
-
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 my_theme <-  theme_minimal() + 
   theme(text = element_text(family="serif"))
 ```
@@ -215,19 +211,19 @@ The remainder of the case study will (a) demonstrate how to fit an IRT model in 
 We'll proceed with an IRT analysis of the data under the `inconclusive_mcar` scoring scheme, which is how the data were scored under @ulery2011. 
 
 ```{r, echo = TRUE}
-im_scored = score_bb_data(TestResponses, "inconclusive_mcar")
+im_scored <- score_bb_data(TestResponses, "inconclusive_mcar")
 ```
 
 Scoring the black box data as above gives us the response variable ($y$). The `irt_data_bb` function takes the original black box data, along with the scored variable produced by `score_bb_data`, and produces a list object in the form needed by Stan to fit the IRT models. If you wish to fit the models on a different set of data, you can do so if the dataset has been formatted as a list object with the same attributes as the `irt_data_bb` function output (see package documentation for additional details).
 
 ```{r, cache = TRUE, echo = TRUE}
-im_data = irt_data_bb(TestResponses, im_scored)
+im_data <- irt_data_bb(TestResponses, im_scored)
 ```
 
 We can now use `fit_irt` to fit the Rasch models. 
 
 ```{r, eval = FALSE, message = FALSE, echo = TRUE}
-im_model = fit_irt(im_data, model = "rasch", iterations = 600, n_chains = 4)
+im_model <- fit_irt(im_data, model = "rasch", iterations = 600, n_chains = 4)
 ```
 
 In practice, it is necessary to ensure that the MCMC sampler has converged using a variety of diagnostics. We omit these steps here for brevity, but the `blackboxstudyR` package will include a vignette detailing this process. 
@@ -249,10 +245,10 @@ The original analysis of the FBI "Black Box" Study [@ulery2011] did not include 
 
 ```{r prof-error-rate, fig.height=3, fig.cap="Proficiency vs False Positive Rate (left) and False Negative Rate (right)"}
 
-obs_p_score = bb_person_score(TestResponses, im_scored)
+obs_p_score <- bb_person_score(TestResponses, im_scored)
 
-q_diff = apply(rstan::extract(im_model, pars = "b")$b, 2, median)
-ex_error_rates = error_rate_analysis(TestResponses, q_diff)
+q_diff <- apply(rstan::extract(im_model, pars = "b")$b, 2, median)
+ex_error_rates <- error_rate_analysis(TestResponses, q_diff)
 
 person_mcmc_intervals(im_model) %>% 
   right_join(., obs_p_score, by = "exID") %>% 
@@ -295,8 +291,8 @@ If, instead of looking at the two error rates for each participant, we examine t
 ```{r prof-observed, fig.height = 3, fig.cap="Proficiency vs Observed Score"}
 
 person_mcmc_intervals(im_model) %>% 
-  right_join(., obs_p_score, by = "exID") %>% 
-    ggplot(., aes(
+  right_join(obs_p_score, by = "exID") %>% 
+    ggplot(aes(
       x = score,
       y = m,
       ymin = ll,
@@ -307,8 +303,8 @@ person_mcmc_intervals(im_model) %>%
   my_theme -> p1 
 
 person_mcmc_intervals(im_model) %>%
-  right_join(., obs_p_score, by = "exID") %>% 
-    ggplot(., aes(
+  right_join(obs_p_score, by = "exID") %>% 
+    ggplot(aes(
       x = score,
       y = m,
       ymin = ll,
@@ -326,11 +322,11 @@ If we examine those participants who scored between 94\% and 96\% more closely, 
 
 ```{r prof-by-diff, fig.height=3, fig.cap="Proficiency vs Average Question Difficulty, for participants with observed score between 94 and 96 percent correct."}
 person_mcmc_intervals(im_model) %>%
-  right_join(., obs_p_score, by = "exID") %>% 
-  full_join(., ex_error_rates, by = "exID") %>%
-  select(., score, m, ll, hh, exID, avg_diff, pct_skipped) %>%
-  filter(., score < .96 & score > .94) %>%
-    ggplot(., aes(
+  right_join(obs_p_score, by = "exID") %>% 
+  full_join(ex_error_rates, by = "exID") %>%
+  select(score, m, ll, hh, exID, avg_diff, pct_skipped) %>%
+  filter(score < .96 & score > .94) %>%
+    ggplot(aes(
       x = avg_diff,
       y = m,
       ymin = ll,
@@ -349,51 +345,52 @@ person_mcmc_intervals(im_model) %>%
 To illustrate the difference in results between different scoring methods, we'll now score the data and fit models in two more ways: `no_consensus_incorrect` and `partial_credit`. 
 
 ```{r, echo = TRUE}
-nci_scored = score_bb_data(TestResponses, "no_consensus_incorrect")
-nci_data = irt_data_bb(TestResponses, nci_scored)
-pc_scored = score_bb_data(TestResponses, "partial_credit")
-pc_data = irt_data_bb(TestResponses, pc_scored)
+nci_scored <- score_bb_data(TestResponses, "no_consensus_incorrect")
+nci_data <- irt_data_bb(TestResponses, nci_scored)
+pc_scored <- score_bb_data(TestResponses, "partial_credit")
+pc_data <- irt_data_bb(TestResponses, pc_scored)
 ```
 
 ```{r, echo = TRUE, eval = FALSE}
-ncm_model = fit_irt(nci_data, model = "rasch", iterations = 600, n_chains = 4)
-pc_model = fit_irt(pc_data, model = "partial_credit", iterations = 600, n_chains = 4)
+ncm_model <- fit_irt(nci_data, model = "rasch", iterations = 600, n_chains = 4)
+pc_model <- fit_irt(pc_data, model = "partial_credit", iterations = 600, n_chains = 4)
 ```
 
 We can examine the proficiency estimates and observed scores for each participant under each of the three scoring schemes, similar to Figure \@ref(fig:prof-observed) above. Under the partial credit scoring scheme, a correct identification/exclusion is scored as a "2", an inconclusive response is scored as a "1" and an incorrect identification/exclusion is scored as a "0". The observed score is then computed by $(\# Correct + \# Inconclusive) / (2 \times \# Responses)$ to scale the score to be between 0 and 1. 
 
 ```{r prof-three-scores, fig.height=3, fig.cap="Proficiency vs Observed Score for each of three scoring schemes"}
 
-p_score_im = bb_person_score(TestResponses, im_scored)
-person_mcmc_intervals(im_model) %>%
-  right_join(., p_score_im, by = "exID") %>%
-  mutate(., scoring = rep("im", nrow(p_score_im))) -> p_score_im
+p_score_im <- bb_person_score(TestResponses, im_scored)
+person_mcmc_intervals(blackboxstudyR::im_model) %>%
+  right_join(p_score_im, by = "exID") %>%
+  mutate(scoring = rep("im", nrow(p_score_im))) -> p_score_im
 
-p_score_nci = bb_person_score(TestResponses, nci_scored)
-person_mcmc_intervals(nci_model) %>% 
-  right_join(., p_score_nci, by = "exID") %>%
-  mutate(., scoring = rep("nci", nrow(p_score_nci))) -> p_score_nci
+p_score_nci <- bb_person_score(TestResponses, nci_scored)
+person_mcmc_intervals(blackboxstudyR::nci_model) %>% 
+  right_join(p_score_nci, by = "exID") %>%
+  mutate(scoring = rep("nci", nrow(p_score_nci))) -> p_score_nci
 
-p_score_pc = bb_person_score(TestResponses, pc_scored)
-person_mcmc_intervals(pc_model) %>%
-  right_join(., p_score_pc, by = "exID") %>%
-  mutate(., scoring = rep("pc", nrow(p_score_pc))) -> p_score_pc
+p_score_pc <- bb_person_score(TestResponses, pc_scored)
+person_mcmc_intervals(blackboxstudyR::pc_model) %>%
+  right_join(p_score_pc, by = "exID") %>%
+  mutate(scoring = rep("pc", nrow(p_score_pc))) -> p_score_pc
 
 p_score_im %>%
-  bind_rows(., p_score_nci) %>%
-  bind_rows(., p_score_pc) %>%
-  ggplot(., aes(x = score, y = m, ymin = ll, ymax = hh, col = scoring)) + 
+  bind_rows(p_score_nci) %>%
+  bind_rows(p_score_pc) %>%
+  ggplot(aes(x = score, y = m, ymin = ll, ymax = hh, col = scoring)) + 
   geom_pointrange(size = .3, alpha = .5) +
   labs(x = "Observed Score",
        y = "Estimated Proficiency") +
   my_theme -> p1
 
 p_score_im %>%
-  bind_rows(., p_score_nci) %>%
-  bind_rows(., p_score_pc) %>%
-  ggplot(., aes(x = score, y = m, ymin = ll, ymax = hh, col = scoring, group = exID)) + 
+  bind_rows(p_score_nci) %>%
+  bind_rows(p_score_pc) %>%
+  group_by(exID) %>% 
+  ggplot(aes(x = score, y = m, ymin = ll, ymax = hh, col = scoring, group = exID)) + 
   geom_pointrange() +
-  gghighlight(hh < - 0.5) +
+  gghighlight(hh < - 0.5, use_group_by = FALSE) +
   geom_line(col = "black", linetype = "dotted") +
   labs(x = "Observed Score",
        y = "Estimated Proficiency") +
@@ -419,15 +416,15 @@ The plot on the right illustrates participants that see substantial differences 
 
 ```{r prof-by-id, fig.height=3, fig.cap = "Change in proficiency for each examiner under the three scoring schemes. The right side plot has highlighted five examiners whose proficiency estimates change the greatest among the three schemes."}
 p_score_im %>%
-  bind_rows(., p_score_nci) %>%
-  bind_rows(., p_score_pc) %>%
-  arrange(.,parameter) %>%
-  mutate(., id = rep(1:169,each = 3)) %>%
-  select(., id, m, scoring) %>%
-  spread(., scoring, m) %>%
-  mutate(., max.diff = apply( cbind(abs(im - nci), abs(nci - pc), abs(im - pc)), 1, max)) %>%
-  gather(., "model", "median", -c(id, max.diff)) %>%
-  ggplot(., aes(x = model, y = median, group = id, col = id)) + 
+  bind_rows(p_score_nci) %>%
+  bind_rows(p_score_pc) %>%
+  arrange(parameter) %>%
+  mutate(id = rep(1:169,each = 3)) %>%
+  select(id, m, scoring) %>%
+  spread(scoring, m) %>%
+  mutate(max.diff = apply( cbind(abs(im - nci), abs(nci - pc), abs(im - pc)), 1, max)) %>%
+  gather("model", "median", -c(id, max.diff)) %>%
+  ggplot(aes(x = model, y = median, group = id, col = id)) + 
   geom_point() +
   geom_line() +
   labs(x = "Scoring Method",
@@ -435,20 +432,20 @@ p_score_im %>%
   my_theme -> p1
 
 p_score_im %>%
-  bind_rows(., p_score_nci) %>%
-  bind_rows(., p_score_pc) %>%
-  arrange(.,parameter) %>%
-  mutate(., id = rep(1:169,each = 3)) %>%
-  select(., id, m, scoring) %>%
-  spread(., scoring, m) %>%
-  mutate(., max.diff = apply( cbind(abs(im - nci), abs(nci - pc), abs(im - pc)), 1, max)) %>%
-  gather(., "model", "median", -c(id, max.diff)) %>%
-  ggplot(., aes(x = model, y = median, group = id, col = id)) + 
+  bind_rows(p_score_nci) %>%
+  bind_rows(p_score_pc) %>%
+  arrange(parameter) %>%
+  mutate(id = rep(1:169,each = 3)) %>%
+  select(id, m, scoring) %>%
+  spread(scoring, m) %>%
+  mutate(max.diff = apply( cbind(abs(im - nci), abs(nci - pc), abs(im - pc)), 1, max)) %>%
+  gather("model", "median", -c(id, max.diff)) %>%
+  ggplot(aes(x = model, y = median, group = id, col = id)) + 
   geom_point() +
   geom_line() +
   labs(x = "Scoring Method",
        y = "Estimated Proficiency") +
-  gghighlight( max.diff > 1.95, label_key = id) +
+  gghighlight( max.diff > 1.95, label_key = id, use_group_by = FALSE) +
   my_theme-> p2
 
 ggarrange(p1, p2, ncol=2, common.legend = TRUE, legend="bottom")
