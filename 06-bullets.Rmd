@@ -4,7 +4,9 @@
 
 ## Introduction
 
-When a bullet is fired from a gun barrel, striation markings from imperfections in the barrel manufacturering process are imprinted onto what is called the Land Impression region of the bullet. These impressions are assumed to be unique to individual gun barrels, and as a result, traditional forensic science methods have employed trained forensic examiners to assess the likelihood of two bullets being fired from the same barrel (a "match"). Conventionally, this has been done using the metric Consecutively Matching Striae, or CMS [@biasotti:1959]. However, no official standards have been established to scientifically delineate a number that effectively separates matches from non-matches. Therefore, significant work has been done, and continues to be done, in order to add scientific rigor to the bullet matching process.
+When a bullet is fired from a gun barrel, small imperfections in the barrel leave striation markings on the bullet. These striae are expressed most in the area of the bullet that has the closest contact to the barrel. 
+
+ These engravings are assumed to be unique to individual gun barrels, and as a result, traditional forensic science methods have employed trained forensic examiners to assess the likelihood of two bullets being fired from the same barrel (a "match"). Conventionally, this has been done using the metric Consecutively Matching Striae, or CMS [@biasotti:1959]. However, no official standards have been established to scientifically delineate a number that effectively separates matches from non-matches. Therefore, significant work has been done, and continues to be done, in order to add scientific rigor to the bullet matching process.
 
 The 2009 National Academy of Sciences Report [@NAS:2009] may have been the "call-to-arms" that the field needed. This report both criticized the lack of rigor seen to this date, but also described the "path forward". As the authors saw it, the path forward included an aption of standards. A standard format to represent the structure of bullets opened the door for much of what you'll read about in this chapter, including opening up the formerly unknown process of bullet matching to a much wider audience, and providing the foundations for truly automated and statistical algorithms to perform the procedure.
 
@@ -12,7 +14,7 @@ In this chapter, we outline the new standard data format used to store three-dim
 
 ## Data 
 
-Data on both breech face and land impressions are available from the NIST Ballistics Database Project in the x3p (XML 3-D Surface Profile) format. This format was designed to implement a standard for exchanging 3D profile data. This format was adopted by the Open Forensic Metrology Consortium, or OpenFMC, a group of firearm forensics researchers whose aim is to establish best practices for researchers using metrology in forensic science.
+Data on both breech face and land engraved areas are available from the NIST Ballistics Database Project in the x3p (XML 3-D Surface Profile) format. This format was designed to implement a standard for exchanging 3D profile data. This format was adopted by the Open Forensic Metrology Consortium, or OpenFMC, a group of firearm forensics researchers whose aim is to establish best practices for researchers using metrology in forensic science.
 
 Figure \@ref(fig:x3pcontain) shows an illustration of the internal structure of the x3p file format. x3p files contain an XML data file with metadata on the bullet scans, as well as binary data containing the surface topology measurements. The metadata includes information on the scanning equipment and operator, as well as information on the resolution of the scans. 
 
@@ -35,7 +37,9 @@ Although `x3ptools` isn't written specifically for the purposes of handling bull
 To begin, the package can be installed from CRAN:
 
 ```{r, eval=FALSE}
-install.packages("x3ptools")
+#install.packages("x3ptools")
+# install from github for now
+devtools::install_github("heike/x3ptools")
 ```
 
 We will load the package and use some pre-provided x3p data to get a feel for the package functionality. We will work with the Center for Statistical Applications in Forensic Evidence (CSAFE) logo. In its original colored form, the logo looks like Figure \@(fig:csafelogo).
@@ -82,7 +86,7 @@ A key feature of the data is that the `value` column represents the height of th
 
 One other important feature of the package is the ability to sample. Depending on the size and resolution of a particular scan, the resulting object could be quite large. This CSAFE logo, despite being a relatively small physical size, still results in a 310,479 row data frame. Though manageable, this means that certain routines, such as producing the above scatterplot, can be quite slow.
 
-At times where resolution isn't a huge concern, we may elect to sample the data to reduce the resulting size. This can be done with the `sample_x3p` function. The function takes a parameter `m` to indicate the sampling factor to use. For example, a value of `m = 4` will sample every 4th height value from the 3D scan, as illustrated in Figure \@ref(fig:samp).
+At times where resolution is not of a huge concern, we may elect to sample the data to reduce the resulting size. This can be done with the `sample_x3p` function. The function takes a parameter `m` to indicate the sampling factor to use. For example, a value of `m = 4` will sample every 4th height value from the 3D scan, as illustrated in Figure \@ref(fig:samp).
 
 ```{r samp, fig.cap='A sampled scan of an x3p file extracted using the sample_x3p function.'}
 sample_logo <- sample_x3p(logo, m = 4)
@@ -116,9 +120,10 @@ br1_b1 <- read_bullet(urllist = hamby252demo[[1]]) %>%
                              y_flip_x3p()))
 ```
 
-A note on the naming convention: A bullet is composed of a certain number of **land impressions**. The rifling of the barrel induces these land impressions, which can be seen as a series of alternating raised and recessed portions on the fired bullet. In addition, manufacturing defects imprint **striation markings** on the bullet as it travels through the gun barrel when fired [@afte:1992].
+A note on the naming convention: A bullet is composed of a certain number of **land engraved areas**. 
+The rifling of the barrel induces these land engraved areas, which can be seen as a series of alternating raised and recessed portions on the fired bullet. In addition, manufacturing defects engrave **striation markings** on the bullet as it travels through the gun barrel when fired [@afte:1992].
 
-Why is this relevant to this portion? The data we just read in is of one single land. That is, it is a portion of the bullet that is assumed to contain striation markings. You'll notice the naming convention `br1_b1`. This indicates that we are looking at a bullet that was fired from Barrel 1 (`br1`). It's the first bullet (`b1`). There will be 6 observations in this data frame corresponding to each land impression.  When working with lots of bullet data, it's important to stay organized in terms of the naming convention of objects in your R session.
+Why is this relevant to this portion? The data we just read in is of one single land. That is, it is a portion of the bullet that is assumed to contain striation markings. You'll notice the naming convention `br1_b1`. This indicates that we are looking at a bullet that was fired from Barrel 1 (`br1`). It's the first bullet (`b1`). There will be 6 observations in this data frame corresponding to each land engraved area.  When working with lots of bullet data, it's important to stay organized in terms of the naming convention of objects in your R session.
 
 Let's take a quick look at what we see on this bullet land (Figure \@ref(fig:b111)).
 
@@ -149,7 +154,7 @@ ggplot(data = ccdata_b11, aes(x = x, y = value)) +
   theme_bw()
 ```
 
-Most of the scans exhibit the pattern that we see here, where there are "wedges" on the left and right side - This area is called the **shoulder**, and its the area separating the land impression (the curved region in the middle) from the groove (the area not scanned because it doesn't exhibit striations). In other words, to better hone in on the striae along the land, we should subset this region to include only the middle curved land impression portion. Fortunately, `bulletxtrctr` provides us with functionality to automatically do that. First, we use the `cc_locate_grooves` function to detect the location of the grooves. This returns a list object, with one element being the two locations along the axis, and the lother element being the plot, given in Figure \@ref(fig:grooveloc).
+Most of the scans exhibit the pattern that we see here, where there are "wedges" on the left and right side - This area is called the **shoulder**, and its the area separating the land engraved area (the curved region in the middle) from the groove (the area not scanned because it doesn't exhibit striations). In other words, to better hone in on the striae along the land, we should subset this region to include only the middle curved land engraved area portion. Fortunately, `bulletxtrctr` provides us with functionality to automatically do that. First, we use the `cc_locate_grooves` function to detect the location of the grooves. This returns a list object, with one element being the two locations along the axis, and the lother element being the plot, given in Figure \@ref(fig:grooveloc).
 
 ```{r, grooveloc, fig.cap='Location of the grooves in our bullet scan, as detected by the get_grooves function.', warning=FALSE}
 grooves_b11 <- cc_locate_grooves(ccdata_b11, return_plot = TRUE, method = "middle")
