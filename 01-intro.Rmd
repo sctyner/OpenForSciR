@@ -5,7 +5,7 @@
 
 Here are all of the `R` packages used in this book. If you would like to download and compile this book on your own system, this chunk will install and load all of the necessary packages for you. If you run into issues with dependencies, please post an issue on the Github repo for this book. (INSERT LINK)
 
-```{r all_packages eval = FALSE}
+```{r all_packages, eval = TRUE}
 # check if a package is installed, if not install it from cran
 install_cran_missings <- function(pkgname){
   if(class(pkgname) != "character"){
@@ -29,6 +29,9 @@ install_dev_missings <- function(pkgname, ghuser){
 }
 # need devtools to get some packages 
 install_cran_missings("devtools")
+# packages used throughout the book 
+install_cran_missings("tidyverse") # or install_dev_missings("tidyverse", "tidyverse")
+install_dev_missings("gt", "rstudio") 
 
 # Chapter 3: DNA Validation
 install_cran_missings("strvalidator")
@@ -40,7 +43,6 @@ install_cran_missings("strvalidator")
 # TBD
 
 # Chapter 6: Bullets
-install_cran_missings("tidyverse") # or install_dev_missings("tidyverse", "tidyverse")
 install_cran_missings("x3ptools") # or install_dev_missings("x3ptools", "heike")
 install_cran_missings("randomForest") 
 install_dev_missings("bulletxtrctr", "heike")

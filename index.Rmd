@@ -12,6 +12,11 @@ github-repo: rstudio/bookdown-demo
 description: "This book is for anyone looking to do forensic science analysis in a data-driven and open way."
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache=TRUE, fig.align = "center")
+```
+
+
 # Prologue {.unnumbered}
 
 This book is for anyone looking to do forensic science analysis in a data-driven and open way. Whether you are a student, teacher, or scientist, this book is for you. We take the latest research, primarily from the Center for Statistics and Applications in Forensic Evidence ([CSAFE](https://forensicstats.org/)) and the National Institute of Standards and Technology ([NIST](https://www.nist.gov/)) and show you how to solve forensic science problems in `R`. The book makes some assumptions about you: 
