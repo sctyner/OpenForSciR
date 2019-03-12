@@ -223,7 +223,7 @@ im_data <- irt_data_bb(TestResponses, im_scored)
 We can now use `fit_irt` to fit the Rasch models. 
 
 ```{r, eval = FALSE, message = FALSE, echo = TRUE}
-im_model <- fit_irt(im_data, model = "rasch", iterations = 600, n_chains = 4)
+im_model <- fit_rasch(im_data, iterations = 600, n_chains = 4)
 ```
 
 In practice, it is necessary to ensure that the MCMC sampler has converged using a variety of diagnostics. We omit these steps here for brevity, but the `blackboxstudyR` package will include a vignette detailing this process. 
@@ -231,8 +231,8 @@ In practice, it is necessary to ensure that the MCMC sampler has converged using
 After the model has been fit, we can plot the posterior distributions of difficulties and proficiencies:
 
 ```{r, echo = TRUE}
-plot_proficiency_posteriors(im_model) + my_theme -> p1
-plot_difficulty_posteriors(im_model) + my_theme -> p2
+plot_proficiency_posteriors(im_samples) + my_theme -> p1
+plot_difficulty_posteriors(im_samples) + my_theme -> p2
 grid.arrange(p1, p2, ncol = 2)
 ```
 
@@ -247,10 +247,10 @@ The original analysis of the FBI "Black Box" Study [@ulery2011] did not include 
 
 obs_p_score <- bb_person_score(TestResponses, im_scored)
 
-q_diff <- apply(rstan::extract(im_model, pars = "b")$b, 2, median)
+q_diff <- apply(im_samples, 3, median)[grep("b\\[", names(apply(im_samples, 3, median)))]
 ex_error_rates <- error_rate_analysis(TestResponses, q_diff)
 
-person_mcmc_intervals(im_model) %>% 
+person_mcmc_intervals(im_samples) %>% 
   right_join(., obs_p_score, by = "exID") %>% 
   full_join(., ex_error_rates, by = "exID") %>%
   select(., score, m, ll, hh, exID, avg_diff, fpr, fnr) %>%
@@ -264,7 +264,7 @@ person_mcmc_intervals(im_model) %>%
     labs(x = "False Positive Rate", y = "Proficiency Estimate") +
     my_theme -> p1
 
-person_mcmc_intervals(im_model) %>%
+person_mcmc_intervals(im_samples) %>%
   right_join(., obs_p_score, by = "exID") %>% 
   full_join(., ex_error_rates, by = "exID") %>%
   select(., score, m, ll, hh, exID, avg_diff, fpr, fnr) %>%
@@ -290,7 +290,7 @@ If, instead of looking at the two error rates for each participant, we examine t
 
 ```{r prof-observed, fig.height = 3, fig.cap="Proficiency vs Observed Score"}
 
-person_mcmc_intervals(im_model) %>% 
+person_mcmc_intervals(im_samples) %>% 
   right_join(obs_p_score, by = "exID") %>% 
     ggplot(aes(
       x = score,
@@ -302,7 +302,7 @@ person_mcmc_intervals(im_model) %>%
     labs(x = "Observed Score", y = "Proficiency Estimate") +
   my_theme -> p1 
 
-person_mcmc_intervals(im_model) %>%
+person_mcmc_intervals(im_samples) %>%
   right_join(obs_p_score, by = "exID") %>% 
     ggplot(aes(
       x = score,
@@ -321,7 +321,7 @@ grid.arrange(p1, p2, ncol = 2)
 If we examine those participants who scored between 94\% and 96\% more closely, we can see that the discrepancies in their proficiencies are largely explained by the difficulty of the specific question set they saw. This is evidenced by the positive trend in Figure \@ref(fig:prof-by-diff). In addition to the observed score and difficulty of the question set, the other factor that plays a role in the proficiency estimate is the number of questions the participant answers conclusively (i.e. individualization or exclusion). Participants who are conclusive more often generally receive higher estimates of proficiency than participants who are conclusive less often. 
 
 ```{r prof-by-diff, fig.height=3, fig.cap="Proficiency vs Average Question Difficulty, for participants with observed score between 94 and 96 percent correct."}
-person_mcmc_intervals(im_model) %>%
+person_mcmc_intervals(im_samples) %>%
   right_join(obs_p_score, by = "exID") %>% 
   full_join(ex_error_rates, by = "exID") %>%
   select(score, m, ll, hh, exID, avg_diff, pct_skipped) %>%
@@ -351,9 +351,11 @@ pc_scored <- score_bb_data(TestResponses, "partial_credit")
 pc_data <- irt_data_bb(TestResponses, pc_scored)
 ```
 
+We use `fit_rasch` to fit the Rasch model to the `no_consensus_incorrect` data, and since the `partial_credit` data has three outcomes (correct, inconclusive, or incorrect) instead of only two (correct/incorrect), we use `fit_pcm` to fit a partial credit model to the data. 
+
 ```{r, echo = TRUE, eval = FALSE}
-ncm_model <- fit_irt(nci_data, model = "rasch", iterations = 600, n_chains = 4)
-pc_model <- fit_irt(pc_data, model = "partial_credit", iterations = 600, n_chains = 4)
+nci_model <- fit_rasch(nci_data, iterations = 600, n_chains = 4)
+pc_model <- fit_pcm(pc_data, iterations = 600, n_chains = 4)
 ```
 
 We can examine the proficiency estimates and observed scores for each participant under each of the three scoring schemes, similar to Figure \@ref(fig:prof-observed) above. Under the partial credit scoring scheme, a correct identification/exclusion is scored as a "2", an inconclusive response is scored as a "1" and an incorrect identification/exclusion is scored as a "0". The observed score is then computed by $(\# Correct + \# Inconclusive) / (2 \times \# Responses)$ to scale the score to be between 0 and 1. 
@@ -361,17 +363,17 @@ We can examine the proficiency estimates and observed scores for each participan
 ```{r prof-three-scores, fig.height=3, fig.cap="Proficiency vs Observed Score for each of three scoring schemes"}
 
 p_score_im <- bb_person_score(TestResponses, im_scored)
-person_mcmc_intervals(blackboxstudyR::im_model) %>%
+person_mcmc_intervals(blackboxstudyR::im_samples) %>%
   right_join(p_score_im, by = "exID") %>%
   mutate(scoring = rep("im", nrow(p_score_im))) -> p_score_im
 
 p_score_nci <- bb_person_score(TestResponses, nci_scored)
-person_mcmc_intervals(blackboxstudyR::nci_model) %>% 
+person_mcmc_intervals(blackboxstudyR::nci_samples) %>% 
   right_join(p_score_nci, by = "exID") %>%
   mutate(scoring = rep("nci", nrow(p_score_nci))) -> p_score_nci
 
 p_score_pc <- bb_person_score(TestResponses, pc_scored)
-person_mcmc_intervals(blackboxstudyR::pc_model) %>%
+person_mcmc_intervals(blackboxstudyR::pc_samples) %>%
   right_join(p_score_pc, by = "exID") %>%
   mutate(scoring = rep("pc", nrow(p_score_pc))) -> p_score_pc
 
