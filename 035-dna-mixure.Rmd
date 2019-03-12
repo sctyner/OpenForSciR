@@ -1,5 +1,7 @@
 # Mixture DNA {#mixdna}
 
+#### *Authors* {-}
+
 ## Introduction
 
 Start with a brief intro to the simplicity of single-source DNA. 

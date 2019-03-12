@@ -1,6 +1,7 @@
 # Latent Fingerprints {#fingerprints}
 
-#### *Karen Pan* {-}
+#### *Authors* {-}
+
 <!--
 __Abstract:__
 

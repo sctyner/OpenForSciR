@@ -1,5 +1,7 @@
 # Questioned Documents: Handwriting {#handwriting}
 
+#### *Authors* {-}
+
 ## Introduction
 
 ## Data 

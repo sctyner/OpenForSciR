@@ -1,6 +1,6 @@
 # Human Factors {#humans}
 
-#### *Amanda Luby* {-}
+#### *Authors* {-}
 
 <!-- I like the idea, but I dont think we need abstracts here! 
 __Abstract:__
