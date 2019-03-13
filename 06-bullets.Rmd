@@ -187,11 +187,29 @@ One other approach to drawing conclusions is to use the generated signatures as 
 
 ## Case Study
 
-We will now walk through the process of performing a bullet match. We will take two bullets, which will include 6 lands each. Thus, there are 36 land-to-land comparisons to be made, of which 6 are known matches, and 30 are known non-matches. We begin by reading the bullets.
+We will now walk through the process of performing a bullet match. Much of the code for this section has been adapted from the excellent `bulletxtrctr` (https://github.com/heike/bulletxtrctr/blob/master/README.Rmd)[README]. We will take two bullets, which will include 6 lands each. Thus, there are 36 land-to-land comparisons to be made, of which 6 are known matches, and 30 are known non-matches. We begin by reading the bullets:
 
 ```{r}
-b1 <- read_bullet(urllist = hamby252demo[[1]])
-b2 <- read_bullet(urllist = hamby252demo[[2]])
+urllist1 <- c(
+  "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/cd204983-465b-4ec3-9da8-cba515a779ff",
+  "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/0e72228c-5e39-4a42-8c4e-3da41a11f32c",
+  "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/b9d6e187-2de7-44e8-9b88-c83c29a8129d",
+  "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/fda92f6a-71ba-4735-ade0-02942d14d1e9",
+  "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/8fa798b4-c5bb-40e2-acf4-d9296865e8d4",
+  "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/81e817e5-15d8-409f-b5bd-d67c525941fe"
+)
+
+urllist2 <- c(
+  "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/288341e0-0fdf-4b0c-bd26-b31ac8c43f72",
+  "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/c97ada55-3a35-44fd-adf3-ac27dd202522",
+  "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/8a1805d9-9d01-4427-8873-aef4a0bd323a",
+  "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/a116e448-18e1-4500-859c-38a5f5cc38fd",
+  "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/0b7182d3-1275-456e-a9b4-ae378105e4af",
+  "https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/86934fcd-7317-4c74-86ae-f167dbc2f434"
+)
+
+b1 <- read_bullet(urllist = urllist1)
+b2 <- read_bullet(urllist = urllist2)
 ```
 
 For ease of analysis, we'll bind the bullets in a single dataframe, and identify them using numeric values inside the data frame. We also indicate the six different lands.
@@ -214,24 +232,22 @@ bullets <- bullets %>%
                              y_flip_x3p()))
 ```
 
-We extract the ideal cross-sections from all 12 bullet lands, which allows us to plot Figure \@ref(fig:cscrosscut). We see a rather standard curved pattern, with the exception of Land 6 of Bullet 1, which appears to exhibit some sort of deformation, either in the bullet surface itself, or in the scanning procedure.
+We extract the ideal cross-sections from all 12 bullet lands, which allows us to plot Figure \@ref(fig:cscrosscut). We see a rather standard curved pattern, with well defined and a pronounced shoulders indicating the cutoff location for extracting the land.
 
 ```{r cscrosscut, fig.cap='Ideal cross-sections for all 12 bullet lands.'}
-bullets <- bullets %>% mutate(
-  crosscut = x3p %>% purrr::map_dbl(.f = x3p_crosscut_optimize)
+bullets <- bullets %>% 
+  mutate(crosscut = x3p %>% purrr::map_dbl(.f = x3p_crosscut_optimize))
+
+bullets <- bullets %>% 
+  mutate(ccdata = purrr::map2(.x = x3p, .y = crosscut, .f = x3p_crosscut)
 )
 
-bullets <- bullets %>% mutate(
-  ccdata = purrr::map2(.x = x3p, .y = crosscut, 
-                       .f = x3p_crosscut)
-)
+crosscuts <- bullets %>% 
+  tidyr::unnest(ccdata)
 
-crosscuts <- bullets %>% tidyr::unnest(ccdata)
-
-crosscuts %>% 
-  ggplot(aes(x = x, y = value)) + 
+ggplot(data = crosscuts, aes(x = x, y = value)) + 
   geom_line() +
-  facet_grid(bullet~land, labeller="label_both") +
+  facet_grid(bullet ~ land, labeller = "label_both") +
   theme_bw()
 ```
 
@@ -271,7 +287,7 @@ signatures %>%
   theme_bw()
 ```
 
-Because we are working with 12 signatures, our goal will be to align all pairwise comparisons (36 comparisons total) between the six lands in each bullet. Figure \@ref(fig:csalign) shows the alignment of Bullet 2 Land 4 with Bullet 1 Land 2, two of the known matches. Immediately it is clear that the pattern of the signatures appears very similar between the two lands.
+Because we are working with 12 signatures, our goal will be to align all pairwise comparisons (36 comparisons total) between the six lands in each bullet. Figure \@ref(fig:csalign) shows the alignment of Bullet 2 Land 3 with Bullet 1 Land 2, two of the known matches. Immediately it is clear that the pattern of the signatures appears very similar between the two lands.
 
 ```{r csalign, warning=FALSE, fig.cap='Alignment of two bullet lands (2-4 & 1-2)'}
 bullets$bulletland <- paste0(bullets$bullet,"-", bullets$land)
@@ -290,7 +306,7 @@ comparisons <- comparisons %>% mutate(
   })
 )
 
-subset(comparisons, land1=="2-4" & land2 =="1-2")$aligned[[1]]$lands %>% 
+subset(comparisons, land1=="2-3" & land2 =="1-2")$aligned[[1]]$lands %>% 
   tidyr::gather(sigs, value, sig1, sig2) %>% 
   ggplot(aes(x = x, y = value, colour = sigs)) + 
     geom_line() +
