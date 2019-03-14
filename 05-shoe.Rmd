@@ -87,10 +87,25 @@ To begin, the package can be installed from CRAN:
 devtools::install_github("CSAFE-ISU/shoeprintr", force=TRUE)
 ```
 
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(shoeprintr)
+library(ggplot2)
+library(patchwork)
+```
+
+
 
 The data of shoe impression contain $x$ and $y$ coordinate values of edges that we extracted from the original image. To start to compare subareas in $Q$ and $K$, we will select the
 
 
+```{r, dat}
+shoeQ<-read.csv('dat/Q_03L_01.csv')[,-1]
+shoeK<-read.csv('dat/K_03L_05.csv')[,-1]
+input_circles <- matrix(c(75.25, 110, 170,600.4, 150, 470, 50, 50, 50), nrow = 3, ncol = 3)
+head(shoeQ)
+start_plot(shoeQ, shoeK, input_circles)
+```
 
 
 
