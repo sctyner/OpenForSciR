@@ -6,17 +6,13 @@
 
 ## Introduction
 
-In the mess of a crime scene, one of the most abundant pieces of evidence is a shoe outsole impression. A shoe outsole impression is the trace of a shoe that is left behind. The pattern of the sole is transferred to the walking surface. Impressions are also often left in pliable materials such as sand, dirt, snow, or blood. These crime scene impressions are lifted using dusting or casting techniques to obtain the print left behind. The 
-
-- Crime scene impression
-- Definition
-- How used in forensic science? 
-
-## Question of interest
-Once we find shoe outsole impressions at the crime scene, the question of interest is who left this impression. From the database of shoeprint, we want to find the closest shoeprint image to the questioned shoe impressions to give the hint of shoe brand. Or, if we have information about the suspect's shoes, then we need to investigate whether the questioned shoe impressions show the major similarity with shoes that the suspect have. Statistically, the summary statistic we need to assess is the degree of correspondence between questioned shoe outsole impression ($Q$) and known shoeprint ($K$). If the similarity between $Q$ and $K$ is high enough, then we may conclude that the source for $Q$ and $K$ would be the same. Thus, the goal is how to quantify the degree of correspondence between two shoe outsole impressions.  
+In the mess of a crime scene, one of the most abundant pieces of evidence is a shoe outsole impression (@bodziak2017footwear). A shoe outsole impression is the trace of a shoe that is left behind. The pattern of the sole is transferred to the walking surface. Impressions are also often left in pliable materials such as sand, dirt, snow, or blood. These crime scene impressions are lifted using dusting or casting techniques to obtain the print left behind.  
 
 
-## Sources of variability in shoe outsole impressions
+Once we find shoe outsole impression(s) at the crime scene, the question of interest is who left this impression or how can we connect this questioned shoe impression to the suspect. From the database of shoeprint, we want to find the closest shoeprint image to the questioned shoe impressions to give the hint of shoe brand. Or, if we have information about the suspect's shoes, then we need to investigate whether the questioned shoe impressions show the major similarity with shoes that the suspect have. Statistically, the summary statistic we need to assess is the degree of correspondence between questioned shoe outsole impression ($Q$) and known shoeprint ($K$). If the similarity between $Q$ and $K$ is high enough, then we may conclude that the source for $Q$ and $K$ would be the same. Thus, the goal is how to quantify the degree of correspondence between two shoe outsole impressions.  
+
+
+### Sources of variability in shoe outsole impressions
 
 There are many characteristics of shoes that are examined. First, the size of the shoe is determined, then the style and manufacturer. These characteristics are known as *class characteristics* because there are many, many shoes that share these characteristics, but they can be used to easily exclude most other shoes. For instance, a very popular shoe in the United States is the Nike Air Force one, pictured below [@fbishoes]. So, seeing a Nike logo and concentric circles in an impression from a Men's size 13 instantly excludes all shoes that are not Nike Air Force Ones in Men's size 13. 
 
@@ -45,39 +41,17 @@ To make an identification, a shoe that investigators think could have caused the
 7 : random 
 
 
+### Current practice 
+Footwear examiners are tasked to compare $Q$ and $K$ by considering class, subclass and identifying characteristics on two impressions. Through the guideline comparing footwear impressions in the group of SWGTREAD, there are seven ranges of conclusion for comparing $Q$ and $K$ that examiner can make; (1) Lacks sufficient detail, (2) Exclusions, (3) Indications of non-association, (4) Limited association of class characteristics, (5) Association of class characteristics, (6) High degree of assocation and (7) Identification. Examiners rely on their knowledge and experience to conclude one of these seven concludsions, by investigating $Q$ and $K$, thoroughly. 
 
 
-
-## Method for matching
-There are rich literature on comparison of 2D shoe impressions. Region based, points of interest based.... blah.. 
-For the successful matching result, we need two things;(1) Good features that are well-representative to the given shoe impressions and (2) Good matching method to quantify the similarity well between features from $Q$ and $K$.   
-
-
-### Interest feature
-We want to introduce several kinds of interest feature that can be detected from shoe outsole impressions. By identifying points of interest, the selected features are used as a information of given shoeprint. For example, edges (boundaries of patterns) and corners (intersection of patterns) could be possible points of interest. MSER, SIFT, SURF are also possible features to be detected and used as a information to be compared. In this Section, we will use edge detection (by Prewitt operator) as the feature to be compared. By detecting entire edges which are boundaries of patterns of shoe outsole impression, edges will contain class, subclass and possible RACs to uniquely indentify the suspect.   
-
-
-### Method
-MC-COMP on three circular area matching via maximum clique
-
-It is a crucial for calculating the similarity to adjust the rotation and translation to compare $Q$ and $K$. In our analysis, we use the concept called 'maximum clique' in the graph theory (some references.....). A graph is an object consited with vertices or nodes connected with edges or lines. When comparing two graphs, the maximum clique from two graphs is defined as the largest complete subgraph, meaning the subset of nodes with the same geometrical relationship between two graphs. In the shoe outsole comparison application, The interest features detected from impression are becoming vertices and the distances among them become edges. The maximum clique is a good tool to reflect the fact that geometrics in the patterns (at least class characteristics) of shoe outsole are not changing a lot. In Figure, we want to compare Image 1 and Image 2. In Image 1, a set of nodes is \{'a','b','c','d','e','f','g'\} and a set of nodes for Image 2 is \{'1','2','3','4','5','6'\}. When we look closely, the distances bewteen 'a' and three 'd','e' and 'g' in Image 1 are the same with distances between '1' and three '3', '6' and '5'. This way, pairwise distances among nodes defined as correspondence should have the same geometrics and the largest complete correspondence between two images are \{'a1','d3','e6','g5'\}. Some nodes in two images such as \{'b','c','f'\} in Image 1 and \{'2','4'\} in Image 2 are examples of noises that might be apppeared in impressions.
- 
-
-<img src="img/maxclique_ex2.png">
-
-
-### Signature of the questioned shoe outsole impression
-Refer Soyoung's dissertation
-
-Defining the signature of $Q$ is helpful to measure the similarity between two impressions $Q$ and $K$. As footwear exaiminer does to compare $Q$ and $K$, we define the signature of $Q$ as subareas that we think the most interesting part such as unique pattern that shoe has and the part with some RACs. As you find in Figure, there are three circular areas that we selected and each circle contains edge points (detected by Prewitt operator) and its coordinate information. The goal is to find the most similar three circular areas in $K$. The final similarity between two impressions are summarized from the similarity of each corresnponding circle and geometrics between three centers of circles in $Q$ and $K$, using the congruence of traingle. If two impressions are from the same shoe, then the similarities from three corresponding circles from $Q$ and $K$ are high and the geometrics of triangle from centers of circles are very similar. 
-
-
-<img src="img/signature.png">
+### The goal of this chapter 
+In this chapter, we will show our approach to measure the degree of similarity between two shoe outsole impression. For this, CSAFE collected shoe impression data, developed the method for calculating similarity score between two shoe impressions and R package 'shoeprintr' for the developed method. 
 
 ## Data 
 
 ### Data collection 
-Real data that we can utilize to test a matching algorithm for footwear comparison is very limited with the several reasons; (1) Shoe impressions found at the crime scene is credential because those are a part of evidence to link the suspect, (2)  Although some of real crime scene data is actually available, we don't know the true source of the impression, (3) Since most of shoe impressions found at the crime scene is partial, degraded, blurred or damaged, they are not appropriate to test the performance of developing algorithm.  
+Real data that we can utilize to test a matching algorithm for footwear comparison is very limited with the several reasons; (1) Shoe impressions found at the crime scene is credential because they are a part of evidences to link the suspect, (2)  Although some of real crime scene data is actually available, we don't know the true source of the impression, (3) Since most of shoe impressions found at the crime scene is partial, degraded, blurred or damaged, they are not appropriate to test the performance of developing algorithm.  
 
 
 CSAFE collected shoe impressions using two-dimensional EverOS footwear scanner (\url{http://www.shopevident.com}{http://www.shopevident.com}). The scanner is designed to scan the shoe outsole as person step onto the scanner by recording the weight distribution. The scanned images are 300 dpi resolution. As more pressure is put on the scanner, then there will be more detailed patterns detected from the outsole. Also, the scanner is not only scanning the outsole details, but also it shows the yellow line of ruler to allow to measure the size of scanned impression. Figure \ref{everos_ex} shows the exmaple impressions scanned from EverOS scanner. First two left shoe images are replicated impressions from the same shoe of ID 1 and two right shoes are also replicated impressions from the same shoe of ID 2. By getting impressions repeatedly, the overall patterns are very similar but there are some measurement differences by different amount of pressure.
@@ -86,13 +60,11 @@ CSAFE collected shoe impressions using two-dimensional EverOS footwear scanner (
 <img src="img/everos_ex.PNG">
 
 
-This 2D EverOS scanner enables to collect shoe impressions with ground truth. By collecting replicated impressions from the same shoe, the comparison of known mated is possible and by comparing impressions from two different shoe, the known non-mated comparison is available. CSAFE collected a large collection of shoe outsole impressions from EverOS scanner. With this database, we test the performance of developing matching algorithm with the full shoe images and furthermore, we can degrade shoe impressions to mimic the crime scene like images.      
+This 2D EverOS scanner enables to collect shoe impressions with ground truth. By collecting replicated impressions from the same shoe, the comparison of known mates is possible and by comparing impressions from two different shoe, the known non-mates is available. CSAFE collected a large collection of shoe outsole impressions from EverOS scanner. We collected 150 shoes that are used for certain period of time and scanned the outsole impressions 5 times from each of left and right shoes. This results in 1,500 images of shoe outsole impressions. For shoe ID 1, there are 5 impressions from left shoe and 5 impressions from the right shoe. Some of impressions have the exact same shoe brand and model but most of shoes have different class characteristic.  
 
 
-We collected 150 shoes that are used for certain period of time and scanned the outsole impressions 5 times from each of left and right shoes. This results in 1,500 images of shoe outsole impressions. For shoe ID 1, there are 5 impressions from left shoe and 5 impressions from the right shoe. Some of impressions have the exact same shoe brand and model but most of shoes have different class characteristic.  
-
-
-As a preprocessing step, we used Matlab to down sample all of images at 20%. With the down-sampled images, edges are detected by Prewitt operator. The location of edges are recorded as .csv file. Each edge point has ($x$,$y$) of coordinate information, with lower left corner of (0,0).   
+### Transformation of shoe impression
+There could be some ways to compare 2D shoe impressions such as intensity based comparison or feature based comparison. That means, we will transform images into some information as we desire to use. In this chapter, we will use feature based method to compute the similarity score. As a feature, we choose to extract edges of impression by Prewitt operator and use its coordinate values of ($x$,$y$) with lower left corner of (0,0). By detecting the boundaries of sole pattern, edges will contain class, subclass and possible RACs all together as our information of shoe impressions.  As a preprocessing step, we used Matlab to down sample all of images at 20%.    
 
 
 
@@ -100,16 +72,143 @@ As a preprocessing step, we used Matlab to down sample all of images at 20%. Wit
 To test the method and the signature we defined, we are using our data collection to come up with known mated (KM) comparisons and known non-mated (KNM) comparisons. The KM means a match between two repeated impressions from the same shoe source. The KNM means a match between two impressions from two different shoes. By the data collection set up, all of shoes have the same class characteristics, meaning the outsole pattern with no wear should be the same across the shoes. Based on results of KM and KNM, we will test the performance of the matching method whether it can discriminate well two classes, KM and KNM. Also, we want for the matching method to produce score distributions well separating two classes.  
  
 
+
+
 ## R Package(s)
 
-R package called 'shoeprintr' is developed for shoe outsole comparison (reference - Soyoung's paper). Especially, the command $boosted\_clique$ is finding the set of maximum clique on the parallelized version to speed up the algorithm. The command $boosted\_clique$ adjusts the rotation and translation of two sets of edges and then produces several similarity features such as the number of cliques, how much two sets of edges overlapped after the alignment is applied and the median distances between overlapped edges. For sub area in $K$, it finds the circle information in $K$ that is the most similar pattern with sub area in $Q$ that we asked to compare. 
+R package called 'shoeprintr' is developed for shoe outsole comparison (Chapter 3 in @park2018learning).
+
+To begin, the package can be installed from CRAN:
+
+```{r, eval=FALSE}
+#devtools::install_github("CSAFE-ISU/shoeprintr", force=TRUE, lib= .libPaths()[1])
+#library(shoeprintr)
+# install from github for now
+devtools::install_github("CSAFE-ISU/shoeprintr", force=TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(shoeprintr)
+library(ggplot2)
+library(patchwork)
+```
+
+
+
+We propse a computer-assisted method to quantify the similarity between two impresssions. Here are steps:
+
+1. Select ``interesting'' sub-areas in the $Q$ impression found at the crime scene.
+2. Find the closest corresponding sub-areas in the $K$ impression.
+3. Overlay sub-areas in $Q$ with the closest corresponding areas in $K$.
+4. Define similarity features we can measure to create an outsole signature.
+5. Combine those features into one single score. 
+
+The data of two shoe impressions contain $x$ and $y$ coordinate values of edges that we extracted from the original image. To start to compare subareas in $Q$ and $K$, we will select the three circular subareas as our interest in $Q$. Here is the example matching between two repeated impressions from the same shoe.   
+
+
+```{r, dat}
+shoeQ<-read.csv('dat/Q_03L_01.csv')
+shoeK<-read.csv('dat/K_03L_05.csv')
+dim(shoeQ)
+dim(shoeK)
+head(shoeQ)
+input_circles <- matrix(c(75.25, 110, 170, 600.4, 150, 470, 50, 50, 50), nrow = 3, ncol = 3)
+input_circles
+start_plot(shoeQ, shoeK, input_circles)
+```
+
+The data shoe $Q$ and shoe $K$ contain coordinate values ($x,y$) of edge points. There are 9,320 and 9,122 edges detected for boundaries of the soles of shoe $Q$ and $K$. First, we select three circular areas by giving the information of their centers and radius arbitrary chosen. These areas can be selected by examiners or by computer. 
+
+<img src="img/step1_Q_K.png">
+
+Here, let's find the corresponding circular area in shoe $K$ for the circle $q_1$ in shoe $Q$ with center of (75.25, 600.4) and radius of 50. For the comparison, we will select many candidate circles such as circle $k_1$, ..., $k_9$ in shoe $K$ as in the Figure. For candidate circles in $K$, we use larger radius than circle $q_1$ because we want any of candidate circles can contain circle $q_1$ if they are mates. Ideally, the union of candidate circles in $K$ should contain entire edge points in $K$. However, we know that circle $q_1$ in $Q$ is located in the toe so that we limit the search area into upper left of $K$. We might try to compare circle $q_1$ to circles $k_7, k_8, k_9$ which are overlapped each other. As an example here, we will compare circle $q_1$ with circle $k_8$. 
+
+For the comparison of circle $q_1$ and circle $k_8$, we will use the concept of maximum clique. A graph is an object consited with vertices or nodes connected with edges or lines. When comparing two graphs, the maximum clique from two graphs is defined as the largest complete subgraph, meaning the subset of nodes with the same geometrical relationship between two graphs. In the shoe outsole comparison application, The interest features detected from impression are becoming vertices and the distances among them become edges. The maximum clique is a good tool to reflect the fact that geometrics in the patterns (at least class characteristics) of shoe outsole are not changing a lot. In Figure, we want to compare Image 1 and Image 2. In Image 1, a set of nodes is \{'a','b','c','d','e','f','g'\} and a set of nodes for Image 2 is \{'1','2','3','4','5','6'\}. When we look closely, the distances bewteen 'a' and three 'd','e' and 'g' in Image 1 are the same with distances between '1' and three '3', '6' and '5'. This way, pairwise distances among nodes defined as correspondence should have the same geometrics and the largest complete correspondence between two images are \{'a1','d3','e6','g5'\}. Some nodes in two images such as \{'b','c','f'\} in Image 1 and \{'2','4'\} in Image 2 are examples of noises that might be apppeared in impressions.
+ 
+
+<img src="img/maxclique_ex2.png">
+
+### One subarea matching
+
+Here is the example R code for mathing between circle $q_1$ and $k_8$.
+
+```{r, one_circle, eval=FALSE}
+nseg=360
+circle_q1<-data.frame(int_inside_center(data.frame(shoeQ), 50, nseg, 75.25, 600.4))
+circle_k8<-data.frame(int_inside_center(data.frame(shoeK), 65, nseg, 49, 700))
+
+match_q1_k8<-boosted_clique(circle_q1, circle_k8, ncross_in_bins = 30, xbins_in = 20, 
+                            ncross_in_bin_size = 1, ncross_ref_bins = NULL, xbins_ref = 30, 
+                            ncross_ref_bin_size = NULL, eps = 0.75, seed = 1, num_cores = parallel::detectCores(), 
+                            plot = TRUE, verbose = FALSE, cl = NULL)
+```
+
+
+A function $boosted\_clique$ is finding the set of maximum clique on the parallelized version to speed up the algorithm. The command $boosted\_clique$ adjusts the rotation and translation of two sets of edges and then produces several similarity features such as the number of cliques, how much two sets of edges overlapped after the alignment is applied and the median distances between overlapped edges. For sub area in $K$, it finds the circle information in $K$ that is the most similar pattern with sub area in $Q$ that we asked to compare. Using those corresponding points, we will calculate rotation angle and translation information to find the best overlay of circle $q_1$ to circle $k_8$. A function $boosted\_clique$ produces a table of five similarity features and estimated center and radius information in $K$ to be the best match with circle $q_1$.
+
+
+```{r MC_result, fig.cap='caption'}
+knitr::include_graphics("img/MC_result.png", dpi = 100)
+```
+
+This Figure is the output plot from a function $boosted\_clique$. The output shows information of the property of matching points and matching result after aligning two circles. It also produces five similarity features of clique size, rotation angle, overlap feature on circle $k_8$, overlap feature on circle $q_1$ and median Euclidean distance between overlapping pixels after aligning. 
+
+
+Explain about table
+
+\begin{table}[t]
+\caption{Example results table from $boosted\_clique$}
+\centering
+\begin{tabular}{ccccc}
+  \hline
+clique & rot. & overlap & overlap & median   \\
+size & angle & on $k_8$ & on $q_1$ & distance   \\
+  \hline
+ 18 & 12.05 & 0.75 & 0.97 & 0.3 \\ 
+   \hline
+\end{tabular}
+\label{tab:ex_table}
+\end{table}
+
+
+```{r ex_circle_comp, fig.cap='caption'}
+knitr::include_graphics("img/step3_result_graph.png", dpi = 100)
+```
+
+
+Remember that blue pixels are from circle $q_1$ and red pixels are from circle $k_8$. The Figure shows before and after the alignment of two circles in image (1) and image (2). To align these two circles, we found sub-pixels that can be used for geometric arrangement and calculated the rotation angle and translation information. After then, we apply this alignment information to entire pixels in circle $q_1$. That is a result of image (2) in Figure. Image (3) in Figure is for finding radius and center for corresponding circle in $K$ that is the best match with circle $q_1$. In image (3) in Figure, it is hard to see red pixels which are behind of blue pixels of circle $q_1$. 
+
+
+
+```{r graph_q1, fig.cap='caption'}
+knitr::include_graphics("img/graph_q1.png", dpi = 100)
+```
+
+The Figure shows the matching result. By fixing circle $q_1$ (blue pixel), we found the closest circle (red pixel) for circle $q_1$ in shoe $K$. 
+
+
 
 
 ## Drawing Conclusions
+
+-Signature of the questioned shoe outsole impression
+-Refer Soyoung's dissertation
+-Show how we get the similarity scores 
+-Example of KM and KNM 
+
+
+Defining the signature of $Q$ is helpful to measure the similarity between two impressions $Q$ and $K$. As footwear exaiminer does to compare $Q$ and $K$, we define the signature of $Q$ as subareas that we think the most interesting part such as unique pattern that shoe has and the part with some RACs. As you find in Figure, there are three circular areas that we selected and each circle contains edge points (detected by Prewitt operator) and its coordinate information. The goal is to find the most similar three circular areas in $K$. The final similarity between two impressions are summarized from the similarity of each corresnponding circle and geometrics between three centers of circles in $Q$ and $K$, using the congruence of traingle. If two impressions are from the same shoe, then the similarities from three corresponding circles from $Q$ and $K$ are high and the geometrics of triangle from centers of circles are very similar. 
+
+
+<img src="img/signature.png">
+
+
+
 
 
 ## Case Study
 
 
-
+example matching - KM and KNM
 
