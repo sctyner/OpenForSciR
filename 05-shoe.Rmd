@@ -107,33 +107,47 @@ We propse a computer-assisted method to quantify the similarity between two impr
 The data of two shoe impressions contain $x$ and $y$ coordinate values of edges that we extracted from the original image. To start to compare subareas in $Q$ and $K$, we will select the three circular subareas as our interest in $Q$. Here is the example matching between two repeated impressions from the same shoe.   
 
 
-```{r, dat}
+```{r dat}
 shoeQ<-read.csv('dat/Q_03L_01.csv')
 shoeK<-read.csv('dat/K_03L_05.csv')
 dim(shoeQ)
 dim(shoeK)
 head(shoeQ)
+```
+The data shoe $Q$ and shoe $K$ contain coordinate values ($x,y$) of edge points. There are 9,320 and 9,122 edges detected for boundaries of the soles of shoe $Q$ and $K$.
+First, we select three circular areas by giving the information of their centers and radius arbitrary chosen. These areas can be selected by examiners or by computer. In this chapter, we will select manually those three circles in $Q$.
+
+```{r qcircles}
 input_circles <- matrix(c(75.25, 110, 170, 600.4, 150, 470, 50, 50, 50), nrow = 3, ncol = 3)
 input_circles
+```
+For circle $q_1$, we select the center of (75.25, 600.4) and the radius of 50. The second and the third rows in this matrix show center and radius for circle $q_2, q_3$.  
+
+```{r startplot, fig.align = 'center'}
 start_plot(shoeQ, shoeK, input_circles)
 ```
+Here, we can draw the graph of coordinates of edges from $Q$ and $K$. For $Q$, we can ask to color three circular areas that we fix. The command $start\_plot$ will produce graphs of $Q$ colored by three circular areas where red pixels are $q_1$, oranges are $q_2$, greens are $q_3$ and $K$ without coloring. The goal here is to find the same red, green, orange edges located in $K$.   
 
-The data shoe $Q$ and shoe $K$ contain coordinate values ($x,y$) of edge points. There are 9,320 and 9,122 edges detected for boundaries of the soles of shoe $Q$ and $K$. First, we select three circular areas by giving the information of their centers and radius arbitrary chosen. These areas can be selected by examiners or by computer. 
+Let's look details how to find the corresponding areas in $K$ for $q_1$ with center of (75.25, 600.4) and radius of 50. 
+```{r step1plot, fig.cap='Circle q1 in Q and candidate circles in K', echo=FALSE, fig.align = 'center'}
+knitr::include_graphics("img/step1_Q_K.png", dpi = 100)
+```
 
-<img src="img/step1_Q_K.png">
+For the comparison, we will select many candidate circles in $K$ labeled as circle $k_1$, ..., $k_9$ in Figure \@ref(fig:step1plot). For candidate circles in $K$, we use larger radius than circle $q_1$ because we want any of candidate circles can contain circle $q_1$ if they are mates. Ideally, the union of candidate circles in $K$ should contain entire edge points in $K$. However, we know that circle $q_1$ in $Q$ is located in the toe so that we limit the search area into upper left of $K$. We might try to compare circle $q_1$ to circles $k_7, k_8, k_9$ which are overlapped each other. As an example here, we will compare circle $q_1$ with circle $k_8$. 
 
-Here, let's find the corresponding circular area in shoe $K$ for the circle $q_1$ in shoe $Q$ with center of (75.25, 600.4) and radius of 50. For the comparison, we will select many candidate circles such as circle $k_1$, ..., $k_9$ in shoe $K$ as in the Figure. For candidate circles in $K$, we use larger radius than circle $q_1$ because we want any of candidate circles can contain circle $q_1$ if they are mates. Ideally, the union of candidate circles in $K$ should contain entire edge points in $K$. However, we know that circle $q_1$ in $Q$ is located in the toe so that we limit the search area into upper left of $K$. We might try to compare circle $q_1$ to circles $k_7, k_8, k_9$ which are overlapped each other. As an example here, we will compare circle $q_1$ with circle $k_8$. 
+For the comparison of circle $q_1$ and circle $k_8$, we will use the concept of maximum clique. A graph is an object consited with vertices or nodes connected with edges or lines. When comparing two graphs, the maximum clique from two graphs is defined as the largest complete subgraph, meaning the subset of nodes with the same geometrical relationship between two graphs. In the shoe outsole comparison application, The interest features detected from impression are becoming vertices and the distances among them become edges. The maximum clique is a good tool to reflect the fact that geometrics in the patterns (at least class characteristics) of shoe outsole are not changing a lot. 
 
-For the comparison of circle $q_1$ and circle $k_8$, we will use the concept of maximum clique. A graph is an object consited with vertices or nodes connected with edges or lines. When comparing two graphs, the maximum clique from two graphs is defined as the largest complete subgraph, meaning the subset of nodes with the same geometrical relationship between two graphs. In the shoe outsole comparison application, The interest features detected from impression are becoming vertices and the distances among them become edges. The maximum clique is a good tool to reflect the fact that geometrics in the patterns (at least class characteristics) of shoe outsole are not changing a lot. In Figure, we want to compare Image 1 and Image 2. In Image 1, a set of nodes is \{'a','b','c','d','e','f','g'\} and a set of nodes for Image 2 is \{'1','2','3','4','5','6'\}. When we look closely, the distances bewteen 'a' and three 'd','e' and 'g' in Image 1 are the same with distances between '1' and three '3', '6' and '5'. This way, pairwise distances among nodes defined as correspondence should have the same geometrics and the largest complete correspondence between two images are \{'a1','d3','e6','g5'\}. Some nodes in two images such as \{'b','c','f'\} in Image 1 and \{'2','4'\} in Image 2 are examples of noises that might be apppeared in impressions.
+```{r mcgraph, fig.cap='caption', echo=FALSE, fig.align = 'center'}
+knitr::include_graphics("img/maxclique_ex2.png", dpi = 100)
+```
+
+In Figure \@ref(fig:mcgraph), we want to compare Image 1 and Image 2. In Image 1, a set of nodes is \{'a','b','c','d','e','f','g'\} and a set of nodes for Image 2 is \{'1','2','3','4','5','6'\}. When we look closely, the distances bewteen 'a' and three 'd','e' and 'g' in Image 1 are the same with distances between '1' and three '3', '6' and '5'. This way, pairwise distances among corresponding nodes between twoo images should have the same geometrics and the set of largest complete correspondence between two images are \{'a1','d3','e6','g5'\}. This set is a set of maximum clique. Some nodes such as \{'b','c','f'\} in Image 1 and \{'2','4'\} in Image 2 are examples of noises that might be apppeared in the outsole impressions.
  
-
-<img src="img/maxclique_ex2.png">
-
 ### One subarea matching
 
-Here is the example R code for mathing between circle $q_1$ and $k_8$.
+In this section, we will show the example matching one circle from $Q$ and the other circle from $K$, using maximum clique. As a reminder, shoe $Q$ and $K$ are the mated pairs of images from the same shoe. As an example, we will shoe the matching between circle $q_1$ and circle $k_8$ in Figure \@ref(fig:step1plot). We selected the circle $k_8$ on purpose to be matched with the circle $q_1$ well.  
 
-```{r, one_circle, eval=FALSE}
+```{r onecircle, eval=FALSE}
 nseg=360
 circle_q1<-data.frame(int_inside_center(data.frame(shoeQ), 50, nseg, 75.25, 600.4))
 circle_k8<-data.frame(int_inside_center(data.frame(shoeK), 65, nseg, 49, 700))
@@ -145,65 +159,55 @@ match_q1_k8<-boosted_clique(circle_q1, circle_k8, ncross_in_bins = 30, xbins_in 
 ```
 
 
-A function $boosted\_clique$ is finding the set of maximum clique on the parallelized version to speed up the algorithm. The command $boosted\_clique$ adjusts the rotation and translation of two sets of edges and then produces several similarity features such as the number of cliques, how much two sets of edges overlapped after the alignment is applied and the median distances between overlapped edges. For sub area in $K$, it finds the circle information in $K$ that is the most similar pattern with sub area in $Q$ that we asked to compare. Using those corresponding points, we will calculate rotation angle and translation information to find the best overlay of circle $q_1$ to circle $k_8$. A function $boosted\_clique$ produces a table of five similarity features and estimated center and radius information in $K$ to be the best match with circle $q_1$.
+A function $boosted\_clique$ is finding the set of maximum clique on the parallelized version to speed up from two sets of pixel, given some parameters. Using the set of maximum clique which is the corresponding sub-pixels, it will compute rotation angle and translation metric to result the best alignment. The function $boosted\_clique$ will produce a resulting plot in Figure \@ref(fig:MCresult) and a table of similarity features in Table \@ref(tab:resulttable). 
 
-
-```{r MC_result, fig.cap='caption'}
+```{r MCresult, fig.cap='Resulting plot when comparing circle q1 and circle k8', fig.align = 'center', echo=FALSE}
 knitr::include_graphics("img/MC_result.png", dpi = 100)
 ```
 
-This Figure is the output plot from a function $boosted\_clique$. The output shows information of the property of matching points and matching result after aligning two circles. It also produces five similarity features of clique size, rotation angle, overlap feature on circle $k_8$, overlap feature on circle $q_1$ and median Euclidean distance between overlapping pixels after aligning. 
+Figure \@ref(fig:MCresult) have four sections. In the first row and first column, it showed distances between pixels defined as maximum clique. Distances among points in the maximum clique should be aligned through the diagonal line, if they are correctly found as corresponding pixels. In the first row and second column, it shows the maximum clique where blue pixels are in circle $q_1$ and red pixels are in circle $k_8$, after aligning them. Using those maximum clique points, entire edges in circle $q_1$ is transformed to the plane of circle $k_8$. In the second row, two plots show the alignment result of circle $q_1$ and circle $k_8$. The plot on the second row and second column shows the area of red pixels that are overlapped the best with blue pixels. This figure is to calculate the radius and center for the corresponding circle in $K$ for circle $q_1$. Thus, we see only blue pixels from circle $q_1$, but red pixels from circle $k_8$ is behind blue pixels. 
 
 
-Explain about table
-
-\begin{table}[t]
-\caption{Example results table from $boosted\_clique$}
-\centering
-\begin{tabular}{ccccc}
-  \hline
-clique & rot. & overlap & overlap & median   \\
-size & angle & on $k_8$ & on $q_1$ & distance   \\
-  \hline
- 18 & 12.05 & 0.75 & 0.97 & 0.3 \\ 
-   \hline
-\end{tabular}
-\label{tab:ex_table}
-\end{table}
-
-
-```{r ex_circle_comp, fig.cap='caption'}
-knitr::include_graphics("img/step3_result_graph.png", dpi = 100)
+```{r resulttable, results='asis', echo=FALSE}
+tabb <- data.frame(c(18, 12.05, 0.75, 0.97, 0.3, 54.5, 688.5, 50.28))
+tabb <- data.frame(t(tabb))
+tabb %>% knitr::kable(format = "html", caption="Resulting table from the matching betwen q1 and k8", longtable = FALSE,
+                      row.names = FALSE, col.names = c("Clique size","Rot. angle","Overlap on k8", "Overlap on q1","Median distance", "center x", "center y", "radius"))
 ```
 
+Table \@ref(tab:resulttable) shows some similarity features and information of found circle in $K$ for circle $q_1$.  First five features are similarity values to measure the degree of similarity between circle $q_1$ and circle $k_8$, after aligning them. Here are the interpretations of Table \@ref(tab:resulttable); There are 18 number of pixels found from two circles as the maximum clique. The rotation angle is estimated as 12.15 degree to have the best overlap between two circles. There are two overlap features, meaning that 75% of circle $k_8$  pixels are overlapped with circle $q_1$ and 97% of circle $q_1$ pixels are overlapped with circle $k_8$. The median value of distances from overlapping points between two circles after aligning them is 0.3. For clique size, overlap features, the more the better and for median distance, the lower the better for mates. The last three columns are about information of the found circle in $K$ that is matched the best with circle $q_1$. Thus, the center (54.5, 688.5) and the radius 50.28 in $K$ will provide the best matching circle with circle $q_1$.
+ 
 
-Remember that blue pixels are from circle $q_1$ and red pixels are from circle $k_8$. The Figure shows before and after the alignment of two circles in image (1) and image (2). To align these two circles, we found sub-pixels that can be used for geometric arrangement and calculated the rotation angle and translation information. After then, we apply this alignment information to entire pixels in circle $q_1$. That is a result of image (2) in Figure. Image (3) in Figure is for finding radius and center for corresponding circle in $K$ that is the best match with circle $q_1$. In image (3) in Figure, it is hard to see red pixels which are behind of blue pixels of circle $q_1$. 
-
-
-
-```{r graph_q1, fig.cap='caption'}
+```{r graphq1, fig.cap='caption', echo=FALSE, fig.align = 'center'}
 knitr::include_graphics("img/graph_q1.png", dpi = 100)
 ```
 
-The Figure shows the matching result. By fixing circle $q_1$ (blue pixel), we found the closest circle (red pixel) for circle $q_1$ in shoe $K$. 
+The Figure \@ref(fig:graphq1) shows the matching result. By fixing circle $q_1$ (blue pixel), we found the closest circle (red pixel) for circle $q_1$ in shoe $K$, using circle information in Table \@ref(tab:resulttable). The blue circle in $Q$ and red circle in $K$ look pretty similar. We will repeat this process for two more circles that we fix in $Q$. 
 
 
+## Drawing Conclusion
+
+To draw the conclusion, we will define the signature of shoe outsole impressions. Once we define the signature of $Q$, then we will find the best match in $K$ for the signature of $Q$. As we saw in Figure \@ref(fig:startplot), we will fix three circurlar areas in $Q$ as the signature. The question is whether we can find the correspondin signature in $K$. By detecting edges, two shoe impressions are transformed into the boundaries of the outsole pattern containing class, subclass and existing RACs.  
+
+```{r signature, fig.cap='caption', echo=FALSE, fig.align = 'center'}
+knitr::include_graphics("img/final3.png", dpi = 100)
+```
+
+Figure \@ref(fig:signature) shows the signature in $Q$ and the corresponding areas that we found as the best match in $K$ with the signature of $Q$. We will use the average of five similarity features from three circle matchings. If circles in $K$ are correctly found, then geometrics among three circles in $Q$ and $K$ should the similar. Here, you see the blue lines of traingle consituted by centers of three circles in each shoe impression. The difference of lengths from two traingles will be part of the similarity between $Q$ and $K$.  
 
 
-## Drawing Conclusions
+```{r finaltable, results='asis', echo=FALSE}
+X1<-c('q1-k*1',18, 12.05, 0.75, 0.97, 0.3, 0.58)
+X2<-c('q2-k*2',17, 10.57, 0.53, 0.91, 0.43, 0.55)
+X3<-c('q3-k*3',20, 12.14, 0.63, 1.00, 0.24, 1.03)
 
--Signature of the questioned shoe outsole impression
--Refer Soyoung's dissertation
--Show how we get the similarity scores 
--Example of KM and KNM 
+tabb2 <- data.frame(X1, X2, X3)
+tabb2 <- data.frame(t(tabb2))
+tabb2 %>% knitr::kable(format = "html", caption="Resulting table comparing Q and K.", longtable = FALSE,
+                      row.names = FALSE, col.names = c("Comparison","Clique size","Rot. angle","Overlap on k*", "Overlap on q","Median distance", "Diff in length from Triangle"))
+```
 
-
-Defining the signature of $Q$ is helpful to measure the similarity between two impressions $Q$ and $K$. As footwear exaiminer does to compare $Q$ and $K$, we define the signature of $Q$ as subareas that we think the most interesting part such as unique pattern that shoe has and the part with some RACs. As you find in Figure, there are three circular areas that we selected and each circle contains edge points (detected by Prewitt operator) and its coordinate information. The goal is to find the most similar three circular areas in $K$. The final similarity between two impressions are summarized from the similarity of each corresnponding circle and geometrics between three centers of circles in $Q$ and $K$, using the congruence of traingle. If two impressions are from the same shoe, then the similarities from three corresponding circles from $Q$ and $K$ are high and the geometrics of triangle from centers of circles are very similar. 
-
-
-<img src="img/signature.png">
-
-
+Table \@ref(fig:finaltable) is the resulting table once we fix the signature with three circles in $Q$, then find the corresponding areas in $K$ to show the best match with the signature in $Q$. Three rows are six similarity features between $q_i$ and $k^{*}_i$ (found as the best matching circle in $K$ for circle $q_i$) for $i=1,2,3$. The last column is the absolute value of difference of the triangle lengths from three circles in $Q$ and $K$, where the lower the better for mates. Finally, we will take the average of these features over three rows to summarize it, except rotation angle estimation. For mates, rotation angle will be consistently estimated so that we will summarise rotation angle feature as a standard deviaition of three rotation angle estimations. This will provide the evidence how much three rotation angle are consistently measured. 
 
 
 
