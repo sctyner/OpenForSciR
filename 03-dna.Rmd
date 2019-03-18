@@ -4,9 +4,9 @@
 
 ## Introduction
 
-The earliest documented (https://www.bbc.co.uk/sounds/play/b008fcdz at 19:23) use of DNA profiling in the legal system was an immigration dispute in the United Kingdom. A young man of Ghanain (sp?) descent with family in the UK was believed to have forged his Ghanaian passport and had an expired British passport. DNA profiling techniques developed by Sir Alec Jeffreys were used to prove that the he was indeed his mother's son, and thus he did have a right to immigrate to the UK. The technique was subsequently used for many other parentage cases, and soon after, DNA profiling was used for the first time to convict someone of a crime. (Cite for colin pitchfork) 
+The earliest documented^[See [this interview](https://www.bbc.co.uk/sounds/play/b008fcdz) at 19:23.] use of DNA profiling in the legal system was an immigration dispute in the United Kingdom. A young man of Ghanaian descent with family in the UK was believed to have forged his Ghanaian passport and had an expired British passport. DNA profiling techniques developed by Sir Alec Jeffreys were used to prove that the he was indeed his mother's son, and thus he did have a right to immigrate to the UK. The technique was subsequently used for many other parentage cases, and soon after, DNA profiling was used for the first time to convict someone of a crime [@butler09].
 
-When DNA profiling began, a blood sample was taken to create someone's "DNA fingerprint." Now, DNA can be taken by a cheek swab, and the most minute traces of DNA can tie a perpetrator to the scene of the crime. This is thanks to the polymerase chain reaction, or PCR, a method of copying a DNA sample over and over again to amplify the genetic signal for profile extraction. Once a DNA sample is amplified with PCR, different DNA markers can be analyzed to make an identification. The standard for forensic DNA typing is to use short tandem repeats or STRs as the DNA marker. Other markers, single nucleotide polymorphisms (SNPs) and the mitochondrial genome (mtDNA), have different uses. SNPs can be used to identify ancestry or visible traits of a human, while mtDNA is used in cases where DNA is highly degraded [@dnareview]. Because STR is the standard, we dedicate the rest of this chapter to its methodology. 
+When DNA profiling began, an individual's blood sample was taken to create their DNA profile. Now, DNA can be taken by a cheek swab, and the most minute traces of DNA can tie a perpetrator to the scene of the crime. This is thanks to the polymerase chain reaction (PCR), a method of copying a DNA sample over and over again to amplify the genetic signal for profile extraction. Once a DNA sample is amplified with PCR, different DNA markers can be analyzed to make an identification. The standard for forensic DNA typing is to use short tandem repeats or STRs as the DNA marker. Other markers, single nucleotide polymorphisms (SNPs) and the mitochondrial genome (mtDNA), have different uses. SNPs can be used to identify ancestry or visible traits of a human, while mtDNA is used in cases where DNA is highly degraded [@dnareview]. Because STR is the standard, we dedicate the rest of this chapter to its methodology. 
 
 ### Procedure for DNA Analysis using STRs
 
@@ -22,12 +22,16 @@ In forensic DNA profiling, a particular set of 12-20 loci are examined for compa
 
 This method of DNA profiling has known errors, and different labs may use different machines and other materials, so validation of methods and materials is a crutial step. According to the Scientific Working Group on DNA Analysis Methods (SWGDAM), "validation is a process by which a procedure is evaluated to determine its efficacy and reliability for forensic casework and/or database analysis" [@swgdamval] Validation helps minimize error in forensic DNA analysis and helps keep results consistent across laboratories. 
 
-The process of validation for forensic DNA methodology is expensive, time consuming, and unstandardized [@strval]. The R package `strvalidator` was created to help solve these problems in the forensic DNA field. In the remainder of this chapter, we'll introduce the data for this package, how to use the package, and show the entirety of the validation process in R. 
+The process of validation for forensic DNA methodology is expensive, time consuming, and unstandardized, and the R package `strvalidator` was created to help solve these problems in the forensic DNA field [@strval]. In the remainder of this chapter, we'll introduce the data for this package, how to use the package, and show the entirety of the validation process in R. 
 
 
 ## Data 
 
+
+
 ## R Package(s)
+
+The package `strvalidator` 
 
 ## Drawing Conclusions
 
