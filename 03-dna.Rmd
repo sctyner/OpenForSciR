@@ -10,7 +10,7 @@ When DNA profiling began, an individual's blood sample was taken to create their
 
 ### Procedure for DNA Analysis using STRs
 
-In order to understand the STR methodology and analysis, we first need to understand what is being analysed. We present the comparison of genetic and printed information from @butler09 in Table \@ref(tab:comparetable). When forensic scientists analyze a DNA sample, they are looking for repeated "words" or DNA sequences in different "paragraphs," or loci. The locus information is stored in the chromosome, which is the "page" the genetic information is on. Your *chromosomes* exist in the *nucleus* of every *cell* in your body, just like a *page* is within a *chapter* in a *book* in a *library*.  STR markers are a set of loci or genes. At each locus, the number of times a tetranucleotide sequence repeats is counted [@butler05]. This count indicates the allele, or gene variation, at that particular locus. 
+In order to understand the STR methodology, we first need to understand what is being analysed. We present the comparison of genetic and printed information from @butler09 in Table \@ref(tab:comparetable). When forensic scientists analyze a DNA sample, they are looking for repeated "words" or DNA sequences in different "paragraphs," or loci. The locus information is stored in the chromosome, which is the "page" the genetic information is on. Your *chromosomes* exist in the *nucleus* of every *cell* in your body, just like a *page* is within a *chapter* in a *book* in a *library*.  STR markers are a set of loci or genes. At each locus, the number of times a tetranucleotide sequence repeats is counted [@butler05]. This count indicates the allele, or gene variation, at that particular locus. 
 
 ```{r comparetable, results='asis', echo = FALSE}
 x <- c("Library", "Book", "Chapter", "Page", "Paragraph", "Word", "Letter")
@@ -20,19 +20,76 @@ knitr::kable(data.frame(x,y), col.names = c("Printed Information", "Genetic Info
 
 In forensic DNA profiling, a particular set of 12-20 loci are examined for comparison. The number of loci in the set depends on the equipment and database being used for comparison.  These sets of loci were chosen because of their high variability in the population. To find the alleles at each loci, the DNA sample is amplified using PCR, and then run through capillary electrophoresis (CE). The result of CE is the DNA profile, with the alleles on each locus indicated by different colored peaks from a chemical dyeing process. 
 
-This method of DNA profiling has known errors, and different labs may use different machines and other materials, so validation of methods and materials is a crutial step. According to the Scientific Working Group on DNA Analysis Methods (SWGDAM), "validation is a process by which a procedure is evaluated to determine its efficacy and reliability for forensic casework and/or database analysis" [@swgdamval] Validation helps minimize error in forensic DNA analysis and helps keep results consistent across laboratories. 
+This method of DNA profiling has known errors, and different labs may use different machines and other materials, so validation of methods and materials is a crucial step. According to the Scientific Working Group on DNA Analysis Methods (SWGDAM), "validation is a process by which a procedure is evaluated to determine its efficacy and reliability for forensic casework and/or database analysis" [@swgdamval] Validation helps minimize error in forensic DNA analysis and helps keep results consistent across laboratories. 
 
-The process of validation for forensic DNA methodology is expensive, time consuming, and unstandardized, and the R package `strvalidator` was created to help solve these problems in the forensic DNA field [@strval]. In the remainder of this chapter, we'll introduce the data for this package, how to use the package, and show the entirety of the validation process in R. 
+The process of validation for forensic DNA methodology is expensive, time consuming, and unstandardized, and the R package `strvalidator` was created to help solve these problems in the forensic DNA field [@strval]. In the remainder of this chapter, we'll introduce the data for this package, how to use the package, and show one type of validation process in R. 
 
 
 ## Data 
 
+The `strvalidator` package uses .txt files that were exported from the GeneMapper® software. These text files are usually very wide, so `strvalidator` needs to "trim" and "slim" them in order to perform analyses. 
+
+```{r}
+library(readr)
+library(strvalidator)
+wide <- read_delim(paste0(find.package("strvalidator", .libPaths()), "/extdata/", "set3.txt"), delim = "\t")
+slim <- import(prefix="set3", file.name = TRUE,  # file.name for keeping the file name set3.txt
+               # where are the data? 
+               folder.name = paste0(find.package("strvalidator", .libPaths()), "/extdata"),
+               folder = TRUE, time.stamp = FALSE,
+               # turn on trimming and slimming
+               auto.trim = TRUE, auto.slim = TRUE,  
+                # sample names to be trimmed, keep samples 
+               trim.samples = c("Pos|Neg|Ladder"), trim.invert = TRUE) 
+dim(wide)
+dim(slim)
+head(slim)
+```
+
+- **Sample.Name**: 
+- **Marker**
+- **Dye**
+- **File.Name**
+- **Allele**
+- **Size**
+- **Height**
+- **Data.Point**
+
+There are many types of validation tasks for DNA data:
+
+- Precision analysis: Measurements should be in the interval $\pm$0.5bp around the measured size for the corresponding allele in the allelic ladder.
+- Stutter ratio: 
+- Establishing an analytical threshold 
+- Peak height ratio
+- Stochastich threshold
+
+We'll focus on the determining the stutter ratio. The analysis requires a reference sample, `ref3`, to compare the dataset to.  
+
+```{r ref3}
+ref3 <- import(prefix="ref3", file.name = TRUE,  # file.name for keeping the file name set3.txt
+               # where are the data? 
+               folder.name = paste0(find.package("strvalidator", .libPaths()), "/extdata"),
+               folder = TRUE, time.stamp = FALSE,
+               # turn on trimming and slimming
+               auto.trim = TRUE, auto.slim = TRUE,  
+                # sample names to be trimmed, keep samples 
+               trim.samples = c("Pos|Neg|Ladder"), trim.invert = TRUE) 
+```
 
 
 ## R Package(s)
 
+
 The package `strvalidator` 
+
+- main functions 
+- focus on stutter analysis 
 
 ## Drawing Conclusions
 
+- what is the stutter ratio? 
+- what does it mean for our data? 
+
 ## Case Study
+
+Use another data set.
