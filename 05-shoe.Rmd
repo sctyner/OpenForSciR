@@ -217,18 +217,64 @@ Comparing two impressions with totally different outsole patterns are very easy 
 Suppose we are tasked to compare one questioned shoe outsole impression ($Q$) and two known shoe impressions ($K_1, K_2$) from two different shoes. Let's confine the situation that all of three impressions share the same class characteristsis. How can we conclude the source of $Q$? Is the impression $Q$ from the source of $K_1$ or $K_2$?
 
 
-```{r exims, fig.cap='caption', echo=FALSE, fig.align = 'center'}
+```{r eximgs, fig.cap='Example images of shoe outsole impressions. The questioned impression (Q) and two known impressions (K1, K2). Q belongs to one of shoes for K1 and K2.', echo=FALSE, fig.align = 'center'}
 knitr::include_graphics("img/NIKE_QK1K2.jpg", dpi = 100)
 ```
 
 
 
+Figure \@ref(fig:eximgs) are three outsole impressions. Impression $Q$ is from one of sources for $K_1$ and $K_2$. Two shoes are from the same brand and model of shoes, which were used by two different people for about six months. Since three impressions share the class and subclass characteristics, it is very hard comparison to conclude the source of $Q$. There are some differences among images $Q, K_1, K_2$ but it is hard to distinguish these differences are either measurement errors or wear and tear of the outsole (or RACs).  
+
 ### Comparison $Q$ vs. $K_1$
+Let's compare $Q$ and $K_1$ first. In $Q$, we select three circlular areas. For this, we ask the function to select three centers of (30%, 80%), (20%, 40%), (70%, 70%) quantiles of $x, y$ ranges of coordinates in $Q$. 
+
+```{r dat2, echo=FALSE}
+imgQ<-read.csv('dat/lc_nike_10.5_647_Q.csv')
+imgK1<-read.csv('dat/lc_nike_10.5_649_K1.csv')
+imgK2<-read.csv('dat/lc_nike_10.5_520_K2.csv')
+```
 
 
-```{r exKM, fig.cap='caption', echo=FALSE, fig.align = 'center'}
+```{r cirQ}
+input_circles_Q <- initial_circle(imgQ)
+input_circles_Q
+```
+It automatically generate corresponding centers and radius of 50. 
+
+
+```{r startQK1, fig.align = 'center'}
+start_plot(imgQ, imgK1, input_circles_Q)
+```
+Here, we can draw the graph of $Q$ and $K_1$ with circles in $Q$. The goal is to find the correspoding circles in $K$ that matched well with circles in $Q$.
+
+
+
+```{r matchKM, fig.align = 'center', eval=FALSE}
+match_print(imgQ, imgK1, input_circles_Q)
+```
+
+
+```{r exKM, fig.cap='Final match result between Q and K1', echo=FALSE, fig.align = 'center'}
 knitr::include_graphics("img/Nike_edge_ex_KM.png", dpi = 100)
 ```
+
+Figure \@ref(fig:exKM) shows the final matching result between $Q$ and $K_1$. In $K_1$, the algorithm finds the closest circle to show the best overlap with each circles that we fix in $Q$. 
+
+
+```{r KMtable1, results='asis', echo=FALSE}
+table_KM<-read.csv('dat/Nike_edge_ex_KM.csv')
+table_KM$diff<-abs(table_KM$Euc_input_dist-table_KM$Euc_ref_dist)
+
+table_KM[,3:5] %>% knitr::kable(format = "html", caption="Centers and radius information that the matching algorithm found as the best overlap circle in K for fixed circles in Q", longtable = FALSE, row.names = FALSE,  digits=2)
+```
+
+```{r KMtable2, results='asis', echo=FALSE}
+table_KM[,c(6:10, 14)] %>% knitr::kable(format = "html", caption="Similarity features by comparing circles in Q and circles that found as the best matching in K", longtable = FALSE, row.names = FALSE, digits=2)
+```
+
+
+Table \@ref(tab:KMtable1) and Table \@ref(tab:KMtable2) are output table splitted into two parts. Table \@ref(tab:KMtable1) is the information of center and radius for three circles that showed the best overlap with three circles in $Q$. Table \@ref(tab:KMtable2) shows the similairty features from the matching between each circle in $Q$ and corresponding circle in $K$.
+
 
 
 ### Comparison $Q$ vs. $K_2$
