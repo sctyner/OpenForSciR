@@ -207,12 +207,32 @@ tabb2 %>% knitr::kable(format = "html", caption="Resulting table comparing Q and
                       row.names = FALSE, col.names = c("Comparison","Clique size","Rot. angle","Overlap on k*", "Overlap on q","Median distance", "Diff in length from Triangle"))
 ```
 
-Table \@ref(fig:finaltable) is the resulting table once we fix the signature with three circles in $Q$, then find the corresponding areas in $K$ to show the best match with the signature in $Q$. Three rows are six similarity features between $q_i$ and $k^{*}_i$ (found as the best matching circle in $K$ for circle $q_i$) for $i=1,2,3$. The last column is the absolute value of difference of the triangle lengths from three circles in $Q$ and $K$, where the lower the better for mates. Finally, we will take the average of these features over three rows to summarize it, except rotation angle estimation. For mates, rotation angle will be consistently estimated so that we will summarise rotation angle feature as a standard deviaition of three rotation angle estimations. This will provide the evidence how much three rotation angle are consistently measured. 
+Table \@ref(tab:finaltable) is the resulting table once we fix the signature with three circles in $Q$, then find the corresponding areas in $K$ to show the best match with the signature in $Q$. Three rows are six similarity features between $q_i$ and $k^{*}_i$ (found as the best matching circle in $K$ for circle $q_i$) for $i=1,2,3$. The last column is the absolute value of difference of the triangle lengths from three circles in $Q$ and $K$, where the lower the better for mates. Finally, we will take the average of these features over three rows to summarize it, except rotation angle estimation. For mates, rotation angle will be consistently estimated so that we will summarise rotation angle feature as a standard deviaition of three rotation angle estimations. This will provide the evidence how much three rotation angle are consistently measured. 
 
 
 
 ## Case Study
+Comparing two impressions with totally different outsole patterns are very easy problem to human examiner or computer. What if we are tasked to compare two impressions from the same brand and model shoes but used by two different users? 
+
+Suppose we are tasked to compare one questioned shoe outsole impression ($Q$) and two known shoe impressions ($K_1, K_2$) from two different shoes. Let's confine the situation that all of three impressions share the same class characteristsis. How can we conclude the source of $Q$? Is the impression $Q$ from the source of $K_1$ or $K_2$?
 
 
-example matching - KM and KNM
+```{r exims, fig.cap='caption', echo=FALSE, fig.align = 'center'}
+knitr::include_graphics("img/NIKE_QK1K2.jpg", dpi = 100)
+```
 
+
+
+### Comparison $Q$ vs. $K_1$
+
+
+```{r exKM, fig.cap='caption', echo=FALSE, fig.align = 'center'}
+knitr::include_graphics("img/Nike_edge_ex_KM.png", dpi = 100)
+```
+
+
+### Comparison $Q$ vs. $K_2$
+
+```{r exKNM, fig.cap='caption', echo=FALSE, fig.align = 'center'}
+knitr::include_graphics("img/Nike_edge_ex_KNM.png", dpi = 100)
+```
