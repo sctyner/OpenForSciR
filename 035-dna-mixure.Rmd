@@ -20,6 +20,9 @@ There are probabilistic models for determining the number of contributors, how m
 
 ## R Package(s)
 
+- mixsep 
+- dnamixtures 
+
 ## Drawing Conclusions
 
 ## Case Study
