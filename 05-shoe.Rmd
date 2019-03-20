@@ -223,7 +223,7 @@ knitr::include_graphics("img/NIKE_QK1K2.jpg", dpi = 100)
 
 
 
-Figure \@ref(fig:eximgs) are three outsole impressions. Impression $Q$ is from one of sources for $K_1$ and $K_2$. Two shoes are from the same brand and model of shoes, which were used by two different people for about six months. Since three impressions share the class and subclass characteristics, it is very hard comparison to conclude the source of $Q$. There are some differences among images $Q, K_1, K_2$ but it is hard to distinguish these differences are either measurement errors or wear and tear of the outsole (or RACs).  
+Figure \@ref(fig:eximgs) display three outsole impressions. Impression $Q$ is from one of sources for $K_1$ and $K_2$. Two shoes are from the same brand and model of shoes, which were used by two different people for about six months. Since three impressions share the class and subclass characteristics, it is very hard comparison to conclude the source of $Q$. There are some differences among images $Q, K_1, K_2$ but it is hard to distinguish these differences are either measurement errors or wear and tear of the outsole (or RACs).  
 
 ### Comparison $Q$ vs. $K_1$
 Let's compare $Q$ and $K_1$ first. In $Q$, we select three circlular areas. For this, we ask the function to select three centers of (30%, 80%), (20%, 40%), (70%, 70%) quantiles of $x, y$ ranges of coordinates in $Q$. 
@@ -273,12 +273,78 @@ table_KM[,c(6:10, 14)] %>% knitr::kable(format = "html", caption="Similarity fea
 ```
 
 
-Table \@ref(tab:KMtable1) and Table \@ref(tab:KMtable2) are output table splitted into two parts. Table \@ref(tab:KMtable1) is the information of center and radius for three circles that showed the best overlap with three circles in $Q$. Table \@ref(tab:KMtable2) shows the similairty features from the matching between each circle in $Q$ and corresponding circle in $K$.
+Table \@ref(tab:KMtable1) and Table \@ref(tab:KMtable2) are output table that we can get from the function $match\_print$, but here, results are splitted into two tables. Table \@ref(tab:KMtable1) is the information of center and radius for three circles that showed the best overlap with three circles in $Q$. Table \@ref(tab:KMtable2) shows the similairty features from the matching between each circle in $Q$ and corresponding circle in $K_1$. Each row in Table  \@ref(tab:KMtable2) shows the similarity features from circle $q_i$ and circle $k^{*}_i$ when $i=1,2,3$. 
 
 
 
 ### Comparison $Q$ vs. $K_2$
 
+We are comparing $Q$ and $K_2$. For $Q$, we selected the same three circles and ask the algorithm to find the best matching circles in $K_2$.  
+
 ```{r exKNM, fig.cap='caption', echo=FALSE, fig.align = 'center'}
 knitr::include_graphics("img/Nike_edge_ex_KNM.png", dpi = 100)
 ```
+
+Figure \@ref(fig:exKNM) shows the final matching result. In this comparison, green circle in $K_2$ is not correctly found as the position of green circle in $Q$. 
+
+
+
+```{r KNMtable1, results='asis', echo=FALSE}
+table_KNM<-read.csv('dat/Nike_edge_ex_KNM.csv')
+table_KNM$diff<-abs(table_KNM$Euc_input_dist-table_KNM$Euc_ref_dist)
+
+table_KNM[,3:5] %>% knitr::kable(format = "html", caption="Centers and radius information that the matching algorithm found as the best overlap circle in K for fixed circles in Q", longtable = FALSE, row.names = FALSE,  digits=2)
+```
+
+```{r KNMtable2, results='asis', echo=FALSE}
+table_KNM[,c(6:10, 14)] %>% knitr::kable(format = "html", caption="Similarity features by comparing circles in Q and circles that found as the best matching in K", longtable = FALSE, row.names = FALSE, digits=2)
+```
+
+
+Table \@ref(tab:KNMtable1) and Table \@ref(tab:KNMtable1) show the location information of matching circles in $K$ for fixed circle in $Q$ and similarity features. 
+
+
+### Interpretation of comparisons of $Q, K_1$ and $Q, K_2$ 
+
+To summarize similarity features from the match of the two impressions, we will take the average of each similarity feature across three circle matchings, except rotation angle estimations. For features such as clique size, Overlap on $k$ and Overlap on $q$, the larger value we have, the better for the mated comparison of two impressions. For features Median distance and absolute value of differences of lengths from two triangles in two impessions, the lower value we get, the better for the mates. For the rotation angle estimation, taking the average of them means nothing. It is more important to check how consistently three rotation angle values are estimated. Thus, we take the standard deviaion of rotation angle as the summarized value of the match of two impressions. 
+
+
+```{r summarytable, results='asis', echo=FALSE}
+D1<-table_KM[,c(6:10, 14)]
+D1 %>% summarize(clique_size=mean(clique_size),
+                sd_rot_angle=sd(rotation_angle),
+                overlap_k=mean(reference_overlap),
+                overlap_q=mean(input_overlap),
+                med_dist=mean(med_dist_euc),
+                diff_length=mean(diff)
+
+)->D_KM
+
+D2<-table_KNM[,c(6:10, 14)]
+D2 %>% summarize(clique_size=mean(clique_size),
+                sd_rot_angle=sd(rotation_angle),
+                overlap_k=mean(reference_overlap),
+                overlap_q=mean(input_overlap),
+                med_dist=mean(med_dist_euc),
+                diff_length=mean(diff)
+
+)->D_KNM
+
+Match<-c("Q-K1", "Q-K2")
+data.frame(Match, rbind(D_KM, D_KNM)) %>% knitr::kable(format = "html", caption="Summary table of two comparisons of $Q-K_1$ and $Q-K_2$. Similarity features are averaged but rotation angles are summarised as standard deviation.", longtable = FALSE, row.names = FALSE, digits=2)
+
+```
+
+
+Table \@ref(tab:summarytable) shows the summarized similarity features from two comparisons we did for $Q-K_1$ and $Q-K_2$. In both comparisons, the average clique size and median distance look similar. The features to show big differences between these two comparisons are standard deviation (SD) of rotation angle estimations and difference in lengths from triangles. The comparison $Q-K_1$ shows three similar rotation estimations (1.23, 1.88, 2.68), while the comparison $Q-K_2$ shows different values of rotation estimations (1.87, 7.16, 32.93) in Table \@ref(tab:KMtable2) and Table \@ref(tab:KNMtable2). The comparison $Q-K_2$ shows a 5 times larger value of differences between lengths from triangles than the comparison of $Q-K_1$. In addition, the comparison $Q-K_1$ shows high overlap chance of 97% in average while the comparison of $Q-K_2$ shows 77% chance overlap in average. 
+
+
+
+Finally, I want to let you know the truth. The impression $Q$ and $K_1$ is known mated pairs of images, which means they are repeated impressions from the same shoe. The impression $K_2$ is scanned from different shoe of the shoe for $Q$ and $K_1$. Because two shoes share the same class characteristics and worn by two different users for about six months, the comparisons we did here were hard cases. To see what typical values we will have for mates and non-mates, we need to do more analysis to get similarity features from many comparisons. In our later analysis, we will use random forest to combine scores of similarity features we define. More analysis and results from many more comaprisons can be found in [@park2018learning]. 
+
+
+
+
+
+
+
