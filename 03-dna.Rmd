@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Validation of DNA Evidence Systems {#dnaval}
 
 #### Sam Tyner, PhD; Oskar Hansson, PhD {-}
@@ -72,6 +77,7 @@ First, load the data, then slim it for analysis.
 ```{r set1}
 library(strvalidator)
 library(dplyr)
+library(ggplot2)
 data(set1)
 head(set1)
 # slim and trim the data
@@ -92,16 +98,46 @@ ref1.slim <- slim(ref1, fix = c("Sample.Name", "Marker"),
 head(ref1.slim)
 ```
 
-```{r}
+In Figure \@ref(fig:seednadat) we show the eight samples in `set1` and the reference DNA `ref1`. 
+
+```{r seednadat, fig.cap="The 8 replicates of the sample with the reference DNA alleles shown as vertical black lines. RFU = Relative Fluorescence Unit", out.width = "100%"}
+# get things in the right order
+alevels <-  as.character(sort(as.numeric(unique(set1.slim$Allele)[-c(1:3)])))
+# data prep for plots
 plotsamples <- set1.slim %>% filter(Sample.Name != "Ladder", Allele != "OL", Marker != "AMEL") %>% 
   sortMarker(kit = "ESX17", add.missing.levels = TRUE)
+plotsamples$Allele <- factor(plotsamples$Allele, levels = alevels, ordered = T)
+plotsamples$Height <- as.numeric(plotsamples$Height)
+plotref <- ref1.slim %>% sortMarker(kit = "ESX17", add.missing.levels = TRUE) %>% filter(Marker != "AMEL")
+plotref$Allele <- factor(plotref$Allele, levels = alevels, ordered = T)
+
 ggplot() + 
-   geom_segment(data = ref1.slim %>% filter(Marker != "AMEL"), aes(x = Allele, xend = Allele, y = -Inf, yend = Inf), alpha = .7) +
-  geom_line(data = plotsamples, aes(x = Allele, y = as.numeric(Height), group = Sample.Name, color=Sample.Name), alpha = .7) + 
-  scale_color_brewer(palette = "YlOrRd") + 
-  facet_wrap(~Marker, ncol = 4, scales = "free") + 
-  labs(x = "Allele (True allele shown in black)", y = "Peak Height", color = "Sample")
+  geom_line(data = plotsamples, aes(x = Allele, y = Height, group = Sample.Name, color=Sample.Name), alpha = .7) + 
+  geom_segment(data = plotref, aes(x = Allele, xend = Allele, y = -Inf, yend = Inf), alpha = .5) +
+  scale_color_brewer(palette = "Set2") + 
+  guides(color = guide_legend(nrow = 1)) +
+  facet_wrap(~Marker, ncol = 4, scales= "free", drop = T) +  
+  theme(legend.position = "top", axis.text.x = element_text(size = rel(.8), angle = 270, hjust = 0, vjust = .5)) + 
+  labs(x = "Allele (True allele shown in black)", y = "Peak Height (RFUs)", color = "Sample") 
 ```
+
+<!---
+```{r ugh}
+myplots <- list() 
+
+for (marker in ref1$Marker[-1]){
+  dat <- filter(plotsamples, Marker == marker)
+  dat2 <- filter(plotref, Marker == marker)
+  myplots[[marker]] <- ggplot() + 
+    geom_segment(data = dat2, aes(x = Allele, xend = Allele, y = -Inf, yend = Inf)) +
+  geom_line(data = dat, aes(x = Allele, y = Height, group = Sample.Name, color=Sample.Name), alpha = .7) + 
+  scale_color_brewer(palette = "Set2") + 
+  facet_wrap(~Marker) +  
+  theme(legend.position = "none") + labs(x ="", y = "")
+}
+
+```
+--> 
 
 
 ### Check the stutter ratio 
@@ -122,22 +158,23 @@ stutter_replace_val <- c(-1.3, -1.2, -1.1, -0.3, -0.2, -0.1, 0.3, 0.2, 0.1)
 # calculate the stutter values 
 set1_stutter <- calculateStutter(set1.slim, ref1.slim, back = 1, forward = 0, interference = 0, 
                  replace.val = stutter_false_val, by.val = stutter_replace_val)
-set1_stutter %>% group_by(Marker) %>% 
-  summarise(Nalleles= n_distinct(Allele), Nstutter = n_distinct(Stutter))
 
 stutterplot <- addColor(set1_stutter, kit = "ESX17") %>% 
-  sortMarker(kit = "ESX17", add.missing.levels = TRUE)
-compare_dat <- data.frame(Marker = c(ref1$Marker), 
-                          perc95 = (c(NA, 11.9, 4.6, 10.9, 10.7,12.1, 12.0, 11.1, 10.4,16.0,
+  sortMarker(kit = "ESX17", add.missing.levels = FALSE)
+marks <- levels(stutterplot$Marker)[-1]
+stutterplot$Marker<- factor(as.character(stutterplot$Marker), levels = marks)
+compare_dat <- data.frame(Marker = ref1$Marker[-1], 
+                          perc95 = (c(11.9, 4.6, 10.9, 10.7,12.1, 12.0, 11.1, 10.4,16.0,
                                      11.4, 9.1, 10.1, 8.3, 14.4, 10.1, 12.8))/100)
 compare_dat <- filter(compare_dat, Marker %in% stutterplot$Marker)
 
-library(ggplot2)
+
+
 ggplot() + 
   geom_point(data = stutterplot, position = position_jitter(width = .1), 
              aes(x = Allele, y = Ratio, color = as.factor(Type)), alpha = .7) + 
   geom_hline(data = compare_dat, aes(yintercept = perc95), linetype = "dotted") + 
-  facet_wrap(~Marker, ncol=4, scales = "free_x") + 
+  facet_wrap(~Marker, ncol=4, scales = "free_x", drop = FALSE) + 
   labs(x = "True Allele", y= "Stutter Ratio", color = "Type")
 ```
 
@@ -159,16 +196,18 @@ Computing the heterozygote peak balance (Hb) is most important for analyzing sam
 set1_hb <- calculateHb(data = set1.slim, ref = ref1.slim, hb = 3, kit = "ESX17", 
             sex.rm = TRUE, qs.rm = TRUE, ignore.case = TRUE)
 hbplot <- addColor(set1_hb, kit = "ESX17") %>% 
-  sortMarker(kit = "ESX17", add.missing.levels = TRUE)
+  sortMarker(kit = "ESX17", add.missing.levels = FALSE)
+hbplot$Marker <- factor(as.character(hbplot$Marker), levels = marks)
+
 
 ggplot(data = hbplot) + 
   geom_point(aes(x = MPH, y = Hb, color = Dye), position = position_jitter(width = .1)) + 
   geom_hline(yintercept = .6, linetype = "dotted") + 
-  facet_wrap(~Marker, nrow = 4, scales = "free_x") + 
+  facet_wrap(~Marker, nrow = 4, scales = "free_x", drop = FALSE) + 
   scale_color_manual(values = c("blue", "green", "black", "red")) + 
   labs(x = "Mean Peak Height (RFU)", y = "Ratio", color = "Dye") + 
-  guides(color = guide_legend(nrow=2, byrow=T)) + 
-  theme(axis.text.x = element_text(size = rel(.8)),  legend.position = c(.89, .1))
+  guides(color = guide_legend(nrow=1)) + 
+  theme(axis.text.x = element_text(size = rel(.8)),  legend.position = 'top')
 ```
 
 Figure \@ref(fig:hb) shows the Hb values for the eight samples in `set1`. The balance ratio is typically no less than 0.6 according to @gill97, but there are a few exceptions to this rule in the `set1` sample, shown in Table \@ref(tab:smhb)
@@ -213,7 +252,26 @@ ggplot(set1_lb) +
   geom_boxplot(aes(x = Marker, y = Lb, color = Dye), alpha = .7) + 
   scale_color_manual(values = c("blue", "green", "black", "red")) + 
   geom_hline(yintercept = 1/17, linetype = "dotted") +
-  theme(legend.position = "top", axis.text.x = element_text(size = rel(.8)))
+  theme(legend.position = "top", axis.text.x = element_text(size = rel(.8), angle = 270, hjust = 0, vjust = .5))
 ```
 
+<!--
+```{r}
+
+ggplot(set1_lb) + 
+  geom_line(aes(x = Marker, y = Lb, group = Sample.Name, color = Sample.Name), alpha = .7) + 
+  scale_color_brewer(palette = "Set2") + 
+  geom_hline(yintercept = 1/17, linetype = "dotted") +
+  theme(legend.position = "top", axis.text.x = element_text(size = rel(.8), angle = 270, hjust = 0, vjust = .5))
+```
+--> 
+
+The inter-locus balance for this kit should ideally be about $\frac{1}{17} \approx 0.059$. This value is shown by the horizontal dotted line in figure \@ref(fig:lb). However, the markers in the red dye channel tend to have higher than ideal peaks and those in the yellow channel have lower than ideal peaks. 
+
 ### Check stochastic threshold
+
+The stochastic threshold is the value of interest for determining allele drop-out. If a peak is above the stochastic threshold, it is unlikely that an allele in a heterozygous sample "has dropped out" [@butler09].  
+
+```{r sthresh}
+
+```
