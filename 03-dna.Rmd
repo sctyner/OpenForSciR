@@ -42,7 +42,23 @@ The `strvalidator` package takes files exported from the GeneMapper® software, 
 knitr::include_graphics("https://omnianalytics.io/wp-content/uploads/2018/08/file35535a5445eb.gif")
 ```
 
-The `strvalidator` package contains import methods to make sure that the data imported from other software is in the right form for validation analysis. The GeneMapper® software creates one column for each of 20 possible alleles and their corresponding sizes, heights, and data points. 
+The `strvalidator` package contains import methods to make sure that the data imported from other software is in the right form for validation analysis. The GeneMapper® software creates one column for each possible allele observed at a locus and their corresponding sizes, heights, and data points. Once the data have been trimmed and slimmed, they look something like this: 
+
+```{r echo=FALSE}
+data(set4)
+myDNAdata <- set4
+```
+```{r}
+head(myDNAdata)
+```
+
+where
+
+- `Sample.Name` is the name of the sample being analyzed 
+- `Marker` is locus in the DNA analysis kit 
+- `Dye` is the dye channel for that locus
+- `Allele` is the allele (# of sequence repeats) at that locus 
+- `Height` is the observed peak height after amplification in RFUs (RFU = Relative Fluorescence Unit)
 
 
 
@@ -50,8 +66,12 @@ The `strvalidator` package contains import methods to make sure that the data im
 
 The package `strvalidator` has a graphical user interface (GUI) to perform analyses so that no coding knowledge is necessary to run these analyses. The author of the package, Oskar Hansson, has written an extensive tutorial^[*STR-validator* 2.0.0 tutorial, published 8 August 2017 [here](https://drive.google.com/file/d/0B2v6NDpFIgvDel9wSlFfb3hvekk/view).] on the GUI. As this book is focused on open science, we do not use the GUI because it does not output the underlying code used for the point-and-click analyses done in the GUI. Instead, we use the code underlying the GUI directly. 
 
-- main functions 
-- focus on stutter analysis 
+There are four main families of functions in the `strvalidator` package: 
+
+- `add*()`: Add to the DNA data. For example, use `addMarker()` to add locus information or `addSize()` to add a column `Size` to the data with the fragment size in base pair (bp) for each allele.
+- `calculate*()`: Compute properties of the DNA data. For example, use `calculateHb()` to compute heterozygous balance for the data  or `calculateLb()` to compute the inter-locus balance (profile balance) of the data. 
+- `plot*()` : Create a `ggplot2` object for some aspect of the DNA data. For example, 
+- `table*()`
 
 ## Drawing Conclusions
 
@@ -122,7 +142,7 @@ ggplot() +
 ```
 
 <!---
-```{r ugh}
+```{r ugh, eval = FALSE}
 myplots <- list() 
 
 for (marker in ref1$Marker[-1]){
@@ -256,7 +276,7 @@ ggplot(set1_lb) +
 ```
 
 <!--
-```{r}
+```{r, eval = FALSE}
 
 ggplot(set1_lb) + 
   geom_line(aes(x = Marker, y = Lb, group = Sample.Name, color = Sample.Name), alpha = .7) + 
@@ -270,8 +290,70 @@ The inter-locus balance for this kit should ideally be about $\frac{1}{17} \appr
 
 ### Check stochastic threshold
 
-The stochastic threshold is the value of interest for determining allele drop-out. If a peak is above the stochastic threshold, it is unlikely that an allele in a heterozygous sample "has dropped out" [@butler09].  
+The stochastic threshold is the value of interest for determining allele drop-out. If a peak is above the stochastic threshold, it is unlikely that an allele in a heterozygous sample "has dropped out" [@butler09]. Allele drop-out occurs when the allele peak height is less than the limit of detection threshold (LDT). As recommeneded in @butler09, we use an LDT of 50. The stochastic threshold is modeled with a logistic regression.  
+
+For this analysis, we need to switch datasets. The data `set4` was created specifically for drop-out analysis, and contains 32 samples from three different reference profiles. The `method = "1"` argument computes dropout with respect to the low molecular weight allele.
 
 ```{r sthresh}
-
+data(set4)
+data(ref4)
+set4_do <- calculateDropout(data = set4, ref = ref4, threshold = 50, 
+                            method = "1",
+                            kit = "ESX17")
+table(set4_do$Dropout)
 ```
+
+In the `set4` data, dropout was found in 33 alleles (`Dropout = 1`), and locus dropout (`Dropout = 2`) was found in 68 alleles. 
+
+The probability of drop-out is computed via logistic regression of the dropout with respect to the scoring method `1` on the allele Height. The model parameters are also computed using the `calculateT()` function. `calculateT()` also returns the threshold value at which probability of dropout is less than 0.01. 
+
+```{r sthreshcalc}
+set4_do2 <- set4_do %>% filter(Dropout != 2) %>% 
+  rename(Dep = Method1, Exp = Height)
+do_mod <- glm(Dep ~ Exp, family = binomial("logit"), 
+              data =set4_do2)
+set4_ths <- calculateT(set4_do2)
+```
+
+Next, we plot predicted values and 95% confidence intervals for the dropout probability, P(D) for each height. 
+
+```{r predictdo, fig.cap="Probability of dropout in `set4` for peaks from 100-1500 RFUs. 95% confidence interval for drop-out probability shown in red."}
+xmin <- min(set4_do2$Exp, na.rm = T)
+xmax <- max(set4_do2$Exp, na.rm = T)
+predRange <- data.frame(Exp = seq(xmin, xmax))
+ypred <- predict(do_mod, predRange, type = "link", se.fit = TRUE)
+# 95% prediction interval
+ylower <- plogis(ypred$fit - qnorm(1 - .05 / 2) * ypred$se) # Lower confidence limit.
+yupper <- plogis(ypred$fit + qnorm(1 - .05 / 2) * ypred$se) # Upper confidence limit.
+# Calculate conservative prediction curve.
+yconservative <- plogis(ypred$fit + qnorm(1 - .05) * ypred$se)
+# Calculate y values for plot.
+yplot <- plogis(ypred$fit)
+# combine them into a data frame for plotting 
+predictionDf <- data.frame(Exp = predRange$Exp, Prob = yplot, yupper = yupper, ylower = ylower)
+# plot
+th_dat <- data.frame(x = 500, y = .5,
+            label = paste0("At ", round(set4_ths[1], 0), " RFUs,\nthe probability of dropout\nis less than 0.01."))
+ggplot(data = predictionDf, aes(x = Exp, y = Prob)) + 
+  geom_line() + 
+  geom_ribbon(fill = "red", alpha = .4, aes(ymin = ylower, ymax = yupper))+
+  geom_vline(xintercept = set4_ths[1], linetype = "dotted") + 
+  geom_text(data = th_dat, inherit.aes = FALSE, aes(x =x, y = y, label = label), hjust = 0) +
+  xlim(c(0, 1500)) + 
+  labs(x = "Peak Height (RFUs)", y = "Probability of allele drop-out")
+```
+
+We can also look at a heatmap of dropout for each marker by sample. 
+
+```{r heatmap, out.width='100%', fig.cap="Dropout for all samples in `set4` by marker."}
+set4_do %>% tidyr::separate(Sample.Name, into = c("num", "name", "num2")) %>% 
+  mutate(Sample.Name = paste(name, num, ifelse(is.na(num2), "", num2), sep = ".")) %>% 
+  ggplot(aes(x = Sample.Name, y = Marker, fill = as.factor(Dropout))) + 
+  geom_tile(color = "white") + 
+  scale_fill_brewer(name = "Dropout", palette = "Set2", labels = c("none", "allele", "locus")) + 
+  theme(axis.text.x = element_text(size = rel(.8), angle = 270, hjust = 0, vjust = .5), 
+        legend.position = "top")
+```
+
+
+
