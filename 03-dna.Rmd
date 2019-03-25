@@ -70,13 +70,17 @@ There are four main families of functions in the `strvalidator` package:
 
 - `add*()`: Add to the DNA data. For example, use `addMarker()` to add locus information or `addSize()` to add a column `Size` to the data with the fragment size in base pair (bp) for each allele.
 - `calculate*()`: Compute properties of the DNA data. For example, use `calculateHb()` to compute heterozygous balance for the data  or `calculateLb()` to compute the inter-locus balance (profile balance) of the data. 
-- `plot*()` : Create a `ggplot2` object for some aspect of the DNA data. For example, 
-- `table*()`
+- `remove*()` :  Remove artefacts from the data with `removeArtefact()` and remove spikes from the data with `removeSpike()`. 
+- `table*()` : Summarize results from one of the `calculate*()` analyses. For example, `tableStuter()` summarized the results from `calculateStutter()`. 
 
 ## Drawing Conclusions
 
-- what is the stutter ratio? 
-- what does it mean for our data? 
+For each type validation analysis, heterozygote balance, stutter ratio, inter-locus balance, and stochastic threshold, there are recommended guidelines. In @strval, the authors recommend the referencing the following: 
+
+- Heterozygote balance: @hill2011 for the specific PowerPlex® ESX 17 and ESI 17 systems and @gill1997 for the general recommendation of no less than 60%. 
+- Stutter ratio: @hill2011, @westen2012, @brookes2012, and @tvedebrink2012 show greater stutter with more repeats. 
+- Inter-locus balance: 
+
 
 ## Case Study
 
@@ -92,9 +96,9 @@ There are four pieces in validation:
 
 We'll use the package data `set1`, which is data from the genotyping of eight replicate measurments of a  positive control sample, one replicate of a negative control sample, and the ladder used in analysis. The PowerPlex® ESX 17 System from the Promega Corporation^[Technical manual [here](https://www.promega.com/-/media/files/resources/protocols/technical-manuals/101/powerplex-esx-17-system-protocol.pdf?la=en)] was used on these samples for amplification of 17 loci recommended for analysis by the European Network fo Forensic Science Institutes (ENFSI) and the European DNA Profiling Group (EDNAP), the European equivalent of SWGDAM. The known reference sample used is the `ref1` data in the `strvalidator` package. 
 
-First, load the data, then slim it for analysis. 
+First, load the data, then slim it for analysis. Use `generateEPG()` to visualize an electropherogram-like plot of the data.  
 
-```{r set1}
+```{r set1, fig.cap="Electropherogram-like `ggplot2` plot of the mean of all 8 samples in `set1`"}
 library(strvalidator)
 library(dplyr)
 library(ggplot2)
@@ -106,6 +110,9 @@ set1.slim <- slim(set1, fix = c("Sample.Name", "Marker", "Dye"),
 dim(set1)
 dim(set1.slim)
 head(set1.slim)
+set1.slim %>% filter(Sample.Name != "Ladder") %>% 
+generateEPG(kit = "ESX17") + 
+  ggtitle("Mean peak heights for 8 samples from PC shown")
 ```
 
 Next, get the reference sample data. 
@@ -116,49 +123,8 @@ head(ref1)
 ref1.slim <- slim(ref1, fix = c("Sample.Name", "Marker"), 
                   stack = "Allele", keep.na = FALSE)
 head(ref1.slim)
+generateEPG(ref1.slim, kit = "ESX17") + ggtitle("True profile for sample PC") 
 ```
-
-In Figure \@ref(fig:seednadat) we show the eight samples in `set1` and the reference DNA `ref1`. 
-
-```{r seednadat, fig.cap="The 8 replicates of the sample with the reference DNA alleles shown as vertical black lines. RFU = Relative Fluorescence Unit", out.width = "100%"}
-# get things in the right order
-alevels <-  as.character(sort(as.numeric(unique(set1.slim$Allele)[-c(1:3)])))
-# data prep for plots
-plotsamples <- set1.slim %>% filter(Sample.Name != "Ladder", Allele != "OL", Marker != "AMEL") %>% 
-  sortMarker(kit = "ESX17", add.missing.levels = TRUE)
-plotsamples$Allele <- factor(plotsamples$Allele, levels = alevels, ordered = T)
-plotsamples$Height <- as.numeric(plotsamples$Height)
-plotref <- ref1.slim %>% sortMarker(kit = "ESX17", add.missing.levels = TRUE) %>% filter(Marker != "AMEL")
-plotref$Allele <- factor(plotref$Allele, levels = alevels, ordered = T)
-
-ggplot() + 
-  geom_line(data = plotsamples, aes(x = Allele, y = Height, group = Sample.Name, color=Sample.Name), alpha = .7) + 
-  geom_segment(data = plotref, aes(x = Allele, xend = Allele, y = -Inf, yend = Inf), alpha = .5) +
-  scale_color_brewer(palette = "Set2") + 
-  guides(color = guide_legend(nrow = 1)) +
-  facet_wrap(~Marker, ncol = 4, scales= "free", drop = T) +  
-  theme(legend.position = "top", axis.text.x = element_text(size = rel(.8), angle = 270, hjust = 0, vjust = .5)) + 
-  labs(x = "Allele (True allele shown in black)", y = "Peak Height (RFUs)", color = "Sample") 
-```
-
-<!---
-```{r ugh, eval = FALSE}
-myplots <- list() 
-
-for (marker in ref1$Marker[-1]){
-  dat <- filter(plotsamples, Marker == marker)
-  dat2 <- filter(plotref, Marker == marker)
-  myplots[[marker]] <- ggplot() + 
-    geom_segment(data = dat2, aes(x = Allele, xend = Allele, y = -Inf, yend = Inf)) +
-  geom_line(data = dat, aes(x = Allele, y = Height, group = Sample.Name, color=Sample.Name), alpha = .7) + 
-  scale_color_brewer(palette = "Set2") + 
-  facet_wrap(~Marker) +  
-  theme(legend.position = "none") + labs(x ="", y = "")
-}
-
-```
---> 
-
 
 ### Check the stutter ratio 
 
