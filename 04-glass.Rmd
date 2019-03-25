@@ -58,6 +58,8 @@ install.packages('caret')
 library(tidyverse)
 library(caret)
 library(ggplot2)
+library(GGally)
+library(patchwork)
 ```
 
 R package 'caret' is useful for developing machine learning algorithms with cross-validations. (BLAH....)
@@ -79,10 +81,12 @@ Once we have got many pairwise differences with response variable of 'same sourc
 
 ```{r dat}
 glass<-read.csv('dat/glass_raw_all.csv')
+elements <- read.csv("dat/elements.csv")
+cols <- csafethemes:::csafe_cols_secondary[c(3,12)]
 names(glass)[4:21] <- str_sub(names(glass)[4:21], 1,2)
 names(glass)[8] <- "K"
 dim(glass)
-head(glass[,c(22,1:8)],10)
+head(glass[,c(22,1:9)],10)
 summary(glass[,4:8])
 ```
 
@@ -90,17 +94,110 @@ summary(glass[,4:8])
 We see that fragment 1 and 2 from pane AA and manufatruer A are measured 5 times each. As an example, we show five chemical measurements of lithium (Li7), sodium (Na23), magnesium (Mg25), aluminium (Al27) and potassium (K39). Each chemical concentration has different scale; for example, lithium ranges from 0.415 to 7.7 while sodium ranges from 53700 to 111910. Thus, we take log transformation of entire measurements. 
 
 ```{r dat2}
+glass <- filter(glass, !(pane == "AAK" & fragment == 8 & Rep == 1))
 glass_long <- glass %>% gather(element, ppm, Li:Pb)
+glass_long <- filter(glass_long, !(pane == "AAK" & fragment == 8 & Rep == 1))
+pane_order <- c(paste0("A", LETTERS[c(1:13, 15,22:25)]), 
+                paste0("AA", LETTERS[c(1:4, 6,8:13, 17:18)]), 
+                names(table(glass$pane))[c(32:48)])
+glass$pane<-ordered(glass$pane, levels = pane_order)
+glass_long$pane<-ordered(glass_long$pane, levels = pane_order)
 glass_log_long<- glass_long %>% mutate(log_ppm=log(ppm))
-glass_log_long[,-6] %>% spread(element, log_ppm) %>% select(mfr,pane,fragment,Rep,Li,Na,Mg,Al,K) %>% head()
+glass_log_long$pane<-ordered(glass_log_long$pane, levels = pane_order)
+glass_log_long[,-6] %>% spread(element, log_ppm) %>% select(mfr,pane,fragment,Rep,Li,Na,Mg,Al,K,Ca) %>% head()
+```
+
+```{r density}
+glass_log_long %>% filter(element %in% c("Li","Na","Mg","Al","K","Ca")) %>% 
+  ggplot() + 
+  geom_density(aes(x = ppm, fill = mfr), alpha = .7) + 
+  scale_fill_manual(name = "Manufacturer", values = cols) +
+  facet_wrap(~element, scales = "free", nrow = 2) + 
+  labs(x = "Concentration (ppm)", y = "Density") +
+  theme(legend.position = "top")
 ```
 
 
+```{r boxplot}
+glass_log_long %>% filter(element %in% c("Na","Ti","Zr","Hf")) %>% 
+  ggplot() + 
+  #geom_rect(data = rect,inherit.aes=F, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax), fill = "grey80", alpha = .2) + 
+  #annotate("rect", xmin = 17, xmax = Inf, ymin = -Inf, ymax = Inf, fill = "grey80", alpha = .2) + 
+  geom_boxplot(aes(x = pane, y = ppm, fill = mfr), alpha = .8, outlier.size = .5, size = .1) + 
+  scale_fill_manual(name = "Manufacturer", values = cols) +
+  facet_wrap(~element, scales = "free", nrow = 1, labeller = label_both) + 
+  theme(legend.position = "none") + 
+  scale_x_discrete(labels = c("AA", rep("", 30), "BA", rep("", 15), "BR")) + 
+  labs(x = "Pane (in order of manufacture)", y = "Concentration (ppm)")
+
+```
+
+```{r correlation}
+head(glass_log_long)
+glass_log_long[,-6] %>% 
+  filter(pane=="AA") %>% 
+  spread(element, log_ppm) %>% 
+  group_by(fragment) %>%
+  summarise_if(is.numeric, mean, na.rm = TRUE) -> col_data_AA
+
+glass_log_long[,-6] %>% 
+  filter(pane=="BA") %>% 
+  spread(element, log_ppm) %>% 
+  group_by(fragment) %>%
+  summarise_if(is.numeric, mean, na.rm = TRUE) -> col_data_BA
+
+ggcorr(col_data_AA[,3:20], geom = "blank", label = TRUE, hjust = 0.75) +
+  geom_point(size = 10, aes(color = coefficient > 0, alpha = abs(coefficient) > 0.5)) +
+  scale_alpha_manual(values = c("TRUE" = 0.25, "FALSE" = 0)) +
+  guides(color = FALSE, alpha = FALSE) ->P1
+
+ggcorr(col_data_BA[,3:20], geom = "blank", label = TRUE, hjust = 0.75) +
+  geom_point(size = 10, aes(color = coefficient > 0, alpha = abs(coefficient) > 0.5)) +
+  scale_alpha_manual(values = c("TRUE" = 0.25, "FALSE" = 0)) +
+  guides(color = FALSE, alpha = FALSE) -> P2
+
+P1+P2
+
+```
+
+<!--Histogram of Mates and Non-mates -->
+
+```{r diffdata}
+diff_Q_K_data<-readRDS("dat/rf_data_kfrags_1z.rds")
+head(diff_Q_K_data)
+nrow(diff_Q_K_data)
+filter(diff_Q_K_data, pane_q==pane_k) %>% nrow()
+diff_Q_K_data$class<-ifelse(diff_Q_K_data$pane_q==diff_Q_K_data$pane_k, "KM","KNM")
+head(diff_Q_K_data[1:10, c(21,1:6)])
+```
 
 
+<!--head of difference data  -->
 
+```{r diffhist}
+names(diff_Q_K_data)
+names(diff_Q_K_data)[1:18] <- str_sub(names(glass)[4:21], 1,2)
+
+diff_Q_K_data %>% gather(element, diff, Li:Pb) %>%
+  filter(element %in% c("Zr","Li","Hf","Ca")) %>% 
+  ggplot() +
+  geom_histogram(aes(x=diff, fill=class),position="dodge", alpha=0.7) + 
+  scale_fill_manual(name = "Class", values = cols) +
+  geom_vline(xintercept = 0)+
+  facet_wrap(~element, scales = "free", nrow = 2) + 
+  labs(y = "Difference between Q and K") +
+  theme(legend.position = "top")
+```
+
+
+<!--random forest classifier / train data and test data separation -->
 
 ## Drawing Conclusions
+
+<!-- show density estimation of RF score in testing set -->
+
+
+
 
 ## Case Study
 Test a new pair of comparisons using AOAS random forest classifier. 
