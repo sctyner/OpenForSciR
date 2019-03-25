@@ -44,7 +44,60 @@ CSAFE have collected float glass data on the chemical composition of float glass
 
 ## R Package(s)
 
--caret package to fit the data to random forest on cross-validation 
+<!--caret package to fit the data to random forest on cross-validation--> 
+
+R package called 'caret' is used for getting random forest classifier for the source prediction of glass fragments. 
+
+To begin, the package can be installed from CRAN:
+
+```{r, eval=FALSE}
+install.packages('caret')
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(caret)
+library(ggplot2)
+```
+
+R package 'caret' is useful for developing machine learning algorithms with cross-validations. (BLAH....)
+
+
+We propse a computer-assisted method to quantify the similarity between two glass fragments $Q$ and $K$. The goal here is to construct the classifier that predicts the source of $Q$ and $K$ well when there is two kinds of sources; same source and different source. Imagine that we have many glass fragments. By constructing many pairwise differences between glass framgents, we will record their source either same source or different source. 
+
+Here are steps:
+
+1. Take log transformation of measurements of all glass fragments.
+2. Select one fragment from the pane A and call it $Q$. 
+3. Select another fragment from the pane A and call it $K$.
+4. Take the difference between mean of $Q$ and the mean of $K$ across all repeated measurements in each fragment. 
+5. We have a response variable for selected $Q$ and $K$ as the 'same source', since $Q$ and $K$ are from the same source.
+6. We change the pane A into different pane in stage 3, to construct the pairwise differences for the response variable of 'different source'.
+
+Once we have got many pairwise differences with response variable of 'same source' and 'different source', we will train random forest to understand the property of two classes of the source. 
+
+
+```{r dat}
+glass<-read.csv('dat/glass_raw_all.csv')
+names(glass)[4:21] <- str_sub(names(glass)[4:21], 1,2)
+names(glass)[8] <- "K"
+dim(glass)
+head(glass[,c(22,1:8)],10)
+summary(glass[,4:8])
+```
+
+
+We see that fragment 1 and 2 from pane AA and manufatruer A are measured 5 times each. As an example, we show five chemical measurements of lithium (Li7), sodium (Na23), magnesium (Mg25), aluminium (Al27) and potassium (K39). Each chemical concentration has different scale; for example, lithium ranges from 0.415 to 7.7 while sodium ranges from 53700 to 111910. Thus, we take log transformation of entire measurements. 
+
+```{r dat2}
+glass_long <- glass %>% gather(element, ppm, Li:Pb)
+glass_log_long<- glass_long %>% mutate(log_ppm=log(ppm))
+glass_log_long[,-6] %>% spread(element, log_ppm) %>% select(mfr,pane,fragment,Rep,Li,Na,Mg,Al,K) %>% head()
+```
+
+
+
+
 
 
 ## Drawing Conclusions
