@@ -27,16 +27,16 @@ y <- c("Body", "Cell", "Nucleus", "Chromosome", "Locus or gene", "Short DNA sequ
 knitr::kable(data.frame(x,y), col.names = c("Printed Information", "Genetic Information"), caption = "Recreation of Table 2.1 from @butler09")
 ```
 
-In forensic DNA profiling, a particular set of 15 or more loci are examined for comparison. The number of loci in the set depends on the equipment used to analyzed the DNA sample.  These sets of loci were chosen because of their high variability in the population. To find the alleles at each loci, the DNA sample is amplified using PCR, and then run through capillary electrophoresis (CE). The result of CE is the DNA profile, with the alleles on each locus indicated by different colored peaks from a chemical dyeing process. For interpreting the results of the chemical analysis, the loci need to be described in terms of their stutter ratio, heterozygote peak balance, inter-locus balance, and stochastic threshold. 
+In forensic DNA profiling, a particular set of 20^[As of January 1, 2017, there are 20 core loci in CODIS. See https://www.fbi.gov/services/laboratory/biometric-analysis/codis/codis-and-ndis-fact-sheet.] or more loci are examined for comparison. The number of loci depends on the equipment used to analyzed the DNA sample.  These sets of loci were chosen because of their high variability in the population. To find the alleles at each loci, the DNA sample is amplified using PCR, and then run through capillary electrophoresis (CE). The result of CE is the DNA profile, with the alleles on each locus indicated by different colored peaks from a chemical dyeing process. For interpreting the results of the chemical analysis, the loci need to be described in terms of their stutter ratio, heterozygote peak balance, inter-locus balance, and stochastic threshold. 
 
 These four measurments, however, are subject to random change due to the replication process. In addition, different labs may use different machines and materials in forensic analysis resulting in different measurements for the same DNA sample. Thus, the validation of methods and materials is a crucial step. According to the Scientific Working Group on DNA Analysis Methods (SWGDAM), "validation is a process by which a procedure is evaluated to determine its efficacy and reliability for forensic casework and/or database analysis" [@swgdamval] Validation helps minimize error in forensic DNA analysis and helps keep results consistent across laboratories and materials.
 
-The process of validation for forensic DNA methodology is expensive, time consuming, and unstandardized, and the R package `strvalidator` was created to help solve these problems in forensic DNA [@strval]. The `strvalidator` package makes the validation process faster by automating data analysis with respect to "heterozygote balance, stutter ratio, inter-locus balance, and the stochastic threshold" [@strval]. In the remainder of this chapter, we'll introduce the data for this package, how to use the package, and show one validation process in R.  
+The process of validation for forensic DNA methodology is expensive, time consuming, and unstandardized, and the R package `strvalidator` was created to help solve these problems in forensic DNA [@strval]. The `strvalidator` package makes the validation process faster by automating data analysis with respect to "heterozygote balance, stutter ratio, inter-locus balance, and the stochastic threshold" [@strval]. In the remainder of this chapter, we'll introduce the data for this package, how to use the package, and show an example of each of the four aforementioned validation processes in R.  
 
 
 ## Data 
 
-The `strvalidator` package takes files exported from the GeneMapper® software, or a similar software that exports tab-delimited text files, as inputs. The data exported from these software programs typically come in a very wide format, and on import it needs to be transformed into a long format more appropriate for data analysis. In Figure \@ref(fig:widelonggif), we show and example of data being transformed from wide to long format and back. In wide format, the group variable values are column names, while in the long format they become part of the data.
+The `strvalidator` package takes files exported from the [GeneMapper®](https://www.thermofisher.com/order/catalog/product/4475073) software, or a similar software that exports tab-delimited text files, as inputs. The data exported from these software programs typically come in a very wide format, and on import it needs to be transformed into a long format more appropriate for data analysis. In Figure \@ref(fig:widelonggif), we visualize the process of data being transformed from wide to long format and back. In wide format, variable values are column names, while in the long format these column names become part of the data.
 
 ```{r widelonggif, out.width = "80%", fig.align="center", fig.cap="Animation heuristic showing the transformation from long form to wide form data and back. GIF credit to [Omni Analytics Group](https://omnianalytics.io/2018/08/30/animating-the-data-transformation-process-with-gganimate/)", echo = FALSE}
 knitr::include_graphics("https://omnianalytics.io/wp-content/uploads/2018/08/file35535a5445eb.gif")
@@ -45,6 +45,7 @@ knitr::include_graphics("https://omnianalytics.io/wp-content/uploads/2018/08/fil
 The `strvalidator` package contains import methods to make sure that the data imported from other software is in the right form for validation analysis. The GeneMapper® software creates one column for each possible allele observed at a locus and their corresponding sizes, heights, and data points. Once the data have been trimmed and slimmed, they look something like this: 
 
 ```{r echo=FALSE}
+library(strvalidator)
 data(set4)
 myDNAdata <- set4
 ```
@@ -61,17 +62,20 @@ where
 - `Height` is the observed peak height after amplification in RFUs (RFU = Relative Fluorescence Unit)
 
 
+## R Package
 
-## R Package(s)
+The package `strvalidator` has a graphical user interface (GUI) to perform analyses so that no coding knowledge is necessary to run these analyses. The author of the package, Oskar Hansson, has written an extensive tutorial^[*STR-validator* 2.0.0 tutorial, published 8 August 2017 [here](https://drive.google.com/file/d/0B2v6NDpFIgvDel9wSlFfb3hvekk/view).] on the GUI. As this book is focused on open science, we do not use the GUI because it does not output the underlying code used for the point-and-click analyses done in the GUI. Instead, we use the code underlying the GUI directly. This is called the "basic layer" of the package by @strvalidator.
 
-The package `strvalidator` has a graphical user interface (GUI) to perform analyses so that no coding knowledge is necessary to run these analyses. The author of the package, Oskar Hansson, has written an extensive tutorial^[*STR-validator* 2.0.0 tutorial, published 8 August 2017 [here](https://drive.google.com/file/d/0B2v6NDpFIgvDel9wSlFfb3hvekk/view).] on the GUI. As this book is focused on open science, we do not use the GUI because it does not output the underlying code used for the point-and-click analyses done in the GUI. Instead, we use the code underlying the GUI directly. 
+The data are read into R via the `import()` function. This function combines the processes of trimming and slimming the data. Trimming only selects the columns of interest for your analysis (e.g. `Sample.Name`, `Allele`, `Height`), while slimming converts the data from wide format to long format as shown in Figure \@ref(fig:widelonggif). 
 
-There are four main families of functions in the `strvalidator` package: 
+After the data has be loaded, there are four main families of functions in the `strvalidator` package that are used for analysis. 
 
 - `add*()`: Add to the DNA data. For example, use `addMarker()` to add locus information or `addSize()` to add a column `Size` to the data with the fragment size in base pair (bp) for each allele.
 - `calculate*()`: Compute properties of the DNA data. For example, use `calculateHb()` to compute heterozygous balance for the data  or `calculateLb()` to compute the inter-locus balance (profile balance) of the data. 
 - `remove*()` :  Remove artefacts from the data with `removeArtefact()` and remove spikes from the data with `removeSpike()`. 
 - `table*()` : Summarize results from one of the `calculate*()` analyses. For example, `tableStuter()` summarized the results from `calculateStutter()`. 
+
+For complete definitions and explanations of all functions available in `strvalidator`, please see the [`strvalidator` manual](https://www.thermofisher.com/order/catalog/product/4475073).  
 
 ## Drawing Conclusions
 
@@ -80,6 +84,8 @@ For each type validation analysis, heterozygote balance, stutter ratio, inter-lo
 - Heterozygote balance: @hill2011 for the specific PowerPlex® ESX 17 and ESI 17 systems and @gill1997 for the general recommendation of no less than 60%. 
 - Stutter ratio: @hill2011, @westen2012, @brookes2012, and @tvedebrink2012 show greater stutter with more repeats. 
 - Inter-locus balance: 
+
+There are many other capabilities of `strvalidator` that we have not mentioned here for brevity. 
 
 
 ## Case Study
@@ -98,7 +104,7 @@ We'll use the package data `set1`, which is data from the genotyping of eight re
 
 First, load the data, then slim it for analysis. Use `generateEPG()` to visualize an electropherogram-like plot of the data.  
 
-```{r set1, fig.cap="Electropherogram-like `ggplot2` plot of the mean of all 8 samples in `set1`"}
+```{r set1, fig.show='hide'}
 library(strvalidator)
 library(dplyr)
 library(ggplot2)
@@ -110,21 +116,52 @@ set1.slim <- slim(set1, fix = c("Sample.Name", "Marker", "Dye"),
 dim(set1)
 dim(set1.slim)
 head(set1.slim)
-set1.slim %>% filter(Sample.Name != "Ladder") %>% 
-generateEPG(kit = "ESX17") + 
-  ggtitle("Mean peak heights for 8 samples from PC shown")
+p <- set1.slim %>% 
+  filter(Sample.Name != "Ladder") %>% 
+  generateEPG(kit = "ESX17")
+```
+```{r epg, fig.cap="Electropherogram-like `ggplot2` plot of the mean of all 8 samples in `set1`"}
+p +  ggtitle("Mean peak heights for 8 samples from PC shown")
 ```
 
 Next, get the reference sample data. 
 
-```{r ref1}
+```{r ref1, fig.show='hide'}
 data(ref1)
 head(ref1)
 ref1.slim <- slim(ref1, fix = c("Sample.Name", "Marker"), 
                   stack = "Allele", keep.na = FALSE)
 head(ref1.slim)
-generateEPG(ref1.slim, kit = "ESX17") + ggtitle("True profile for sample PC") 
+p <- generateEPG(ref1.slim, kit = "ESX17") + ggtitle("True profile for sample PC") 
 ```
+
+```{r ref1epg, fig.cap="The reference profile electrogpherogram, `ref1`.}
+p
+```
+
+```{r oldplot,echo=FALSE, eval=FALSE}
+alevels <- as.character(sort(as.numeric(unique(set1.slim$Allele)[-c(1:3)])))
+plotsamples <- set1.slim %>% filter(Sample.Name != "Ladder", Allele != "OL", Marker != "AMEL") %>% sortMarker(kit = "ESX17")
+plotsamples$Allele <- factor(plotsamples$Allele, levels = alevels, ordered = T)
+plotsamples$Height <- as.numeric(plotsamples$Height)
+plotref <- ref1.slim %>% sortMarker(kit = "ESX17") %>% filter(Marker != "AMEL")
+plotref$Allele <- factor(plotref$Allele, levels = alevels, ordered = T)
+ggplot() + 
+  geom_line(data = plotsamples, aes(x = Allele, y = Height, group = Sample.Name, 
+                                    color = Sample.Name)) + 
+  geom_segment(data = plotref, aes(x = Allele, xend = Allele, y = -Inf, yend = Inf), alpha = .7) + 
+  scale_color_brewer(palette = "Set1")+
+  guides(color = guide_legend(nrow = 1))+
+  facet_wrap(~Marker, ncol = 4, scales= "free", drop = T) + 
+  theme(legend.position = "top", axis.text.x = element_text(size = rel(.8), angle = 270, hjust = 0, vjust = .5)) +
+  labs(x = "Allele (True allele shown in black)", y = "Peak Height (RFUs)", color = "Sample") 
+plotsamples <- set1.slim %>% filter(Sample.Name != "Ladder", Allele != "OL", Marker == "AMEL") %>% sortMarker(kit = "ESX17")
+plotref <- ref1.slim %>% sortMarker(kit = "ESX17") %>% filter(Marker == "AMEL")
+
+
+```
+
+
 
 ### Check the stutter ratio 
 
@@ -153,8 +190,6 @@ compare_dat <- data.frame(Marker = ref1$Marker[-1],
                           perc95 = (c(11.9, 4.6, 10.9, 10.7,12.1, 12.0, 11.1, 10.4,16.0,
                                      11.4, 9.1, 10.1, 8.3, 14.4, 10.1, 12.8))/100)
 compare_dat <- filter(compare_dat, Marker %in% stutterplot$Marker)
-
-
 
 ggplot() + 
   geom_point(data = stutterplot, position = position_jitter(width = .1), 
