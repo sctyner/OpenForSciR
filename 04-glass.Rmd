@@ -262,6 +262,7 @@ RF_classifier <- train (class~.,
 Here is the R code how we fit the random forest, using R-package caret. The tuning parameter for random forest algorithm is 'mtry' which is the number of variables available for splitting at each tree node. We will try five values from one to five as possible mtry and pick the optimal one. For the classification, the defualt 'mtry' is the square root of the number of predictor variables (it is $\sqrt{18}$, in our study) but we will find the optimal value for 'mtry' in training set. For the optimization process, it calculates area under the ROC curve (AUC), specificity and sensitivity in each given 'mtry' values. The optimal 'mtry' value will result the highest AUC from the ROC curve. As a preprocessing, it automatically adjust centered and scaled acorss 18 prdictors. We try 10-fold cross-valildation to validate the random forest algorithm and repeat entire process three times. 
 
 ```{r RF2}
+RF_classifier<-readRDS('dat/RF_classifier.RDS')
 RF_classifier
 ```
 
