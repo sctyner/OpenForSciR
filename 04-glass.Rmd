@@ -125,7 +125,7 @@ glass_log_long %>% filter(element %in% c("Na","Ti","Zr","Hf")) %>%
   #annotate("rect", xmin = 17, xmax = Inf, ymin = -Inf, ymax = Inf, fill = "grey80", alpha = .2) + 
   geom_boxplot(aes(x = pane, y = ppm, fill = mfr), alpha = .8, outlier.size = .5, size = .1) + 
   scale_fill_manual(name = "Manufacturer", values = cols) +
-  facet_wrap(~element, scales = "free", nrow = 1, labeller = label_both) + 
+  facet_wrap(~element, scales = "free", nrow = 2, labeller = label_both) + 
   theme(legend.position = "none") + 
   scale_x_discrete(labels = c("AA", rep("", 30), "BA", rep("", 15), "BR")) + 
   labs(x = "Pane (in order of manufacture)", y = "Concentration (ppm)")
@@ -175,6 +175,8 @@ head(diff_Q_K_data[1:10, c(21,1:6)])
 <!--head of difference data  -->
 
 ```{r diffhist}
+table(diff_Q_K_data$class)
+
 names(diff_Q_K_data)
 names(diff_Q_K_data)[1:18] <- str_sub(names(glass)[4:21], 1,2)
 
@@ -192,10 +194,99 @@ diff_Q_K_data %>% gather(element, diff, Li:Pb) %>%
 
 <!--random forest classifier / train data and test data separation -->
 
+```{r data3}
+head(diff_Q_K_data[,c(1:18)])
+dim(diff_Q_K_data)
+diff_Q_K_data$class<-as.factor(diff_Q_K_data$class)
+down_diff_Q_K_data<-downSample(diff_Q_K_data[,c(1:18)], diff_Q_K_data$class)
+head(down_diff_Q_K_data)
+dim(down_diff_Q_K_data)
+nrow(down_diff_Q_K_data)
+
+down_diff_Q_K_data <- down_diff_Q_K_data %>% mutate(id = row_number())
+names(down_diff_Q_K_data)[19]<-"class"
+#Check IDs
+head(down_diff_Q_K_data$id)
+#Create training set
+train_data <- down_diff_Q_K_data %>% sample_frac(.70)
+#Create test set
+test_data  <- anti_join(down_diff_Q_K_data, train_data, by = 'id')
+train_data<-train_data[,-20]
+test_data<-test_data[,-20]
+dim(train_data) # 2016   19
+dim(test_data) # 864  19
+```
+
+
+
+```{r RF, eval=FALSE}
+
+ctrl <- trainControl(method = "repeatedcv",
+                     number = 10,
+                     repeats = 3,
+                     savePredictions="final",
+                     summaryFunction = twoClassSummary,
+                     classProbs = TRUE
+                     #sampling = "down"
+                     )
+
+#random forest without any sampling method (original version)
+# mtry is recommended to use sqrt(# of variables)=sqrt(18) so 3 and 4 are tried to find the optimal one
+RF_classifier <- train (class~.,
+                        train_data,
+                        method = "rf",
+                        tuneGrid = expand.grid(
+                          .mtry = c(1:5)),
+                        metric="ROC",
+                        preProc=c("center", "scale"),
+                        trControl = ctrl)
+#saveRDS(RF_classifier, "dat/RF_classifier.RDS")
+
+```
+
+
 ## Drawing Conclusions
 
 <!-- show density estimation of RF score in testing set -->
 
+```{r performance }
+pred_class <- predict(RF_classifier, test_data)                           
+table_pred_class<-confusionMatrix(pred_class, test_data$class)$table
+table_pred_class
+
+#class probability for the same pane is used as similarity score for RF
+prob_prediction <- predict(RF_classifier, test_data,type="prob")[,"KM"]  
+head(prob_prediction)
+
+test_data$prob<-prob_prediction
+head(test_data[,16:20])
+
+test_data %>% 
+  ggplot() + 
+  geom_density(aes(x = prob, fill = class), alpha = .7) + 
+  scale_fill_manual(name = "Class", values = cols) +
+  labs(x = "Empirical probability for KM from RF classifier", y = "Density") +
+  theme(legend.position = "top")
+
+
+```
+
+```{r varimp}
+imp<-varImp(RF_classifier)$importance
+names(imp)
+imp <- as.data.frame(imp)
+imp$varnames <- rownames(imp) # row names to column
+rownames(imp) <- NULL  
+imp<-imp %>% arrange(-Overall)
+
+imp %>% 
+ggplot(aes(x=reorder(varnames, Overall),y=Overall)) + 
+  geom_bar(stat = "identity") +
+  coord_flip() + 
+  scale_fill_discrete(name="Variable") +
+  ylab("Overall importance") +
+  xlab("Variable Name")
+```
 
 
 
@@ -203,3 +294,24 @@ diff_Q_K_data %>% gather(element, diff, Li:Pb) %>%
 Test a new pair of comparisons using AOAS random forest classifier. 
 
 
+
+```{r newtest}
+#simulation? 
+
+down_diff_Q_K_data2<-downSample(diff_Q_K_data[,c(1:18)], diff_Q_K_data$class)
+head(down_diff_Q_K_data2)
+names(down_diff_Q_K_data2)[19]<-"class"
+down_diff_Q_K_data2$class<-as.factor(down_diff_Q_K_data2$class)
+prob_prediction2 <- predict(RF_classifier, down_diff_Q_K_data2, type="prob")[,"KM"]  
+head(prob_prediction2)
+
+down_diff_Q_K_data2$prob<-prob_prediction2
+
+down_diff_Q_K_data2 %>% 
+  ggplot() + 
+  geom_density(aes(x = prob, fill = class), alpha = .7) + 
+  scale_fill_manual(name = "Class", values = cols) +
+  labs(x = "Empirical probability for KM from RF classifier", y = "Density") +
+  theme(legend.position = "top")
+
+```
