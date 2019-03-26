@@ -1,0 +1,6 @@
+Comparison,Pane-Frag,Pane-Frag,RF,Truth
+1,AB-2,AB-24,0.986,SP
+2,BB-1,BB-5,0.946,SP
+3,AB-2,BB-2,0,DP
+4,AB-2,AF-2,0.16,DP
+5,BB-14,BD-2,0.556,DP
