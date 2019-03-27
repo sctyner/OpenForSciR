@@ -18,7 +18,7 @@ There could be two questions of interest in glass fragments comparison; (1) The 
 
 
 ### current practice
-There are many types of glass measurements such as color, thickness, refractive index (RI) and chemical concentrations. In this study, we will focus on the float glass that is most frequently used in windows, doors and automobiles. Also, the measurements of float glass are obtained through inductively coupled mass spetrometry with a laser add-on (LA-ICP-MS). In this situation, there are two kinds of forensic comparison guidance by ASTM International; [@ASTME233012, @ASTME292716]. The rule to classify glass fragments in the standard methods is constructed by interval based appoach on each of chemical element. 
+There are many types of glass measurements such as color, thickness, refractive index (RI) and chemical concentrations. In this study, we will focus on the float glass that is most frequently used in windows, doors and automobiles. Also, the measurements of float glass are obtained through inductively coupled mass spetrometry with a laser add-on (LA-ICP-MS). In this situation, there are two kinds of forensic comparison guidance by ASTM International; [@ASTME233012], [@ASTME292716]. The rule to classify glass fragments in the standard methods is constructed by interval based appoach on each of chemical element. 
 
 
 ### goal of this chapter
