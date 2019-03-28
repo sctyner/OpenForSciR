@@ -14,11 +14,11 @@ Crime scene investigators collect fragments of glass at the scene as a part of t
 
 
 ### Question of interest
-There could be two questions of interest in glass fragments comparison; (1) The specific source problem, whether the questioned fragment ($Q$) is from the lass pane that known fragments ($K$) found at the crime scene, (2) the common source problem, whether the questioned fragment ($Q$) share the source that known fragment belong to.  Regardless of which question we are facing, the statistic we need to help answer the question is the similarity between $Q$ and $K$. There are lots of ways to define the similarity between two glass fragments, $Q$ and $K$ but it should be defined based on the what types of data or measurements we have for glass fragments. For example, if we have a elemental compositions measured in ppm and they are numerical values, the easy version of similarity would be the differneces of numerical values between $Q$ and $K$. 
+There could be two questions of interest in glass fragments comparison; (1) The specific source problem, whether the questioned fragment ($Q$) is from the glass pane that known fragments ($K$) found at the crime scene, (2) the common source problem, whether the questioned fragment ($Q$) shares the source that known fragments belong to.  Regardless of which question we are facing, the statistic we need to help answering the question is the similarity between $Q$ and $K$. There are lots of ways to define the similarity between two glass fragments, $Q$ and $K$, but the similarity should be defined based on the what types of data or measurements we have for glass fragments. For example, if we have elemental compositions measured in ppm as numerical values, the easy version of similarity would be the differneces of chemical compositions between $Q$ and $K$. 
 
 
 ### current practice
-There are many types of glass measurements such as color, thickness, refractive index (RI) and chemical concentrations. In this study, we will focus on the float glass that is most frequently used in windows, doors and automobiles. Also, the measurements of float glass are obtained through inductively coupled mass spetrometry with a laser add-on (LA-ICP-MS). In this situation, there are two kinds of forensic comparison guidance by ASTM International; [@ASTME233012, @ASTME292716]. The rule to classify glass fragments in the standard methods is constructed by interval based appoach on each of chemical element. 
+There are many types of glass measurements such as color, thickness, refractive index (RI) and chemical concentrations. In this study, we will focus on the float glass that is most frequently used in windows, doors and automobiles. Also, the measurements of float glass are obtained through inductively coupled mass spetrometry with a laser add-on (LA-ICP-MS). In this situation, there are two kinds of forensic comparison guidance by ASTM International; [@ASTME233012], [@ASTME292716]. The rule to classify glass fragments in the standard methods is constructed by interval based appoach on each of chemical element. 
 
 
 ### goal of this chapter
@@ -58,6 +58,8 @@ install.packages('caret')
 library(tidyverse)
 library(caret)
 library(ggplot2)
+library(GGally)
+library(patchwork)
 ```
 
 R package 'caret' is useful for developing machine learning algorithms with cross-validations. (BLAH....)
@@ -76,33 +78,288 @@ Here are steps:
 
 Once we have got many pairwise differences with response variable of 'same source' and 'different source', we will train random forest to understand the property of two classes of the source. 
 
+Let's begin with loading the glass data. 
 
 ```{r dat}
 glass<-read.csv('dat/glass_raw_all.csv')
+elements <- read.csv("dat/elements.csv")
+cols <- csafethemes:::csafe_cols_secondary[c(3,12)]
 names(glass)[4:21] <- str_sub(names(glass)[4:21], 1,2)
 names(glass)[8] <- "K"
 dim(glass)
-head(glass[,c(22,1:8)],10)
-summary(glass[,4:8])
+head(glass[,c(22,1:9)],10)
+#summary(glass[,4:8])
 ```
 
-
-We see that fragment 1 and 2 from pane AA and manufatruer A are measured 5 times each. As an example, we show five chemical measurements of lithium (Li7), sodium (Na23), magnesium (Mg25), aluminium (Al27) and potassium (K39). Each chemical concentration has different scale; for example, lithium ranges from 0.415 to 7.7 while sodium ranges from 53700 to 111910. Thus, we take log transformation of entire measurements. 
+We see that fragment 1 and 2 from pane AA and manufatruer A are measured 5 times each. As an example, we show five chemical measurements of lithium (Li), sodium (Na), magnesium (Mg), aluminium (Al) and potassium (K). Each chemical concentration has different scale; for example, Li ranges from 0.415 to 7.7 while Na ranges from 53700 to 111910. Thus, we take log transformation of entire measurements. 
 
 ```{r dat2}
+glass <- filter(glass, !(pane == "AAK" & fragment == 8 & Rep == 1))
 glass_long <- glass %>% gather(element, ppm, Li:Pb)
+glass_long <- filter(glass_long, !(pane == "AAK" & fragment == 8 & Rep == 1))
+pane_order <- c(paste0("A", LETTERS[c(1:13, 15,22:25)]), 
+                paste0("AA", LETTERS[c(1:4, 6,8:13, 17:18)]), 
+                names(table(glass$pane))[c(32:48)])
+glass$pane<-ordered(glass$pane, levels = pane_order)
+glass_long$pane<-ordered(glass_long$pane, levels = pane_order)
 glass_log_long<- glass_long %>% mutate(log_ppm=log(ppm))
-glass_log_long[,-6] %>% spread(element, log_ppm) %>% select(mfr,pane,fragment,Rep,Li,Na,Mg,Al,K) %>% head()
+glass_log_long$pane<-ordered(glass_log_long$pane, levels = pane_order)
+glass_log_long[,-6] %>% spread(element, log_ppm) %>% select(mfr,pane,fragment,Rep,Li,Na,Mg,Al,K,Ca) %>% head()
+```
+
+We take the log transformation of 18 chemical measurements. Now, Li ranges from -0.88 to 2.04 and Na ranges from 11.43 to 11.63.  
+
+
+```{r density, fig.cap='Density estimation of selected chemical compositions, colored by manufacturers', fig.align = 'center'}
+glass_log_long %>% filter(element %in% c("Li","Na","Mg","Al","K","Ca")) %>% 
+  ggplot() + 
+  geom_density(aes(x = log_ppm, fill = mfr), alpha = .7) + 
+  scale_fill_manual(name = "Manufacturer", values = cols) +
+  facet_wrap(~element, scales = "free", nrow = 2) + 
+  labs(x = "Log concentration (ppm)", y = "Density") +
+  theme(legend.position = "top")
+```
+
+Figure \@ref(fig:density) shows density plots of six chemical compositions of Al, Ca, K, Li, Mg, Na. Na and Ca (major elements) show desity curves from two manufacturers are ovarlapped, while Al, K show clear separation between curves by manufacturers. There are seven elements, (Al, Ce, K, Mn, Rb, Nd, Ti), to show the clear separation in density curves by manufaturers. This implies that the source prediction of two glass fragments from different manufacturers is quite easy problem.                       
+
+
+
+```{r boxplot, fig.cap='Box plot of four elements in 48 panes, ordered by date of production, from two manufacturers.', fig.align='center'}
+glass_log_long %>% filter(element %in% c("Na","Ti","Zr","Hf")) %>% 
+  ggplot() + 
+  geom_boxplot(aes(x = pane, y = log_ppm, fill = mfr), alpha = .8, outlier.size = .5, size = .1) + 
+  scale_fill_manual(name = "Manufacturer", values = cols) +
+  facet_wrap(~element, scales = "free", nrow = 2, labeller = label_both) + 
+  theme(legend.position = "none") + 
+  scale_x_discrete(labels = c("AA", rep("", 30), "BA", rep("", 15), "BR")) + 
+  labs(x = "Pane (in order of manufacture)", y = "Log concentration (ppm)")
+
 ```
 
 
+Figure \@ref(fig:boxplot) shows box plot of four elements (Na, Ti, Zr, Hf) in 48 panes from two manufacturers. Each box is constructed by values in each pane and boxes are ordered by date of production within the manufacturer. We can confirm the between and within pane variabilities. Interestingly, element values of Zr and Hf in manufacturer A are decreasing in time and they behave together. This could be one of evidences that chemical elements are correlated. 
 
 
+```{r correlation, fig.cap='Correlations among element concentrations in panes AA and BA. Blue and red colored area means correlations between elements are lager than 0.5 or lower than -0.5.', fig.align='center'}
+glass_log_long[,-6] %>% 
+  filter(pane=="AA") %>% 
+  spread(element, log_ppm) %>% 
+  group_by(fragment) %>%
+  summarise_if(is.numeric, mean, na.rm = TRUE) -> col_data_AA
+
+glass_log_long[,-6] %>% 
+  filter(pane=="BA") %>% 
+  spread(element, log_ppm) %>% 
+  group_by(fragment) %>%
+  summarise_if(is.numeric, mean, na.rm = TRUE) -> col_data_BA
+
+ggcorr(col_data_AA[,3:20], geom = "blank", label = TRUE, hjust = 0.75) +
+  geom_point(size = 10, aes(color = coefficient > 0, alpha = abs(coefficient) > 0.5)) +
+  scale_alpha_manual(values = c("TRUE" = 0.25, "FALSE" = 0)) +
+  guides(color = FALSE, alpha = FALSE) ->P1
+
+ggcorr(col_data_BA[,3:20], geom = "blank", label = TRUE, hjust = 0.75) +
+  geom_point(size = 10, aes(color = coefficient > 0, alpha = abs(coefficient) > 0.5)) +
+  scale_alpha_manual(values = c("TRUE" = 0.25, "FALSE" = 0)) +
+  guides(color = FALSE, alpha = FALSE) -> P2
+
+P1+P2
+
+```
+
+Figure \@ref(fig:correlation) shows correlation plot of pane AA and pane BA. When there is +1 correlation, then there is a strong positive correlation between two variables and when there is -1 correlation, then there is a strong negative correlation. In each correlation plot, we colored blue and red when there is correlation larger than 0.5 or lower than -0.5. In both correlation plots, we see many blue and red areas, so that there are some dependencies among chemical compositions in glass fragments measurements.  
+
+
+
+<!--Histogram of Mates and Non-mates -->
+
+```{r diffdata}
+diff_Q_K_data<-readRDS("dat/rf_data_kfrags_1z.rds")
+diff_Q_K_data$class<-ifelse(diff_Q_K_data$pane_q==diff_Q_K_data$pane_k, "KM","KNM")
+names(diff_Q_K_data)[1:18] <- str_sub(names(glass)[4:21], 1,2)
+#table(diff_Q_K_data$class)
+##    KM   KNM 
+##  1440 67680
+diff_Q_K_data[c(1,50,99,2,3,4), c(21,1:6)] %>% knitr::kable(format = "html", caption="Differences of log values of concentrations (Li, Na, Mg, Al, K, Ca) from pairs of known mates (KM) and knon non-mates (KNM)", longtable = FALSE, row.names = FALSE, digits=4, col.names = c("Class","Li","Na","Mg","Al","K","Ca"))
+
+```
+
+
+Table \@ref(tab:diffdata) shows the example of pairwise differences among glass measurements. If we take the difference of two fragments from the same pane, then 'KM' is assigned to the response variable of 'Class'. If we take the difference of two fragments from two different panes, then 'KNM' is assigned to variable 'Class'. Each row has 18 differences and one variable 'Class' indicating the source of two glass fragments. We can come up with 1,440 KM pairs and  67,680 KNM pairs. By taking pairwise differences, there should be much more KNM pairs than KM pairs.   
+
+
+<!--head of difference data  -->
+
+```{r diffhist, fig.cap='Histogram of differences from four chemical elements among KM and KNM.', fig.align='center'}
+diff_Q_K_data %>% gather(element, diff, Li:Pb) %>%
+  filter(element %in% c("Zr","Li","Hf","Ca")) %>% 
+  ggplot() +
+  geom_histogram(aes(x=diff, fill=class),position="dodge", alpha=0.7) + 
+  scale_fill_manual(name = "Class", values = cols) +
+  geom_vline(xintercept = 0)+
+  facet_wrap(~element, scales = "free", nrow = 2) + 
+  labs(y = "Difference between Q and K") +
+  theme(legend.position = "top")
+```
+
+Figure \@ref(fig:diffhist) shows the distribution of differences among KM and KNM from elements of Ca, Hf, Li, Zr. Across all elements, distribution of differences from KNM are more spread than differences of KM. The differences of KM centered to zero values. Sometimes, the differences of the element among KNM show bimodal distribtions, caused by two manufacturers. These differences among 18 elements will be the inforamtion feeding the random forest, toward the response variable of 'Class'.  
+
+
+
+<!--random forest classifier / train data and test data separation -->
+Finally, we will construct the random forest classifier. Based on difference of 18 elements among KM and KNM pairs, we will feed the random forest to understand how to predict the source of two glass fragments. 
+
+At this point, we illustrate how to fit the random forest using R-package caret, using our data. Since the difference data has 1,440 KM and 67,680 KNM measurements, the response variable are imbalanced in numbers of two classes. Therefore, it is easy for the algorithm to learn to predict as 'KNM' rather than understanding the property of 'KM', to have the lowest prediction error. You can find more ways to consider this imbalance problem for fitting the random forest in this glass fragment source prediction in [@park2018].  In this chapter, we will sample the same size of 'KNM' measurements to the number of 'KM'. That way, we will have 1,440 KM and 1,440 KNM comaprisons, where 70% of them will be the training set and rest of them are testing set. 
+
+```{r data3}
+diff_Q_K_data$class<-as.factor(diff_Q_K_data$class)
+#Down sample the majority class to the same number of minority class
+down_diff_Q_K_data<-downSample(diff_Q_K_data[,c(1:18)], diff_Q_K_data$class)
+down_diff_Q_K_data <- down_diff_Q_K_data %>% mutate(id = row_number())
+names(down_diff_Q_K_data)[19]<-"class"
+table(down_diff_Q_K_data$class)
+##
+## KM  KNM 
+## 1440 1440 
+
+#Create training set
+train_data <- down_diff_Q_K_data %>% sample_frac(.70)
+#Create test set
+test_data  <- anti_join(down_diff_Q_K_data, train_data, by = 'id')
+train_data<-train_data[,-20] #exclude id 
+test_data<-test_data[,-20]  #exclude id 
+#dim(train_data) # 2016   19
+#dim(test_data) # 864  19
+```
+
+
+We down-sampled the magjority class of 'KNM' into the same number of minority class of 'KM'. In the end, we have 1,440 KM and 1,440 KNM pairs of comparisons as our data. After then, we randomly selected 70% of them as training set for fitting the random forest classifier and set aside the rest of 30% data as test data for the validation of the performance. 
+
+
+```{r RF, eval=FALSE}
+ctrl <- trainControl(method = "repeatedcv",
+                     number = 10,
+                     repeats = 3,
+                     savePredictions="final",
+                     summaryFunction = twoClassSummary,
+                     classProbs = TRUE
+                     #sampling = "down"
+                     )
+
+#random forest without any sampling method (original version)
+# mtry is recommended to use sqrt(# of variables)=sqrt(18) so 3 and 4 are tried to find the optimal one
+RF_classifier <- train (class~.,
+                        train_data,
+                        method = "rf",
+                        tuneGrid = expand.grid(
+                          .mtry = c(1:5)),
+                        metric="ROC",
+                        preProc=c("center", "scale"),
+                        trControl = ctrl)
+#saveRDS(RF_classifier, "dat/RF_classifier.RDS")
+```
+
+Here is the R code how we fit the random forest, using R-package caret. The tuning parameter for random forest algorithm is 'mtry' which is the number of variables available for splitting at each tree node. We will try five values from one to five as possible mtry and pick the optimal one. For the classification, the defualt 'mtry' is the square root of the number of predictor variables (it is $\sqrt{18}$, in our study) but we will find the optimal value for 'mtry' in training set. For the optimization process, it calculates area under the ROC curve (AUC), specificity and sensitivity in each given 'mtry' values. The optimal 'mtry' value will result the highest AUC from the ROC curve. As a preprocessing, it automatically adjust centered and scaled acorss 18 prdictors. We try 10-fold cross-valildation to validate the random forest algorithm and repeat entire process three times. 
+
+```{r RF2}
+RF_classifier<-readRDS('dat/RF_classifier.RDS')
+RF_classifier
+```
+
+From the RF fitting result, it showed the AUC (ROC), Sens (Sensitivity) and Spec (Specificity) values in each mtry values. R-package caret selects the best mtry value (it is 2, in our study) to give the highest AUC (ROC) value (0.9754), from 10-fold cross-validation and 3 repeated process. 
+
+
+```{r RF3}
+RF_classifier$finalModel
+```
+
+It showed the final performance of the random forest algorithm with the optimal mtry of 2 with 500 of number of trees. In the training set, there are 2% false negative rate and 13.3% of false positive rate, which is the optimized classifiation result. We see the OOB estimate of error rate of 7.69%, which is the average error rate from the separate set of data (one fold out of 10-fold separation of training set) to vailidate and optimize the random forest algorithm. 
+
+
+
+```{r varimp, fig.cap='Variable importance from the RF classifier, colored by variable types.', fig.align='center'}
+imp<-varImp(RF_classifier)$importance
+imp <- as.data.frame(imp)
+imp$varnames <- rownames(imp) # row names to column
+rownames(imp) <- NULL  
+imp<-imp %>% arrange(-Overall)
+imp$varnames<-as.character(imp$varnames)
+elements$symb<-as.character(elements$symb)
+elements$classification<-as.character(elements$classification)
+
+imp %>% left_join(elements[,c(2,4)], by=c("varnames"="symb")) %>% 
+ggplot(aes(x=reorder(varnames, Overall),y=Overall, fill = classification)) + 
+  geom_bar(stat = "identity") +
+  coord_flip() + 
+  scale_fill_discrete(name="Variable") +
+  ylab("Overall importance") +
+  xlab("Variable Name")
+```
+
+By fitting the random forest algorithm, we can also get the variable importance. Out of 18 variables, it ranks which elements are important and less important to predict the source for glass fragments. Figure \@ref(fig:varimp) shows that elements K, Ce, Ti, Zr, Rb are five important variables and Pb, Sr, Na, Ca are four not important variables. Major elements such as Na, Ca, Mg are locating in the low ranking and most of trace elements are ranked in the top. 
 
 
 ## Drawing Conclusions
 
+<!-- show density estimation of RF score in testing set -->
+
+```{r testtable}
+# Get prediction from RF classifier in test data
+# table(test_data$class)
+##
+## KM KNM 
+## 435 429 
+pred_class <- predict(RF_classifier, test_data)                           
+table_pred_class<-confusionMatrix(pred_class, test_data$class)$table
+table2<-data.frame(table_pred_class) %>% spread(Reference, Freq)
+
+table2 %>%   knitr::kable(format = "html", caption="Classification result of test set", longtable = FALSE, row.names = FALSE)
+```
+
+
+Table \@ref(tab:testtable) shows the classification results by random forest that we fitted, using training set. There are 435 KM and 429 KNM comparisons in the test set. Out of 435 KMs, the RF classifier correctly predicts the source as 'KM' 433 cases and wrongly predict the source as 'KNM' 2 cases (0.5% FNR). Out of 429 KNMs, the RF classifies the source 364 cases correctly and 65 cases wrongly (15.15% FPR). The reason why the RF resulted high FPR is because the data we have are from many close panes that produced in the same manufaturers.   
+
+
+```{r testscore, fig.cap='Histogram of differences from four chemical elements among KM and KNM.', fig.align='center'}
+#class probability for the same pane is used as similarity score for RF
+prob_prediction <- predict(RF_classifier, test_data,type="prob")[,"KM"]  
+test_data$prob<-prob_prediction
+
+test_data %>% 
+  ggplot() + 
+  geom_density(aes(x = prob, fill = class), alpha = .7) + 
+  scale_fill_manual(name = "Class", values = cols) +
+  labs(x = "Empirical probability for KM from RF classifier", y = "Density") +
+  theme(legend.position = "top")
+```
+
+
+We draw the empirical class probability of 'KM' (the RF score) that is predicted by the random forest classifier of each measurement in test data. Figure \@ref(fig:testscore) shows the distribution of the RF scores, colored by true classes in test data. Two densities of classes are well separated while there is still overlap between classes. Table \@ref(tab:testtable) is the predicted classification result using the cut-off of 0.5. If the RF score is larger than 0.5, then we will predict the source for the pairs of glass fragments as 'KM'. If not, then we declare as 'KNM'. 
+
+
+
 ## Case Study
-Test a new pair of comparisons using AOAS random forest classifier. 
+Here we introduce a new set of five pairs of comparisons. There are two pairs of glass fragments from the same pane and three pairs of glass fragments from different panes. Among three non-mates, one case is comparing two fragments from panes produced by different manufacturers and the other two cases are comparing two fragments from panes but produced within 2 days in the same manufacturer. None of compairsons were used for training the RF classifier. In this Section, we will use the RF classfier developed in [@park2018]. 
+
+
+```{r newtest, results='asis', echo=FALSE}
+newcase<-read.csv('dat/casestudy.csv')
+newcase %>% knitr::kable(format = "html", caption="Predicted scores of new comparison cases by the RF classifier and the ASTM classifier", longtable = FALSE, row.names = FALSE, digits=3, col.names = c("Comparison", "Pane-Frag", "Pane-Frag", "RF", "Truth"))
+```
+
+Table \@ref(tab:newtest) shows the RF score which is defined as the empirical class probability for 'KM' by the RF algorithm. For comparison 1 and 2, the RF scores are over 0.9, meaning the RF is 90% sure about the source of these comparisons to be same pane. The comparison 3 is comparing a pair of glass fragments from panes produced in different manufacturers. In this case, the RF score is zero. The comparison 4 and 5 is non-mated pairs from two different panes but very closed produced (within 2 days) in the same manufacturer. For comparison 4, the RF score is 0.16, so that it clearly indicates the source toward the different source. For comparison 5, the RF score is 0.56 which is unclear to declare one of hypotheses either same source or different source. 
+
+
+
+There should be more discussion to use the random forest classifier to be used. We have to think of what data base we should use for training the learning algorithm. Also, there could be overfitting problem by the learing algorithm. However, the RF classifier can be one possible way to consider as a classification rule for glass fragments measurements with lots of variables and less repeated measurements. More details and analaysis about building up the RF classifiers and dicussions are in [@park2018]. 
+
+
+
+```{r newcase, results='asis', eval=FALSE, echo=FALSE}
+newpair<-read.csv('dat/score_test.csv',row.names = NULL)[,-1]
+colnames(newpair)<-str_sub(names(glass)[4:21], 1,2)
+predict(RF_classifier, newpair,type="prob")[,"KM"] 
+#0.886 0.824 0.316 0.492 0.724
+```
 
 
