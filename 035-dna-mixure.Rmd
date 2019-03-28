@@ -4,6 +4,8 @@
 
 ## Introduction
 
+At every locus, an individual is either homozygotic or heterozygotic. If a person is homozygotic, they inherited the same allele from each parent, while if they are heterozygotic they inherited a different allele from each parent. When a single individual contributed to a DNA sample, it is quite simple to determine if a reference individual contributed to the sample. After accounting for stutter and drop-out and assuming no laboratory error, if at least one locus has different alleles in the sample that are not present in the reference, then the reference individual did not contribute to the sample. In the case where no loci are different, it is also true that they could match at random. 
+
 Start with a brief intro to the simplicity of single-source DNA. 
 
 As discussed in Chapter \@ref(dnaval), forensic DNA analysis relies on the counts of alleles at particular loci on the human genome. 
@@ -22,6 +24,9 @@ There are probabilistic models for determining the number of contributors, how m
 
 - mixsep 
 - dnamixtures 
+- forensim
+- DNAtools
+- relMix x
 
 ## Drawing Conclusions
 

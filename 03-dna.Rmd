@@ -13,13 +13,13 @@ knitr::opts_chunk$set(echo = TRUE, cache=TRUE, fig.align = "center", message = F
 
 ## Introduction
 
-The earliest documented^[See [this interview](https://www.bbc.co.uk/sounds/play/b008fcdz) at 19:23.] use of DNA profiling in the legal system was an immigration dispute in the United Kingdom. A young man of Ghanaian descent with family in the UK was believed to have forged his Ghanaian passport and had an expired British passport. DNA profiling techniques developed by Sir Alec Jeffreys were used to prove that the he was indeed his mother's son, and thus he did have a right to immigrate to the UK. The technique was subsequently used for many other parentage cases, and soon after, DNA profiling was used for the first time to convict someone of a crime [@butler09].
+The earliest documented^[See the interview (https://www.bbc.co.uk/sounds/play/b008fcdz) at 19:23.] use of DNA profiling in the legal system was an immigration dispute in the United Kingdom. A young man of Ghanaian descent with family in the UK was believed to have forged his Ghanaian passport and had an expired British passport. DNA profiling techniques developed by Sir Alec Jeffreys were used to prove that the he was indeed his mother's son, and thus he did have a right to immigrate to the UK. The technique was subsequently used for many other parentage cases, and soon after, DNA profiling was used for the first time to convict someone of a crime [@butler09].
 
-When DNA profiling began, an individual's blood sample was taken to create their DNA profile. Now, DNA can be taken by a cheek swab, and the minute traces of touch DNA can tie a perpetrator to the scene of the crime. This is thanks to the polymerase chain reaction (PCR), a method of copying a DNA sample over and over again to amplify the genetic signal for profile extraction. Once a DNA sample is amplified with PCR, different DNA markers can be analyzed to make an identification. The standard for forensic DNA typing is to use short tandem repeats or STRs as the DNA marker. Other markers, single nucleotide polymorphisms (SNPs) and the mitochondrial genome (mtDNA), have different uses. SNPs can be used to identify ancestry or visible traits of a human, while mtDNA is used in cases where DNA is highly degraded [@dnareview]. Because STR is the standard, we dedicate the rest of this chapter to its methodology. 
+When DNA profiling began, an individual's blood sample was taken to create their DNA profile. Now, DNA can be taken by a cheek swab, and minute traces of touch DNA can tie a perpetrator to the scene of the crime. This is thanks to the polymerase chain reaction (PCR), a method of copying a DNA sample over and over again to amplify the genetic signal for profile extraction. Once a DNA sample is amplified with PCR, different DNA markers can be analyzed to make an identification. The standard for forensic DNA typing is to use short tandem repeats or STRs as the DNA marker. Other markers, single nucleotide polymorphisms (SNPs) and the mitochondrial genome (mtDNA), have different uses. SNPs can be used to identify ancestry or visible traits of a human, while mtDNA is used in cases where DNA is highly degraded [@dnareview]. Because STR is the standard, we dedicate the rest of this chapter to its methodology. 
 
 ### Procedure for DNA Analysis using STRs
 
-In order to understand the STR methodology, we first need to understand what is being analysed. We present the comparison of genetic and printed information from @butler09 in Table \@ref(tab:comparetable). When forensic scientists analyze a DNA sample, they are looking for repeated "words" or DNA sequences in different "paragraphs," or loci. The locus information is stored in the chromosome, which is the "page" the genetic information is on. Your *chromosomes* exist in the *nucleus* of every *cell* in your body, just like a *page* is within a *chapter* in a *book* in a *library*.  STR markers are a set of loci or genes. At each locus, the number of times a tetranucleotide sequence repeats is counted [@butler05]. This count indicates the allele, or gene variation, at that particular locus. 
+In order to understand the STR methodology, we first need to understand what is being analysed. We present the comparison of genetic and printed information from @butler09 in Table \@ref(tab:comparetable). When forensic scientists analyze a DNA sample, they are looking for repeated "words" or DNA sequences in different "paragraphs," or loci. The locus information is stored in the chromosome, which is the "page" the genetic information is on. Your *chromosomes* exist in the *nucleus* of every *cell* in your *body*, just like a *page* is within a *chapter* in a *book* in a *library*.  STR markers are a set of loci or genes. At each locus, the number of times a tetranucleotide sequence (e.g. AAGC) repeats is counted [@butler05]. This count indicates the allele, or gene variation, at that particular locus. 
 
 ```{r comparetable, results='asis', echo = FALSE}
 x <- c("Library", "Book", "Chapter", "Page", "Paragraph", "Word", "Letter")
@@ -27,11 +27,11 @@ y <- c("Body", "Cell", "Nucleus", "Chromosome", "Locus or gene", "Short DNA sequ
 knitr::kable(data.frame(x,y), col.names = c("Printed Information", "Genetic Information"), caption = "Recreation of Table 2.1 from @butler09")
 ```
 
-In forensic DNA profiling, a particular set of 20^[As of January 1, 2017, there are 20 core loci in CODIS. See https://www.fbi.gov/services/laboratory/biometric-analysis/codis/codis-and-ndis-fact-sheet.] or more loci are examined for comparison. The number of loci depends on the equipment used to analyzed the DNA sample.  These sets of loci were chosen because of their high variability in the population. To find the alleles at each loci, the DNA sample is amplified using PCR, and then run through capillary electrophoresis (CE). The result of CE is the DNA profile, with the alleles on each locus indicated by different colored peaks from a chemical dyeing process. For interpreting the results of the chemical analysis, the loci need to be described in terms of their stutter ratio, heterozygote peak balance, inter-locus balance, and stochastic threshold. 
+In forensic DNA profiling, a particular set of 20^[As of January 1, 2017, there are 20 core loci in CODIS. See https://www.fbi.gov/services/laboratory/biometric-analysis/codis/codis-and-ndis-fact-sheet.] or more loci are examined for comparison. The number of loci depends on the equipment used to analyzed the DNA sample.  These sets of loci were chosen because of their high variability in the population. To find the alleles at each loci, the DNA sample is amplified using PCR, and then run through capillary electrophoresis (CE). The result of CE is the DNA profile, with the alleles on each locus indicated by different colored peaks from a chemical dyeing process. <!--For interpreting the results of the chemical analysis, the loci need to be described in terms of their stutter ratio, heterozygote peak balance, inter-locus balance, and stochastic threshold. --> 
 
-These four measurments, however, are subject to random change due to the replication process. In addition, different labs may use different machines and materials in forensic analysis resulting in different measurements for the same DNA sample. Thus, the validation of methods and materials is a crucial step. According to the Scientific Working Group on DNA Analysis Methods (SWGDAM), "validation is a process by which a procedure is evaluated to determine its efficacy and reliability for forensic casework and/or database analysis" [@swgdamval] Validation helps minimize error in forensic DNA analysis and helps keep results consistent across laboratories and materials.
+The DNA profile is subject to random change, called *slippage*, due to the replication process. In addition, different labs may use different machines and materials in forensic analysis resulting in different measurements for the same DNA sample. Thus, the validation of methods and materials is a crucial step. According to the Scientific Working Group on DNA Analysis Methods (SWGDAM), "validation is a process by which a procedure is evaluated to determine its efficacy and reliability for forensic casework and/or database analysis" [@swgdamval].  Validation helps minimize error in forensic DNA analysis and helps keep results consistent across laboratories and materials.
 
-The process of validation for forensic DNA methodology is expensive, time consuming, and unstandardized, and the R package `strvalidator` was created to help solve these problems in forensic DNA [@strval]. The `strvalidator` package makes the validation process faster by automating data analysis with respect to "heterozygote balance, stutter ratio, inter-locus balance, and the stochastic threshold" [@strval]. In the remainder of this chapter, we'll introduce the data for this package, how to use the package, and show an example of each of the four aforementioned validation processes in R.  
+The process of validation for forensic DNA methodology is expensive, time consuming, and unstandardized, and the R package `strvalidator` was created to help solve these problems in forensic DNA [@strval]. The `strvalidator` package makes the validation process faster by automating data analysis with respect to "heterozygote balance, stutter ratio, inter-locus balance, and the stochastic threshold" [@strval]. In the remainder of this chapter, we'll introduce the data for this package, the primary functions of the package, and show an example of each of the four aforementioned validation steps in R.  
 
 
 ## Data 
@@ -64,31 +64,53 @@ where
 
 ## R Package
 
-The package `strvalidator` has a graphical user interface (GUI) to perform analyses so that no coding knowledge is necessary to run these analyses. The author of the package, Oskar Hansson, has written an extensive tutorial^[*STR-validator* 2.0.0 tutorial, published 8 August 2017 [here](https://drive.google.com/file/d/0B2v6NDpFIgvDel9wSlFfb3hvekk/view).] on the GUI. As this book is focused on open science, we do not use the GUI because it does not output the underlying code used for the point-and-click analyses done in the GUI. Instead, we use the code underlying the GUI directly. This is called the "basic layer" of the package by @strvalidator.
+The package `strvalidator` has a graphical user interface (GUI) to perform analyses so that no coding knowledge is necessary to run these analyses. The author of the package, Oskar Hansson, has written an extensive tutorial^[*STR-validator* 2.0.0 tutorial, published 8 August 2017 (https://drive.google.com/file/d/0B2v6NDpFIgvDel9wSlFfb3hvekk/view).] on the GUI. As this book is focused on open science, we do not use the GUI because it does not output the underlying code used for the point-and-click analyses. Instead, we use the code that powers the GUI directly. This code is called the "basic layer" of the package by @strval.
 
-The data are read into R via the `import()` function. This function combines the processes of trimming and slimming the data. Trimming only selects the columns of interest for your analysis (e.g. `Sample.Name`, `Allele`, `Height`), while slimming converts the data from wide format to long format as shown in Figure \@ref(fig:widelonggif). 
+The data are read into R via the `import()` function. This function combines the processes of trimming and slimming the data. Trimming selects the columns of interest for your analysis (e.g. `Sample.Name`, `Allele`, `Height`), while slimming converts the data from wide format to long format, as shown in Figure \@ref(fig:widelonggif). 
 
 After the data has be loaded, there are four main families of functions in the `strvalidator` package that are used for analysis. 
 
-- `add*()`: Add to the DNA data. For example, use `addMarker()` to add locus information or `addSize()` to add a column `Size` to the data with the fragment size in base pair (bp) for each allele.
+- `add*()`: Add to the DNA data. For example, use `addMarker()` to add locus information or `addSize()` to add the fragment size in base pair (bp) for each allele.
 - `calculate*()`: Compute properties of the DNA data. For example, use `calculateHb()` to compute heterozygous balance for the data  or `calculateLb()` to compute the inter-locus balance (profile balance) of the data. 
 - `remove*()` :  Remove artefacts from the data with `removeArtefact()` and remove spikes from the data with `removeSpike()`. 
-- `table*()` : Summarize results from one of the `calculate*()` analyses. For example, `tableStuter()` summarized the results from `calculateStutter()`. 
+- `table*()` : Summarize results from one of the `calculate*()` analyses. For example, `tableStuter()` summarizes the results from `calculateStutter()`. 
 
-For complete definitions and explanations of all functions available in `strvalidator`, please see the [`strvalidator` manual](https://www.thermofisher.com/order/catalog/product/4475073).  
+For complete definitions and explanations of all functions available in `strvalidator`, please see the [`strvalidator` manual](https://drive.google.com/file/d/0B2v6NDpFIgvDMzlydllKaHVBYW8/view).  There are many other capabilities of `strvalidator` that do not cover in this chapter for the sake of brevity. 
 
 ## Drawing Conclusions
 
-For each type validation analysis, heterozygote balance, stutter ratio, inter-locus balance, and stochastic threshold, there are recommended guidelines. In @strval, the authors recommend the referencing the following: 
+There is no one tidy way to conclude a DNA validation analysis, which may be done for new machines, new kits, or any internal validation required. The `strvalidator` package's primary purpose is to *import* large validation data sets and *analyze* the results of the validation experiment according to different metrics [@riman16]. A more complete description of the necessary validation studies is found in @swgdamval, and a full step-by-step tutorial of the process is found in @riman16. 
 
-- Heterozygote balance: @hill2011 for the specific PowerPlex® ESX 17 and ESI 17 systems and @gill1997 for the general recommendation of no less than 60%. 
-- Stutter ratio: @hill2011, @westen2012, @brookes2012, and @tvedebrink2012 show greater stutter with more repeats. 
-- Inter-locus balance: 
+For validation analysis with respect to heterozygote balance, stutter ratio, inter-locus balance, and stochastic threshold, there are recommended guidelines to follow. 
 
-There are many other capabilities of `strvalidator` that we have not mentioned here for brevity. 
+### Stutter ratio 
+
+The stutter ratio depends on several factors: the backward stutter, the forward stutter, and the allowed overlap (none, stutter, or allele), as shown in Figure \@ref(fig:stutterfig). Each of @hill2011, @westen2012, @brookes2012, and @tvedebrink2012 show greater stutter with more repeats, and these results are similar to those in @strval. In addition they found that some loci, such as TH01, experience less stutter on average than others. 
+
+### Heterozygote balance
+
+For guidelines specific to the PowerPlex® ESX 17 and ESI 17 systems featured in @strval, refer to @hill2011. Generally speaking, per @gill97, the heterozygote balance should be no less less than 60%. 
+
+###  Inter-locus balance
+
+Per @strval, there are two methods in `strvalidator` to compute inter-locus balance.
+
+1. As the proportion of the total peak height of a profile 
+2. Relative to the highest peak total within a single locus in the profile, with the option to compute this value for each dye channel. 
+    
+Ideally, the loci would be perfectly balanced and the total peak height in each locus would be equal to $\frac{1}{n}$ where $n$ is the number of loci in the kit [@strval]. 
+
+
+### Stochastic threshold
+
+The stochastic threshold is the "detection level [...] where a potential sister allele of a detected peak may fall below the analytical threshold" [@butler09], and is used to assess drop-out risk. @strval refer to analytical threshold (AT) as the limit of detection threshold (LDT). Peaks above the AT are considered *signal*, and any peaks below the AT are considered *noise*. The stochastic threshold (ST) is the threshold at which you can be confident the observed peak is a true allele peak.^[ThermoFisher has a great five minute video explainer of the two different threshold types (https://youtu.be/lbCQmMbfIoM).] Peaks that appear to be homozygous but have heights above the AT but below the ST may not be true homozygotes and may have experienced stochastic effects, such as allele dropout or elevated stutter. Usually, these stochastic events only happen for very small amounts of DNA that have been amplified.
+
+In `strvalidator`, dropout is scored according to the user-provided LDT value and the reference data provided. The risk of dropout is then modeled using a logistic regression of the calculated dropout score on the allele heights. Then for an acceptable level of dropout risk, say 1%, the stochastic threshold is computed according to the logistic regression model. Thus, the ST is the peak height at which the probability of dropout is less than 1%.  
 
 
 ## Case Study
+
+We do a simple case study using eight repeated samples from the same individual that are included in the `strvalidator` package. 
 
 <!--
 There are four pieces in validation: 
@@ -100,9 +122,9 @@ There are four pieces in validation:
 
 ### Get the data
 
-We'll use the package data `set1`, which is data from the genotyping of eight replicate measurments of a  positive control sample, one replicate of a negative control sample, and the ladder used in analysis. The PowerPlex® ESX 17 System from the Promega Corporation^[Technical manual [here](https://www.promega.com/-/media/files/resources/protocols/technical-manuals/101/powerplex-esx-17-system-protocol.pdf?la=en)] was used on these samples for amplification of 17 loci recommended for analysis by the European Network fo Forensic Science Institutes (ENFSI) and the European DNA Profiling Group (EDNAP), the European equivalent of SWGDAM. The known reference sample used is the `ref1` data in the `strvalidator` package. 
+We'll use the package data `set1`, which is data from the genotyping of eight replicate measurments of a  positive control sample, one replicate of a negative control sample, and the ladder used in analysis. The PowerPlex® ESX 17 System from the Promega Corporation^[Technical manual: https://www.promega.com/-/media/files/resources/protocols/technical-manuals/101/powerplex-esx-17-system-protocol.pdf?la=en] was used on these samples for amplification of 17 loci recommended for analysis by the European Network fo Forensic Science Institutes (ENFSI) and the European DNA Profiling Group (EDNAP), the European equivalent of SWGDAM. The known reference sample used is the `ref1` data in the `strvalidator` package. 
 
-First, load the data, then slim it for analysis. Use `generateEPG()` to visualize an electropherogram-like plot of the data.  
+First, we load the data, then slim it for analysis. Then, we use `generateEPG()` to visualize an electropherogram-like plot of the data.  
 
 ```{r set1, fig.show='hide'}
 library(strvalidator)
@@ -135,7 +157,7 @@ head(ref1.slim)
 p <- generateEPG(ref1.slim, kit = "ESX17") + ggtitle("True profile for sample PC") 
 ```
 
-```{r ref1epg, fig.cap="The reference profile electrogpherogram, `ref1`.}
+```{r ref1epg, fig.cap="The reference profile electrogpherogram, `ref1`."}
 p
 ```
 
@@ -169,10 +191,10 @@ plotref <- ref1.slim %>% sortMarker(kit = "ESX17") %>% filter(Marker == "AMEL")
 knitr::include_graphics("img/strval-fig2.jpg")
 ```
 
-Stutter peaks are byproducts of the DNA amplification process, and their presence muddles data interpretation [@strval]. Stutter is caused by strand slippage in PCR [@butler09]. This slippage causes small peaks to appear next to true peaks, and a threshold is needed to determine if a peak is caused by slippage or if it could be a mixture sample with a minor contributor. We calculate the stutter for the eight replicates in `set1` using one vack stuffer, no formward stutter and no overlap. We compare these values to the 95th percentiles in Table 3 of @strval. See Figure \@ref(fig:stutterfig) for an example of stutter.   
+Stutter peaks are byproducts of the DNA amplification process, and their presence muddles data interpretation [@strval]. Stutter is caused by strand slippage in PCR [@butler09]. This slippage causes small peaks to appear next to true peaks, and a threshold is needed to determine if a peak is caused by slippage or if it could be a mixture sample with a minor contributor. We calculate the stutter for the eight replicates in `set1` using one back stuffer, no forward stutter and no overlap. We compare these values to the 95th percentiles in Table 3 of @strval. See Figure \@ref(fig:stutterfig) for an example of stutter.   
 
 
-```{r stutter, fig.cap="Stutter ratios by allele for each of the eight samples in the `set`` data, computed for one back stutter, zero forward stutter, and no overlap. Horizontal dotted lines represent the 95th percentile of stutter ratio values from the study done in @strval."}
+```{r stutter, fig.cap="Stutter ratios by allele for each of the eight samples in the `set1` data, computed for one back stutter, zero forward stutter, and no overlap. Horizontal dotted lines represent the 95th percentile of stutter ratio values from the study done in @strval."}
 # make sure the right samples are being analyzed 
 checkSubset(data = set1.slim, ref = ref1.slim)
 # supply the false stutter and true stutter values for your data. these are from the GUI. 
@@ -254,7 +276,7 @@ ggplot(data = hbplot, aes(x = Marker, y = Hb, color = Dye)) +
 
 Inter-locus balance (Lb) is a measure of relative peak hight within a locus. The total height of the peaks in all loci should be spread evenly across each individual locus in a sample. In the `set1` data, 17 loci are measured, thus each individual locus balance should be 
 
-```{r lb}
+```{r lb, fig.cap="Inter-locus balance for the eight PC samples. At each locus, the value should be about $\frac{1}{17}$. The peak heights should ideally be similar in each locus."}
 set1_lb <- calculateLb(data = set1.slim, ref = ref1.slim, kit = "ESX17", option = "prop", 
             by.dye = FALSE, ol.rm = TRUE, sex.rm = FALSE, qs.rm = TRUE,  
             ignore.case = TRUE, na = 0)
@@ -287,36 +309,47 @@ ggplot(set1_lb) +
 ```
 --> 
 
-The inter-locus balance for this kit should ideally be about $\frac{1}{17} \approx 0.059$. This value is shown by the horizontal dotted line in figure \@ref(fig:lb). However, the markers in the red dye channel tend to have higher than ideal peaks and those in the yellow channel have lower than ideal peaks. 
+The inter-locus balance for this kit should ideally be about $\frac{1}{17} \approx 0.059$. This value is shown by the horizontal dotted line in Figure \@ref(fig:lb). However, the markers in the red dye channel have consistently higher than ideal peaks and those in the yellow channel have consistently lower than ideal peaks. 
 
 ### Check stochastic threshold
 
 The stochastic threshold is the value of interest for determining allele drop-out. If a peak is above the stochastic threshold, it is unlikely that an allele in a heterozygous sample "has dropped out" [@butler09]. Allele drop-out occurs when the allele peak height is less than the limit of detection threshold (LDT). As recommeneded in @butler09, we use an LDT of 50. The stochastic threshold is modeled with a logistic regression.  
 
-For this analysis, we need to switch datasets. The data `set4` was created specifically for drop-out analysis, and contains 32 samples from three different reference profiles. The `method = "1"` argument computes dropout with respect to the low molecular weight allele.
-
 ```{r sthresh}
+set1_do <- calculateDropout(data = set1.slim, ref = ref1.slim, threshold = 50, 
+                            method = "1",
+                            kit = "ESX17")
+table(set1_do$Dropout)
+```
+
+In `set1`, there is no dropout, as the samples included are control samples, and thus enough DNA is present during amplification so there are no stochastic effects.  
+
+For a more exciting dropout analysis, we need to switch datasets. The data `set4` was created specifically for drop-out analysis, and contains 32 samples from three different reference profiles. The `method = "1"` argument computes dropout with respect to the low molecular weight allele in the locus.
+
+```{r sthresh2}
 data(set4)
 data(ref4)
 set4_do <- calculateDropout(data = set4, ref = ref4, threshold = 50, 
                             method = "1",
                             kit = "ESX17")
+
+
 table(set4_do$Dropout)
 ```
 
 In the `set4` data, dropout was found in 33 alleles (`Dropout = 1`), and locus dropout (`Dropout = 2`) was found in 68 alleles. 
 
-The probability of drop-out is computed via logistic regression of the dropout with respect to the scoring method `1` on the allele Height. The model parameters are also computed using the `calculateT()` function. `calculateT()` also returns the threshold value at which probability of dropout is less than 0.01. 
+The probability of allele drop-out is computed via logistic regression of the dropout score with respect to the method `1` on the allele Height. The model parameters are also computed using the `calculateT()` function. `calculateT()` also returns the threshold value at which probability of dropout is less than 0.01. 
 
 ```{r sthreshcalc}
 set4_do2 <- set4_do %>% filter(Dropout != 2) %>% 
   rename(Dep = Method1, Exp = Height)
 do_mod <- glm(Dep ~ Exp, family = binomial("logit"), 
               data =set4_do2)
-set4_ths <- calculateT(set4_do2)
+set4_ths <- calculateT(set4_do2,pred.int = .98)
 ```
 
-Next, we plot predicted values and 95% confidence intervals for the dropout probability, P(D) for each height. 
+Next, we compute predicted dropout probabilities $P(D)$ and corresponding 95% confidence intervals and plot the results. 
 
 ```{r predictdo, fig.cap="Probability of dropout in `set4` for peaks from 100-1500 RFUs. 95% confidence interval for drop-out probability shown in red."}
 xmin <- min(set4_do2$Exp, na.rm = T)
@@ -334,7 +367,7 @@ yplot <- plogis(ypred$fit)
 predictionDf <- data.frame(Exp = predRange$Exp, Prob = yplot, yupper = yupper, ylower = ylower)
 # plot
 th_dat <- data.frame(x = 500, y = .5,
-            label = paste0("At ", round(set4_ths[1], 0), " RFUs,\nthe probability of dropout\nis less than 0.01."))
+            label = paste0("At ", round(set4_ths[1], 0), " RFUs,\nthe estimated probability\nof dropout is 0.01."))
 ggplot(data = predictionDf, aes(x = Exp, y = Prob)) + 
   geom_line() + 
   geom_ribbon(fill = "red", alpha = .4, aes(ymin = ylower, ymax = yupper))+
@@ -344,7 +377,7 @@ ggplot(data = predictionDf, aes(x = Exp, y = Prob)) +
   labs(x = "Peak Height (RFUs)", y = "Probability of allele drop-out")
 ```
 
-We can also look at a heatmap of dropout for each marker by sample. 
+We can also look at a heatmap of dropout for each marker by sample. The sample BC10.11 was completely lost to dropout in this case, while most other samples have no dropout whatsoever.
 
 ```{r heatmap, out.width='100%', fig.cap="Dropout for all samples in `set4` by marker."}
 set4_do %>% tidyr::separate(Sample.Name, into = c("num", "name", "num2")) %>% 
