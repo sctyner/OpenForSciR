@@ -80,7 +80,7 @@ Once we have got many pairwise differences with response variable of 'same sourc
 
 Let's begin with loading the glass data. 
 
-```{r dat}
+```{r glassdat}
 glass<-read.csv('dat/glass_raw_all.csv')
 elements <- read.csv("dat/elements.csv")
 cols <- csafethemes:::csafe_cols_secondary[c(3,12)]
@@ -93,7 +93,7 @@ head(glass[,c(22,1:9)],10)
 
 We see that fragment 1 and 2 from pane AA and manufatruer A are measured 5 times each. As an example, we show five chemical measurements of lithium (Li), sodium (Na), magnesium (Mg), aluminium (Al) and potassium (K). Each chemical concentration has different scale; for example, Li ranges from 0.415 to 7.7 while Na ranges from 53700 to 111910. Thus, we take log transformation of entire measurements. 
 
-```{r dat2}
+```{r glassdat2}
 glass <- filter(glass, !(pane == "AAK" & fragment == 8 & Rep == 1))
 glass_long <- glass %>% gather(element, ppm, Li:Pb)
 glass_long <- filter(glass_long, !(pane == "AAK" & fragment == 8 & Rep == 1))

@@ -47,7 +47,7 @@ Soyoung is ...
 
 ## Eric Hare {-}
 
-Eric is the Chief Data Scientist at [Omni Analytics](https://omnianalytics.io/). He earned his Ph.D. in Statistics from Iowa State University in 2017. (?) 
+Eric is the Chief Data Scientist at [Omni Analytics](https://omnianalytics.io/). He earned his Ph.D. in Statistics and Computer Science from Iowa State University in 2017. For his dissertation, Eric assisted in the development of `bulletr` and the associated bullet matching models which are a focus of a section of this book.
 
 ## Xiao Hui Tai {-}
 
@@ -65,6 +65,6 @@ Amanda is ...
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', "x3ptools", "bulletxtrctr"
 ), 'packages.bib')
 ```
