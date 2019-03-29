@@ -1,7 +1,6 @@
 # Firearms: bullets {#bullets}
 
-#### *Authors* {-}
-
+#### Eric Hare, PhD; Heike Hofmann, PhD {-}
 
 ![Source: https://www.pexels.com/photo/close-up-of-microscope-256262/](img/microscope.jpeg)
 
@@ -19,9 +18,9 @@ In this chapter, we outline the new standard data format used to store three-dim
 
 Data on both breech face and land engraved areas are available from the NIST Ballistics Database Project in the x3p (XML 3-D Surface Profile) format. This format was designed to implement a standard for exchanging 3D profile data. This format was adopted by the Open Forensic Metrology Consortium, or OpenFMC, a group of firearm forensics researchers whose aim is to establish best practices for researchers using metrology in forensic science.
 
-Figure \@ref(fig:x3pcontain) shows an illustration of the internal structure of the x3p file format. x3p files contain an XML data file with metadata on the bullet scans, as well as binary data containing the surface topology measurements. The metadata includes information on the scanning equipment and operator, as well as information on the resolution of the scans. 
+Figure \@ref(fig:bullets-x3pcontain) shows an illustration of the internal structure of the x3p file format. x3p files contain an XML data file with metadata on the bullet scans, as well as binary data containing the surface topology measurements. The metadata includes information on the scanning equipment and operator, as well as information on the resolution of the scans. 
 
-```{r x3pcontain, echo=FALSE, fig.cap='An illustration of the internal structure of the x3p file format. x3p files contain an XML data file with metadata on the bullet scans, as well as binary data containing the surface topology measurements.'}
+```{r, bullets-x3pcontain, echo=FALSE, fig.cap='An illustration of the internal structure of the x3p file format. x3p files contain an XML data file with metadata on the bullet scans, as well as binary data containing the surface topology measurements.'}
 knitr::include_graphics("img/x3p_container.png")
 ```
 
@@ -45,9 +44,9 @@ To begin, the package can be installed from CRAN:
 devtools::install_github("heike/x3ptools")
 ```
 
-We will load the package and use some pre-provided x3p data to get a feel for the package functionality. We will work with the Center for Statistical Applications in Forensic Evidence (CSAFE) logo. In its original colored form, the logo looks like Figure \@(fig:csafelogo).
+We will load the package and use some pre-provided x3p data to get a feel for the package functionality. We will work with the Center for Statistical Applications in Forensic Evidence (CSAFE) logo. In its original colored form, the logo looks like Figure \@ref(fig:bullets-csafelogo).
 
-```{r csafelogo, fig.cap='The CSAFE logo.'}
+```{r, bullets-csafelogo, fig.cap='The CSAFE logo.'}
 knitr::include_graphics("img/csafe-logo.jpeg")
 ```
 
@@ -69,16 +68,16 @@ We can see that there are five elements to the list object returned:
 - **general.info** - Information on how the data was captured
 - **matrix.info** - Some information expanding upon header.info
 
-The two most relevant for our purposes are **header.info** and **surface.matrix**. To begin to understand this container format better, we can use the `image_x3p` function to produce a visualization of the surface. In interactive mode, this would be an interactive display. Here we're using the `file` parameter to export as a static image for purposes of viewing in this book, shown in Figure \@(fig:csafelogoscan).
+The two most relevant for our purposes are **header.info** and **surface.matrix**. To begin to understand this container format better, we can use the `image_x3p` function to produce a visualization of the surface. In interactive mode, this would be an interactive display. Here we're using the `file` parameter to export as a static image for purposes of viewing in this book, shown in Figure \@ref(fig:bullets-csafelogoscan).
 
-```{r csafelogoscan, fig.cap='3D surface scan of the CSAFE logo.'}
+```{r, bullets-csafelogoscan, fig.cap='3D surface scan of the CSAFE logo.'}
 image_x3p(logo, file = "img/csafe-logo-scan.png")
 knitr::include_graphics("img/csafe-logo-scan.png")
 ```
 
-We can use the function `x3p_to_df` in order to convert this structure into a standard R data frame, which will allow us to do any number of data manipulation and plotting routines. In this case, Figure \@ref(fig:x3pplot) shows a simple scatterplot created with `ggplot2` of the height measurements across the surface of the bullet.
+We can use the function `x3p_to_df` in order to convert this structure into a standard R data frame, which will allow us to do any number of data manipulation and plotting routines. In this case, Figure \@ref(fig:bullets-x3pplot) shows a simple scatterplot created with `ggplot2` of the height measurements across the surface of the bullet.
 
-```{r x3pplot, fig.cap='A simple scatterplot created with ggplot2 of the height measurements across the surface of the bullet.'}
+```{r, bullets-x3pplot, fig.cap='A simple scatterplot created with ggplot2 of the height measurements across the surface of the bullet.'}
 logo_df <- x3p_to_df(logo)
 
 ggplot(data = logo_df, aes(x = x, y = y, color = value)) +
@@ -89,9 +88,9 @@ A key feature of the data is that the `value` column represents the height of th
 
 One other important feature of the package is the ability to sample. Depending on the size and resolution of a particular scan, the resulting object could be quite large. This CSAFE logo, despite being a relatively small physical size, still results in a 310,479 row data frame. Though manageable, this means that certain routines, such as producing the above scatterplot, can be quite slow.
 
-At times where resolution is not of a huge concern, we may elect to sample the data to reduce the resulting size. This can be done with the `sample_x3p` function. The function takes a parameter `m` to indicate the sampling factor to use. For example, a value of `m = 4` will sample every 4th height value from the 3D scan, as illustrated in Figure \@ref(fig:samp).
+At times where resolution is not of a huge concern, we may elect to sample the data to reduce the resulting size. This can be done with the `sample_x3p` function. The function takes a parameter `m` to indicate the sampling factor to use. For example, a value of `m = 4` will sample every 4th height value from the 3D scan, as illustrated in Figure \@ref(fig:bullets-samp).
 
-```{r samp, fig.cap='A sampled scan of an x3p file extracted using the sample_x3p function.'}
+```{r, bullets-samp, fig.cap='A sampled scan of an x3p file extracted using the sample_x3p function.'}
 sample_logo <- sample_x3p(logo, m = 4)
 
 sample_logo_df <- x3p_to_df(sample_logo)
@@ -128,9 +127,9 @@ The rifling of the barrel induces these land engraved areas, which can be seen a
 
 Why is this relevant to this portion? The data we just read in is of one single land. That is, it is a portion of the bullet that is assumed to contain striation markings. You'll notice the naming convention `br1_b1`. This indicates that we are looking at a bullet that was fired from Barrel 1 (`br1`). It's the first bullet (`b1`). There will be 6 observations in this data frame corresponding to each land engraved area.  When working with lots of bullet data, it's important to stay organized in terms of the naming convention of objects in your R session.
 
-Let's take a quick look at what we see on this bullet land (Figure \@ref(fig:b111)).
+Let's take a quick look at what we see on this bullet land (Figure \@ref(fig:bullets-b111)).
 
-```{r b111, fig.cap='Land 1 of Bullet 1 from Barrel 1 of the Hamby Study (Set 44).'}
+```{r, bullets-b111, fig.cap='Land 1 of Bullet 1 from Barrel 1 of the Hamby Study (Set 44).'}
 image_x3p(br1_b1$x3p[[1]], file = "img/b111-scan.png")
 knitr::include_graphics("img/b111-scan.png")
 ```
@@ -147,9 +146,9 @@ This value provides us with the location, in percentage of pixels, at which the 
 1. The location should be nearest the barrel ($x = 0$) because the striae are most pronounced there.
 2. Cross-sections taken near this location should be similar to this cross-section (stability).
 
-`x3p_crosscut_optimize` looks for the first cross-section meeting this criteria, searching upwards from the base of the bullet land. With this value, we can extract and plot the cross-seciton like so (Figure \@ref(fig:cc)):
+`x3p_crosscut_optimize` looks for the first cross-section meeting this criteria, searching upwards from the base of the bullet land. With this value, we can extract and plot the cross-seciton like so (Figure \@ref(fig:bullets-cc)):
 
-```{r cc, fig.cap='Cross-section of the bullet land at the ideal cross-section location.', warning=FALSE}
+```{r, bullets-cc, fig.cap='Cross-section of the bullet land at the ideal cross-section location.', warning=FALSE}
 ccdata_b11 <- x3p_crosscut(br1_b1$x3p[[1]], y = cc_b11)
 
 ggplot(data = ccdata_b11, aes(x = x, y = value)) +
@@ -157,16 +156,16 @@ ggplot(data = ccdata_b11, aes(x = x, y = value)) +
   theme_bw()
 ```
 
-Most of the scans exhibit the pattern that we see here, where there are "wedges" on the left and right side - This area is called the **shoulder**, and its the area separating the land engraved area (the curved region in the middle) from the groove (the area not scanned because it doesn't exhibit striations). In other words, to better hone in on the striae along the land, we should subset this region to include only the middle curved land engraved area portion. Fortunately, `bulletxtrctr` provides us with functionality to automatically do that. First, we use the `cc_locate_grooves` function to detect the location of the grooves. This returns a list object, with one element being the two locations along the axis, and the lother element being the plot, given in Figure \@ref(fig:grooveloc).
+Most of the scans exhibit the pattern that we see here, where there are "wedges" on the left and right side - This area is called the **shoulder**, and its the area separating the land engraved area (the curved region in the middle) from the groove (the area not scanned because it doesn't exhibit striations). In other words, to better hone in on the striae along the land, we should subset this region to include only the middle curved land engraved area portion. Fortunately, `bulletxtrctr` provides us with functionality to automatically do that. First, we use the `cc_locate_grooves` function to detect the location of the grooves. This returns a list object, with one element being the two locations along the axis, and the lother element being the plot, given in Figure \@ref(fig:bullets-grooveloc).
 
-```{r, grooveloc, fig.cap='Location of the grooves in our bullet scan, as detected by the get_grooves function.', warning=FALSE}
+```{r, bullets-grooveloc, fig.cap='Location of the grooves in our bullet scan, as detected by the get_grooves function.', warning=FALSE}
 grooves_b11 <- cc_locate_grooves(ccdata_b11, return_plot = TRUE, method = "middle")
 grooves_b11$plot
 ```
 
-With the grooves detected, we can now smooth out the surface using a LOESS [@cleveland:1979]. Once we do so, we obtain what we call a **bullet signature**, Figure \@(fig:loess), representing the clearest picture yet of the striation markings along the surface of the land.
+With the grooves detected, we can now smooth out the surface using a LOESS [@cleveland:1979]. Once we do so, we obtain what we call a **bullet signature**, Figure \@ref(fig:bullets-loess), representing the clearest picture yet of the striation markings along the surface of the land.
 
-```{r loess, fig.cap='LOESS-smoothed version of our bullet profile, called the bullet signature.', warning=FALSE}
+```{r, bullets-loess, fig.cap='LOESS-smoothed version of our bullet profile, called the bullet signature.', warning=FALSE}
 b111_processed <- cc_get_signature(ccdata = ccdata_b11, grooves = grooves_b11, span1 = 0.75, span2 = 0.03) %>%
   filter(!is.na(sig), !is.na(raw_sig))
 
@@ -232,9 +231,9 @@ bullets <- bullets %>%
                              y_flip_x3p()))
 ```
 
-We extract the ideal cross-sections from all 12 bullet lands, which allows us to plot Figure \@ref(fig:cscrosscut). We see a rather standard curved pattern, with well defined and a pronounced shoulders indicating the cutoff location for extracting the land.
+We extract the ideal cross-sections from all 12 bullet lands, which allows us to plot Figure \@ref(fig:bullets-cscrosscut). We see a rather standard curved pattern, with well defined and a pronounced shoulders indicating the cutoff location for extracting the land.
 
-```{r cscrosscut, fig.cap='Ideal cross-sections for all 12 bullet lands.'}
+```{r, bullets-cscrosscut, fig.cap='Ideal cross-sections for all 12 bullet lands.'}
 bullets <- bullets %>% 
   mutate(crosscut = x3p %>% purrr::map_dbl(.f = x3p_crosscut_optimize))
 
@@ -251,9 +250,9 @@ ggplot(data = crosscuts, aes(x = x, y = value)) +
   theme_bw()
 ```
 
-Next, with each of these profiles, we need to extract the grooves. In Figure \@ref(fig:csgrooves), we can see that the groove locations of the 12 bullet lands appear to be detected acceptably well, such that the middle portion between the two vertical blue lines represents a good sample of the land-engraved area.
+Next, with each of these profiles, we need to extract the grooves. In Figure \@ref(fig:bullets-csgrooves), we can see that the groove locations of the 12 bullet lands appear to be detected acceptably well, such that the middle portion between the two vertical blue lines represents a good sample of the land-engraved area.
 
-```{r csgrooves, fig.cap='Groove locations of each of the 12 bullet lands.'}
+```{r, bullets-csgrooves, fig.cap='Groove locations of each of the 12 bullet lands.'}
 bullets <- bullets %>% mutate(
   grooves = ccdata %>% 
     purrr::map(.f = cc_locate_grooves, method = "middle", 
@@ -263,9 +262,9 @@ bullets <- bullets %>% mutate(
 do.call(gridExtra::grid.arrange, lapply(bullets$grooves, `[[`, 2))
 ```
 
-With the groove locations detected, we proceed as before by using a Loess in order to smooth out the curvature of the surface and focus on the striation markings. Figure \@ref(fig:cssigs) shows us the raw signatures of the 12 lands. The striation markings are much more visible now.
+With the groove locations detected, we proceed as before by using a Loess in order to smooth out the curvature of the surface and focus on the striation markings. Figure \@ref(fig:bullets-cssigs) shows us the raw signatures of the 12 lands. The striation markings are much more visible now.
 
-```{r cssigs, warning=FALSE, fig.cap='Signatures for the 12 bullet lands.'}
+```{r, bullets-cssigs, warning=FALSE, fig.cap='Signatures for the 12 bullet lands.'}
 bullets <- bullets %>% mutate(
   sigs = purrr::map2(
     .x = ccdata, .y = grooves, 
@@ -287,9 +286,9 @@ signatures %>%
   theme_bw()
 ```
 
-Because we are working with 12 signatures, our goal will be to align all pairwise comparisons (36 comparisons total) between the six lands in each bullet. Figure \@ref(fig:csalign) shows the alignment of Bullet 2 Land 3 with Bullet 1 Land 2, two of the known matches. Immediately it is clear that the pattern of the signatures appears very similar between the two lands.
+Because we are working with 12 signatures, our goal will be to align all pairwise comparisons (36 comparisons total) between the six lands in each bullet. Figure \@ref(fig:bullets-csalign) shows the alignment of Bullet 2 Land 3 with Bullet 1 Land 2, two of the known matches. Immediately it is clear that the pattern of the signatures appears very similar between the two lands.
 
-```{r csalign, warning=FALSE, fig.cap='Alignment of two bullet lands (2-4 & 1-2)'}
+```{r, bullets-csalign, warning=FALSE, fig.cap='Alignment of two bullet lands (2-4 & 1-2)'}
 bullets$bulletland <- paste0(bullets$bullet,"-", bullets$land)
 lands <- unique(bullets$bulletland)
 comparisons <- data.frame(
@@ -345,9 +344,9 @@ comparisons <- comparisons %>% mutate(
 )
 ```
 
-We are now ready to begin matching the bullets. We'll start by looking at Figure \@ref(fig:cscompare), which aligns the two bullets by bullet land and colors each of the cells (comparisons) by the CCF value. Encouragingly, we see a diagonal pattern to the matrix appear, which is to be expected given the assumption that the bullet scans were rotated and stored in rotational order. Note that we're also comparing each land to itself in two of the four panels, which as expected exhibit the highest CCF for matches.
+We are now ready to begin matching the bullets. We'll start by looking at Figure \@ref(fig:bullets-cscompare), which aligns the two bullets by bullet land and colors each of the cells (comparisons) by the CCF value. Encouragingly, we see a diagonal pattern to the matrix appear, which is to be expected given the assumption that the bullet scans were rotated and stored in rotational order. Note that we're also comparing each land to itself in two of the four panels, which as expected exhibit the highest CCF for matches.
 
-```{r cscompare, fig.cap='Land-to-Land Comparison of the two bullets colored by the CCF.'}
+```{r, bullets-cscompare, fig.cap='Land-to-Land Comparison of the two bullets colored by the CCF.'}
 comparisons <- comparisons %>% mutate(
   features = purrr::map2(.x = aligned, .y = striae, .f = extract_features_all, resolution = 1.5625),
   legacy_features = purrr::map(striae, extract_features_all_legacy, resolution = 1.5625)
@@ -365,9 +364,9 @@ comparisons %>%
   theme(aspect.ratio = 1)
 ```
 
-We can improve upon these results by using the Random Forest in order to assess the probability of a match. Figure \@ref(fig:csrf) displays the random forest score, or match probability, of each of the land-to-land comparisons. The results are even stronger than using pure CCF in this case.
+We can improve upon these results by using the Random Forest in order to assess the probability of a match. Figure \@ref(fig:bullets-csrf) displays the random forest score, or match probability, of each of the land-to-land comparisons. The results are even stronger than using pure CCF in this case.
 
-```{r csrf, fig.cap='Random forest matching probabilities of all land-to-land comparisons.'}
+```{r, bullets-csrf, fig.cap='Random forest matching probabilities of all land-to-land comparisons.'}
 comparisons$rfscore <- predict(bulletxtrctr::rtrees, newdata = comparisons, type = "prob")[,2]
 
 comparisons %>% 
@@ -390,9 +389,9 @@ bullet_scores <- bullet_scores %>% mutate(
 bullet_scores %>% select(-data)
 ```
 
-Finally, we can visualize the accuracy of our comparisons by highlighting the cells in which they were in fact matches (same-source). Figure \@ref(fig:csss) shows this, indicating that for the comparison between the two bullets, a couple of the lands didn't exhibit a high match probability. With that said, given that the other four lands exhibited a strong probability, this is high evidence these bullets were in fact fired from the same barrel.
+Finally, we can visualize the accuracy of our comparisons by highlighting the cells in which they were in fact matches (same-source). Figure \@ref(fig:bullets-csss) shows this, indicating that for the comparison between the two bullets, a couple of the lands didn't exhibit a high match probability. With that said, given that the other four lands exhibited a strong probability, this is high evidence these bullets were in fact fired from the same barrel.
 
-```{r csss, fig.cap='All Land-to-Land Comparisons of the bullets, highlighting same-source lands.'}
+```{r, bullets-csss, fig.cap='All Land-to-Land Comparisons of the bullets, highlighting same-source lands.'}
 bullet_scores <- bullet_scores %>% mutate(
   data = data %>% purrr::map(
     .f = function(d) {

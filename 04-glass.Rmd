@@ -58,7 +58,7 @@ The process for determining the chemical composition of a glass fragment is give
 ### Data source
 <!-- I am not sure we can say CSAFE here because it is not strictly funded by CSAFE. Best to check with A and/or Stacy--> 
 
-CSAFE have collected float glass data on the chemical composition of float glass samples, where the details of these dataset are explained in @park2018. These data were collected as part of an effort to construct a database to be put in the public domain. The database includes 31 panes of float glass manufactured by Company A and 17 panes manufactured by Company B, both located in the United States. The Company A panes are labeled AA, AB, ... , AAR, and the Company B panes are labeled BA, BB, ... ,BR.  The panes from Company A were produced during a three week period (January 3-24, 2017) and the panes from Company B were produced during a two week period (December 5-16, 2016). 
+Dr. Alicia Carriquiry of Iowa State University commissioned the collection of a large float glass database on the chemical composition of float glass samples, where the details of these dataset are explained in @park2018. These data were collected as part of an effort to construct a database to be put in the public domain. The database includes 31 panes of float glass manufactured by Company A and 17 panes manufactured by Company B, both located in the United States. The Company A panes are labeled AA, AB, ... , AAR, and the Company B panes are labeled BA, BB, ... ,BR.  The panes from Company A were produced during a three week period (January 3-24, 2017) and the panes from Company B were produced during a two week period (December 5-16, 2016). 
 
 <!-- You don't talk about the ribbon before now so people won't know what you're talking about. Either explain it or find another way to talk about variability without mentioning the ribbon. --> 
 To understand variability within a ribbon of glass, two glass panes were collected on almost all days in each company, one  from the left side and one from the right side of the ribbon. Twenty four fragments were randomly sampled from each glass pane. Five replicate measurements were obtained for 21 of the 24 fragments in each pane; for the remaining three fragments in each pane, we obtained 20 replicate measurements. Therefore, each pane has 165 measurements for 18 elements.  For example, see the heuristic in Figure \@ref(fig:frag_sample). In some panes, there may be a fragment with fewer than five replicate measurements.  The unit for all measurements is parts per million (ppm). 
@@ -86,21 +86,31 @@ ggplot(data = sample_data, aes(x = x, y = y)) +
 
 Next, we look at the glass data.  
 
-```{r dat}
-glass <- read_csv('dat/glass_raw_all.csv')
-# order the panes so they are grouped by mfr and in order of mfr date
-pane_order <- c(paste0("A", LETTERS[c(1:13, 15,22:25)]), # mfr A panes
-                paste0("AA", LETTERS[c(1:4, 6,8:13, 17:18)]), 
-                names(table(glass$pane))[c(32:48)])  # mfr B panes 
-glass$pane<-ordered(glass$pane, levels = pane_order)
-head(glass)
+```{r glassdat}
+glass<-read.csv('dat/glass_raw_all.csv')
+elements <- read.csv("dat/elements.csv")
+cols <- csafethemes:::csafe_cols_secondary[c(3,12)]
+names(glass)[4:21] <- str_sub(names(glass)[4:21], 1,2)
+names(glass)[8] <- "K"
+dim(glass)
+head(glass[,c(22,1:9)],10)
+#summary(glass[,4:8])
 ```
 
 The elements have very different scales, as some (e.g. Ca) are major elements, some  (e.g. Al) are minor elements, and others (e.g Hf) are trace elements. Thus, we take the natural log transformation of all measurements to put them on a similar scale.  
 
-```{r dat2}
-glass_log <- glass %>% mutate(log_ppm=log(ppm))
-glass_log[,-6] %>% spread(element, log_ppm) %>% select(mfr,pane,fragment,Rep,Li,Na,Mg,Al,Ca) %>% head() %>% knitr::kable(digits = 3)
+```{r glassdat2}
+glass <- filter(glass, !(pane == "AAK" & fragment == 8 & Rep == 1))
+glass_long <- glass %>% gather(element, ppm, Li:Pb)
+glass_long <- filter(glass_long, !(pane == "AAK" & fragment == 8 & Rep == 1))
+pane_order <- c(paste0("A", LETTERS[c(1:13, 15,22:25)]), 
+                paste0("AA", LETTERS[c(1:4, 6,8:13, 17:18)]), 
+                names(table(glass$pane))[c(32:48)])
+glass$pane<-ordered(glass$pane, levels = pane_order)
+glass_long$pane<-ordered(glass_long$pane, levels = pane_order)
+glass_log_long<- glass_long %>% mutate(log_ppm=log(ppm))
+glass_log_long$pane<-ordered(glass_log_long$pane, levels = pane_order)
+glass_log_long[,-6] %>% spread(element, log_ppm) %>% select(mfr,pane,fragment,Rep,Li,Na,Mg,Al,K,Ca) %>% head()
 ```
 
 
