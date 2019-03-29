@@ -107,7 +107,7 @@ We propse a computer-assisted method to quantify the similarity between two impr
 The data of two shoe impressions contain $x$ and $y$ coordinate values of edges that we extracted from the original image. To start to compare subareas in $Q$ and $K$, we will select the three circular subareas as our interest in $Q$. Here is the example matching between two repeated impressions from the same shoe.   
 
 
-```{r dat}
+```{r datshoe}
 shoeQ<-read.csv('dat/Q_03L_01.csv')
 shoeK<-read.csv('dat/K_03L_05.csv')
 dim(shoeQ)
@@ -228,7 +228,7 @@ Figure \@ref(fig:eximgs) display three outsole impressions. Impression $Q$ is fr
 ### Comparison $Q$ vs. $K_1$
 Let's compare $Q$ and $K_1$ first. In $Q$, we select three circlular areas. For this, we ask the function to select three centers of (30%, 80%), (20%, 40%), (70%, 70%) quantiles of $x, y$ ranges of coordinates in $Q$. 
 
-```{r dat2, echo=FALSE}
+```{r datshoe2, echo=FALSE}
 imgQ<-read.csv('dat/lc_nike_10.5_647_Q.csv')
 imgK1<-read.csv('dat/lc_nike_10.5_649_K1.csv')
 imgK2<-read.csv('dat/lc_nike_10.5_520_K2.csv')

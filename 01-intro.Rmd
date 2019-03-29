@@ -36,40 +36,49 @@ install_cran_missings("tidyverse") # or install_dev_missings("tidyverse", "tidyv
 install_dev_missings("gt", "rstudio") 
 
 # Chapter 3: DNA Validation
-# install_cran_missings("strvalidator")
-# Commented this out for now because of dependency issues with RGtk2...
+# Watch out for dependency issues with RGtk2...
+install_cran_missings("strvalidator")
 
 # Chapter 4: DNA Mixture
 # TBD
 
-# Chapter 5: Shoe 
+# Chapter 5: Glass
+install_cran_missings("caret")
+install_cran_missings("GGally")
+install_cran_missings("stringr")
+install_dev_missings("patchwork", "thomasp85")
+install_dev_missings("csafethemes", "csafe-isu")
+
+
+# Chapter 6: Shoe
 # TBD
 
-# Chapter 6: Bullets
+# Chapter 7: Bullets
 install_cran_missings("x3ptools") # or install_dev_missings("x3ptools", "heike")
 install_cran_missings("randomForest") 
 install_dev_missings("bulletxtrctr", "heike")
 
-# Chapter 7: Casings
-if (!requireNamespace("BiocManager", quietly = TRUE))
+# Chapter 8: Casings
+if (!requireNamespace("BiocManager", quietly = TRUE)){
     install.packages("BiocManager")
+  }
 BiocManager::install("EBImage", version = "3.8")
 install_dev_missings("cartridges", "xhtai")
 
-# Chapter 8: Digital 
+# Chapter 9: Digital 
 # TBD 
 
-# Chapter 9: Fingerprints
+# Chapter 10: Fingerprints
 install_cran_missings("bmp")
 install_cran_missings("kableExtra")
 
-# Chapter 10: Handwriting 
+# Chapter 11: Handwriting 
 # TBD
 
-# Chapter 11: Toolmarks
+# Chapter 12: Toolmarks
 # TBD
 
-# Chapter 12: Human Factors
+# Chapter 13: Human Factors
 install_dev_missings("blackboxstudyR", "aluby")
 install_cran_missings("rstan")
 install_cran_missings("RColorBrewer")
