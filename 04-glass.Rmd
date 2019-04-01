@@ -60,7 +60,7 @@ The process for determining the chemical composition of a glass fragment is give
 Dr. Alicia Carriquiry of Iowa State University commissioned the collection of a large database of chemical compositions of float glass samples. The details of this database are explained in @park2018. The full database is available [here](https://github.com/CSAFE-ISU/AOAS-2018-glass-manuscript/tree/master/glassdata). The database includes 31 panes of float glass manufactured by Company A and 17 panes manufactured by Company B, both located in the United States. The Company A panes are labeled AA, AB, ... , AAR, and the Company B panes are labeled BA, BB, ... ,BR.  The panes from Company A were produced during a three week period (January 3-24, 2017) and the panes from Company B were produced during a two week period (December 5-16, 2016). 
 
 <!-- You don't talk about the ribbon before now so people won't know what you're talking about. Either explain it or find another way to talk about variability without mentioning the ribbon. --> 
-To understand variability within a ribbon of glass, two glass panes were collected on almost all days in each company, one  from the left side and one from the right side of the ribbon. Twenty four fragments were randomly sampled from each glass pane. Five replicate measurements were obtained for 21 of the 24 fragments in each pane; for the remaining three fragments in each pane, we obtained 20 replicate measurements. Therefore, each pane has 165 measurements for 18 elements.  For example, see the heuristic in Figure \@ref(fig:frag_sample). In some panes, there may be a fragment with fewer than five replicate measurements.  The unit for all measurements is parts per million (ppm). 
+To understand variability within a ribbon of glass, two glass panes were collected on almost all days in each company, one  from the left side and one from the right side of the ribbon. Twenty four fragments were randomly sampled from each glass pane. Five replicate measurements were obtained for 21 of the 24 fragments in each pane; for the remaining three fragments in each pane, we obtained 20 replicate measurements. Therefore, each pane has 165 measurements for 18 elements.  For example, see the heuristic in Figure \@ref(fig:fragsample). In some panes, there may be a fragment with fewer than five replicate measurements.  The unit for all measurements is parts per million (ppm). 
 
 ```{r fragsample, fig.height=2, fig.cap="An example of how the glass fragments were sampled, if the 64 squares are imagined to be randomly broken fragments within a pane.", warning=FALSE}
 library(tidyverse)
@@ -87,29 +87,20 @@ Next, we look at the glass data.
 
 ```{r glassdat}
 glass<-read.csv('dat/glass_raw_all.csv')
-elements <- read.csv("dat/elements.csv")
-cols <- csafethemes:::csafe_cols_secondary[c(3,12)]
-names(glass)[4:21] <- str_sub(names(glass)[4:21], 1,2)
-names(glass)[8] <- "K"
-dim(glass)
-head(glass[,c(22,1:9)],10)
-#summary(glass[,4:8])
+head(glass) 
 ```
 
 The elements have very different scales, as some (e.g. Ca) are major elements, some  (e.g. Al) are minor elements, and others (e.g Hf) are trace elements. Thus, we take the natural log transformation of all measurements to put them on a similar scale.  
 
 ```{r glassdat2}
-glass <- filter(glass, !(pane == "AAK" & fragment == 8 & Rep == 1))
-glass_long <- glass %>% gather(element, ppm, Li:Pb)
-glass_long <- filter(glass_long, !(pane == "AAK" & fragment == 8 & Rep == 1))
+# need to make sure the panes are shown in order of mfr date
 pane_order <- c(paste0("A", LETTERS[c(1:13, 15,22:25)]), 
                 paste0("AA", LETTERS[c(1:4, 6,8:13, 17:18)]), 
                 names(table(glass$pane))[c(32:48)])
 glass$pane<-ordered(glass$pane, levels = pane_order)
-glass_long$pane<-ordered(glass_long$pane, levels = pane_order)
-glass_log_long<- glass_long %>% mutate(log_ppm=log(ppm))
-glass_log_long$pane<-ordered(glass_log_long$pane, levels = pane_order)
-glass_log_long[,-6] %>% spread(element, log_ppm) %>% select(mfr,pane,fragment,Rep,Li,Na,Mg,Al,K,Ca) %>% head()
+
+glass_log <- glass %>% mutate(log_ppm=log(ppm))
+glass_log %>% select(-ppm) %>% spread(element, log_ppm) %>% select(mfr,pane,fragment,Rep,Li,Na,Mg,Al,K,Ca) %>% head()
 ```
 
 
@@ -383,7 +374,7 @@ We draw the empirical class probability of M that is predicted by the random for
 
 ## Case Study
 
-Here we introduce a new set of five pairs of comparisons. There are two pairs of glass fragments from the same pane and three pairs of glass fragments from different panes. Among three non-mates, one case is comparing two fragments from panes produced by different manufacturers and the other two cases are comparing two fragments from panes but produced within 2 days in the same manufacturer. None of comparisons were used for training the RF classifier. In this Section, we will use the RF classfier developed in @park2018. 
+Here we introduce a new set of five pairs of comparisons and use the random forest we trained to determine if the two samples being compared are likely from the same source or from different sources. 
 
 ```{r getnewdataglass, echo=FALSE}
 new_samples <- glass %>% filter((pane == "AB" & fragment == 2) | 
@@ -394,24 +385,77 @@ new_samples <- glass %>% filter((pane == "AB" & fragment == 2) |
                    (pane == "AF" & fragment == 2) | 
                    (pane == "BB" & fragment == 14) | 
                    (pane == "BD" & fragment == 2))
-new_samples <- new_samples %>% group_by(pane, fragment) %>% mutate(sample_id = group_indices()) %>% ungroup() %>% select(sample_id, element, ppm) %>% group_by(sample_id, element)
-head(new_samples)
-tail(new_samples)
-for_rf <- new_samples %>% mutate(logppm = log(ppm)) %>% summarize(mlppm = mean(logppm)) %>% spread(element, mlppm)
-comparisons <- tibble(compare_id = 1:5, sample_id_1 = c(1,4,1,1,7), sample_id_2 = c(2,6,5,3,8))
-comparisons
+new_samples <- new_samples %>% group_by(pane, fragment) %>% mutate(sample_id = group_indices()) %>% ungroup() %>% select(sample_id, element, ppm) %>% group_by(sample_id, element) %>% sample_n(5)
+new_data <- new_samples %>% mutate(logppm = log(ppm)) %>% summarize(mlppm = mean(logppm)) %>% spread(element, mlppm)
+comparisons <- tibble(compare_id = 1:5, sample_id_1 = c(1,4,1,1,7), sample_id_2 = c(2,6,5,3,8)) %>% arrange(sample_id_1, sample_id_2) %>% mutate(compare_id = row_number())
 ```
 
-```{r newtest, results='asis', echo=FALSE}
-newcase<-read.csv('dat/casestudy.csv')
+Suppose you are given the following data on eight glass samples, where each sample has been measured 5 times: 
+
+```{r, echo = FALSE}
+DT::datatable(new_samples %>% arrange(sample_id, element))
+```
+
+Your supervisor wants you to make five comparisons: 
+
+```{r, echo=FALSE}
+knitr::kable(comparisons)
+```
+
+First, you need to take the log of the measurements, then get the mean for each sample and each element. 
+
+```{r }
+# take the log, then the mean of each for comparison
+new_samples <- mutate(new_samples, logppm = log(ppm)) %>% 
+  select(-ppm) %>% 
+  group_by(sample_id, element) %>% 
+  summarise(mean_logppm = mean(logppm))
+```
+
+Next, make each of the five comparisons. We write a function, `make_compare()` to do so, then we use [`purrr::map2()`](https://purrr.tidyverse.org/reference/map2.html) to perform the comparison for each row in `compare_id`. The resulting compared data is below. 
+
+```{r}
+make_compare <- function(id1, id2){
+  dat1 <- new_samples %>% filter(sample_id == id1) %>% 
+    ungroup() %>%  select(element,mean_logppm) 
+  dat2 <- new_samples %>% filter(sample_id == id2) %>% ungroup() %>% 
+    ungroup() %>%  select(element,mean_logppm) 
+  tibble(element = dat1$element, diff = abs(dat1$mean_logppm - dat2$mean_logppm)) %>% spread(element, diff)
+}
+
+compared <- comparisons %>% mutate(compare = map2(sample_id_1, sample_id_2, make_compare)) %>% unnest()
+
+DT::datatable(compared)
+```
+
+Finally, we take the compared data and predict using the random forest object: 
+
+```{r newtest2}
+newpred <- predict(RF_classifier, newdata = compared, type = "prob")
+
+# only take the id data from compare, and the M prediction from newpred
+bind_cols(compared[,1:3], score = newpred[,1]) %>%
+  mutate(prediction = ifelse(score > .5, "M", "NM")) %>% 
+  knitr::kable(format = "html", caption="Predicted scores of new comparison cases from the random forest classifier", longtable = FALSE, row.names = FALSE, digits=3, col.names = c("Comparison ID", "Sample ID 1", "Sample ID 2", "Score", "Decision"))
+```
+
+ <!--For comparison 1 the RF score are over 0.9, meaning the RF is 90% sure about the source of these comparisons to be same pane. The comparison 3 is comparing a pair of glass fragments from panes produced in different manufacturers. In this case, the RF score is zero. The comparison 4 and 5 is non-mated pairs from two different panes but very closed produced (within 2 days) in the same manufacturer. For comparison 4, the RF score is 0.16, so that it clearly indicates the source toward the different source. For comparison 5, the RF score is 0.56 which is unclear to declare one of hypotheses either same source or different source. --> 
+
+Table \@ref(tab:newtest2) shows the RF score which is defined as the empirical class probability that the samples are from the same pane (M) by the RF algorithm^[In fact, we do know the truth here: for comparisons (1, 2, 3, 4, 5), the truth is (M, NM, NM, M, M).]. Based on these scores, it appears that samples 1 and 2 are very likely from the same source, while samples 1 and 5 are very likely from different sources. Using a threshold of 0.5, sample 4 and sample 6 are predicted to be from different sources. However, this score is so close to the threshold of 0.5 that we may want to say this is inconclusive.^[See this discussion of "equivocal zones:" http://appliedpredictivemodeling.com/blog/2013/8/15/equivocal-zones] Samples 1 and 3 are probably from different sources, though we are less confident in that determination than we are in the decision that samples 1 and 5 are from different sources. Finall, samples 7 and 8 are probably from the same source, but we are less certain of this than we are that samples 1 and 2 are from the same source. 
+
+
+More research into the appropriateness of this random forest method for making glass source conclusions is needed. Important points to consider are: 
+
+- What database should be used to train the algorithm? 
+- Could the random forest method overfit, reducing the generalizability of this method? 
+
+Nevertheless, the RF classifier makes good use of the glass fragment data, with its high dimension and  small number of repeated measurements. More details on the RF classifier and additional dicussion can be found in @park2018. 
+
+```{r newtest, results='asis', echo=FALSE, eval = FALSE}
+newcase <- read.csv('dat/casestudy.csv')
 newcase %>% knitr::kable(format = "html", caption="Predicted scores of new comparison cases by the RF classifier and the ASTM classifier", longtable = FALSE, row.names = FALSE, digits=3, col.names = c("Comparison", "Pane-Frag", "Pane-Frag", "RF", "Truth"))
 ```
 
-Table \@ref(tab:newtest) shows the RF score which is defined as the empirical class probability for KM by the RF algorithm. For comparison 1 and 2, the RF scores are over 0.9, meaning the RF is 90% sure about the source of these comparisons to be same pane. The comparison 3 is comparing a pair of glass fragments from panes produced in different manufacturers. In this case, the RF score is zero. The comparison 4 and 5 is non-mated pairs from two different panes but very closed produced (within 2 days) in the same manufacturer. For comparison 4, the RF score is 0.16, so that it clearly indicates the source toward the different source. For comparison 5, the RF score is 0.56 which is unclear to declare one of hypotheses either same source or different source. 
-
-
-
-There should be more discussion to use the random forest classifier to be used. We have to think of what data base we should use for training the learning algorithm. Also, there could be overfitting problem by the learing algorithm. However, the RF classifier can be one possible way to consider as a classification rule for glass fragments measurements with lots of variables and less repeated measurements. More details and analaysis about building up the RF classifiers and dicussions are in [@park2018]. 
 
 
 
