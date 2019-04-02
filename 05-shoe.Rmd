@@ -6,84 +6,95 @@
 
 ## Introduction
 
-In the mess of a crime scene, one of the most abundant pieces of evidence is a shoe outsole impression (@bodziak2017footwear). A shoe outsole impression is the trace of a shoe that is left behind. The pattern of the sole is transferred to the walking surface. Impressions are also often left in pliable materials such as sand, dirt, snow, or blood. These crime scene impressions are lifted using dusting or casting techniques to obtain the print left behind.  
+In the mess of a crime scene, one of the most abundant pieces of evidence is a shoe outsole impression [@bodziak2017footwear]. A shoe outsole impression is the trace of a shoe that is left behind when the pattern of the sole is transferred to the walking surface. Impressions are also often left in pliable materials such as sand, dirt, snow, or blood. These crime scene impressions are lifted using dusting or casting techniques to obtain the print left behind.  
 
 
-Once we find shoe outsole impression(s) at the crime scene, the question of interest is who left this impression or how can we connect this questioned shoe impression to the suspect. From the database of shoeprint, we want to find the closest shoeprint image to the questioned shoe impressions to give the hint of shoe brand. Or, if we have information about the suspect's shoes, then we need to investigate whether the questioned shoe impressions show the major similarity with shoes that the suspect have. Statistically, the summary statistic we need to assess is the degree of correspondence between questioned shoe outsole impression ($Q$) and known shoeprint ($K$). If the similarity between $Q$ and $K$ is high enough, then we may conclude that the source for $Q$ and $K$ would be the same. Thus, the goal is how to quantify the degree of correspondence between two shoe outsole impressions.  
+Once we find shoe outsole impression(s) at the crime scene, the questions of interest are
+
+- Who left the impression(s)? 
+- How can we connect the shoe impression(s) to the perpetrator?
+
+Suppose we have a database of shoe outsole impressions. We want to find the close images in the database to the questioned shoe impression(s) to determine the shoe brand, size, and other class characteristics. Alternatively, if we have information about potential suspects' shoes, then we need to investigate whether the questioned shoe impressions share characteristics. The summary statistic we need to assess is the degree of correspondence between questioned shoe outsole impression ($Q$) and known shoeprint ($K$). If the similarity between $Q$ and $K$ is high enough, then we may conclude that the source for $Q$ and $K$ would be the same. Thus, the goal is to quantify the degree of correspondence between two shoe outsole impressions.  
 
 
 ### Sources of variability in shoe outsole impressions
 
-There are many characteristics of shoes that are examined. First, the size of the shoe is determined, then the style and manufacturer. These characteristics are known as *class characteristics* because there are many, many shoes that share these characteristics, but they can be used to easily exclude most other shoes. For instance, a very popular shoe in the United States is the Nike Air Force one, pictured below [@fbishoes]. So, seeing a Nike logo and concentric circles in an impression from a Men's size 13 instantly excludes all shoes that are not Nike Air Force Ones in Men's size 13. 
+There are many characteristics of shoes that are examined. First, the size of the shoe is determined, then the style and manufacturer. These characteristics are known as *class characteristics*: there are many, many shoes that share these characteristics, but they can be used to easily exclude most other shoes that don't share the class. For instance, a very popular shoe in the United States is the Nike Air Force one, pictured below [@fbishoes]. So, seeing a Nike logo and concentric circles in an impression from a Men's size 13 instantly excludes all shoes that are not Nike Air Force Ones in Men's size 13.
 
-![](https://c.static-nike.com/a/images/t_PDP_1728_v1/f_auto/q3byyhcazwdatzj7si11/air-force-1-mid-07-womens-shoe-0nT1KyYW.jpg)
+```{r nikeaf1, echo = FALSE, out.width="75%", fig.cap="The outsole of a Nike Air Force One Shoe. This pattern is common across all shoes in the Air Force One model. Source: [nike.com](https://c.static-nike.com/a/images/t_PDP_1728_v1/f_auto/q3byyhcazwdatzj7si11/air-force-1-mid-07-womens-shoe-0nT1KyYW.jpg)"}
+knitr::include_graphics("img/nikeshoewhite.png")
+```
 
 Next, *subclass characteristics* are examined. These characteristics are shared by a subset of elements in a class, but not by all elements in the class. In shoe impressions, subclass characteristics usually occur during the manufacturing process. For instance, air bubbles may form in one manufacturing run but not in another. Also, the different molds used to create the same style and size shoes can have slight differences, such as where pattern elements intersect [@mfrshoes]. Just like with class characteristics, subclass characteristics can be used to eliminate possible shoes very easily. 
 
 Finally, the most unique parts of a shoe outsole impression are the randomly acquired characteristics (RACs) left behind. The RACs are smaller knicks, gouges, and debris in soles of shoes that are acquired over time, seemingly at random, as the shoes are worn. These are the *identifying* characteristics of shoe impressions, and examiners look for these irregularities in the crime scene impressions to make an identification. 
 
-To make an identification, a shoe that investigators think could have caused the print is studied for its class, subclass, and randomly acquired characteristics. 
-
-1. Size 
-2. Manufacturer (Nike, Adidas, Converse, etc.)
-3. Style (Air Force One, Chuck Taylor All-Star, etc.)
-4. Mold used in manufacture
-5. Other manufacturing process variability
-6. Randomly acquired characteristics (RACs)
-    a. gouge
-    b. rocks
-    c. knicks 
-7. Transfer of outsole to surface    
-    
-1-3 : class characteristics
-4-5 : subclass characteristics
-6 : indentifying characterisics
-7 : random 
-
 
 ### Current practice 
-Footwear examiners are tasked to compare $Q$ and $K$ by considering class, subclass and identifying characteristics on two impressions. Through the guideline comparing footwear impressions in the group of SWGTREAD, there are seven ranges of conclusion for comparing $Q$ and $K$ that examiner can make; (1) Lacks sufficient detail, (2) Exclusions, (3) Indications of non-association, (4) Limited association of class characteristics, (5) Association of class characteristics, (6) High degree of assocation and (7) Identification. Examiners rely on their knowledge and experience to conclude one of these seven concludsions, by investigating $Q$ and $K$, thoroughly. 
+
+Footwear examiners are tasked to compare $Q$ and $K$ by considering class, subclass and identifying characteristics on two impressions. Through the guideline comparing footwear impressions in the group of SWGTREAD, there are seven possible conclusions for comparing $Q$ and $K$ that an examiner can make: 
+
+1. Lack sufficient detail (can't make a conclusion)
+2. Exclusion
+3. Indications of non-association 
+4. Limited association of class characteristics 
+5. Association of class characteristics
+6. High degree of assocation 
+7. Identification
+
+Examiners rely on their knowledge and experience to conclude one of these seven conclusions, by investigating $Q$ and $K$ thoroughly. 
 
 
 ### The goal of this chapter 
-In this chapter, we will show our approach to measure the degree of similarity between two shoe outsole impression. For this, CSAFE collected shoe impression data, developed the method for calculating similarity score between two shoe impressions and R package 'shoeprintr' for the developed method. 
+
+In this chapter, we will show our algorithmic approach to measure the degree of similarity between two shoe outsole impression. For this, [CSAFE](https://forensicstats.org) collected shoe outsole impression data, developed the method for calculating similarity score between two shoe impressions and R package [`shoeprintr`](https://github.com/csafe-isu/shoeprintr) for the developed method. 
 
 ## Data 
 
+Crime scene data that we can utilize to develop and test a comparison algorithm for footwear comparison is very limited for several reasons: 
+
+1. Shoe impressions found at crime scenes are confidential because they are a part of a case involving real people.
+2. Although some real, anonymized crime scene data is available, we typically don't know the true source of the impression.
+3. Most shoe outsole impressions found at the crime scene are partial, degraded, or otherwise imperfect. They are not appropriate to develop and test an algorithm.  
+
 ### Data collection 
-Real data that we can utilize to test a matching algorithm for footwear comparison is very limited with the several reasons; (1) Shoe impressions found at the crime scene is credential because they are a part of evidences to link the suspect, (2)  Although some of real crime scene data is actually available, we don't know the true source of the impression, (3) Since most of shoe impressions found at the crime scene is partial, degraded, blurred or damaged, they are not appropriate to test the performance of developing algorithm.  
+
+CSAFE collected shoe impressions using the two-dimensional EverOS footwear scanner from [Evident, Inc.](https://www.shopevident.com/product/everos-laboratory-footwear-scanner). The scanner is designed to scan the shoe outsole as the shoe wearer steps onto the scanner. As more pressure is put on the scanner, there will be more detailed patterns detected from the outsole. The resulting images have resolution of 300 DPI. In addition, the images show a ruler to allow analysts to measure the size of the scanned impression. Figure \@ref(fig:everosx) shows examples of impression images from the EverOS scanner. On the left, there are two replicates of the left shoe from one shoe style, while on the right, there are two replicates from the right shoe from a different shoe stle. The repeated impressions are very similar, but not exact because there are some differences in the amount and location of pressure from the shoe wearer while scanning.
+
+```{r everosx, echo = FALSE, out.width="75%"}
+knitr::include_graphics("img/everos_ex.PNG")
+```
 
 
-CSAFE collected shoe impressions using two-dimensional EverOS footwear scanner (\url{http://www.shopevident.com}{http://www.shopevident.com}). The scanner is designed to scan the shoe outsole as person step onto the scanner by recording the weight distribution. The scanned images are 300 dpi resolution. As more pressure is put on the scanner, then there will be more detailed patterns detected from the outsole. Also, the scanner is not only scanning the outsole details, but also it shows the yellow line of ruler to allow to measure the size of scanned impression. Figure \ref{everos_ex} shows the exmaple impressions scanned from EverOS scanner. First two left shoe images are replicated impressions from the same shoe of ID 1 and two right shoes are also replicated impressions from the same shoe of ID 2. By getting impressions repeatedly, the overall patterns are very similar but there are some measurement differences by different amount of pressure.
+This scanner enables us to collect shoe impressions and make comparisons where ground truth is known. By collecting repeated impressions from the same shoe, we can make known mated comparisons, and we can make known non-mated comparisons from two different shoes. CSAFE collected a large collection of shoe outsole impressions from the EverOS scanner.
 
 
-<img src="img/everos_ex.PNG">
+### Transformation of shoe image
 
+The resulting image from the EverOS scanner is very large, making comparisons of images very time-consuming. To speed up the comparison process, we use only part of the image. By applying [edge detection](https://en.wikipedia.org/wiki/Edge_detection) to the images, we end up with comparisons of the outlines of important patterns of shoes. 
 
-This 2D EverOS scanner enables to collect shoe impressions with ground truth. By collecting replicated impressions from the same shoe, the comparison of known mates is possible and by comparing impressions from two different shoe, the known non-mates is available. CSAFE collected a large collection of shoe outsole impressions from EverOS scanner. We collected 150 shoes that are used for certain period of time and scanned the outsole impressions 5 times from each of left and right shoes. This results in 1,500 images of shoe outsole impressions. For shoe ID 1, there are 5 impressions from left shoe and 5 impressions from the right shoe. Some of impressions have the exact same shoe brand and model but most of shoes have different class characteristic.  
-
-
-### Transformation of shoe impression
+<!-- about down sampling. use edge detection, then get the x,y coordinates-->
+?????????????????????? WAY too complicated for the book 
 There could be some ways to compare 2D shoe impressions such as intensity based comparison or feature based comparison. That means, we will transform images into some information as we desire to use. In this chapter, we will use feature based method to compute the similarity score. As a feature, we choose to extract edges of impression by Prewitt operator and use its coordinate values of ($x$,$y$) with lower left corner of (0,0). By detecting the boundaries of sole pattern, edges will contain class, subclass and possible RACs all together as our information of shoe impressions.  As a preprocessing step, we used Matlab to down sample all of images at 20%.    
 
 
 
 ### Definition of classes
-To test the method and the signature we defined, we are using our data collection to come up with known mated (KM) comparisons and known non-mated (KNM) comparisons. The KM means a match between two repeated impressions from the same shoe source. The KNM means a match between two impressions from two different shoes. By the data collection set up, all of shoes have the same class characteristics, meaning the outsole pattern with no wear should be the same across the shoes. Based on results of KM and KNM, we will test the performance of the matching method whether it can discriminate well two classes, KM and KNM. Also, we want for the matching method to produce score distributions well separating two classes.  
+
+
+????????? Needs to be re-written 
+To test the method and the signature we defined, we are using our data collection to come up with known mated (KM) comparisons and known non-mated (KNM) comparisons. The KMs are two repeated impressions from the same shoe source, while  the KNMs are from two different shoes. In the data collection, all of the shoes have the same class characteristics, so the the outsole pattern with no wear should be the same across the shoes. Based on results of KM and KNM, we will test the performance of the matching method whether it can discriminate well two classes, KM and KNM. Also, we want for the matching method to produce score distributions well separating two classes.  
+
+<!-- for comparisons, the only difference between the shoes same brand, same size, worn by different people--> 
  
-
-
 
 ## R Package(s)
 
-R package called 'shoeprintr' is developed for shoe outsole comparison (Chapter 3 in @park2018learning).
+The R package `shoeprintr` was created to perform shoe outsole comparisons (Chapter 3 in @park2018learning).
 
-To begin, the package can be installed from CRAN:
+To begin, the package can be installed from Github using [`devtools`](https://devtools.r-lib.org/):
 
 ```{r, eval=FALSE}
-#devtools::install_github("CSAFE-ISU/shoeprintr", force=TRUE, lib= .libPaths()[1])
-#library(shoeprintr)
-# install from github for now
 devtools::install_github("CSAFE-ISU/shoeprintr", force=TRUE)
 ```
 
@@ -95,24 +106,27 @@ library(patchwork)
 ```
 
 
+We propse a computer-assisted method to quantify the similarity between two impresssions. The method, called ?????, consists of several steps: 
 
-We propse a computer-assisted method to quantify the similarity between two impresssions. Here are steps:
-
-1. Select ``interesting'' sub-areas in the $Q$ impression found at the crime scene.
+1. Select "interesting" sub-areas in the $Q$ impression found at the crime scene.
 2. Find the closest corresponding sub-areas in the $K$ impression.
 3. Overlay sub-areas in $Q$ with the closest corresponding areas in $K$.
 4. Define similarity features we can measure to create an outsole signature.
 5. Combine those features into one single score. 
 
-The data of two shoe impressions contain $x$ and $y$ coordinate values of edges that we extracted from the original image. To start to compare subareas in $Q$ and $K$, we will select the three circular subareas as our interest in $Q$. Here is the example matching between two repeated impressions from the same shoe.   
+The data of two shoe impressions contain $x$ and $y$ coordinate values of impression area edges that we extracted from the original image. To start to compare subareas in $Q$ and $K$, we will select the three circular subareas ????? sub-area or subarea? of interest in $Q$. Here is the example matching between two repeated impressions from the same shoe.   
 
 
-```{r datshoe}
+```{r datshoe, fig.cap="Outsole impressions of two shoes, $K$ and $Q$."}
 shoeQ<-read.csv('dat/Q_03L_01.csv')
 shoeK<-read.csv('dat/K_03L_05.csv')
-dim(shoeQ)
-dim(shoeK)
-head(shoeQ)
+shoeQ$source <- "Q"
+shoeK$source <-  "K"
+
+bind_rows(shoeQ, shoeK) %>% 
+  ggplot() + 
+  geom_point(aes(x = x, y = y), size = .05) + 
+  facet_wrap(~source, scales = "free")
 ```
 The data shoe $Q$ and shoe $K$ contain coordinate values ($x,y$) of edge points. There are 9,320 and 9,122 edges detected for boundaries of the soles of shoe $Q$ and $K$.
 First, we select three circular areas by giving the information of their centers and radius arbitrary chosen. These areas can be selected by examiners or by computer. In this chapter, we will select manually those three circles in $Q$.
@@ -141,7 +155,7 @@ For the comparison of circle $q_1$ and circle $k_8$, we will use the concept of 
 knitr::include_graphics("img/maxclique_ex2.png", dpi = 100)
 ```
 
-In Figure \@ref(fig:mcgraph), we want to compare Image 1 and Image 2. In Image 1, a set of nodes is \{'a','b','c','d','e','f','g'\} and a set of nodes for Image 2 is \{'1','2','3','4','5','6'\}. When we look closely, the distances bewteen 'a' and three 'd','e' and 'g' in Image 1 are the same with distances between '1' and three '3', '6' and '5'. This way, pairwise distances among corresponding nodes between twoo images should have the same geometrics and the set of largest complete correspondence between two images are \{'a1','d3','e6','g5'\}. This set is a set of maximum clique. Some nodes such as \{'b','c','f'\} in Image 1 and \{'2','4'\} in Image 2 are examples of noises that might be apppeared in the outsole impressions.
+In Figure \@ref(fig:mcgraph), we want to compare Image 1 and Image 2. In Image 1, a set of nodes is {a, b, c, d, e, f, g} and a set of nodes for Image 2 is {1, 2, 3, 4, 5, 6}. When we look closely, the distances bewteen 'a' and three 'd','e' and 'g' in Image 1 are the same with distances between '1' and three '3', '6' and '5'. This way, pairwise distances among corresponding nodes between twoo images should have the same geometrics and the set of largest complete correspondence between two images are \{'a1','d3','e6','g5'\}. This set is a set of maximum clique. Some nodes such as \{'b','c','f'\} in Image 1 and \{'2','4'\} in Image 2 are examples of noises that might be apppeared in the outsole impressions.
  
 ### One subarea matching
 
