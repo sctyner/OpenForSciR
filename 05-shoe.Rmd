@@ -199,21 +199,21 @@ knitr::include_graphics("img/graph_q1.png", dpi = 100)
 The Figure \@ref(fig:graphq1) shows the matching result. By fixing circle $q_1$ (blue pixel), we found the closest circle (red pixel) for circle $q_1$ in shoe $K$, using circle information in Table \@ref(tab:resulttable). The blue circle in $Q$ and red circle in $K$ look pretty similar. We will repeat this process for two more circles that we fix in $Q$. 
 
 
-## Drawing Conclusion
+## Drawing Conclusions
 
-To draw the conclusion, we will define the signature of shoe outsole impressions. Once we define the signature of $Q$, then we will find the best match in $K$ for the signature of $Q$. As we saw in Figure \@ref(fig:startplot), we will fix three circurlar areas in $Q$ as the signature. The question is whether we can find the correspondin signature in $K$. By detecting edges, two shoe impressions are transformed into the boundaries of the outsole pattern containing class, subclass and existing RACs.  
+To determine if impressions $Q$ and $K$ were made by the same shoe, we need to define the signature of shoe outsole impressions. Once we define the signature of $Q$, we find the most similar regions in impression $K$. As we saw in Figure \@ref(fig:startplot), we will fix three circurlar areas in $Q$ as the signature. <!--The question is whether we can find the correspondin signature in $K$. By detecting edges, two shoe impressions are transformed into the boundaries of the outsole pattern containing class, subclass and existing RACs.  --> 
 
-```{r signature, fig.cap='caption', echo=FALSE, fig.align = 'center'}
+```{r signature, fig.cap="Comparing the lengths of the blue lines is important for determining if the same shoe made impression $Q$ and impression $K$.", echo=FALSE, fig.align = 'center'}
 knitr::include_graphics("img/final3.png", dpi = 100)
 ```
 
-Figure \@ref(fig:signature) shows the signature in $Q$ and the corresponding areas that we found as the best match in $K$ with the signature of $Q$. We will use the average of five similarity features from three circle matchings. If circles in $K$ are correctly found, then geometrics among three circles in $Q$ and $K$ should the similar. Here, you see the blue lines of traingle consituted by centers of three circles in each shoe impression. The difference of lengths from two traingles will be part of the similarity between $Q$ and $K$.  
+Figure \@ref(fig:signature) shows the signature in $Q$ and the corresponding areas ar the best match in $K$ with the signature of $Q$ found by the `match_print()` function. We use the average of the  five similarity features from the three circle matchings to draw a conclusion. If the circles in $K$ match the circle in $Q$, then the geometry of the three circles in $Q$ and $K$ should be very similar. The blue lines  in Figure \@ref(fig:signature) form a triangle whose vertices are the centers of three circles in each shoe impression. The difference of the lengths of the sides of the two triangles will become features used to determine if $Q$ and $K$ were made my the same shoe.   
 
 
 ```{r finaltable, results='asis', echo=FALSE}
-X1<-c('q1-k*1',18, 12.05, 0.75, 0.97, 0.3, 0.58)
-X2<-c('q2-k*2',17, 10.57, 0.53, 0.91, 0.43, 0.55)
-X3<-c('q3-k*3',20, 12.14, 0.63, 1.00, 0.24, 1.03)
+X1<-c('q1-$k^*_1$',18, 12.05, 0.75, 0.97, 0.3, 0.58)
+X2<-c('q2-k^*_2',17, 10.57, 0.53, 0.91, 0.43, 0.55)
+X3<-c('q3-k^*_3',20, 12.14, 0.63, 1.00, 0.24, 1.03)
 
 tabb2 <- data.frame(X1, X2, X3)
 tabb2 <- data.frame(t(tabb2))
@@ -221,26 +221,27 @@ tabb2 %>% knitr::kable(format = "html", caption="Resulting table comparing Q and
                       row.names = FALSE, col.names = c("Comparison","Clique size","Rot. angle","Overlap on k*", "Overlap on q","Median distance", "Diff in length from Triangle"))
 ```
 
-Table \@ref(tab:finaltable) is the resulting table once we fix the signature with three circles in $Q$, then find the corresponding areas in $K$ to show the best match with the signature in $Q$. Three rows are six similarity features between $q_i$ and $k^{*}_i$ (found as the best matching circle in $K$ for circle $q_i$) for $i=1,2,3$. The last column is the absolute value of difference of the triangle lengths from three circles in $Q$ and $K$, where the lower the better for mates. Finally, we will take the average of these features over three rows to summarize it, except rotation angle estimation. For mates, rotation angle will be consistently estimated so that we will summarise rotation angle feature as a standard deviaition of three rotation angle estimations. This will provide the evidence how much three rotation angle are consistently measured. 
+Table \@ref(tab:finaltable) is the resulting table once we fix the signature with three circles in $Q$, then find the corresponding areas in $K$ to show the best match with the signature in $Q$. Three rows are six similarity features between $q_i$ and $k^{*}_i$ (found as the best matching circle in $K$ for circle $q_i$) for $i=1,2,3$. The last column is the absolute value of difference of the triangle lengths from three circles in $Q$ and $K$, where the lower the better for mates. Finally, we will take the average of these features over three rows to summarize it, except rotation angle estimation. For mates, rotation angle will be consistently estimated so that we will summarise rotation angle feature as a standard deviaition of three rotation angle estimations. This will provide the evidence how much three rotation angle are consistently measured. ??? Soyoung, I am confused about the triangle lengths. Which length is which?? Also, how do you actually make a final decision?????? 
 
 
 
 ## Case Study {#shoe-case-study}
-Comparing two impressions with totally different outsole patterns are very easy problem to human examiner or computer. What if we are tasked to compare two impressions from the same brand and model shoes but used by two different users? 
 
-Suppose we are tasked to compare one questioned shoe outsole impression ($Q$) and two known shoe impressions ($K_1, K_2$) from two different shoes. Let's confine the situation that all of three impressions share the same class characteristsis. How can we conclude the source of $Q$? Is the impression $Q$ from the source of $K_1$ or $K_2$?
+Comparing two impressions with totally different outsole patterns is a very easy problem for humans and computers. But what if we are tasked to compare two impressions from the same brand, model, and size shoes but but are worn by two different people? 
+
+Suppose we are tasked to compare one questioned shoe outsole impression ($Q$) and two known shoe impressions ($K_1, K_2$) from two different shoes. All three impressions share the same class characteristics. How can we conclude the source of $Q$? Is the impression $Q$ from the same source as $K_1$ or $K_2$?
 
 
-```{r eximgs, fig.cap='Example images of shoe outsole impressions. The questioned impression (Q) and two known impressions (K1, K2). Q belongs to one of shoes for K1 and K2.', echo=FALSE, fig.align = 'center'}
+```{r eximgs, fig.cap="Example images of shoe outsole impressions. The questioned impression (Q) and two known impressions (K1, K2). Q belongs to one of shoes for K1 and K2.", echo=FALSE, fig.align = 'center'}
 knitr::include_graphics("img/NIKE_QK1K2.jpg", dpi = 100)
 ```
 
 
-
-Figure \@ref(fig:eximgs) display three outsole impressions. Impression $Q$ is from one of sources for $K_1$ and $K_2$. Two shoes are from the same brand and model of shoes, which were used by two different people for about six months. Since three impressions share the class and subclass characteristics, it is very hard comparison to conclude the source of $Q$. There are some differences among images $Q, K_1, K_2$ but it is hard to distinguish these differences are either measurement errors or wear and tear of the outsole (or RACs).  
+Figure \@ref(fig:eximgs) displays three outsole impressions. Impression $Q$ is from the same  source as either $K_1$ or $K_2$. The two known impressions are from the same brand and model of shoes, which were worn by two different people for about six months. Since the three impressions all share class and subclass characteristics, it is a very hard comparison. There are some differences among images $Q, K_1, K_2$ but it is hard to determine if these differences due to measurement errors or wear and tear of the outsole or RACs.  
 
 ### Comparison $Q$ vs. $K_1$
-Let's compare $Q$ and $K_1$ first. In $Q$, we select three circlular areas. For this, we ask the function to select three centers of (30%, 80%), (20%, 40%), (70%, 70%) quantiles of $x, y$ ranges of coordinates in $Q$. 
+
+Let's compare $Q$ and $K_1$ first. In $Q$, we select three circlular areas. For this, we use the function `initial_circle` to select three centers within the (30%, 80%), (20%, 40%), (70%, 70%) quantiles of the $(x, y)$ ranges of the coordinates in $Q$. The function automatically generates corresponding centers of the circles with radius of 50. 
 
 ```{r datshoe2, echo=FALSE}
 imgQ<-read.csv('dat/lc_nike_10.5_647_Q.csv')
@@ -253,26 +254,23 @@ imgK2<-read.csv('dat/lc_nike_10.5_520_K2.csv')
 input_circles_Q <- initial_circle(imgQ)
 input_circles_Q
 ```
-It automatically generate corresponding centers and radius of 50. 
 
 
 ```{r startQK1, fig.align = 'center'}
 start_plot(imgQ, imgK1, input_circles_Q)
 ```
-Here, we can draw the graph of $Q$ and $K_1$ with circles in $Q$. The goal is to find the correspoding circles in $K$ that matched well with circles in $Q$.
+Here, we draw the graph of $Q$ and $K_1$ with circles in $Q$. 
 
-
+Next, we run `match_print()` to findcircles in $K$ that most closely correspond to the circles in $Q$. The result is shown in Figure \@ref(fig:exKM). In $K_1$, the algorithm finds the closest circles which show the most overlap with each of the circles that we fixed in $Q$. 
 
 ```{r matchKM, fig.align = 'center', eval=FALSE}
 match_print(imgQ, imgK1, input_circles_Q)
 ```
 
 
-```{r exKM, fig.cap='Final match result between Q and K1', echo=FALSE, fig.align = 'center'}
+```{r exKM, fig.cap="Final match result between Q and K1", echo=FALSE, fig.align = 'center'}
 knitr::include_graphics("img/Nike_edge_ex_KM.png", dpi = 100)
 ```
-
-Figure \@ref(fig:exKM) shows the final matching result between $Q$ and $K_1$. In $K_1$, the algorithm finds the closest circle to show the best overlap with each circles that we fix in $Q$. 
 
 
 ```{r KMtable1, results='asis', echo=FALSE}
@@ -287,19 +285,23 @@ table_KM[,c(6:10, 14)] %>% knitr::kable(format = "html", caption="Similarity fea
 ```
 
 
-Table \@ref(tab:KMtable1) and Table \@ref(tab:KMtable2) are output table that we can get from the function $match\_print$, but here, results are splitted into two tables. Table \@ref(tab:KMtable1) is the information of center and radius for three circles that showed the best overlap with three circles in $Q$. Table \@ref(tab:KMtable2) shows the similairty features from the matching between each circle in $Q$ and corresponding circle in $K_1$. Each row in Table  \@ref(tab:KMtable2) shows the similarity features from circle $q_i$ and circle $k^{*}_i$ when $i=1,2,3$. 
+Table \@ref(tab:KMtable1) and Table \@ref(tab:KMtable2) are output tables from `match_print()`. Table \@ref(tab:KMtable1) is the information of center and radius for three circles that showed the best overlap with three circles in $Q$. Table \@ref(tab:KMtable2) shows the similarity features between each circle in $Q$ and the corresponding circle in $K_1$. Each row in Table  \@ref(tab:KMtable2) shows the similarity features from circle $q_i$ and circle $k^{*}_i$ when $i=1,2,3$. 
 
 
 
 ### Comparison $Q$ vs. $K_2$
 
-We are comparing $Q$ and $K_2$. For $Q$, we selected the same three circles and ask the algorithm to find the best matching circles in $K_2$.  
+To compare $Q$ and $K_2$, we selected the same three circles in $Q$ and ask the `match_print()` function to find the best matching circles in $K_2$.  
 
-```{r exKNM, fig.cap='caption', echo=FALSE, fig.align = 'center'}
+```{r matchKM2, eval=FALSE}
+match_print(imgQ, imgK2, input_circles_Q)
+```
+
+```{r exKNM, fig.cap="caption", echo=FALSE, fig.align = 'center'}
 knitr::include_graphics("img/Nike_edge_ex_KNM.png", dpi = 100)
 ```
 
-Figure \@ref(fig:exKNM) shows the final matching result. In this comparison, green circle in $K_2$ is not correctly found as the position of green circle in $Q$. 
+Figure \@ref(fig:exKNM) shows the final matching result. In this comparison, green circle in $K_2$ is in a very different position compared to the position of the green circle in $Q$. 
 
 
 
@@ -315,12 +317,12 @@ table_KNM[,c(6:10, 14)] %>% knitr::kable(format = "html", caption="Similarity fe
 ```
 
 
-Table \@ref(tab:KNMtable1) and Table \@ref(tab:KNMtable1) show the location information of matching circles in $K$ for fixed circle in $Q$ and similarity features. 
+Table \@ref(tab:KNMtable1) and Table \@ref(tab:KNMtable1) show the location information of matching circles in $K$ for fixed circle in $Q$ and the corresponding similarity features, respectively. 
 
 
 ### Interpretation of comparisons of $Q, K_1$ and $Q, K_2$ 
 
-To summarize similarity features from the match of the two impressions, we will take the average of each similarity feature across three circle matchings, except rotation angle estimations. For features such as clique size, Overlap on $k$ and Overlap on $q$, the larger value we have, the better for the mated comparison of two impressions. For features Median distance and absolute value of differences of lengths from two triangles in two impessions, the lower value we get, the better for the mates. For the rotation angle estimation, taking the average of them means nothing. It is more important to check how consistently three rotation angle values are estimated. Thus, we take the standard deviaion of rotation angle as the summarized value of the match of two impressions. 
+To summarize similarity features from the match of the two impressions, we will take the average of each similarity feature across the three circle matchings, except rotation angle estimations. For features such as clique size and overlap, larger values indicate mated impressions. For the features median distance and absolute value of differences of lengths from two triangles in two impressions, lowever values indicate mated impressions. For the rotation angle estimation, we use the standard deviation of the three values because we are interested in comparing the three values to each other, not in the value of the angles themselves. If all rotations are about the same, the algorithm is consistently finding those patterns, and the prints are likely from the same shoe, even if the image has been rotated . If the rotation angles are very different, however, the algorithm is forcing similarity where there probably isn't any, and the prints are likely from different shoes. 
 
 
 ```{r summarytable, results='asis', echo=FALSE}
@@ -344,17 +346,17 @@ D2 %>% summarize(clique_size=mean(clique_size),
 
 )->D_KNM
 
-Match<-c("Q-K1", "Q-K2")
+Match<-c("Q, $K_1$", "Q,$K_2$")
 data.frame(Match, rbind(D_KM, D_KNM)) %>% knitr::kable(format = "html", caption="Summary table of two comparisons of $Q-K_1$ and $Q-K_2$. Similarity features are averaged but rotation angles are summarised as standard deviation.", longtable = FALSE, row.names = FALSE, digits=2)
 
 ```
 
 
-Table \@ref(tab:summarytable) shows the summarized similarity features from two comparisons we did for $Q-K_1$ and $Q-K_2$. In both comparisons, the average clique size and median distance look similar. The features to show big differences between these two comparisons are standard deviation (SD) of rotation angle estimations and difference in lengths from triangles. The comparison $Q-K_1$ shows three similar rotation estimations (1.23, 1.88, 2.68), while the comparison $Q-K_2$ shows different values of rotation estimations (1.87, 7.16, 32.93) in Table \@ref(tab:KMtable2) and Table \@ref(tab:KNMtable2). The comparison $Q-K_2$ shows a 5 times larger value of differences between lengths from triangles than the comparison of $Q-K_1$. In addition, the comparison $Q-K_1$ shows high overlap chance of 97% in average while the comparison of $Q-K_2$ shows 77% chance overlap in average. 
+Table \@ref(tab:summarytable) shows the summarized similarity features from two comparisons we did for $Q,K_1$ and $Q, K_2$. In both comparisons, the average clique size and median distance look similar. The standard deviation (SD) of rotation angle estimations and difference in lengths from triangles, however, are very different. The comparison $Q,K_1$ results in similar rotation estimates (1.23, 1.88, 2.68), while the comparison $Q,K_2$ results in very different rotation estimates (1.87, 7.16, 32.93) in Table \@ref(tab:KMtable2) and Table \@ref(tab:KNMtable2). The length comparison from $Q,K_2$ is five times larger than that from the $Q,K_1$ comparison. In addition, $Q,K_1$ has high overlap average chance of about 94% while $Q-K_2$ has about a 77% average. 
 
 
 
-Finally, I want to let you know the truth. The impression $Q$ and $K_1$ is known mated pairs of images, which means they are repeated impressions from the same shoe. The impression $K_2$ is scanned from different shoe of the shoe for $Q$ and $K_1$. Because two shoes share the same class characteristics and worn by two different users for about six months, the comparisons we did here were hard cases. To see what typical values we will have for mates and non-mates, we need to do more analysis to get similarity features from many comparisons. In our later analysis, we will use random forest to combine scores of similarity features we define. More analysis and results from many more comaprisons can be found in [@park2018learning]. 
+Finally, we reveal the truth: the impressions $Q$ and $K_1$ are from the same shoe. The impression $K_2$ is scanned from different shoe of the same size, brand, and style. Because the two shoes share class characteristics and are worn by two different users for about six months, the comparisons we did here were the hardest cases. To see what typical values we will have for mates and non-mates, we need to do more analysis to get similarity features from many comparisons. In other analyses, for instance in @park2018learning,  we use random forests to classify mates and non-mates using the definitions of clique size, overlap, etc. as the features. 
 
 
 
