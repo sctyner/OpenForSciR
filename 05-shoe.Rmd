@@ -2,7 +2,13 @@
 
 #### *Authors* {-}
 
-![Source: https://www.pexels.com/photo/grayscale-photo-of-shoe-sole-163369/](img/shoesole.png)
+```{r setupshoe, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache=FALSE, fig.align = "center", message = FALSE, warning = FALSE)
+```
+
+```{r shoestock, echo = FALSE, out.width="90%"}
+knitr::include_graphics("img/shoesole.png")
+```
 
 ## Introduction
 
@@ -71,20 +77,28 @@ This scanner enables us to collect shoe impressions and make comparisons where g
 
 ### Transformation of shoe image
 
-The resulting image from the EverOS scanner is very large, making comparisons of images very time-consuming. To speed up the comparison process, we use only part of the image. By applying [edge detection](https://en.wikipedia.org/wiki/Edge_detection) to the images, we end up with comparisons of the outlines of important patterns of shoes. 
+<!-- replace wikipedia with actual references--> 
+The resulting image from the EverOS scanner is very large, making comparisons of images very time-consuming. To speed up the comparison process, we use only part of the image.  First, we used [MATLAB](https://www.mathworks.com/products/matlab.html) to downsample all of the images at 20%.   Next, we apply [edge detection](https://en.wikipedia.org/wiki/Edge_detection) to the images, and we end up with comparisons of the outlines of important patterns of shoe outsoles. We extract the edges of the outsole impression using the [Prewitt operator](https://en.wikipedia.org/wiki/Prewitt_operator) to obtain the ($x$,$y$) coordinates of the shoe patterns. By detecting the boundaries of the sole patterns, edges will contain class, subclass and possible RACs all together as our information of shoe impressions.   
 
-<!-- about down sampling. use edge detection, then get the x,y coordinates-->
-?????????????????????? WAY too complicated for the book 
-There could be some ways to compare 2D shoe impressions such as intensity based comparison or feature based comparison. That means, we will transform images into some information as we desire to use. In this chapter, we will use feature based method to compute the similarity score. As a feature, we choose to extract edges of impression by Prewitt operator and use its coordinate values of ($x$,$y$) with lower left corner of (0,0). By detecting the boundaries of sole pattern, edges will contain class, subclass and possible RACs all together as our information of shoe impressions.  As a preprocessing step, we used Matlab to down sample all of images at 20%.    
+The final data we use for comparison are the $x$ and $y$ coordinate values of the impression area edges that we extracted from the original image in the $Q$ shoe and the $K$ shoe, as shown in Figure \@ref(fig:datshoe). 
 
+```{r datshoe, fig.cap="Outsole impressions of two shoes, $K$ and $Q$."}
+shoeQ<-read.csv('dat/Q_03L_01.csv')
+shoeK<-read.csv('dat/K_03L_05.csv')
+shoeQ$source <- "Q"
+shoeK$source <-  "K"
+
+library(tidyverse)
+bind_rows(shoeQ, shoeK) %>% 
+  ggplot() + 
+  geom_point(aes(x = x, y = y), size = .05) + 
+  facet_wrap(~source, scales = "free")
+```
 
 
 ### Definition of classes
 
-
-????????? Needs to be re-written 
-To test the method and the signature we defined, we are using our data collection to come up with known mated (KM) comparisons and known non-mated (KNM) comparisons. The KMs are two repeated impressions from the same shoe source, while  the KNMs are from two different shoes. In the data collection, all of the shoes have the same class characteristics, so the the outsole pattern with no wear should be the same across the shoes. Based on results of KM and KNM, we will test the performance of the matching method whether it can discriminate well two classes, KM and KNM. Also, we want for the matching method to produce score distributions well separating two classes.  
-
+We use the data CSAFE collected to construct known mated (KM) comparisons and known non-mated (KNM) comparisons. The KMs are two repeated impressions from the same shoe source, while the KNMs are from two different shoes. The shoes are identical in size, style, and brand: the only difference is who wore the shoes. We want to train a comparison method in this way because shoes that are the same size, style, and brand are the most similar to each other, and thus the detection of differences will be very hard. By training a method on the hardest comparisons, we make all comparisons feasible. 
 <!-- for comparisons, the only difference between the shoes same brand, same size, worn by different people--> 
  
 
@@ -98,15 +112,15 @@ To begin, the package can be installed from Github using [`devtools`](https://de
 devtools::install_github("CSAFE-ISU/shoeprintr", force=TRUE)
 ```
 
+We'll also use the other packages below: 
+
 ```{r, message=FALSE, warning=FALSE}
-library(tidyverse)
 library(shoeprintr)
-library(ggplot2)
 library(patchwork)
 ```
 
 
-We propse a computer-assisted method to quantify the similarity between two impresssions. The method, called ?????, consists of several steps: 
+We use the following method to quantify the similarity between two impressions: 
 
 1. Select "interesting" sub-areas in the $Q$ impression found at the crime scene.
 2. Find the closest corresponding sub-areas in the $K$ impression.
@@ -114,39 +128,24 @@ We propse a computer-assisted method to quantify the similarity between two impr
 4. Define similarity features we can measure to create an outsole signature.
 5. Combine those features into one single score. 
 
-The data of two shoe impressions contain $x$ and $y$ coordinate values of impression area edges that we extracted from the original image. To start to compare subareas in $Q$ and $K$, we will select the three circular subareas ????? sub-area or subarea? of interest in $Q$. Here is the example matching between two repeated impressions from the same shoe.   
-
-
-```{r datshoe, fig.cap="Outsole impressions of two shoes, $K$ and $Q$."}
-shoeQ<-read.csv('dat/Q_03L_01.csv')
-shoeK<-read.csv('dat/K_03L_05.csv')
-shoeQ$source <- "Q"
-shoeK$source <-  "K"
-
-bind_rows(shoeQ, shoeK) %>% 
-  ggplot() + 
-  geom_point(aes(x = x, y = y), size = .05) + 
-  facet_wrap(~source, scales = "free")
-```
-The data shoe $Q$ and shoe $K$ contain coordinate values ($x,y$) of edge points. There are 9,320 and 9,122 edges detected for boundaries of the soles of shoe $Q$ and $K$.
-First, we select three circular areas by giving the information of their centers and radius arbitrary chosen. These areas can be selected by examiners or by computer. In this chapter, we will select manually those three circles in $Q$.
+To begin our comparison, we choose three circular sub-areas of interest in $Q$ by giving the information of their centers and their radii. These areas can be selected "by hand" by examiners, as we do here, or by computer, as we do in Section \@ref(shoe-case-study). The three circles of interest are given in `input_circles`
 
 ```{r qcircles}
-input_circles <- matrix(c(75.25, 110, 170, 600.4, 150, 470, 50, 50, 50), nrow = 3, ncol = 3)
-input_circles
+input_circ <- matrix(c(75.25, 110, 170, 600.4, 150, 470, 50, 50, 50), nrow = 3, ncol = 3)
+input_circ
 ```
 For circle $q_1$, we select the center of (75.25, 600.4) and the radius of 50. The second and the third rows in this matrix show center and radius for circle $q_2, q_3$.  
 
 ```{r startplot, fig.align = 'center'}
-start_plot(shoeQ, shoeK, input_circles)
+start_plot(shoeQ[,-3], shoeK[,-3], input_circ)
 ```
-Here, we can draw the graph of coordinates of edges from $Q$ and $K$. For $Q$, we can ask to color three circular areas that we fix. The command $start\_plot$ will produce graphs of $Q$ colored by three circular areas where red pixels are $q_1$, oranges are $q_2$, greens are $q_3$ and $K$ without coloring. The goal here is to find the same red, green, orange edges located in $K$.   
+Here, we can draw the graph of coordinates of edges from $Q$ and $K$. For $Q$, we use the function `start_plot` draw the $Q$ impressions colored by the three circular areas we chose. We call the red circle, $q_1$, orange $q_2$, and green $q_3$. The goal here is to find the closest areas to $q_1$, $q_2$, and $q_3$ in shoe $K$. 
 
-Let's look details how to find the corresponding areas in $K$ for $q_1$ with center of (75.25, 600.4) and radius of 50. 
-```{r step1plot, fig.cap='Circle q1 in Q and candidate circles in K', echo=FALSE, fig.align = 'center'}
+<!---Let's look details how to find the corresponding areas in $K$ for $q_1$ with center of (75.25, 600.4) and radius of 50. --> 
+```{r step1plot, fig.cap='Circle q1 in Q and candidate circles in K', echo=FALSE, fig.align = 'center', eval = FALSE}
 knitr::include_graphics("img/step1_Q_K.png", dpi = 100)
 ```
-
+<!-- 
 For the comparison, we will select many candidate circles in $K$ labeled as circle $k_1$, ..., $k_9$ in Figure \@ref(fig:step1plot). For candidate circles in $K$, we use larger radius than circle $q_1$ because we want any of candidate circles can contain circle $q_1$ if they are mates. Ideally, the union of candidate circles in $K$ should contain entire edge points in $K$. However, we know that circle $q_1$ in $Q$ is located in the toe so that we limit the search area into upper left of $K$. We might try to compare circle $q_1$ to circles $k_7, k_8, k_9$ which are overlapped each other. As an example here, we will compare circle $q_1$ with circle $k_8$. 
 
 For the comparison of circle $q_1$ and circle $k_8$, we will use the concept of maximum clique. A graph is an object consited with vertices or nodes connected with edges or lines. When comparing two graphs, the maximum clique from two graphs is defined as the largest complete subgraph, meaning the subset of nodes with the same geometrical relationship between two graphs. In the shoe outsole comparison application, The interest features detected from impression are becoming vertices and the distances among them become edges. The maximum clique is a good tool to reflect the fact that geometrics in the patterns (at least class characteristics) of shoe outsole are not changing a lot. 
@@ -156,10 +155,11 @@ knitr::include_graphics("img/maxclique_ex2.png", dpi = 100)
 ```
 
 In Figure \@ref(fig:mcgraph), we want to compare Image 1 and Image 2. In Image 1, a set of nodes is {a, b, c, d, e, f, g} and a set of nodes for Image 2 is {1, 2, 3, 4, 5, 6}. When we look closely, the distances bewteen 'a' and three 'd','e' and 'g' in Image 1 are the same with distances between '1' and three '3', '6' and '5'. This way, pairwise distances among corresponding nodes between twoo images should have the same geometrics and the set of largest complete correspondence between two images are \{'a1','d3','e6','g5'\}. This set is a set of maximum clique. Some nodes such as \{'b','c','f'\} in Image 1 and \{'2','4'\} in Image 2 are examples of noises that might be apppeared in the outsole impressions.
+-->
  
 ### One subarea matching
 
-In this section, we will show the example matching one circle from $Q$ and the other circle from $K$, using maximum clique. As a reminder, shoe $Q$ and $K$ are the mated pairs of images from the same shoe. As an example, we will shoe the matching between circle $q_1$ and circle $k_8$ in Figure \@ref(fig:step1plot). We selected the circle $k_8$ on purpose to be matched with the circle $q_1$ well.  
+In this section, we will show the example matching one circle from $Q$ and the other circle from $K$, using a graph theory method known as *maximum clique* ??CITATION??.  will shoe the matching between circle $q_1$ and circle $k_8$ in Figure \@ref(fig:step1plot). We selected the circle $k_8$ on purpose to be matched with the circle $q_1$ well.  
 
 ```{r onecircle, eval=FALSE}
 nseg=360
@@ -225,7 +225,7 @@ Table \@ref(tab:finaltable) is the resulting table once we fix the signature wit
 
 
 
-## Case Study
+## Case Study {#shoe-case-study}
 Comparing two impressions with totally different outsole patterns are very easy problem to human examiner or computer. What if we are tasked to compare two impressions from the same brand and model shoes but used by two different users? 
 
 Suppose we are tasked to compare one questioned shoe outsole impression ($Q$) and two known shoe impressions ($K_1, K_2$) from two different shoes. Let's confine the situation that all of three impressions share the same class characteristsis. How can we conclude the source of $Q$? Is the impression $Q$ from the source of $K_1$ or $K_2$?
