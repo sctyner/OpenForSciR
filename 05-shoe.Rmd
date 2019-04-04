@@ -141,10 +141,29 @@ start_plot(shoeQ[,-3], shoeK[,-3], input_circ)
 ```
 Here, we can draw the graph of coordinates of edges from $Q$ and $K$. For $Q$, we use the function `start_plot` draw the $Q$ impressions colored by the three circular areas we chose. We call the red circle, $q_1$, orange $q_2$, and green $q_3$. The goal here is to find the closest areas to $q_1$, $q_2$, and $q_3$ in shoe $K$. 
 
-<!---Let's look details how to find the corresponding areas in $K$ for $q_1$ with center of (75.25, 600.4) and radius of 50. --> 
-```{r step1plot, fig.cap='Circle q1 in Q and candidate circles in K', echo=FALSE, fig.align = 'center', eval = FALSE}
+To find the closest areas of $q_1$, $q_2$, and $q_3$ in shoe $K$, we use the function `match_print`.
+```{r match, fig.align = 'center', eval=FALSE}
+match_print(shoeQ, shoeK, input_circ)
+```
+
+
+```{r matchgraph, fig.cap="Final match result between shoe Q and shoe K", echo=FALSE, fig.align = 'center'}
+knitr::include_graphics("img/matchgraph.png", dpi = 100)
+```
+
+The function `match_print` will produce the best matching areas in shoe $K$ for circles of $q_1$, $q_2$, and $q_3$ in shoe $Q$, which we fixed. Figure \@ref(fig:matchgraph) shows the final result from the function `match_print`. Three circles of red, orange, green colors in the right panel in Figure \@ref(fig:matchgraph)indicate that those circles that the algorithm foound showed the best overlap with circles of $q_1$, $q_2$, and $q_3$ in shoe $Q$. 
+
+
+Let's find out how the algorithm with a function `match_print` does find the corresponding areas between two shoe impressions. We will explain the process how to find the corresponding areas for circle $q_1$ in shoe $K$. The algorithm first finds many candidate circles in shoe $K$.   
+
+```{r step1plot, fig.cap='Circle q1 in Q and candidate circles in K', echo=FALSE, fig.align = 'center'}
 knitr::include_graphics("img/step1_Q_K.png", dpi = 100)
 ```
+
+For the comparison, we will select many candidate circles in $K$ labeled as circle $k_1$, ..., $k_9$ in Figure \@ref(fig:step1plot). For candidate circles in $K$, we use larger radius than circle $q_1$ because we want any of candidate circles can contain circle $q_1$ if they are mates. Ideally, the union of candidate circles in $K$ should contain entire edge points in $K$. By comparing all candidate circles in shoe $K$ with the fixed circle $q_1$, the alorithm will pick the closest one as the final matching area in shoe $K$ for circle $q_1$.
+
+<!---Let's look details how to find the corresponding areas in $K$ for $q_1$ with center of (75.25, 600.4) and radius of 50. --> 
+
 <!-- 
 For the comparison, we will select many candidate circles in $K$ labeled as circle $k_1$, ..., $k_9$ in Figure \@ref(fig:step1plot). For candidate circles in $K$, we use larger radius than circle $q_1$ because we want any of candidate circles can contain circle $q_1$ if they are mates. Ideally, the union of candidate circles in $K$ should contain entire edge points in $K$. However, we know that circle $q_1$ in $Q$ is located in the toe so that we limit the search area into upper left of $K$. We might try to compare circle $q_1$ to circles $k_7, k_8, k_9$ which are overlapped each other. As an example here, we will compare circle $q_1$ with circle $k_8$. 
 
@@ -157,9 +176,12 @@ knitr::include_graphics("img/maxclique_ex2.png", dpi = 100)
 In Figure \@ref(fig:mcgraph), we want to compare Image 1 and Image 2. In Image 1, a set of nodes is {a, b, c, d, e, f, g} and a set of nodes for Image 2 is {1, 2, 3, 4, 5, 6}. When we look closely, the distances bewteen 'a' and three 'd','e' and 'g' in Image 1 are the same with distances between '1' and three '3', '6' and '5'. This way, pairwise distances among corresponding nodes between twoo images should have the same geometrics and the set of largest complete correspondence between two images are \{'a1','d3','e6','g5'\}. This set is a set of maximum clique. Some nodes such as \{'b','c','f'\} in Image 1 and \{'2','4'\} in Image 2 are examples of noises that might be apppeared in the outsole impressions.
 -->
  
+ 
+ 
+ 
 ### One subarea matching
 
-In this section, we will show the example matching one circle from $Q$ and the other circle from $K$, using a graph theory method known as *maximum clique* ??CITATION??.  will shoe the matching between circle $q_1$ and circle $k_8$ in Figure \@ref(fig:step1plot). We selected the circle $k_8$ on purpose to be matched with the circle $q_1$ well.  
+In this section, we will show the example matching between circle $q_1$ and circle $k_8$ in Figure \@ref(fig:step1plot). We selected the circle $k_8$ on purpose to be matched with the circle $q_1$ well.  
 
 ```{r onecircle, eval=FALSE}
 nseg=360
@@ -173,13 +195,15 @@ match_q1_k8<-boosted_clique(circle_q1, circle_k8, ncross_in_bins = 30, xbins_in 
 ```
 
 
-A function $boosted\_clique$ is finding the set of maximum clique on the parallelized version to speed up from two sets of pixel, given some parameters. Using the set of maximum clique which is the corresponding sub-pixels, it will compute rotation angle and translation metric to result the best alignment. The function $boosted\_clique$ will produce a resulting plot in Figure \@ref(fig:MCresult) and a table of similarity features in Table \@ref(tab:resulttable). 
+A function `boosted_clique` is finding the set of sub-pixels that can be used for geomeric arrangement between circle $q_1$ and circle $k_8$. Using corresponding sub-pixels, the function will compute rotation angle and translation metric to result the best alignment between them. Circle $q_1$ is transformed to be on top of the circle $k_8$, using the calculated alignment information. The function `boosted_clique` will produce a resulting plot in Figure \@ref(fig:MCresult) and a table of similarity features in Table \@ref(tab:resulttable). 
 
 ```{r MCresult, fig.cap='Resulting plot when comparing circle q1 and circle k8', fig.align = 'center', echo=FALSE}
 knitr::include_graphics("img/MC_result.png", dpi = 100)
 ```
 
-Figure \@ref(fig:MCresult) have four sections. In the first row and first column, it showed distances between pixels defined as maximum clique. Distances among points in the maximum clique should be aligned through the diagonal line, if they are correctly found as corresponding pixels. In the first row and second column, it shows the maximum clique where blue pixels are in circle $q_1$ and red pixels are in circle $k_8$, after aligning them. Using those maximum clique points, entire edges in circle $q_1$ is transformed to the plane of circle $k_8$. In the second row, two plots show the alignment result of circle $q_1$ and circle $k_8$. The plot on the second row and second column shows the area of red pixels that are overlapped the best with blue pixels. This figure is to calculate the radius and center for the corresponding circle in $K$ for circle $q_1$. Thus, we see only blue pixels from circle $q_1$, but red pixels from circle $k_8$ is behind blue pixels. 
+Figure \@ref(fig:MCresult) have four sections. In the first row and first column, it showed distances between sub-pixels that we used for aligning of two circles. These two graphs are to check whether the found sub-pixels are actually good enough to be used for the geometric arrangement for two circles. For sub-pixels to be reasonable set of points for geometric arrangement, distances among those pixels should be aligned through the diagonal line in the left panel. In the first row and second column, it shows sub-pixels where blue pixels are in circle $q_1$ and red pixels are in circle $k_8$, after aligning them. The red point and blue point in this plot should be overlapped well, if they are corresponding points with the same geometries.  
+
+In the second row, two plots show the alignment result of circle $q_1$ and circle $k_8$. The plot on the second row and second column shows the area of red pixels that are overlapped the best with blue pixels. This figure is to calculate the radius and center for the corresponding circle in $K$ for circle $q_1$. Thus, we see only blue pixels from circle $q_1$, but red pixels from circle $k_8$ is behind blue pixels. 
 
 
 ```{r resulttable, results='asis', echo=FALSE}
@@ -189,25 +213,25 @@ tabb %>% knitr::kable(format = "html", caption="Resulting table from the matchin
                       row.names = FALSE, col.names = c("Clique size","Rot. angle","Overlap on k8", "Overlap on q1","Median distance", "center x", "center y", "radius"))
 ```
 
-Table \@ref(tab:resulttable) shows some similarity features and information of found circle in $K$ for circle $q_1$.  First five features are similarity values to measure the degree of similarity between circle $q_1$ and circle $k_8$, after aligning them. Here are the interpretations of Table \@ref(tab:resulttable); There are 18 number of pixels found from two circles as the maximum clique. The rotation angle is estimated as 12.15 degree to have the best overlap between two circles. There are two overlap features, meaning that 75% of circle $k_8$  pixels are overlapped with circle $q_1$ and 97% of circle $q_1$ pixels are overlapped with circle $k_8$. The median value of distances from overlapping points between two circles after aligning them is 0.3. For clique size, overlap features, the more the better and for median distance, the lower the better for mates. The last three columns are about information of the found circle in $K$ that is matched the best with circle $q_1$. Thus, the center (54.5, 688.5) and the radius 50.28 in $K$ will provide the best matching circle with circle $q_1$.
+Table \@ref(tab:resulttable) shows some similarity features and information of found circle in $K$ for circle $q_1$.  First five features are similarity values to measure the degree of similarity between circle $q_1$ and circle $k_8$, after aligning them. Here are the interpretations of Table \@ref(tab:resulttable); There are 18 number of suub-pixels found from two circles for geometric arrangement. The rotation angle is estimated as 12.15 degree to have the best overlap between two circles. There are two overlap features, meaning that 75% of circle $k_8$  pixels are overlapped with circle $q_1$ and 97% of circle $q_1$ pixels are overlapped with circle $k_8$. The median value of distances from overlapping points between two circles after aligning them is 0.3. For clique size, overlap features, the more the better and for median distance, the lower the better for mates. The last three columns are about information of the found circle in $K$ that is matched the best with circle $q_1$. Thus, the center (54.5, 688.5) and the radius 50.28 in $K$ will provide the best matching circle with circle $q_1$.
  
 
 ```{r graphq1, fig.cap='caption', echo=FALSE, fig.align = 'center'}
 knitr::include_graphics("img/graph_q1.png", dpi = 100)
 ```
 
-The Figure \@ref(fig:graphq1) shows the matching result. By fixing circle $q_1$ (blue pixel), we found the closest circle (red pixel) for circle $q_1$ in shoe $K$, using circle information in Table \@ref(tab:resulttable). The blue circle in $Q$ and red circle in $K$ look pretty similar. We will repeat this process for two more circles that we fix in $Q$. 
+The Figure \@ref(fig:graphq1) shows the matching result. By fixing circle $q_1$ (blue pixel), we found the closest circle (red pixel) for circle $q_1$ in shoe $K$, using circle information in Table \@ref(tab:resulttable). The blue circle in $Q$ and red circle in $K$ look pretty similar. We will repeat this process for two more circles that we fix in $Q$. The function `match_print` basically repeats this process for three circles in shoe $Q$. 
 
 
 ## Drawing Conclusions
 
-To determine if impressions $Q$ and $K$ were made by the same shoe, we need to define the signature of shoe outsole impressions. Once we define the signature of $Q$, we find the most similar regions in impression $K$. As we saw in Figure \@ref(fig:startplot), we will fix three circurlar areas in $Q$ as the signature. <!--The question is whether we can find the correspondin signature in $K$. By detecting edges, two shoe impressions are transformed into the boundaries of the outsole pattern containing class, subclass and existing RACs.  --> 
+To determine whether impressions $Q$ and $K$ were made by the same shoe or not, we need to define the signature of the questioned shoe outsole impression. We define the signature of shoe $Q$ as three circular areas in edge detection. By using edge detection of the outsole pattern in shoe $Q$, the signature will include class, subclass directly and existing RACs indirectly.
 
 ```{r signature, fig.cap="Comparing the lengths of the blue lines is important for determining if the same shoe made impression $Q$ and impression $K$.", echo=FALSE, fig.align = 'center'}
 knitr::include_graphics("img/final3.png", dpi = 100)
 ```
 
-Figure \@ref(fig:signature) shows the signature in $Q$ and the corresponding areas ar the best match in $K$ with the signature of $Q$ found by the `match_print()` function. We use the average of the  five similarity features from the three circle matchings to draw a conclusion. If the circles in $K$ match the circle in $Q$, then the geometry of the three circles in $Q$ and $K$ should be very similar. The blue lines  in Figure \@ref(fig:signature) form a triangle whose vertices are the centers of three circles in each shoe impression. The difference of the lengths of the sides of the two triangles will become features used to determine if $Q$ and $K$ were made my the same shoe.   
+Figure \@ref(fig:signature) shows the signature in $Q$ and the corresponding areas in $K$ found by the `match_print()` function. We use the average of thefive similarity features from the three circle matchings to draw a conclusion. If the circles in $K$ match the circle in $Q$, then the geometry of the three circles in $Q$ and $K$ should be very similar. The blue lines  in Figure \@ref(fig:signature) form a triangle whose vertices are the centers of three circles in each shoe impression. The difference of the lengths of two triangles will become an additional feature used to determine if $Q$ and $K$ were made my the same shoe or not. If two triangles (blue) in Figure \@ref(fig:signature) have similar lengths, this information can indicate one additinal evidence that shoe $Q$ and shoe $K$ are from the same source. 
 
 
 ```{r finaltable, results='asis', echo=FALSE}
