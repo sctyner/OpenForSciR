@@ -82,6 +82,8 @@ The resulting image from the EverOS scanner is very large, making comparisons of
 
 The final data we use for comparison are the $x$ and $y$ coordinate values of the impression area edges that we extracted from the original image in the $Q$ shoe and the $K$ shoe, as shown in Figure \@ref(fig:datshoe). 
 
+<!-- Sam, please locate Q on the left and K on the right. -->
+
 ```{r datshoe, fig.cap="Outsole impressions of two shoes, $K$ and $Q$."}
 shoeQ<-read.csv('dat/Q_03L_01.csv')
 shoeK<-read.csv('dat/K_03L_05.csv')
