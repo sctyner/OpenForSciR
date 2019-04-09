@@ -51,7 +51,7 @@ Eric is the Chief Data Scientist at [Omni Analytics](https://omnianalytics.io/).
 
 ## Xiao Hui Tai {-}
 
-Xiao Hui is ...
+Xiao Hui is a PhD student in the Department of Statistics and Data Science at Carnegie Mellon University. She is currently working on matching problems in forensic science. Previously she was a statistician with the Singapore government.
 
 ## Karen Pan {-}
 
@@ -65,6 +65,6 @@ Amanda is ...
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown', "x3ptools", "bulletxtrctr"
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', "x3ptools", "bulletxtrctr", "magrittr", "dplyr", "PRROC", "DescTools", "protoclust", "EBImage"
 ), 'packages.bib')
 ```

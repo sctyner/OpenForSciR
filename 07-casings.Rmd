@@ -1,6 +1,7 @@
 # Firearms: casings {#casings}
 
 #### *Authors* {-}
+Xiao Hui Tai is a PhD student in the Department of Statistics and Data Science at Carnegie Mellon University. She is currently working on matching problems in forensic science. Previously she was a statistician with the Singapore government.
 
 ## Introduction
 
