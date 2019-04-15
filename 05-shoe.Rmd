@@ -143,9 +143,9 @@ start_plot(shoeQ[,-3], shoeK[,-3], input_circ)
 ```
 Here, we can draw the graph of coordinates of edges from $Q$ and $K$. For $Q$, we use the function `start_plot` draw the $Q$ impressions colored by the three circular areas we chose. We call the red circle, $q_1$, orange $q_2$, and green $q_3$. The goal here is to find the closest areas to $q_1$, $q_2$, and $q_3$ in shoe $K$. 
 
-To find the closest areas of $q_1$, $q_2$, and $q_3$ in shoe $K$, we use the function `match_print`.
+To find the closest areas of $q_1$, $q_2$, and $q_3$ in shoe $K$, we use the function `match_print_subarea`. In this particular comparisons with full impressions of $Q$ and $K$, we know that circle $q_1$ is located in left toe area of $Q$. Thus, the algorithm confines the searhing area in $K$ into upper left area of $K$. 
 ```{r match, fig.align = 'center', eval=FALSE}
-match_print(shoeQ, shoeK, input_circ)
+match_print_subarea(shoeQ, shoeK, input_circ)
 ```
 
 
@@ -153,16 +153,16 @@ match_print(shoeQ, shoeK, input_circ)
 knitr::include_graphics("img/matchgraph.png", dpi = 100)
 ```
 
-The function `match_print` will produce the best matching areas in shoe $K$ for circles of $q_1$, $q_2$, and $q_3$ in shoe $Q$, which we fixed. Figure \@ref(fig:matchgraph) shows the final result from the function `match_print`. Three circles of red, orange, green colors in the right panel in Figure \@ref(fig:matchgraph)indicate that those circles that the algorithm foound showed the best overlap with circles of $q_1$, $q_2$, and $q_3$ in shoe $Q$. 
+The function `match_print_subarea` will produce the best matching areas in shoe $K$ for circles of $q_1$, $q_2$, and $q_3$ in shoe $Q$, which we fixed. Figure \@ref(fig:matchgraph) shows the final result from the function `match_print_subarea`. Three circles of red, orange, green colors in the right panel in Figure \@ref(fig:matchgraph)indicate that those circles that the algorithm foound showed the best overlap with circles of $q_1$, $q_2$, and $q_3$ in shoe $Q$. 
 
 
-Let's find out how the algorithm with a function `match_print` does find the corresponding areas between two shoe impressions. We will explain the process how to find the corresponding areas for circle $q_1$ in shoe $K$. The algorithm first finds many candidate circles in shoe $K$.   
+Let's find out how the algorithm with a function `match_print_subarea` does find the corresponding areas between two shoe impressions. We will explain the process how to find the corresponding areas for circle $q_1$ in shoe $K$. The algorithm first finds many candidate circles in shoe $K$.   
 
 ```{r step1plot, fig.cap='Circle q1 in Q and candidate circles in K', echo=FALSE, fig.align = 'center'}
 knitr::include_graphics("img/step1_Q_K.png", dpi = 100)
 ```
 
-For the comparison, we will select many candidate circles in $K$ labeled as circle $k_1$, ..., $k_9$ in Figure \@ref(fig:step1plot). For candidate circles in $K$, we use larger radius than circle $q_1$ because we want any of candidate circles can contain circle $q_1$ if they are mates. Ideally, the union of candidate circles in $K$ should contain entire edge points in $K$. By comparing all candidate circles in shoe $K$ with the fixed circle $q_1$, the alorithm will pick the closest one as the final matching area in shoe $K$ for circle $q_1$.
+For the comparison, we will select many candidate circles in $K$ labeled as circle $k_1$, ..., $k_9$ in Figure \@ref(fig:step1plot). For candidate circles in $K$, we use larger radius than circle $q_1$ because we want any of candidate circles can contain circle $q_1$ if they are mates. Ideally, the union of candidate circles in $K$ should contain entire edge points in $K$. By comparing all candidate circles in shoe $K$ with the fixed circle $q_1$, the alorithm will pick the closest one as the final matching area in shoe $K$ for circle $q_1$. But, to reduce the time to compare two impressions, we will confine the search area to $k_5$, ..., $k_9$ for circle $q1$. 
 
 <!---Let's look details how to find the corresponding areas in $K$ for $q_1$ with center of (75.25, 600.4) and radius of 50. --> 
 
@@ -222,7 +222,7 @@ Table \@ref(tab:resulttable) shows some similarity features and information of f
 knitr::include_graphics("img/graph_q1.png", dpi = 100)
 ```
 
-The Figure \@ref(fig:graphq1) shows the matching result. By fixing circle $q_1$ (blue pixel), we found the closest circle (red pixel) for circle $q_1$ in shoe $K$, using circle information in Table \@ref(tab:resulttable). The blue circle in $Q$ and red circle in $K$ look pretty similar. We will repeat this process for two more circles that we fix in $Q$. The function `match_print` basically repeats this process for three circles in shoe $Q$. 
+The Figure \@ref(fig:graphq1) shows the matching result. By fixing circle $q_1$ (blue pixel), we found the closest circle (red pixel) for circle $q_1$ in shoe $K$, using circle information in Table \@ref(tab:resulttable). The blue circle in $Q$ and red circle in $K$ look pretty similar. We will repeat this process for two more circles that we fix in $Q$. The function `match_print_subarea` basically repeats this process for three circles in shoe $Q$. 
 
 
 ## Drawing Conclusions
@@ -233,7 +233,7 @@ To determine whether impressions $Q$ and $K$ were made by the same shoe or not, 
 knitr::include_graphics("img/final3.png", dpi = 100)
 ```
 
-Figure \@ref(fig:signature) shows the signature in $Q$ and the corresponding areas in $K$ found by the `match_print()` function. We use the average of thefive similarity features from the three circle matchings to draw a conclusion. If the circles in $K$ match the circle in $Q$, then the geometry of the three circles in $Q$ and $K$ should be very similar. The blue lines  in Figure \@ref(fig:signature) form a triangle whose vertices are the centers of three circles in each shoe impression. The difference of the lengths of two triangles will become an additional feature used to determine if $Q$ and $K$ were made my the same shoe or not. If two triangles (blue) in Figure \@ref(fig:signature) have similar lengths, this information can indicate one additinal evidence that shoe $Q$ and shoe $K$ are from the same source. 
+Figure \@ref(fig:signature) shows the signature in $Q$ and the corresponding areas in $K$ found by the `match_print_subarea()` function. We use the average of thefive similarity features from the three circle matchings to draw a conclusion. If the circles in $K$ match the circle in $Q$, then the geometry of the three circles in $Q$ and $K$ should be very similar. The blue lines  in Figure \@ref(fig:signature) form a triangle whose vertices are the centers of three circles in each shoe impression. The difference of the lengths of two triangles will become an additional feature used to determine if $Q$ and $K$ were made my the same shoe or not. If two triangles (blue) in Figure \@ref(fig:signature) have similar lengths, this information can indicate one additinal evidence that shoe $Q$ and shoe $K$ are from the same source. 
 
 
 ```{r finaltable, results='asis', echo=FALSE}
@@ -287,10 +287,10 @@ start_plot(imgQ, imgK1, input_circles_Q)
 ```
 Here, we draw the graph of $Q$ and $K_1$ with circles in $Q$. 
 
-Next, we run `match_print()` to findcircles in $K$ that most closely correspond to the circles in $Q$. The result is shown in Figure \@ref(fig:exKM). In $K_1$, the algorithm finds the closest circles which show the most overlap with each of the circles that we fixed in $Q$. 
+Next, we run `match_print_subarea()` to findcircles in $K$ that most closely correspond to the circles in $Q$. The result is shown in Figure \@ref(fig:exKM). In $K_1$, the algorithm finds the closest circles which show the most overlap with each of the circles that we fixed in $Q$. 
 
 ```{r matchKM, fig.align = 'center', eval=FALSE}
-match_print(imgQ, imgK1, input_circles_Q)
+match_print_subarea(imgQ, imgK1, input_circles_Q)
 ```
 
 
@@ -311,16 +311,16 @@ table_KM[,c(6:10, 14)] %>% knitr::kable(format = "html", caption="Similarity fea
 ```
 
 
-Table \@ref(tab:KMtable1) and Table \@ref(tab:KMtable2) are output tables from `match_print()`. Table \@ref(tab:KMtable1) is the information of center and radius for three circles that showed the best overlap with three circles in $Q$. Table \@ref(tab:KMtable2) shows the similarity features between each circle in $Q$ and the corresponding circle in $K_1$. Each row in Table  \@ref(tab:KMtable2) shows the similarity features from circle $q_i$ and circle $k^{*}_i$ when $i=1,2,3$. 
+Table \@ref(tab:KMtable1) and Table \@ref(tab:KMtable2) are output tables from `match_print_subarea()`. Table \@ref(tab:KMtable1) is the information of center and radius for three circles that showed the best overlap with three circles in $Q$. Table \@ref(tab:KMtable2) shows the similarity features between each circle in $Q$ and the corresponding circle in $K_1$. Each row in Table  \@ref(tab:KMtable2) shows the similarity features from circle $q_i$ and circle $k^{*}_i$ when $i=1,2,3$. 
 
 
 
 ### Comparison $Q$ vs. $K_2$
 
-To compare $Q$ and $K_2$, we selected the same three circles in $Q$ and ask the `match_print()` function to find the best matching circles in $K_2$.  
+To compare $Q$ and $K_2$, we selected the same three circles in $Q$ and ask the `match_print_subarea()` function to find the best matching circles in $K_2$.  
 
 ```{r matchKM2, eval=FALSE}
-match_print(imgQ, imgK2, input_circles_Q)
+match_print_subarea(imgQ, imgK2, input_circles_Q)
 ```
 
 ```{r exKNM, fig.cap="caption", echo=FALSE, fig.align = 'center'}

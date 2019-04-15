@@ -195,8 +195,7 @@ library(GGally)
 library(patchwork)
 ```
 
-The R package `caret` (**C**lassification **A**nd **RE**gression **T**raining) is used for applied predictive modeling. We use it here for fitting a random forest model to our data using cross-validation and downsampling.  (BLAH....)
-
+The R package `caret` (**C**lassification **A**nd **RE**gression **T**raining) is used for applied predictive modeling. The 'caret' package allows to run 238 different models as well as adjusting data splitting, preproessing, feature seletion, tuning parameterand variable importance estimation. We use it here for fitting a random forest model to our data using cross-validation and downsampling.  
 
 
 
