@@ -1,6 +1,7 @@
 # Firearms: casings {#casings}
 
 #### *Authors* {-}
+Xiao Hui Tai is a PhD student in the Department of Statistics and Data Science at Carnegie Mellon University. She is currently working on matching problems in forensic science. Previously she was a statistician with the Singapore government.
 
 ## Introduction
 
@@ -16,7 +17,7 @@ There have been efforts by various groups, both commercial and academic, in line
 ## Data 
 NIST maintains a Ballistics Toolmark Research Database (https://tsapps.nist.gov/NRBTD), an open-access research database of bullet and cartridge case toolmark data. The database contains images from test fires originating from studies conducted by various groups in the firearm and toolmark community. These cartridge cases were originally conducted for different purposes, for example the Laura Lightstone study investigated whether firearms examiners were able to differentiate cartridge cases from consecutively manufactured pistol slides [@Lightstone2010]. Majority of the data available are of cartridge cases that were sent to NIST for imaging, but the website also allows users to upload their own data in a standardized format.
 
-There are a total of 2305 images (as of 8/21/2018) **[[update figure]]**, and among these are data sets involving consecutively manufactured pistol slides, a large number of firings (termed persistence studies because they investigate the persistence of marks), as well as different makes and models of guns and ammunition. Gun manufacturers include Glock, Hi-Point, Ruger, Sig Sauer, and Smith \& Wesson, and ammunition brands include CCI, Federal, PMC, Remington, Speer, Wolf and Winchester.
+There are a total of 2305 images (as of 3/4/2019), and among these are data sets involving consecutively manufactured pistol slides, a large number of firings (termed persistence studies because they investigate the persistence of marks), as well as different makes and models of guns and ammunition. Gun manufacturers include Glock, Hi-Point, Ruger, Sig Sauer, and Smith \& Wesson, and ammunition brands include CCI, Federal, PMC, Remington, Speer, Wolf and Winchester.
 
 Measurements are primarily made using a Leica FS M 2D reflectance microscope, and a Nanofocus uSurf disc scanning confocal microscope. The former captures photo images while the latter captures 3D topographies. Detailed metadata are available for each of these images, for example for photo images, the magnification was 2X with a lateral resolution of $2.53 \mu m$, producing $2592 \times 1944$ pixel, 256-grayscale PNG images. For 3D, various magnifications were used, for example an objective of 10X results in a lateral resolution of $3.125 \mu m$, and images that are around $1200 \times 1200$. The 3D data are in x3p format, and more information about this file format can be found in Chapter \@ref(bullets). 
 
@@ -26,61 +27,66 @@ Examples of images are in Section \@ref(casings-caseStudy).
 ## R Package(s)
 The goal of the analysis is to derive a measure of similarity between a pair of cartridge case images. There are a few steps involved in such an analysis. Broadly, we first need to process the images so that they are ready for analysis. This might involve selecting relevant marks or highlighting specific features. Next, given two images, they need to be aligned so that any similarity measure extracted is meaningful. The final step is to estimate the similarity score.
 
-We have developed R packages to analyze images in the standard format in NIST's database. [`cartridges`](https://github.com/xhtai/cartridges) analyzes 2D photo images, while [`cartridges3D`](https://github.com/xhtai/cartridges3D) analyzes 3D topographies. A complete description of methodology used in `cartridges` is in @Tai2018. `cartridges3D` modifies this for 3D topographies, with the major difference being in pre-processing. **[[write about this in package readme]]**
+We have developed R packages to analyze images in the standard format in NIST's database. [`cartridges`](https://github.com/xhtai/cartridges) analyzes 2D photo images, while [`cartridges3D`](https://github.com/xhtai/cartridges3D) analyzes 3D topographies. A complete description of methodology used in `cartridges` is in @Tai2018. `cartridges3D` modifies this for 3D topographies, with the major difference being in pre-processing. More details can be found in the package [README](https://github.com/xhtai/cartridges3D).
 
-The primary functions of the package are `allPreprocess` and `calculateCCFmax`. The former performs all pre-processing steps, while the latter does both alignment and computation of a similarity score. The corresponding functions for 3D are `allPreprocess3D` and **[[package needs to be updated]]**. The end result is a similarity score for a pair of images being compared. 
+The primary functions of the package are `allPreprocess` and `calculateCCFmaxSearch`. The former performs all pre-processing steps, while the latter does both alignment and computation of a similarity score. The corresponding function for processing 3D data is `allPreprocess3D`. The end result is a similarity score for a pair of images being compared. 
 
 ## Drawing Conclusions {#casings-conclusions}
-Depending on the goal of the analysis, as well as the availability of data, there are a few ways in which conclusions may be drawn. The analysis produces a similarity score for a pair of images. This could be sufficient for the analysis, for example if we have two pairs of images being compared, the goal might be simply to estimate which of the two pairs are more similar to each other. 
+Depending on the goal of the analysis, as well as the availability of data, there are a few ways in which conclusions may be drawn. The analysis produces a similarity score for a pair of images. This could be sufficient for the analysis, for example if we have two pairs of images being compared, the goal might be simply to estimate which of the two pairs are more similar to each other. This situation is straightforward, and we can make a conclusion such as "Comparison 1 contains images that are more similar than Comparison 2." If a set of comparisons are being done, the conclusion might be of the form "these are the top 10 pairs with highest similarity scores out of the 100 comparisons being made." This could be used to generate investigative leads, where we select the top 10 (say) pairs for further investigation. A different context in which this type of conclusion could be used is by examiners for blind verification. This means that an examiner first comes to their own conclusion, and then verifies this using an automatic method, making a conclusion such as "Based on my experience and training, these two cartridge cases come from the same gun. This pair that I identified also had a score of .7, the highest similarity score returned by \textit{[[insert algorithm]]} among \textit{[[insert subset of pairs being considered]]}."
 
-In other situations, it might be appropriate to designate a similarity cutoff above which some action is taken. The selection of such a cutoff depends on the goal. For example, if the cutoff is meant to select pairs that warrant further manual investigation, a lower cutoff might be set to ensure high recall. On the other hand, if the cutoff is meant to declare a pair to be a match, potentially implicating someone in a crime, a very high prediction would be necessary. Figure **[[insert figure]]** shows the tradeoff between precision and recall as we vary the cutoff, for a particular set of data.
+In other situations, we might be interested in designating a similarity cutoff above which some action is taken. The selection of such a cutoff depends on the goal. For example, similar to the above situation, we might be interested in selecting pairs above a cutoff for further manual investigation, instead of simply picking the top 10 pairs. Alternatively, a cutoff could be used to decide if pairs are matches or non-matches. This could be of interest in criminal cases, where a conclusion of match or non-match is required to decide if a person should be implicated in a crime. In the first case a lower cutoff might be set to ensure high recall, while in the second case a much higher cutoff might be necessary. 
 
 Given appropriate data on the distribution of similarity scores for non-matching pairs in some population of interest, a third type of conclusion that we can draw is to estimate a probability of getting a higher similarity score by chance. For example, if we obtain a similarity of .7 for the pair of interest, we compare .7 to some distribution of similairty scores for non-matching pairs, that might have been obtained from prior studies. The probability of interest is the probability that a random draw from that distribution is larger than .7, say $p_0$. The conclusion that we can then draw is that if the pair was a non-match, the probability of getting a score higher than .7 is $p_0$. If the value of $p_0$ is small, this provides evidence against the hypothesis that the pair of interest is a non-matching pair.
 
 
 ## Case Study {#casings-caseStudy}
-The following case study uses the same pair of images as in the Examples section of the `cartridges` package [README](https://github.com/xhtai/cartridges). These are 2D photo images from the NBIDE study in NIST's database, coming from the same Ruger gun, firing PMC ammunition. The raw data is also available from within the package.
+The following case study uses two 2D photo images from the NBIDE study in NIST's database, coming from the same Ruger gun, firing PMC ammunition. Referring to the study metadata, these are cartridge cases RR054 and RR072, corresponding to the files "NBIDE R BF 054.png" and "NBIDE R BF 072.png".
 
 We first load the package:
 ```{r}
 library(cartridges)
 ```
 
-We can read in and plot the images as follows. If using a downloaded image, one can simply replace `system.file("extdata", "NBIDE R BF 118.png", package = "cartridges")` with the location of the downloaded image.
+We can read in and plot the images as follows. If using a user-downloaded image, one can simply replace the file path with the location of the downloaded image.
 
 ```{r, fig.width = 4, fig.height = 3}
-exampleImage <- readCartridgeImage(system.file("extdata", "NBIDE R BF 118.png", package = "cartridges"))
-plotImage(exampleImage, type = "original")
-exampleImage2 <- readCartridgeImage(system.file("extdata", "NBIDE R BF 129.png", package = "cartridges"))
-plotImage(exampleImage2, type = "original")
+exImage1 <- readCartridgeImage("./img/casings_NBIDE054.png")
+plotImage(exImage1, type = "original")
+exImage2 <- readCartridgeImage("./img/casings_NBIDE072.png")
+plotImage(exImage2, type = "original")
 ```
 
-Now, all the pre-processing can be done using `allPreprocess(exampleImage)`. The processed images can be plotted using `plotImage`. The pre-processed images are available within the package as `processedExample` and `processedExample2`.
+Now, all the pre-processing can be done using `allPreprocess`.
 
-```{r, fig.width = 3, fig.height = 3}
-plotImage(processedExample, type = "any")
-plotImage(processedExample2, type = "any")
+```{r, eval = FALSE, echo = c(1, 3)}
+processedEx1 <- allPreprocess("./img/casings_NBIDE054.png")
+save(processedEx1, file = "./dat/processedEx1.Rdata")
+processedEx2 <- allPreprocess("./img/casings_NBIDE072.png")
+save(processedEx2, file = "./dat/processedEx2.Rdata")
+```
+
+The processed images can be plotted using `plotImage`.
+
+```{r, fig.width = 3, fig.height = 3, echo = c(2, 4)}
+load("./dat/processedEx1.Rdata")
+plotImage(processedEx1, type = "any")
+load("./dat/processedEx2.Rdata")
+plotImage(processedEx2, type = "any")
 ```
 
 Now, to compare these two images, we use 
 
 ```{r, eval=FALSE}
-calculateCCFmax(processedExample, processedExample2)
+calculateCCFmaxSearch(processedEx1, processedEx2)
 ```
 
-This produces a score of .36. As discussed in Section \@ref(casings-conclusions), the conclusions to be drawn depend on the goals of the analysis, as well as the availability of data. The first type of conclusion could be that this pair of images is more similar to each other than some other pair of images. The second type of conclusion could be that this score is high enough to warrant further manual investigation. Finally, if we have some prior information on some reference distribution of non-matching scores, we can compute the probability of obtaining a higher score by chance as follows. Here we use a normal distribution for purposes of illustration.
+This produces a score of .40. As discussed in Section \@ref(casings-conclusions), the conclusions to be drawn depend on the goals of the analysis, as well as the availability of data. The first type of conclusion could be that this pair of images is more similar to each other than some other pair of images. The second type of conclusion could be that this score is high enough to warrant further manual investigation. Finally, if we have some prior information on some reference distribution of non-matching scores, we can compute the probability of obtaining a higher score by chance as follows. Here we use a normal distribution for purposes of illustration.
 
 ```{r}
-computeProb(.36, rnorm(50, .02, .3))
+set.seed(0)
+computeProb(.40, rnorm(50, .02, .3))
 ```
 
-The conclusion then is that the probability of obtaining a score higher than .36, for a non-matching pair, is .16.
+The conclusion then is that the probability of obtaining a score higher than .40, for a non-matching pair, is .08.
 
-talk about linkages?
-
-TODO:
-
-- put linkages code in 2D and 3D?
-- put prob code in 3D
-- more detail in 3D readme
 
