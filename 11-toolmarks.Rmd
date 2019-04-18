@@ -42,19 +42,19 @@ The diamond search fixed width methods rely on the assumption that the toolmarks
 
 The R functions 'fixed_width_with_model' and 'fixed_width_with_no_model' use the diamond search fixed width method in its computations. These functions return results in the form of variables and plots. The meaning of these lists, variables and plots are given below:
 
-   - "max_corr" ~ maximized indiviudal component correlation, this is the value of the maximum correlation
-   - "Smooth_offset" ~ optimal Class offset, this is location of the maximum class correlation matrix
-   "Resid_offset" ~ optimal individual offset, this is location of the maximum individual correlation matrix as computed by applying search constraints
-   "dist_pval" ~ distance p-value, this is the p-value computed using the distance test statistic
-   "thresh_pval" ~ threshold p-value, this is the p-value computed using the threshold test statistic.
-   "Above" ~ Number of offsets with correlation bigger than threshold
-   "total_thresh" ~ 2*M+1, this is the interval width of the search region.
-   "mark1_decompostion" ~ plot of decomposition, shows the class and individual component of the first toolmark along with the normalized toolmark.
-   "mark2_decompostion" ~ plot of decomposition, shows the class and individual component of the first toolmark along with the normalized toolmark.
-   "class_correlations" ~ plot of class correlation, shows a visalization of the correlation matrix of the class component of the toolmark
-   "individual_correlations" ~ plot of individual correlation, shows a visalization of the correlation matrix of the individual component of the toolmark
-   "distance_plot" ~ distance_plot
-   "threshold_plot" ~ threshold_plot
+1.  "max_corr" ~ maximized indiviudal component correlation, this is the value of the maximum correlation
+2.   "Smooth_offset" ~ optimal Class offset, this is location of the maximum class correlation matrix
+3.   "Resid_offset" ~ optimal individual offset, this is location of the maximum individual correlation matrix as computed by applying search constraints
+4.   "dist_pval" ~ distance p-value, this is the p-value computed using the distance test statistic
+5.   "thresh_pval" ~ threshold p-value, this is the p-value computed using the threshold test statistic.
+6.   "Above" ~ Number of offsets with correlation bigger than threshold
+7.   "total_thresh" ~ 2*M+1, this is the interval width of the search region.
+8.   "mark1_decompostion" ~ plot of decomposition, shows the class and individual component of the first toolmark along with the normalized toolmark.
+9.   "mark2_decompostion" ~ plot of decomposition, shows the class and individual component of the first toolmark along with the normalized toolmark.
+10.   "class_correlations" ~ plot of class correlation, shows a visalization of the correlation matrix of the class component of the toolmark
+11.   "individual_correlations" ~ plot of individual correlation, shows a visalization of the correlation matrix of the individual component of the toolmark
+12.   "distance_plot" ~ distance_plot
+13.   "threshold_plot" ~ threshold_plot
 
 To better understand what these results stand for and to be able to draw conclusions from them, we will have a closer look at the most important aspects of these functions, and their most important steps in the following sections.
 
@@ -80,7 +80,7 @@ The distance test statistic is therefore defined as follows
 The threshold test statistic follows the same setup as described above for the Distance test statistic, but instead of computing the distance, searches the diamond search region in the individual component correlation matrix to identify the number of correlation values that are greater than or equal to the maximum of the class component correlation matrix. This is the number of offsets and is the thrshold test statistic t as the threshold here is the maximum of the class component correlation matrix. The computed t is used in the p-value computations for classification of matches and non-matched. The p-value has the same form as for the distance test statistic i.e (2t+1)/(2M+1).
 Therefore to have evidence against the null hypothesis, we need only a small number of offsets from the individual components to result in a similarity value larger than the threshold as described above. A small p-value therefore rejects the null and concludes that the two marks were made by the same tool.
 
-## The two diamovnd search method based functions in R
+## Diamond search method based functions in R
 ### Fixed width method with direct correlation computation
 
 This method follows all the described above, and only deals with direct pearson correlations computed between windows to generate the correlation matrix. The method does not involve any further modeling steps in it for identifying the optimal offset. It is therefore all that is described above and no additional steps are required.
@@ -95,11 +95,22 @@ The modeling effort basically takes the current class correlation matrix as the 
 
 ## Chumbley Adjusted Non-random score
 
-The chumbley score method since it was first developed has gone through many modifications. The most recent and the only non-random versions are available in the 'toolmark' package. In this chapter we will be discussing the Adjusted chumbley non-random method of comparing two toolmarks as developed by \cite{krish-hoff}. The adjusted chumbley non-random method \cite{krish-hoff} and chumbley non-random as developed by \cite{hadler} are both available in the 'toolmaRk' package. The method comprises finding 
+The chumbley score method since it was first developed has gone through many modifications. The most recent and the only non-random versions are available in the 'toolmark' package. In this chapter we will be discussing these methods of comparing two toolmarks as developed. The adjusted chumbley non-random method \cite{krish-hoff} and chumbley non-random as developed by \cite{hadler} are both available in the 'toolmaRk' package. 
 
+The method comprises of specifying a comparison window size for the so called optimization step and validation step, and  a coarseness parameter for the LOWESS smooth. The blockdiagram shown in \@ref{fig:blockdiag}, gives an overview of the chumbley score algorithms.
+
+
+```{r blockdiag}
+knitr::include_graphics("./ganesh/blockdiagram.PNG")
+```
+
+
+The chumbley score methods as found in the 'toolmark' package all work on the same principle as shown in \@ref{fig:blockdiag}. The optimization step includes computation of correlation between all possible combinations of optimization windows in the two signatures to generate an optimization step correlation matrix. The maximum value of this matrix essentially identifies the two windows corresponding to the two toolmarks. The location of the pair of windows in the two markings is used to compute the lag in the two toolmarks or the optimal offset. Now the intuition is that for shifts in the pair of windows (a smaller window size) that are synchronized with the lag or this optimal offset, should in theory have higher correlations when the ground truth for the two toolmarks is a match. The correlation of these set of synchronized pair of windows would be systematically higher when compared to pairs of windows that do not correspond to a synchronized offsetting. The same-shift step therefore corresponds to a lag synchronized selection of pairs of windows and computing there correlations, while the different shift step corresponds to picking pair of windows that are not lag synchronized and computing a set of correlations for these. A Mann-whitney U statistic is then computed by comparing the same-shift set and the different-shift set of correlations. This U-statistic is used to compute a p-value and therefore classify the two toolmarks as same-source or different-source. 
 
 ## Case Study
 
+To construct the set of comparisons, we
+1. First specify the two toolmarks two be compared
 
 ### Inference and drawing conclusions
 
