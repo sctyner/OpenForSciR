@@ -4,7 +4,7 @@
 
 ## Introduction to Toolmark analysis
 
-Toolmark evidence found on crime scenes has been an important part of forensic evidence presented in court. Unambiguous comparison of any two toolmarks to identify the source is therefore necessary for being presented as evidence. In current standards such comparisons are made by Forensic Toolmark examiners by looking at the markings under a comparison microscope and concluding if there is a sufficient degree of agreement between them. One drawback with this kind of comparison is that it introduces subjectivity in conclusions made by the examiners. This is one reason why objective methods of comparison were given serious considereation. One way of achieving objectivity is by the development of automated comparison methods that can be used to suggest error rates and thereby provide better understanding of how same-source or different-source classifications are made. Automated methods for solving the same source problem in toolmarks usually take two markings, convert them into a digitized format, standardize the marking, identify regions of interest, align the markings, calculate the correlation between the markings and try to come up with a score by performing a statistical test on them. Particularly for striated toolmarks, some such algorithmic methods have been developed for objective comparisons which not only give you a score but also give associated error rates. Depending on the objective method being considered, sometimes these striated marking have been thought to comprise of broadly two distinct features. These features of the markings are the class characteristics of the manufactured class of tools and individual characteristics of the tool \cite{hadlermorris}. The toolmark is therefore assumed to be decomposable into these feature. The class charaterstics here are the trend lines of the toolmark that signify the overall structure of the marking, while the individual characteristics are the minute oscillations observed on the marking trends. In this chapter we will be looking at some of these methods of objective comparison and look closely how the comparisons are made by them.
+Toolmarks found on crime scenes have been an important part of forensic evidence presented in court proceedings. Unambiguous comparison of any two toolmarks to identify the source is therefore necessary for being presented as evidence. In current standards such comparisons are made by Forensic Toolmark examiners by looking at the markings under a comparison microscope and concluding if there is a sufficient degree of agreement between them. One drawback with this kind of comparison is that it introduces subjectivity in conclusions made by the examiners. This is one reason why objective methods of comparison were given serious considereation. One way of achieving objectivity is by the development of automated comparison methods that can be used to suggest error rates and thereby provide better understanding of how same-source or different-source classifications are made. Automated methods for solving the same source problem in toolmarks usually take two markings, convert them into a digitized format, standardize the marking, identify regions of interest, align the markings, calculate the correlation between the markings and try to come up with a score by performing a statistical test on them. Particularly for striated toolmarks, some such algorithmic methods have been developed for objective comparisons which not only give you a score but also allow calculation of associated error rates. Depending on the objective method being considered, sometimes these striated marking have been thought to comprise of broadly two distinct features. These features of the markings are the class characteristics of the manufactured class of tools and individual characteristics of the tool \cite{hadlermorris}. The toolmark is therefore assumed to be decomposable into these feature. The class charaterstics here are the trend lines of the toolmark that signify the overall structure of the marking, while the individual characteristics are the minute oscillations observed on the marking trends. In this chapter we will be looking at some of these methods of objective comparison and look closely how the comparisons are made by them.
 
 ## R packages
 
@@ -12,16 +12,17 @@ The 'toolmaRk' package in R, is a package available for objective analysis of to
 
 ## Data
 
-For our examples we will be using striated markings made by screwdrivers under different angles. The data was generated at Ames lab and is available inside the 'toolmaRk' package. It consists of a sample of 16 toolmark profiles and descriptors. These profiles represent a cross-sectional cut information extracted from the surface on which the marking was made. The measurements in these profiles are taken at equispaced intervals across the toolmark.  The profiles with the same toolmark identifier are known matches, all other profiles are known non-matches.
-The ID variable is a toolmark identifier and Factor variable. The side of the screwdriver from which the marking was made is called side. It is a factor variable with values A or B. The anlge variable is the degree of the angle under which the toolmark was created. The rep variable on the other hand shows the replicate number for a toolmark, side, angle composition.The sample data provided is not complete, therefore it only shows one randomly sampled replicate for each of the 16 profiles under consideration. For a more complete data set or more information please contact the references given below.
+For our examples we will be using striated markings made by screwdrivers under different angles. The data was generated at Ames lab \cite{datatoolmark} and is available inside the 'toolmaRk' package. It consists of a sample of 16 toolmark profiles and descriptors. These profiles represent a cross-sectional cut information extracted from the surface on which the marking was made. The measurements in these profiles are taken at equispaced intervals across the toolmark.  The profiles with the same toolmark identifier are known matches, all other profiles are known non-matches.
+The 'ID' variable is a toolmark identifier and Factor variable. The side of the screwdriver from which the marking was made is called side. It is a factor variable with values A or B. The 'angle' variable is the degree of the angle under which the toolmark was created. 'Rep' on the other hand shows the replicate number for a toolmark, while 'side' is the side of the tool used to generate the marking. The sample data provided is not complete, therefore it only shows one randomly sampled replicate for each of the 16 profiles under consideration. For a more complete data set or more information please contact the references given below.
 
 In the following sections of this chapter on the methods for toolmaRk analysis, we will first build an intuition about what the methods are along with how to use them in R. This allows us to better understand what to expect out of the function  and how to make better inference about the results from these methods, as we compare two toolmarks.
 
 ## Hypothesis
 
-The hypothesis for all methods implemented in the 'toolmaRk' package follow the principles of court. It means that given a crime has been committed, a suspect brought in court, is considered innocent until proven guilty. In similar lines, for setting up a null and alternate hypothesis, a match that identifies the source of a marking to be the same is considered incriminating. Therefore the hypothesis for a statistical test that identifies a toolmark as same-sourced or different sourced is considered as follows,
-Null hypothesis: The two markings being compared come from different sources
-Alternate hy[posthesis: The two markings being compared come from the same source.
+The hypothesis for all methods implemented in the 'toolmaRk' package follow the principles of court. It means that given a crime has been committed, a suspect brought in court, is considered innocent until proven guilty. In similar lines, for setting up a null and alternate hypothesis, a match that identifies the source of a marking to be the same, is considered incriminating. Therefore the hypothesis for a statistical test that identifies a toolmark as same-sourced or different sourced is considered as follows
+
+**H~0~**: The two markings being compared come from different sources.  
+**H~A~**: The two markings being compared come from the same source.
 
 This means that the statistical test being performed, has to have sufficient evidence to reject the null hypothesis in order to conclude that two markings come from the same source.
 
@@ -42,19 +43,19 @@ The diamond search fixed width methods rely on the assumption that the toolmarks
 
 The R functions 'fixed_width_with_model' and 'fixed_width_with_no_model' use the diamond search fixed width method in its computations. These functions return results in the form of variables and plots. The meaning of these lists, variables and plots are given below:
 
-1.  "max_corr" ~ maximized indiviudal component correlation, this is the value of the maximum correlation
-2.   "Smooth_offset" ~ optimal Class offset, this is location of the maximum class correlation matrix
-3.   "Resid_offset" ~ optimal individual offset, this is location of the maximum individual correlation matrix as computed by applying search constraints
-4.   "dist_pval" ~ distance p-value, this is the p-value computed using the distance test statistic
-5.   "thresh_pval" ~ threshold p-value, this is the p-value computed using the threshold test statistic.
-6.   "Above" ~ Number of offsets with correlation bigger than threshold
-7.   "total_thresh" ~ 2*M+1, this is the interval width of the search region.
-8.   "mark1_decompostion" ~ plot of decomposition, shows the class and individual component of the first toolmark along with the normalized toolmark.
-9.   "mark2_decompostion" ~ plot of decomposition, shows the class and individual component of the first toolmark along with the normalized toolmark.
-10.   "class_correlations" ~ plot of class correlation, shows a visalization of the correlation matrix of the class component of the toolmark
-11.   "individual_correlations" ~ plot of individual correlation, shows a visalization of the correlation matrix of the individual component of the toolmark
-12.   "distance_plot" ~ distance_plot
-13.   "threshold_plot" ~ threshold_plot
+1.  max_corr ::  maximized indiviudal component correlation, this is the value of the maximum correlation
+2.  Smooth_offset ::  optimal Class offset, this is location of the maximum class correlation matrix
+3.  Resid_offset ::  optimal individual offset, this is location of the maximum individual correlation matrix as computed by applying search constraints
+4.  dist_pval ::  distance p-value, this is the p-value computed using the distance test statistic
+5.  thresh_pval ::  threshold p-value, this is the p-value computed using the threshold test statistic.
+6.  Above ::  Number of offsets with correlation bigger than threshold
+7.  total_thresh ::  2*M+1, this is the interval width of the search region.
+8.  mark1_decompostion ::  plot of decomposition, shows the class and individual component of the first toolmark along with the normalized toolmark.
+9.  mark2_decompostion ::  plot of decomposition, shows the class and individual component of the first toolmark along with the normalized toolmark.
+10. class_correlations ::  plot of class correlation, shows a visalization of the correlation matrix of the class component of the toolmark
+11. individual_correlations ::  plot of individual correlation, shows a visalization of the correlation matrix of the individual component of the toolmark
+12. distance_plot ::  distance_plot
+13. threshold_plot ::  threshold_plot
 
 To better understand what these results stand for and to be able to draw conclusions from them, we will have a closer look at the most important aspects of these functions, and their most important steps in the following sections.
 
@@ -110,9 +111,11 @@ The chumbley score methods as found in the 'toolmark' package all work on the sa
 ## Case Study
 
 To construct the set of comparisons, we
-1. First specify the two toolmarks two be compared
+1. First specify the two toolmarks to be compared
+
+
 
 ### Inference and drawing conclusions
 
 
-With conclusive classification from the three methods whether two markings are a match or non-match, its often important to also identify how good these methods are in reality. To do so we need a sample dataset with a large number of comparisons and ground truth available. Given the ground truth of several such comparisons, its often helpful to make a confusion table which gives a good insight into how to intuitively think of the results. A confusion table tells us the associated error rates and help build trust into these objective method by allowing understanding of the limitations under specific settings. 
+With a conclusive classification from the three methods if the two markings as being a match or non-match, its often important to also identify how good these methods are in reality. To do so we need a sample dataset with a large number of comparisons and ground truth available. Given the ground truth of several such comparisons, its often helpful to make a confusion table which gives a good insight into how to intuitively think of the results. A confusion table tells us the associated error rates and help build trust into these objective method by allowing understanding of the limitations under specific settings. 
