@@ -122,8 +122,9 @@ The choice of the window size is generally dependent on the size of the toolmark
 
 ### Case Study
 
-To construct the set of comparisons, we
-1. First specify the two toolmarks to be compared
+To construct the set of comparisons, we  
+
+1. First specify the two toolmarks to be compared  
 ```{r}
 
 ```
