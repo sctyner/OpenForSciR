@@ -17,7 +17,9 @@ The 'ID' variable is a toolmark identifier and Factor variable. The side of the 
 
 In the following sections of this chapter on the methods for toolmaRk analysis, we will first build an intuition about what the methods are along with how to use them in R. This allows us to better understand what to expect out of the function  and how to make better inference about the results from these methods, as we compare two toolmarks.
 
-## Hypothesis
+## Methods
+
+### Hypothesis
 
 The hypothesis for all methods implemented in the 'toolmaRk' package follow the principles of court. It means that given a crime has been committed, a suspect brought in court, is considered innocent until proven guilty. In similar lines, for setting up a null and alternate hypothesis, a match that identifies the source of a marking to be the same, is considered incriminating. Therefore the hypothesis for a statistical test that identifies a toolmark as same-sourced or different sourced is considered as follows
 
@@ -26,16 +28,16 @@ The hypothesis for all methods implemented in the 'toolmaRk' package follow the 
 
 This means that the statistical test being performed, has to have sufficient evidence to reject the null hypothesis in order to conclude that two markings come from the same source.
 
-## Normalization and Smoothness settings
+### Normalization and Smoothness settings
 
 The normalization of markings is an important step in all the methods of comparison of two toolmarks as implemented in the 'toolmaRk' package. It removes relatevely smooth or long-range trends and any small aberrations or "fixturing errors" introduced in the markings during the digitizing of the markings. To achieve this a coarse LOWESS smooth is applied which resolves the aforementioned problems. The residuals from this coarse LOWESS smoothing is the normalized toolmark and is used in the comparison process for calculating a similarity index betweek two such toolmarkings.
 
 
-## Toolmark Windows
+### Toolmark Windows
 
 The methods used in the 'toolmaRk' package all rely on taking small equi-distant segments of each toolmark under considersation for comparison. These segments can be thought of small windows in the toolmark. These windows are used to calculate correlations at different positions of one toolmark with that of the  second toolmark. The length of the windows are manually selected and both toolmarks being compared will have the same number of windows. This is important because if the number of windows is say n, then the correlation matrix of the two toolmarks will have n x n elements in it.
 
-## Diamond Search Fixed Width methods
+### Diamond Search Fixed Width methods
 
 The diamond search method is a method that relies on finding a suitable constraint region in the covariance or correlation matrix of the two marking. Each row and column of this correlation matrix represents a correlation between a window from the first toolmark and a window from the second toolmark. The constraint on the correlation matrix is for having a more appropriate search region around the maximum correlation identified in the matrix. The maximum correlation represents the maximum correlation between two windows in the two toolmarks under consideration and therefore signifies the lag between the two marking. The diamond search methods allow for a a diamond shaped search region around this point in the correlation matrix. Here a new parameter M is introduced to restrict the allowable search region for a maximized correlation by disallowing the first and last M rows and columns from matrix. Therefore M can be thought of the parameter that helps define the perimeter of the search region around the maximum correlation point. 
 
@@ -59,7 +61,7 @@ The R functions 'fixed_width_with_model' and 'fixed_width_with_no_model' use the
 
 To better understand what these results stand for and to be able to draw conclusions from them, we will have a closer look at the most important aspects of these functions, and their most important steps in the following sections.
 
-### Smoothness for class and individual component decomposition
+#### Smoothness for class and individual component decomposition
 
 \citep{bachrach} noted that “waviness" of a toolmark can be considered to be the class characteristics, while the individual characteristics are the “roughness" or deviations around the waviness. Therefore for the decomposition of the toolmarks the class component of the normalized tool mark is accepted as the general, long scale trend of the mark and the individual component is the shorter scale residual deviations around this trend.
 
@@ -67,7 +69,7 @@ In order to achieve these decompositions a second LOWESS smooth is applied to th
 the individual component is the unique deviations around this trend.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
-load("./ganesh/ameslab.RData")
+load("./dat/ameslab.RData")
 library(tidyverse)
 dat1 <- ameslab$profile[[1]]
 dat1 <- matrix(dat1[round(0.01*nrow(dat1)):round(0.99*nrow(dat1)),], ncol = 1)
@@ -100,7 +102,7 @@ ggplot(tmarkindiv, aes(x = x, y = Depth)) +  geom_line() +
 ```
 
 
-### Distance Test Statistic
+#### Distance Test Statistic
 
 To understand this we recall the decomposition of each toolmark being compared into class and individual component series. The intuition behind understanding this test statistic is that given the location of the maximum of the class component correlation matrix (optimal class offset), the same location can be found in the correlation matrix of the individual component. A constraint which defines a diamond search perimeter is put on the individual component correlation matrix around the optimal class offset postition. Given this perimeter, the maximum of individual component correlation is computed.
 
@@ -110,17 +112,17 @@ The distance test statistic is therefore defined as follows
      Pr(T <= t ) = (2t +1)/(2M+1) 
      where t is the realized  value of the test statistic as shown above and 2M+1 is the interval width of the searc region. For tool marks made by the same tool, we expect relatively small values of T.
      
-### Threshold Test Statistic
+#### Threshold Test Statistic
 
 The threshold test statistic follows the same setup as described above for the Distance test statistic, but instead of computing the distance, searches the diamond search region in the individual component correlation matrix to identify the number of correlation values that are greater than or equal to the maximum of the class component correlation matrix. This is the number of offsets and is the thrshold test statistic t as the threshold here is the maximum of the class component correlation matrix. The computed t is used in the p-value computations for classification of matches and non-matched. The p-value has the same form as for the distance test statistic i.e (2t+1)/(2M+1).
 Therefore to have evidence against the null hypothesis, we need only a small number of offsets from the individual components to result in a similarity value larger than the threshold as described above. A small p-value therefore rejects the null and concludes that the two marks were made by the same tool.
 
-## Diamond search method based functions in R
-### Fixed width method with direct correlation computation
+### Diamond search method based functions in R  
+#### Fixed width method with direct correlation computation
 
 This method follows all the described above, and only deals with direct pearson correlations computed between windows to generate the correlation matrix. The method does not involve any further modeling steps in it for identifying the optimal offset. It is therefore all that is described above and no additional steps are required.
 
-### Fixed width method with modeling in correlation matrix
+#### Fixed width method with modeling in correlation matrix
 
 In this method the correlation matrix are first generated for both the class and individual components. The pearson correlations of the comparison windows are what comprise of the correlation matrix. a potential drawback of defining the optimal
 class offset as described earlier, is that there is no guarantee that all windows of comparison with the same optimal class offset value will produce large correlation values in the correlation matrix of individual component correlation matrix or the normalized marking correlation matrix (when correlations are computed between windows of comparison of two non-decomposed but normalized toolmarks to produce a correlation matrix). In fact the same optimal class offset value might have both the largest correlation values as well as the smallest correlation values in the normalized correlation matrix. To circumvent this contradiction, a modeling effort is made to first identify the optimal offsets for both the components.
@@ -128,7 +130,7 @@ class offset as described earlier, is that there is no guarantee that all window
 The modeling effort basically takes the current class correlation matrix as the responses and then finds estimates for a new correlation term that is supposed to be a parameter in the model and dependent on a new more restrictive search region. This search region now accounts for the minimum pearson correlation values from the original pearson class correlation matrix, that the same offset can take. The new estimated class correlation matrix is now used in the same way to compute the laocation of the maximum class correlation component. The rest of the statistical testing methods follows on the same lines as described in the previous sections. 
 
 
-## Chumbley Adjusted Non-random score
+### Chumbley Adjusted Non-random score
 
 The chumbley score method since it was first developed has gone through many modifications. The most recent and the only non-random versions are available in the 'toolmark' package. In this chapter we will be discussing these methods of comparing two toolmarks as developed. The adjusted chumbley non-random method \cite{gkhh-chumbley} and chumbley non-random as developed by \cite{hadler} are both available in the 'toolmaRk' package. 
 
@@ -136,25 +138,25 @@ The method comprises of specifying a comparison window size for the so called op
 
 
 ```{r blockdiag, echo=FALSE}
-knitr::include_graphics("./ganesh/blockdiagram.PNG")
+knitr::include_graphics("./img/blockdiagramchumb.PNG")
 ```
 
 
 The chumbley score methods as found in the 'toolmark' package all work on the same principle as shown in \@ref{fig:blockdiag}. The optimization step includes computation of correlation between all possible combinations of optimization windows in the two signatures to generate an optimization step correlation matrix. The maximum value of this matrix essentially identifies the optimal locations by identifying the corresponding windows in the two toolmarks. The location of the pair of windows in the two markings is used to compute the lag in the two toolmarks. This is also called the optimal offset. Now the intuition is that for shifts in the pair of windows (a smaller window size) that are synchronized with the lag or this optimal offset, should in theory have higher correlations when the ground truth for the two toolmarks is a match. The correlation of these set of synchronized pair of windows would be systematically higher when compared to pairs of windows that do not correspond to a synchronized offsetting. The same-shift step therefore corresponds to a lag synchronized selection of pairs of windows and computing there correlations, while the different shift step corresponds to picking pair of windows that are not lag synchronized and computing a set of correlations for these. A Mann-whitney U statistic is then computed by comparing the same-shift set and the different-shift set of correlations. This U-statistic is used to compute a p-value and therefore classify the two toolmarks as same-source or different-source. \cite{gkhh-chumbley}
 
-## Computational Considerations
+### Computational Considerations
 
-### Select values for the coarseness parameter.
+#### Coarseness parameter values
 For the Diamond Search fixed width functions there are two kinds smoothness parameter values namely 'coarse' and 'fine'. The coarse parameter is used for normalization, while the parameter 'fine' is used to get the class component of the two markings. The residual or the difference between these two smoothed processes is the individual component. The default value for 'coarse' is defined as 0.25 while that for the 'fine' is 0.01.
 
 For the Chumbley score methods there is no decomposition of the marking into class and individual components, but the first step is still to normalize the toolmark. Therfore, the 'coarse' parameter in this method is used to remove the major trend of the marking and to normalize it. One LOWESS smooth is therefore enough to achieve this and the value is taken around 0.25 for toolmarks.
 
-### Window size selection
+#### Window size selection
 
 The choice of the window size is generally dependent on the size of the toolmark. An approximate rule of thumb suggested by \cite{hadler} for the Chumbley score methods is to use 10% of the length of the toolmark as the size of the optimization window. The size of the validation window is much smaller than the optimization window. This leads to a bigger correlation matrix for both same-shift comparisons as well as different shift comparisons. This said, the choice of the window size can have a big effect on the performance of the algorithm, especially if going too small or too large. An example of an indepth analysis on the choice of windows in the chumbley score methods can be seen in the work of \cite{gkhh-chumbley). In the diamond search fixed width methods there is only one window size that needs to be specified. The default window size for this is taken around 6% of the toolmark length.
 
 
-### Case Study
+#### Case Study
 
 To construct the set of comparisons, we  
 
