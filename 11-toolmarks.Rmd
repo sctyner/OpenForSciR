@@ -66,6 +66,40 @@ To better understand what these results stand for and to be able to draw conclus
 In order to achieve these decompositions a second LOWESS smooth is applied to the normalized toolmarks and has a lower degree of smoothing than the smoothing that is done during the normalization step. This results in a representation of the trend which is considered to be the class component. The residuals of this smooth, which are the unique oscillations around this general trend, is the individual component. All the three i.r normalized marking, and two decomposed marking have approximately zero mean. From this it is clear the class component captures the general shape of the mark and
 the individual component is the unique deviations around this trend.
 
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+load("./ganesh/ameslab.RData")
+library(tidyverse)
+dat1 <- ameslab$profile[[1]]
+dat1 <- matrix(dat1[round(0.01*nrow(dat1)):round(0.99*nrow(dat1)),], ncol = 1)
+coarse = 0.25
+y1 <- dat1 - lowess(y = dat1,  x = 1:nrow(dat1), f= coarse)$y
+
+tmark<- data.frame(x = 1:nrow(y1), Depth = y1)
+colnames(tmark)
+
+ggplot(tmark, aes(x = x, y = Depth)) +  geom_line() + 
+  ggtitle("Normalized toolmark") + theme_bw()
+
+fine = 0.01
+y1class <- lowess(y = y1,  x = 1:nrow(dat1), f= fine)$y
+
+tmarkclass<- data.frame(x = 1:length(y1class), Depth = y1class)
+colnames(tmarkclass)
+
+ggplot(tmarkclass, aes(x = x, y = Depth)) +  geom_line() + 
+  ggtitle("Class component") + theme_bw()
+
+resid.indiv <- as.numeric(y1 - y1class)
+
+tmarkindiv<- data.frame(x = 1:length(resid.indiv), Depth = resid.indiv)
+colnames(tmarkindiv)
+
+ggplot(tmarkindiv, aes(x = x, y = Depth)) +  geom_line() + 
+  ggtitle("Individual component") + theme_bw()
+
+```
+
+
 ### Distance Test Statistic
 
 To understand this we recall the decomposition of each toolmark being compared into class and individual component series. The intuition behind understanding this test statistic is that given the location of the maximum of the class component correlation matrix (optimal class offset), the same location can be found in the correlation matrix of the individual component. A constraint which defines a diamond search perimeter is put on the individual component correlation matrix around the optimal class offset postition. Given this perimeter, the maximum of individual component correlation is computed.
@@ -101,7 +135,7 @@ The chumbley score method since it was first developed has gone through many mod
 The method comprises of specifying a comparison window size for the so called optimization step and validation step, and  a coarseness parameter for the LOWESS smooth. The blockdiagram shown in \@ref{fig:blockdiag}, gives an overview of the chumbley score algorithms.
 
 
-```{r blockdiag}
+```{r blockdiag, echo=FALSE}
 knitr::include_graphics("./ganesh/blockdiagram.PNG")
 ```
 
@@ -111,7 +145,7 @@ The chumbley score methods as found in the 'toolmark' package all work on the sa
 ## Computational Considerations
 
 ### Select values for the coarseness parameter.
-For the Diamond Search fixed width functions there are two kinds smoothness parameter values namely 'coarse' and 'fine'. The coarse parameter is used for normalization and getting the class component, while the parameter 'fine' is used to get the individual component of the two markings. The default value for 'coarse' is defined as 0.25 while that for the 'fine' is 0.01.
+For the Diamond Search fixed width functions there are two kinds smoothness parameter values namely 'coarse' and 'fine'. The coarse parameter is used for normalization, while the parameter 'fine' is used to get the class component of the two markings. The residual or the difference between these two smoothed processes is the individual component. The default value for 'coarse' is defined as 0.25 while that for the 'fine' is 0.01.
 
 For the Chumbley score methods there is no decomposition of the marking into class and individual components, but the first step is still to normalize the toolmark. Therfore, the 'coarse' parameter in this method is used to remove the major trend of the marking and to normalize it. One LOWESS smooth is therefore enough to achieve this and the value is taken around 0.25 for toolmarks.
 
@@ -125,9 +159,6 @@ The choice of the window size is generally dependent on the size of the toolmark
 To construct the set of comparisons, we  
 
 1. First specify the two toolmarks to be compared  
-```{r}
-
-```
 
 2. Adjusted Chumbley score method by \cite{gkhh-chumbley}
 ```{r}
