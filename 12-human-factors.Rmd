@@ -1,14 +1,7 @@
 # Human Factors {#humans}
 
-#### *Authors* {-}
+#### Amanda Luby {-}
 
-<!-- I like the idea, but I dont think we need abstracts here! 
-__Abstract:__
-
-Even as automated tools for pattern evidence comparisons become increasingly advanced, final decisions often rely on individual examiner judgment. Given the same comparison task, different forensic examiners may come to different conclusions and/or use different criteria for coming to those decisions. High-profile examples of misidentification have inspired efforts to better estimate overall error rates as well as understand underlying decision-making processes in forensic analyses. 
-
-Item response theory (IRT), a class of models used in educational testing (among other fields), can provide valuable insight into these studies by accounting for both individual differences among examiners as well as comparison tasks of varying difficulty. This chapter provides an introduction to basic IRT models, discussion of human factors in pattern evidence analysis, and an example analysis in R of an error rate study using the FBI ``black box'' study.
---> 
 ## Introduction
 
 Although forensic measurement and analysis tools are increasingly accurate and objective, many final decisions are largely left to individiual examiners [@pcast]. Human decision-makers will continue to play a central role in forensic science for the foreseeable future, and it is unrealistic to assume that, within our current criminal justice system, either a) there are no differences in the decision-making process between examiners, b) day-to-day forensic decision-making tasks are equally difficult, or c) human decision-making can be removed from the process entirely. 
@@ -160,12 +153,7 @@ In the forensic setting, completing an IRT analysis will often include an additi
 
 ```{r, include = FALSE}
 library(blackboxstudyR)
-# Figure out why packages aren't loading and remove lines below
 library(dplyr)
-#library(bayesplot)
-#library(ggplot2)
-#library(rstan)
-library(gridExtra)
 library(tidyr)
 library(ggplot2)
 library(gghighlight)
@@ -233,7 +221,7 @@ After the model has been fit, we can plot the posterior distributions of difficu
 ```{r, echo = TRUE}
 plot_proficiency_posteriors(im_samples) + my_theme -> p1
 plot_difficulty_posteriors(im_samples) + my_theme -> p2
-grid.arrange(p1, p2, ncol = 2)
+ggarrange(p1, p2, ncol = 2)
 ```
 
 
@@ -243,17 +231,27 @@ The lighter gray interval represents the 95\% posterior interval and the black i
 
 The original analysis of the FBI "Black Box" Study [@ulery2011] did not include analysis of participant error rates, because each participant saw a different question set. Since proficiency accounts for the diffculty of question sets, however, we can directly compare participant proficiencies to each other, and also see how error rates and proficiency are related. 
 
-```{r prof-error-rate, fig.height=3, fig.cap="Proficiency vs False Positive Rate (left) and False Negative Rate (right)"}
+First, we compute the observed person scores. 
 
+```{r}
 obs_p_score <- bb_person_score(TestResponses, im_scored)
+```
 
+In order to use the `error_rate_analysis` function, we need to extract the median question difficulties from MCMC results. 
+
+```{r}
 q_diff <- apply(im_samples, 3, median)[grep("b\\[", names(apply(im_samples, 3, median)))]
 ex_error_rates <- error_rate_analysis(TestResponses, q_diff)
+```
+
+Now, we can plot the proficiency estimates (with 95\% posterior intervals) against the results from a traditional error rate analysis.
+
+```{r prof-error-rate, fig.height=3, fig.cap="Proficiency vs False Positive Rate (left) and False Negative Rate (right)"}
 
 person_mcmc_intervals(im_samples) %>% 
   right_join(., obs_p_score, by = "exID") %>% 
   full_join(., ex_error_rates, by = "exID") %>%
-  select(., score, m, ll, hh, exID, avg_diff, fpr, fnr) %>%
+  dplyr::select(., score, m, ll, hh, exID, avg_diff, fpr, fnr) %>%
     ggplot(., aes(
       x = fpr,
       y = m,
@@ -267,7 +265,7 @@ person_mcmc_intervals(im_samples) %>%
 person_mcmc_intervals(im_samples) %>%
   right_join(., obs_p_score, by = "exID") %>% 
   full_join(., ex_error_rates, by = "exID") %>%
-  select(., score, m, ll, hh, exID, avg_diff, fpr, fnr) %>%
+  dplyr::select(., score, m, ll, hh, exID, avg_diff, fpr, fnr) %>%
     ggplot(., aes(
       x = fnr,
       y = m,
@@ -281,7 +279,7 @@ person_mcmc_intervals(im_samples) %>%
   my_theme + 
   theme(legend.position = "none")  -> p2
 
-grid.arrange(p1, p2, ncol = 2)
+ggarrange(p1, p2, ncol = 2)
 ```
 
 Figure \@ref(fig:prof-error-rate) shows proficiency against the false positive rate (left) and false negative rate (right). Those participants who made at least one false positive error are colored in blue on the right side plot. We see that one of the participants who made a false positive error still received a relatively large proficiency estimate due to having such a small false negative rate. 
@@ -315,7 +313,7 @@ person_mcmc_intervals(im_samples) %>%
     labs(x = "Observed Score", y = "Proficiency Estimate") +
   my_theme -> p2
 
-grid.arrange(p1, p2, ncol = 2)
+ggarrange(p1, p2, ncol = 2)
 ```
 
 If we examine those participants who scored between 94\% and 96\% more closely, we can see that the discrepancies in their proficiencies are largely explained by the difficulty of the specific question set they saw. This is evidenced by the positive trend in Figure \@ref(fig:prof-by-diff). In addition to the observed score and difficulty of the question set, the other factor that plays a role in the proficiency estimate is the number of questions the participant answers conclusively (i.e. individualization or exclusion). Participants who are conclusive more often generally receive higher estimates of proficiency than participants who are conclusive less often. 
@@ -324,7 +322,7 @@ If we examine those participants who scored between 94\% and 96\% more closely, 
 person_mcmc_intervals(im_samples) %>%
   right_join(obs_p_score, by = "exID") %>% 
   full_join(ex_error_rates, by = "exID") %>%
-  select(score, m, ll, hh, exID, avg_diff, pct_skipped) %>%
+  dplyr::select(score, m, ll, hh, exID, avg_diff, pct_skipped) %>%
   filter(score < .96 & score > .94) %>%
     ggplot(aes(
       x = avg_diff,
@@ -354,8 +352,8 @@ pc_data <- irt_data_bb(TestResponses, pc_scored)
 We use `fit_rasch` to fit the Rasch model to the `no_consensus_incorrect` data, and since the `partial_credit` data has three outcomes (correct, inconclusive, or incorrect) instead of only two (correct/incorrect), we use `fit_pcm` to fit a partial credit model to the data. 
 
 ```{r, echo = TRUE, eval = FALSE}
-nci_model <- fit_rasch(nci_data, iterations = 600, n_chains = 4)
-pc_model <- fit_pcm(pc_data, iterations = 600, n_chains = 4)
+nci_model <- fit_rasch(nci_data, iterations = 1000, n_chains = 4)
+pc_model <- fit_pcm(pc_data, iterations = 1000, n_chains = 4)
 ```
 
 We can examine the proficiency estimates and observed scores for each participant under each of the three scoring schemes, similar to Figure \@ref(fig:prof-observed) above. Under the partial credit scoring scheme, a correct identification/exclusion is scored as a "2", an inconclusive response is scored as a "1" and an incorrect identification/exclusion is scored as a "0". The observed score is then computed by $(\# Correct + \# Inconclusive) / (2 \times \# Responses)$ to scale the score to be between 0 and 1. 
@@ -422,7 +420,7 @@ p_score_im %>%
   bind_rows(p_score_pc) %>%
   arrange(parameter) %>%
   mutate(id = rep(1:169,each = 3)) %>%
-  select(id, m, scoring) %>%
+  dplyr::select(id, m, scoring) %>%
   spread(scoring, m) %>%
   mutate(max.diff = apply( cbind(abs(im - nci), abs(nci - pc), abs(im - pc)), 1, max)) %>%
   gather("model", "median", -c(id, max.diff)) %>%
@@ -438,7 +436,7 @@ p_score_im %>%
   bind_rows(p_score_pc) %>%
   arrange(parameter) %>%
   mutate(id = rep(1:169,each = 3)) %>%
-  select(id, m, scoring) %>%
+  dplyr::select(id, m, scoring) %>%
   spread(scoring, m) %>%
   mutate(max.diff = apply( cbind(abs(im - nci), abs(nci - pc), abs(im - pc)), 1, max)) %>%
   gather("model", "median", -c(id, max.diff)) %>%
