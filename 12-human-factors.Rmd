@@ -49,27 +49,7 @@ Note that Equation \ref{rasch} also describes a generalized linear model (GLM), 
 
 The *two-parameter logistic model* (2PL) and *three-parameter logistic model* (3PL) are additional popular item response models [@lord1980applications]. They are both similar to the Rasch model in that the probability of a correct response depends on participant proficiency and item difficulty, but additional item parameters are also included. We omit a full discussion of these models here, but further reading may be found in @van2013handbook and @eirtbook. 
 
-<!--- Use this syntax for comments
-# The 2PL model includes an item *discrimination* parameter, $a_i$, which determines the slope of the ICC:
-
-# \begin{equation}
-# P(Y_{pi} = 1)  = \frac{1}{1+\exp(-a_i (\theta_p - b_i))}. 
-# \label{2pl}
-# \end{equation}
-
-# Larger values of $a_i$ denote a higher discrimination, and better separation of lower/higher proficiency test-takers. This is illustrated in Figure \@ref(fig:extensionsexample) with the Rasch model in black and the 2PL models in blue, all with difficulty $b=0$ for simplicity. 
-
-# The 3PL model includes an item *pseudo-guessing* parameter, $c_i$, which determines the lower asymptote of the ICC: 
-
-# \begin{equation}
-# P(Y_{pi} = 1)  = c_i + \frac{1-c_i}{1+\exp(-a_i (\theta_p - b_i))}. 
-# \label{3pl}
-# \end{equation}
-
-# Including $c_i$ increases the ``base probability'' of correctly answering a question. 3PL models are illustrated in Figure \@ref(fig:extensionsexample) with green lines. These models have the same difficulty ($b=0$) and discriminations ($a=0.5$ and $a=2$) as the other models shown in the graph, but include a guessing parameter of $c=0.3$. 
---> 
-
-```{r extensionsexample, echo = FALSE, fig.cap = "Item Characteristic Curve (ICC) examples for the Rasch, 2PL, and 3PL models."}
+```{r hf-extensionsexample, echo = FALSE, fig.cap = "Item Characteristic Curve (ICC) examples for the Rasch, 2PL, and 3PL models."}
 library(RColorBrewer)
 theta = seq(-8, 8, by = .01)
 
@@ -106,7 +86,7 @@ P(Y_{pi} = y, y>0)  = \frac{\exp\sum_{l=1}^y(\theta_p - \beta_{il})}{1+\sum_{k=1
 
 An example PCM is shown in Figure\@ref(fig:pcmexample) by plotting the probabilities of observing each of three categories as a function of $\theta_p$ (analagous to the ICC curves above). 
 
-```{r pcmexample, echo = FALSE, fig.cap = "Category response functions for the PCM."}
+```{r hf-pcmexample, echo = FALSE, fig.cap = "Category response functions for the PCM."}
 brewer.colors = brewer.pal(4, "Set1")[2:4]
 theta = seq(-8, 8, by = .01)
 beta1=-2
@@ -151,7 +131,7 @@ In the forensic setting, completing an IRT analysis will often include an additi
 
 ## Case Study {#casestudy}
 
-```{r, include = FALSE}
+```{r hf-setup, include = FALSE}
 library(blackboxstudyR)
 library(dplyr)
 library(tidyr)
@@ -198,19 +178,19 @@ The remainder of the case study will (a) demonstrate how to fit an IRT model in 
 
 We'll proceed with an IRT analysis of the data under the `inconclusive_mcar` scoring scheme, which is how the data were scored under @ulery2011. 
 
-```{r, echo = TRUE}
+```{r hf-fit-im, echo = TRUE}
 im_scored <- score_bb_data(TestResponses, "inconclusive_mcar")
 ```
 
 Scoring the black box data as above gives us the response variable ($y$). The `irt_data_bb` function takes the original black box data, along with the scored variable produced by `score_bb_data`, and produces a list object in the form needed by Stan to fit the IRT models. If you wish to fit the models on a different set of data, you can do so if the dataset has been formatted as a list object with the same attributes as the `irt_data_bb` function output (see package documentation for additional details).
 
-```{r, cache = TRUE, echo = TRUE}
+```{r hf-im-data, cache = TRUE, echo = TRUE}
 im_data <- irt_data_bb(TestResponses, im_scored)
 ```
 
 We can now use `fit_irt` to fit the Rasch models. 
 
-```{r, eval = FALSE, message = FALSE, echo = TRUE}
+```{r hf-im-model, eval = FALSE, message = FALSE, echo = TRUE}
 im_model <- fit_rasch(im_data, iterations = 600, n_chains = 4)
 ```
 
@@ -218,7 +198,7 @@ In practice, it is necessary to ensure that the MCMC sampler has converged using
 
 After the model has been fit, we can plot the posterior distributions of difficulties and proficiencies:
 
-```{r, echo = TRUE}
+```{r hf-im-plots, echo = TRUE}
 plot_proficiency_posteriors(im_samples) + my_theme -> p1
 plot_difficulty_posteriors(im_samples) + my_theme -> p2
 ggarrange(p1, p2, ncol = 2)
@@ -233,20 +213,20 @@ The original analysis of the FBI "Black Box" Study [@ulery2011] did not include 
 
 First, we compute the observed person scores. 
 
-```{r}
+```{r hf-im-score}
 obs_p_score <- bb_person_score(TestResponses, im_scored)
 ```
 
 In order to use the `error_rate_analysis` function, we need to extract the median question difficulties from MCMC results. 
 
-```{r}
+```{r hf-im-error-rates}
 q_diff <- apply(im_samples, 3, median)[grep("b\\[", names(apply(im_samples, 3, median)))]
 ex_error_rates <- error_rate_analysis(TestResponses, q_diff)
 ```
 
 Now, we can plot the proficiency estimates (with 95\% posterior intervals) against the results from a traditional error rate analysis.
 
-```{r prof-error-rate, fig.height=3, fig.cap="Proficiency vs False Positive Rate (left) and False Negative Rate (right)"}
+```{r hf-error-rate-plots, fig.height=3, fig.cap="Proficiency vs False Positive Rate (left) and False Negative Rate (right)"}
 
 person_mcmc_intervals(im_samples) %>% 
   right_join(., obs_p_score, by = "exID") %>% 
@@ -286,7 +266,7 @@ Figure \@ref(fig:prof-error-rate) shows proficiency against the false positive r
 
 If, instead of looking at the two error rates for each participant, we examine the observed score, the estimated proficiencies correlate with the observed score (Figure \@ref(fig:prof-observed). That is, participants with a higher observed score are generally given larger proficiency estimates than participants with lower scores. There are, however, cases where participants scored roughly the same on the study but are given vastly different proficiency estimates. For example, the highlighted participants in the right-side plot above all scored between 94\% and 96\%, but their estimated proficiencies range from $-1.25$ to $2.5$.  
 
-```{r prof-observed, fig.height = 3, fig.cap="Proficiency vs Observed Score"}
+```{r hf-prof-observed, fig.height = 3, fig.cap="Proficiency vs Observed Score"}
 
 person_mcmc_intervals(im_samples) %>% 
   right_join(obs_p_score, by = "exID") %>% 
@@ -318,7 +298,7 @@ ggarrange(p1, p2, ncol = 2)
 
 If we examine those participants who scored between 94\% and 96\% more closely, we can see that the discrepancies in their proficiencies are largely explained by the difficulty of the specific question set they saw. This is evidenced by the positive trend in Figure \@ref(fig:prof-by-diff). In addition to the observed score and difficulty of the question set, the other factor that plays a role in the proficiency estimate is the number of questions the participant answers conclusively (i.e. individualization or exclusion). Participants who are conclusive more often generally receive higher estimates of proficiency than participants who are conclusive less often. 
 
-```{r prof-by-diff, fig.height=3, fig.cap="Proficiency vs Average Question Difficulty, for participants with observed score between 94 and 96 percent correct."}
+```{r hf-prof-by-diff, fig.height=3, fig.cap="Proficiency vs Average Question Difficulty, for participants with observed score between 94 and 96 percent correct."}
 person_mcmc_intervals(im_samples) %>%
   right_join(obs_p_score, by = "exID") %>% 
   full_join(ex_error_rates, by = "exID") %>%
@@ -342,7 +322,7 @@ person_mcmc_intervals(im_samples) %>%
 
 To illustrate the difference in results between different scoring methods, we'll now score the data and fit models in two more ways: `no_consensus_incorrect` and `partial_credit`. 
 
-```{r, echo = TRUE}
+```{r hf-nci-pc-score, echo = TRUE}
 nci_scored <- score_bb_data(TestResponses, "no_consensus_incorrect")
 nci_data <- irt_data_bb(TestResponses, nci_scored)
 pc_scored <- score_bb_data(TestResponses, "partial_credit")
@@ -351,14 +331,14 @@ pc_data <- irt_data_bb(TestResponses, pc_scored)
 
 We use `fit_rasch` to fit the Rasch model to the `no_consensus_incorrect` data, and since the `partial_credit` data has three outcomes (correct, inconclusive, or incorrect) instead of only two (correct/incorrect), we use `fit_pcm` to fit a partial credit model to the data. 
 
-```{r, echo = TRUE, eval = FALSE}
+```{r hf-nci-pc-models, echo = TRUE, eval = FALSE}
 nci_model <- fit_rasch(nci_data, iterations = 1000, n_chains = 4)
 pc_model <- fit_pcm(pc_data, iterations = 1000, n_chains = 4)
 ```
 
 We can examine the proficiency estimates and observed scores for each participant under each of the three scoring schemes, similar to Figure \@ref(fig:prof-observed) above. Under the partial credit scoring scheme, a correct identification/exclusion is scored as a "2", an inconclusive response is scored as a "1" and an incorrect identification/exclusion is scored as a "0". The observed score is then computed by $(\# Correct + \# Inconclusive) / (2 \times \# Responses)$ to scale the score to be between 0 and 1. 
 
-```{r prof-three-scores, fig.height=3, fig.cap="Proficiency vs Observed Score for each of three scoring schemes"}
+```{r hf-prof-three-scores, fig.height=3, fig.cap="Proficiency vs Observed Score for each of three scoring schemes"}
 
 p_score_im <- bb_person_score(TestResponses, im_scored)
 person_mcmc_intervals(blackboxstudyR::im_samples) %>%
@@ -414,7 +394,7 @@ The plot on the left in Figure \@ref(fig:prof-by-id) shows both a change in exam
 
 The plot on the right illustrates participants that see substantial differences in their proficiency estimates under different scoring schemes. Examiners 105 and 3 benefit from the leniency in scoring when inconclusives are treated as missing ("im"). When inconclusives are scored as incorrect ("nci") or partial credit ("pc"), they see a substantial decrease in their proficiency due to reporting a high number of inconclusives and differing from other examiners in their reasoning for reporting inconclusives. Examiners 142, 60 and 110, on the other hand, are hurt by the leniency in scoring when inconclusives are treated as missing ("im"). Their proficiency estimates increase when inconclusives are scored as correct when they match the consensus reason ("nci") or are worth partial credit ("pc"). 
 
-```{r prof-by-id, fig.height=3, fig.cap = "Change in proficiency for each examiner under the three scoring schemes. The right side plot has highlighted five examiners whose proficiency estimates change the greatest among the three schemes."}
+```{r hf-prof-by-id, fig.height=3, fig.cap = "Change in proficiency for each examiner under the three scoring schemes. The right side plot has highlighted five examiners whose proficiency estimates change the greatest among the three schemes."}
 p_score_im %>%
   bind_rows(p_score_nci) %>%
   bind_rows(p_score_pc) %>%
