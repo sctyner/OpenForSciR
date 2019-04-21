@@ -1,6 +1,6 @@
 # Toolmarks {#toolmarks}
 
-#### *Authors* {-}
+#### Ganesh Krishnan, MSc; Heike Hofmann, PhD {-}
 
 ## Introduction to Toolmark analysis
 
