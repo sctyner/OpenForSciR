@@ -13,7 +13,7 @@ The 'toolmaRk' package in R, is a package available for objective analysis of to
 ## Data
 
 For our examples we will be using striated markings made by screwdrivers under different angles. The data was generated at Ames lab \cite{datatoolmark} and is available inside the 'toolmaRk' package. It consists of a sample of 16 toolmark profiles and descriptors. These profiles represent a cross-sectional cut information extracted from the surface on which the marking was made. The measurements in these profiles are taken at equispaced intervals across the toolmark.  The profiles with the same toolmark identifier are known matches, all other profiles are known non-matches.
-The 'ID' variable is a toolmark identifier and Factor variable. The side of the screwdriver from which the marking was made is called side. It is a factor variable with values A or B. The 'angle' variable is the degree of the angle under which the toolmark was created. 'Rep' on the other hand shows the replicate number for a toolmark, while 'side' is the side of the tool used to generate the marking. The sample data provided is not complete, therefore it only shows one randomly sampled replicate for each of the 16 profiles under consideration. For a more complete data set or more information please contact the references given below.
+The 'ID' variable is a toolmark identifier and Factor variable. The side of the screwdriver from which the marking was made is called 'side'. It is a factor variable with values A or B. The 'angle' variable is the degree of the angle under which the toolmark was created. 'Rep' on the other hand shows the replicate number for a toolmark. The sample data provided is not complete, therefore it only shows one randomly sampled replicate for each of the 16 profiles under consideration. For a more complete data set or more information please contact the references given below.
 
 In the following sections of this chapter we will be discussing the available methods for an analysis of toolmarks from the 'toolmaRk' package. We will first build an intuition about what these methods are, along with how to use them in R. This allows us to understand what to expect out of the function  and how to make better inference from the output from these methods as we compare two toolmarks.
 
@@ -119,12 +119,12 @@ The distance test statistic is therefore defined as follows
 The threshold test statistic follows the same setup as described above for the Distance test statistic, but instead of computing the distance, searches the diamond search region in the individual component correlation matrix to identify the number of correlation values that are greater than or equal to the maximum of the class component correlation matrix. This is the number of offsets and is the thrshold test statistic t as the threshold here is the maximum of the class component correlation matrix. The computed t is used in the p-value computations for classification of matches and non-matched. The p-value has the same form as for the distance test statistic i.e (2t+1)/(2M+1).
 Therefore to have evidence against the null hypothesis, we need only a small number of offsets from the individual components to result in a similarity value larger than the threshold as described above. A small p-value therefore rejects the null and concludes that the two marks were made by the same tool.
 
-### Diamond search method based functions in R  
-#### Fixed width method with direct correlation computation
+#### Diamond search method based functions in R  
+##### Fixed width method with direct correlation computation
 
 This method follows all the described above, and only deals with direct pearson correlations computed between windows to generate the correlation matrix. The method does not involve any further modeling steps in it for identifying the optimal offset. It is therefore all that is described above and no additional steps are required.
 
-#### Fixed width method with modeling in correlation matrix
+##### Fixed width method with modeling in correlation matrix
 
 In this method the correlation matrix are first generated for both the class and individual components. The pearson correlations of the comparison windows are what comprise of the correlation matrix. a potential drawback of defining the optimal
 class offset as described earlier, is that there is no guarantee that all windows of comparison with the same optimal class offset value will produce large correlation values in the correlation matrix of individual component correlation matrix or the normalized marking correlation matrix (when correlations are computed between windows of comparison of two non-decomposed but normalized toolmarks to produce a correlation matrix). In fact the same optimal class offset value might have both the largest correlation values as well as the smallest correlation values in the normalized correlation matrix. To circumvent this contradiction, a modeling effort is made to first identify the optimal offsets for both the components.
@@ -171,7 +171,7 @@ The choice of the window size is generally dependent on the size of the toolmark
 
 To construct the set of comparisons, we  
 
-1. First specify the two toolmarks to be compared. For this we first choose a set of known match or same-source pairs and then a pair of different source pairs to see how the different tests perfrom.
+1. First specify the two toolmarks to be compared. For this we first choose a set of known match or same-source pairs and then a pair of different source pairs to see how the different tests perform.
 ```{r echo=TRUE, eval=FALSE, results='asis'}
 # Same-source toolmarks
 known_match.dat1<- ameslab$profile[[1]]
@@ -184,7 +184,7 @@ known_match.dat2 <- matrix(known_match.dat2[round(0.01*nrow(known_match.dat2)):r
 known_non_match.dat1<- ameslab$profile[[1]]
 known_non_match.dat1 <- matrix(known_match.dat1[round(0.01*nrow(known_non_match.dat1)):round(0.99*nrow(known_non_match.dat1)),], ncol = 1)
 
-known_non_match.dat2<- ameslab$profile[[2]]
+known_non_match.dat2<- ameslab$profile[[6]]
 known_non_match.dat2 <- matrix(known_non_match.dat2[round(0.01*nrow(known_non_match.dat2)):round(0.99*nrow(known_non_match.dat2)),], ncol = 1)
 
 ```
@@ -224,13 +224,13 @@ chnra_scoring_known_nonmatch<- chumbley_non_random_adj(known_non_match.dat1, kno
 
 # Results
 chnra_scoring_known_nonmatch$p_value
-# 
+# 0.317
 chnra_scoring_known_nonmatch$U
-# 
+#  0.476
 chnra_scoring_known_nonmatch$same_shift_n
-# 
+# 45
 chnra_scoring_known_nonmatch$diff_shift_n
-# 
+# 44
 ```
 
 
@@ -274,17 +274,19 @@ fwnm_scoring_known_nonmatch<- fixed_width_no_modeling(known_non_match.dat1, know
 
 # Results 
 fwnm_scoring_known_nonmatch$dist_pval
-# 
+# 0.185
 fwnm_scoring_known_nonmatch$thresh_pval
-# 
+# 0.676
 fwnm_scoring_known_nonmatch$max_corr
-# 
+# 0.252
 fwnm_scoring_known_nonmatch$Above
-# 
+# 676
 fwnm_scoring_known_nonmatch$Smooth_offset
-# 
+# 716
 fwnm_scoring_known_nonmatch$Resid_offset
-# 
+# 624
+fwnm_scoring_known_nonmatch$total_thresh
+# 1001
 ```
 
 4.  Diamond search fixed width with modeling
@@ -334,23 +336,25 @@ fwwm_scoring_known_nonmatch<- fixed_width_with_modeling(known_non_match.dat1, kn
 
 # Results 
 fwwm_scoring_known_nonmatch$dist_pval
-#
+# 0.171
 fwwm_scoring_known_nonmatch$thresh_pval
-# 
+# 0.772
+#
 fwwm_scoring_known_nonmatch$max_corr
-# 
+# 0.209
 fwwm_scoring_known_nonmatch$Above
-# 
+# 772
 fwnm_scoring_known_nonmatch$Smooth_offset
-# 
+# 711
 fwnm_scoring_known_nonmatch$Resid_offset
-# 
+# 626
+fwnm_scoring_known_nonmatch$total_thresh
+# 500
 ```
-
-### Dependence on parameter values
 
 ### Inference and drawing conclusions
 
+The case study from the previous section demonstrated how the different methods can be used. We can see that for all the three methods the p_value for the chumbley test, distance test and the threshold test (wherever applicable), are very small. Depending on the significance level chosen we can check whether the statistical test is in favor of the null or against it. We notice that for all the three methods and different tests, the p_value for the known_matches remains very small. Therefore we reject the null hypothesis of different source of the markings and conclude that they come from the same source, which is what we expected given the fact that we known matches for the pair of markings. Similarly we can see that for the pair of known non-matches the p-values remain higher for all the three methods and associated statistical tests. Therefore in this case we fail to reject the null and conlclude that the markings are from different sources.
 
-With a conclusive classification of the two markings as match or non-match from the three methods, its often important to also identify how good these methods are in reality. To do so we need a sample dataset with a large number of comparisons and ground truth available. Given the ground truth of several such cross-comparisons, its often helpful to make a confusion table which gives a good insight into how to intuitively think of the results. A confusion table and ROC curves can give us the False Positives, False Negatives, True Positives and True Negatives of the comparisons using the three methods prescribed in this chapter. This allows us to compute the error rates. The identification of error rates not only helps build trust into these objective method, but also allows understanding of the limitations under different parameter settings.
+With a conclusive classification of the two markings as match or non-match from the three methods, its often important to also identify how good these methods are in reality. To do so we need a sample dataset with a large number of comparisons and ground truth available. Given the ground truth of several such cross-comparisons, its often helpful to make a confusion table which gives a good insight into how to intuitively think of the results. A confusion table and ROC curves can give us the False Positives, False Negatives, True Positives and True Negatives of the comparisons using the three methods prescribed in this chapter. This allows us to compute the error rates. The identification of error rates not only helps build trust into these objective method, but also enables understanding of the limitations under different parameter settings. This said, for a complete analysis of a new database using the prescribed statistical methods and tests should also include a preliminary analysis for identifying the optimum settings needed to use these methods.
 
