@@ -162,17 +162,28 @@ The choice of the window size is generally dependent on the size of the toolmark
 
 To construct the set of comparisons, we  
 
-1. First specify the two toolmarks to be compared  
-```{r}
-known_match
+1. First specify the two toolmarks to be compared. For this we first choose a set of known match or same-source pairs and then a pair of different source pairs to see how the different tests perfrom.
+```{r echo=TRUE, eval=FALSE, results='asis'}
+# Same-source toolmarks
+known_match.dat1<- ameslab$profile[[1]]
+known_match.dat1 <- matrix(known_match.dat1[round(0.01*nrow(known_match.dat1)):round(0.99*nrow(known_match.dat1)),], ncol = 1)
 
-known_non_match
+known_match.dat2<- ameslab$profile[[2]]
+known_match.dat2 <- matrix(known_match.dat2[round(0.01*nrow(known_match.dat2)):round(0.99*nrow(known_match.dat2)),], ncol = 1)
+
+# Different source toolmarks
+known_non_match.dat1<- ameslab$profile[[1]]
+known_non_match.dat1 <- matrix(known_match.dat1[round(0.01*nrow(known_non_match.dat1)):round(0.99*nrow(known_non_match.dat1)),], ncol = 1)
+
+known_non_match.dat2<- ameslab$profile[[2]]
+known_non_match.dat2 <- matrix(known_non_match.dat2[round(0.01*nrow(known_non_match.dat2)):round(0.99*nrow(known_non_match.dat2)),], ncol = 1)
 
 ```
 
 
 2. Adjusted Chumbley score method by \cite{gkhh-chumbley}
-```{r}
+```{r echo= TRUE, eval = FALSE}
+# Analysis and Results for Same-source markings
 # Specify parameter values
 optim_win = 500
 val_win = 50
@@ -192,9 +203,31 @@ chnra_scoring_knownmatch$diff_shift_n
 # 94
 ```
 
+```{r echo = TRUE, eval = FALSE}
+# Analysis and Results for different-source markings
+# Specify parameter values
+optim_win = 500
+val_win = 50
+coarse_smooth = 0.25
+
+# Adjusted chumbley score function
+chnra_scoring_known_nonmatch<- chumbley_non_random_adj(known_non_match.dat1, known_non_match.dat2, window_opt = optim_win, window_val = val_win, coarse = coarse_smooth) 
+
+# Results
+chnra_scoring_known_nonmatch$p_value
+# 
+chnra_scoring_known_nonmatch$U
+# 
+chnra_scoring_known_nonmatch$same_shift_n
+# 
+chnra_scoring_known_nonmatch$diff_shift_n
+# 
+```
+
 
 3. Diamond search fixed width with no modeling
-```{r}
+```{r echo = TRUE, eval = FALSE}
+# Analysis and Results for Same-source markings
 # Specify parameter values
 coarse_smooth = .25
 fine_smooth = .01
@@ -219,9 +252,36 @@ fwnm_scoring_knownmatch$Resid_offset
 # 29
 ```
 
+```{r echo = TRUE, eval = FALSE}
+# Analysis and Results for different-source markings
+# Specify parameter values
+coarse_smooth = .25
+fine_smooth = .01
+win_size_perc = .6
+M = 500
+
+# Run function
+fwnm_scoring_known_nonmatch<- fixed_width_no_modeling(known_non_match.dat1, known_non_match.dat2, coarse = coarse_smooth, fine = fine_smooth, window.size = win_size_perc, M = M)
+
+# Results 
+fwnm_scoring_known_nonmatch$dist_pval
+# 
+fwnm_scoring_known_nonmatch$thresh_pval
+# 
+fwnm_scoring_known_nonmatch$max_corr
+# 
+fwnm_scoring_known_nonmatch$Above
+# 
+fwnm_scoring_known_nonmatch$Smooth_offset
+# 
+fwnm_scoring_known_nonmatch$Resid_offset
+# 
+```
+
 4.  Diamond search fixed width with modeling
 
 ```{r echo = TRUE, eval = FALSE}
+# Analysis and Results for Same-source markings
 # Specify parameter values
 coarse_smooth = .25
 fine_smooth = .01
@@ -249,11 +309,39 @@ fwnm_scoring_knownmatch$Resid_offset
 # 29
 ```
 
+```{r echo = TRUE, eval = FALSE}
+# Analysis and Results for different-source markings
+# Specify parameter values
+coarse_smooth = .25
+fine_smooth = .01
+win_size_perc = .6
+M = 500
+
+# Additional Package Dependencies on 'glmnet' and 'Matrix', make sure they are installed
+# before using this function
+
+# Run function
+fwwm_scoring_known_nonmatch<- fixed_width_with_modeling(known_non_match.dat1, known_non_match.dat2, coarse = coarse_smooth, fine = fine_smooth, window.size = win_size_perc, M = M)
+
+# Results 
+fwwm_scoring_known_nonmatch$dist_pval
+# 0.007
+fwwm_scoring_known_nonmatch$thresh_pval
+# 0.006
+fwwm_scoring_known_nonmatch$max_corr
+# 0.519
+fwwm_scoring_known_nonmatch$Above
+# 5
+fwnm_scoring_known_nonmatch$Smooth_offset
+# 26
+fwnm_scoring_known_nonmatch$Resid_offset
+# 29
+```
 
 ### Dependence on parameter values
 
 ### Inference and drawing conclusions
 
 
-With a conclusive classification from the three methods of the two markings as being a match or non-match, its often important to also identify how good these methods are in reality. To do so we need a sample dataset with a large number of comparisons and ground truth available. Given the ground truth of several such cross-comparisons, its often helpful to make a confusion table which gives a good insight into how to intuitively think of the results. A confusion table and ROC curves can be used to understand the False Positives, False Negatives etc of the comparisons using the three methods prescribed in this chapter. This identification of error rates not only helps build trust into these objective method, but also allows understanding of the limitations under different parameter settings.
+With a conclusive classification of the two markings as match or non-match from the three methods, its often important to also identify how good these methods are in reality. To do so we need a sample dataset with a large number of comparisons and ground truth available. Given the ground truth of several such cross-comparisons, its often helpful to make a confusion table which gives a good insight into how to intuitively think of the results. A confusion table and ROC curves can give us the False Positives, False Negatives, True Positives and True Negatives of the comparisons using the three methods prescribed in this chapter. This allows us to compute the error rates. The identification of error rates not only helps build trust into these objective method, but also allows understanding of the limitations under different parameter settings.
 
