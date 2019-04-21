@@ -45,19 +45,19 @@ The diamond search fixed width methods rely on the assumption that the toolmarks
 
 The R functions 'fixed_width_with_model' and 'fixed_width_with_no_model' use the diamond search fixed width method in its computations. These functions return results in the form of variables and plots. The meaning of these lists, variables and plots are given below:
 
-1.  max_corr ::  maximized indiviudal component correlation, this is the value of the maximum correlation
-2.  Smooth_offset ::  optimal Class offset, this is location of the maximum class correlation matrix
-3.  Resid_offset ::  optimal individual offset, this is location of the maximum individual correlation matrix as computed by applying search constraints
-4.  dist_pval ::  distance p-value, this is the p-value computed using the distance test statistic
-5.  thresh_pval ::  threshold p-value, this is the p-value computed using the threshold test statistic.
-6.  Above ::  Number of offsets with correlation bigger than threshold
-7.  total_thresh ::  2*M+1, this is the interval width of the search region.
-8.  mark1_decompostion ::  plot of decomposition, shows the class and individual component of the first toolmark along with the normalized toolmark.
-9.  mark2_decompostion ::  plot of decomposition, shows the class and individual component of the first toolmark along with the normalized toolmark.
-10. class_correlations ::  plot of class correlation, shows a visalization of the correlation matrix of the class component of the toolmark
-11. individual_correlations ::  plot of individual correlation, shows a visalization of the correlation matrix of the individual component of the toolmark
-12. distance_plot ::  distance_plot
-13. threshold_plot ::  threshold_plot
+1.  max_corr =  Maximized indiviudal component correlation, this is the value of the maximum correlation
+2.  Smooth_offset =  Optimal Class offset, this is location of the maximum class correlation matrix
+3.  Resid_offset =  Optimal individual offset, this is location of the maximum individual correlation matrix as computed by applying search constraints
+4.  dist_pval =  Distance p-value, this is the p-value computed using the distance test statistic
+5.  thresh_pval =  Threshold p-value, this is the p-value computed using the threshold test statistic.
+6.  Above =  Number of offsets with correlation bigger than threshold
+7.  total_thresh =  2*M+1, this is the interval width of the search region.
+8.  mark1_decompostion =  Plot of decomposition, shows the class and individual component of the first toolmark along with the normalized toolmark.
+9.  mark2_decompostion =  Plot of decomposition, shows the class and individual component of the second toolmark along with the normalized toolmark.
+10. class_correlations =  Plot of class correlation, shows a visalization of the correlation matrix of the class component of the toolmark
+11. individual_correlations =  Plot of individual correlation, shows a visalization of the correlation matrix of the individual component of the toolmark
+12. distance_plot =  The distance step plot
+13. threshold_plot =  The threshold step plot
 
 To better understand what these results stand for and to be able to draw conclusions from them, we will have a closer look at the most important aspects of these functions, and their most important steps in the following sections. In te
 
@@ -144,7 +144,16 @@ knitr::include_graphics("./img/blockdiagramchumb.PNG")
 ```
 
 
-The chumbley score methods as found in the 'toolmark' package all work on the same principle as shown in \@ref{fig:blockdiag}. The optimization step includes computation of correlation between all possible combinations of optimization windows in the two signatures to generate an optimization step correlation matrix. The maximum value of this matrix essentially identifies the optimal locations by identifying the corresponding windows in the two toolmarks. The location of the pair of windows in the two markings is used to compute the lag in the two toolmarks. This is also called the optimal offset. Now the intuition is that for shifts in the pair of windows (a smaller window size) that are synchronized with the lag or this optimal offset, should in theory have higher correlations when the ground truth for the two toolmarks is a match. The correlation of these set of synchronized pair of windows would be systematically higher when compared to pairs of windows that do not correspond to a synchronized offsetting. The same-shift step therefore corresponds to a lag synchronized selection of pairs of windows and computing there correlations, while the different shift step corresponds to picking pair of windows that are not lag synchronized and computing a set of correlations for these. A Mann-whitney U statistic is then computed by comparing the same-shift set and the different-shift set of correlations. This U-statistic is used to compute a p-value and therefore classify the two toolmarks as same-source or different-source. \cite{gkhh-chumbley}
+The chumbley score methods as found in the 'toolmark' package all work on the same principle as shown in \@ref{fig:blockdiag}. The optimization step includes computation of correlation between all possible combinations of optimization windows in the two signatures to generate an optimization step correlation matrix. The maximum value of this matrix essentially identifies the optimal locations by identifying the corresponding windows in the two toolmarks. The location of the pair of windows in the two markings is used to compute the lag in the two toolmarks. This is also called the optimal offset. Now the intuition is that for shifts in the pair of windows (a smaller window size) that are synchronized with the lag or this optimal offset, should in theory have higher correlations when the ground truth for the two toolmarks is a match. The correlation of these set of synchronized pair of windows would be systematically higher when compared to pairs of windows that do not correspond to a synchronized offsetting. The same-shift step therefore corresponds to a lag synchronized selection of pairs of windows and computing there correlations, while the different shift step corresponds to picking pair of windows that are not lag synchronized and computing a set of correlations for these. A Mann-whitney U statistic is then computed by comparing the same-shift set and the different-shift set of correlations. This U-statistic is used to compute a p-value and therefore classify the two toolmarks as same-source or different-source. \cite{gkhh-chumbley}.
+
+The R functions 'chumbley_non_random_adj' uses the modified chumbley score method \cite{gkhh-chumbley} for its computations. The function returns results for the computed test statistic, associated p_value, and statistics related to the same-shift and different-shift segments of the validation step of the chumbley score method. The nomenclature and meaning of the reurned variables is given below:
+
+1. same_shift_n = Number of same shift offsets used
+2. diff_shift_n = Number of different shift offsets used
+3. U = observed U statistic
+4. p_value = p-value corresponding to the test statistic
+5. same_shift = correlation values corresponding to the same shift offset. The number of such values should be equal to 'same_shift_n'.
+6. diff_shift = correlation values corresponding to the different shift offset. The number of such values should be equal to 'diff_shift_n'.
 
 ### Computational Considerations
 
@@ -325,17 +334,17 @@ fwwm_scoring_known_nonmatch<- fixed_width_with_modeling(known_non_match.dat1, kn
 
 # Results 
 fwwm_scoring_known_nonmatch$dist_pval
-# 0.007
+#
 fwwm_scoring_known_nonmatch$thresh_pval
-# 0.006
+# 
 fwwm_scoring_known_nonmatch$max_corr
-# 0.519
+# 
 fwwm_scoring_known_nonmatch$Above
-# 5
+# 
 fwnm_scoring_known_nonmatch$Smooth_offset
-# 26
+# 
 fwnm_scoring_known_nonmatch$Resid_offset
-# 29
+# 
 ```
 
 ### Dependence on parameter values
