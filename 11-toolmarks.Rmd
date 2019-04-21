@@ -59,7 +59,7 @@ The R functions 'fixed_width_with_model' and 'fixed_width_with_no_model' use the
 12. distance_plot ::  distance_plot
 13. threshold_plot ::  threshold_plot
 
-To better understand what these results stand for and to be able to draw conclusions from them, we will have a closer look at the most important aspects of these functions, and their most important steps in the following sections.
+To better understand what these results stand for and to be able to draw conclusions from them, we will have a closer look at the most important aspects of these functions, and their most important steps in the following sections. In te
 
 #### Smoothness for class and individual component decomposition
 
@@ -67,6 +67,8 @@ To better understand what these results stand for and to be able to draw conclus
 
 In order to achieve these decompositions a second LOWESS smooth is applied to the normalized toolmarks and has a lower degree of smoothing than the smoothing that is done during the normalization step. This results in a representation of the trend which is considered to be the class component. The residuals of this smooth, which are the unique oscillations around this general trend, is the individual component. All the three i.r normalized marking, and two decomposed marking have approximately zero mean. From this it is clear the class component captures the general shape of the mark and
 the individual component is the unique deviations around this trend.
+
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
 load("./dat/ameslab.RData")
@@ -161,46 +163,90 @@ The choice of the window size is generally dependent on the size of the toolmark
 To construct the set of comparisons, we  
 
 1. First specify the two toolmarks to be compared  
+```{r}
+known_match
+
+known_non_match
+
+```
+
 
 2. Adjusted Chumbley score method by \cite{gkhh-chumbley}
 ```{r}
-# Show original marking picture
-# Show normalized marking picture
-
 # Specify parameter values
+optim_win = 500
+val_win = 50
+coarse_smooth = 0.25
+
 # Adjusted chumbley score function
+chnra_scoring_knownmatch<- chumbley_non_random_adj(known_match.dat1, known_match.dat2, window_opt = optim_win, window_val = val_win, coarse = coarse_smooth) 
 
 # Results
-
-# Type I error and Type II errors
-
-
+chnra_scoring_knownmatch$p_value
+# 9.19e-06
+chnra_scoring_knownmatch$U
+# 4.28
+chnra_scoring_knownmatch$same_shift_n
+# 94
+chnra_scoring_knownmatch$diff_shift_n
+# 94
 ```
 
 
 3. Diamond search fixed width with no modeling
 ```{r}
 # Specify parameter values
+coarse_smooth = .25
+fine_smooth = .01
+win_size_perc = .6
+M = 500
 
 # Run function
+fwnm_scoring_knownmatch<- fixed_width_no_modeling(known_match.dat1, known_match.dat2, coarse = coarse_smooth, fine = fine_smooth, window.size = win_size_perc, M = M)
 
 # Results 
-
-# Type I and Type II errors
-
+fwnm_scoring_knownmatch$dist_pval
+# 0.015
+fwnm_scoring_knownmatch$thresh_pval
+# 0.015
+fwnm_scoring_knownmatch$max_corr
+# 0.507
+fwnm_scoring_knownmatch$Above
+# 14
+fwnm_scoring_knownmatch$Smooth_offset
+# 22
+fwnm_scoring_knownmatch$Resid_offset
+# 29
 ```
 
 4.  Diamond search fixed width with modeling
 
-```{r}
+```{r echo = TRUE, eval = FALSE}
 # Specify parameter values
+coarse_smooth = .25
+fine_smooth = .01
+win_size_perc = .6
+M = 500
+
+# Additional Package Dependencies on 'glmnet' and 'Matrix', make sure they are installed
+# before using this function
 
 # Run function
+fwwm_scoring_knownmatch<- fixed_width_with_modeling(known_match.dat1, known_match.dat2, coarse = coarse_smooth, fine = fine_smooth, window.size = win_size_perc, M = M)
 
 # Results 
-
-# Type I and Type II errors
-
+fwwm_scoring_knownmatch$dist_pval
+# 0.007
+fwwm_scoring_knownmatch$thresh_pval
+# 0.006
+fwwm_scoring_knownmatch$max_corr
+# 0.519
+fwwm_scoring_knownmatch$Above
+# 5
+fwnm_scoring_knownmatch$Smooth_offset
+# 26
+fwnm_scoring_knownmatch$Resid_offset
+# 29
 ```
 
 
@@ -209,5 +255,5 @@ To construct the set of comparisons, we
 ### Inference and drawing conclusions
 
 
-With a conclusive classification from the three methods if the two markings as being a match or non-match, its often important to also identify how good these methods are in reality. To do so we need a sample dataset with a large number of comparisons and ground truth available. Given the ground truth of several such comparisons, its often helpful to make a confusion table which gives a good insight into how to intuitively think of the results. A confusion table and ROC curves can be used to understand the sensitivity and associated specificity of the comparisons using the three methods prescribed in this chapter. This identification of error rates helps build trust into these objective method by allowing understanding of the limitations under different parameter settings.
+With a conclusive classification from the three methods of the two markings as being a match or non-match, its often important to also identify how good these methods are in reality. To do so we need a sample dataset with a large number of comparisons and ground truth available. Given the ground truth of several such cross-comparisons, its often helpful to make a confusion table which gives a good insight into how to intuitively think of the results. A confusion table and ROC curves can be used to understand the False Positives, False Negatives etc of the comparisons using the three methods prescribed in this chapter. This identification of error rates not only helps build trust into these objective method, but also allows understanding of the limitations under different parameter settings.
 
