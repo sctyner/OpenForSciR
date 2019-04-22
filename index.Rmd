@@ -53,9 +53,13 @@ Eric is the Chief Data Scientist at [Omni Analytics](https://omnianalytics.io/).
 
 Xiao Hui is a PhD student in the Department of Statistics and Data Science at Carnegie Mellon University. She is currently working on matching problems in forensic science. Previously she was a statistician with the Singapore government.
 
+## Karen Kafadar {-}
+
+Karen Kafadar is Commonwealth Professor and Chair of Statistics at University of Virginia. She received her Ph.D. in Statistics from Princeton and has served on several National Academy of Science committees, including the ones that led to the reports Weighing Bullet Lead Evidence (2004), Strengthening Forensic Science in the United States: A Path Forward (2009), Evaluating Testing, Costs, and Benefits of Advanced Spectroscopic Portals (2011), and Identifying the Culprit: Assessing Eyewitness Identification (2014). She also has served on the governing boards for ASA, IMS, ISI, and NISS, and is a member of the newly established FSSB.
+
 ## Karen Pan {-}
 
-Karen is ...
+Karen Pan is a PhD student in the Department of Statistics at University of Virginia working on statistical issues in forensic science relating to fingerprints and glass evidence.
 
 ## Amanda Luby {-}
 
