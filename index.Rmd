@@ -55,7 +55,7 @@ Xiao Hui is a PhD student in the Department of Statistics and Data Science at Ca
 
 ## Karen Kafadar {-}
 
-Karen Kafadar is Commonwealth Professor and Chair of Statistics at University of Virginia. She received her Ph.D. in Statistics from Princeton and has served on several National Academy of Science committees, including the ones that led to the reports Weighing Bullet Lead Evidence (2004), Strengthening Forensic Science in the United States: A Path Forward (2009), Evaluating Testing, Costs, and Benefits of Advanced Spectroscopic Portals (2011), and Identifying the Culprit: Assessing Eyewitness Identification (2014). She also has served on the governing boards for ASA, IMS, ISI, and NISS, and is a member of the newly established FSSB.
+Karen Kafadar is Commonwealth Professor and Chair of Statistics at University of Virginia. She received her Ph.D. in Statistics from Princeton and has served on several National Academy of Science committees, including the ones that led to the reports Weighing Bullet Lead Evidence (2004), Strengthening Forensic Science in the United States: A Path Forward (2009), Evaluating Testing, Costs, and Benefits of Advanced Spectroscopic Portals (2011), and Identifying the Culprit: Assessing Eyewitness Identification (2014). She also has served on the governing boards for ASA, IMS, ISI, NISS, FSSB, and is the 2019 ASA President.
 
 ## Karen Pan {-}
 
@@ -69,6 +69,6 @@ Amanda is currently finishing her PhD in Statistics & Data Science at Carnegie M
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown', "x3ptools", "bulletxtrctr", "magrittr", "dplyr", "PRROC", "DescTools", "protoclust", "EBImage", "rstantools", "rstan", "RColorBrewer", "tidyr", "ggplot2", "gghighlight", "ggpubr"
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', "x3ptools", "bulletxtrctr", "magrittr", "dplyr", "PRROC", "DescTools", "protoclust", "EBImage", "rstantools", "rstan", "RColorBrewer", "tidyr", "ggplot2", "gghighlight", "ggpubr", "bmp"
 ), 'packages.bib')
 ```

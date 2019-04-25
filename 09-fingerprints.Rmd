@@ -206,10 +206,10 @@ temp_image <- read.bmp("data/G080.bmp")
 temp_min <- read.csv("data/G080_min.txt", header = TRUE, sep = ",")
 
 image_file <- convert_image(temp_image, "bmp")
-#min_file <- import_features(temp_min)
-min_file <- as.matrix(temp_min[, c(2, 3)])
+# x, y pixel locations are columns 1, 2
+min_file <- as.matrix(temp_min)
 
-# assumes columns 1, 2 of minutiae file are x, y pixel locations
+# quality scores
 quality_scores(image_file, min_file)
 quality_scores(image_file, min_file, verbose = TRUE)
 
@@ -279,5 +279,5 @@ Although only five features are marked in the latents above, many more would be 
 <!--
 ## Acknowledgements
 
-We would like to thank Dr. Adele Peskin for vital discussion and conversation leading to the creation of the Contrast Gradient Algorithm as well as an unpublished manuscript [@pk_unpub].
+We would like to thank Dr. Adele Peskin for vital discussion and conversation leading to the creation and development of the Contrast Gradient Algorithm as well as an unpublished manuscript [@pk_unpub].
 -->
