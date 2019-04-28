@@ -202,11 +202,12 @@ https://github.com/kdp4be/fingerprint_package
 ```{r, echo = TRUE, eval = FALSE}
 library(bmp)
 
-temp_image <- read.bmp("data/G080.bmp")
-temp_min <- read.csv("data/G080_min.txt", header = TRUE, sep = ",")
+# this image is the first of two used in the simple latent case study below
+temp_image <- read.bmp("simple_latent.bmp")
+# minutiae information (one per row without semicolons): X,Y; 72,22; 72,32; 35,80; 90,85; 59,144
+temp_min <- read.csv("simple_latent_min.txt", header = TRUE, sep = ",")
 
 image_file <- convert_image(temp_image, "bmp")
-# x, y pixel locations are columns 1, 2
 min_file <- as.matrix(temp_min)
 
 # quality scores
@@ -214,7 +215,7 @@ quality_scores(image_file, min_file)
 quality_scores(image_file, min_file, verbose = TRUE)
 
 # if image already in pixel array format, must be transposed before running quality_scores
-text_image <- read.csv("data/G080.txt", header = FALSE, sep = "\t")
+text_image <- read.csv("simple_latent.txt", header = FALSE, sep = "\t")
 quality_scores(t(text_image), min_file)
 ```
 
