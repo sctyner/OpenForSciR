@@ -1,5 +1,9 @@
 # Firearms: bullets {#bullets}
 
+```{r setupbullets, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE, fig.align = "center")
+```
+
 #### Eric Hare, PhD; Heike Hofmann, PhD {-}
 
 ![Source: Close-up of a bullet under a Confocal Light Microscope in the Roy J Carver High-resolution microscopy lab. Photo by Heike Hofmann.](img/IMG_1480.png)
