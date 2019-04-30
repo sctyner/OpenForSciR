@@ -1,6 +1,6 @@
 # Latent Fingerprints {#fingerprints}
 
-#### *Adele Peskin, Karen Kafadar, Karen Pan* {-}
+#### *Karen Kafadar, Karen Pan* {-}
 
 <!--
 __Abstract:__
@@ -70,7 +70,7 @@ NIST maintains a series of Biometric Special Databases and Software [@nist_biome
 
 
 
-## Peskin and Kafadar Quality Measurement
+## Contrast Gradient Quality Measurement
 
 The algorithm identifies and examines a small collection of pixels surrounding a given feature and assesses their distinctiveness from the background pixels. The underlying principle for this approach lies in recognizing that a forensic examiner can distinguish features in a fairly blurry latent print by recognizing (1) a gradient of intensity between the dark and light regions defining a minutia point, and (2) an overall contrast of intensity values in the general neighborhood of a minutiae point. The first step is to locate the pixel within a small neighborhood around the minutia location that produces the highest intensity gradient value, and focus calculation around that pixel. The largest gradient in a neighborhood of 5 pixels in each direction from a feature is found. For each pixel in this neighborhood, we compare the pixel intensity, $i(x, y)$, to a neighboring pixel intensity, $i(x + n, y + m)$, where $n$ and $m$ range from -2 to 2, and then divide by the corresponding distance between the pixels to get a measure of the gradient at pixel location $(x, y)$, $g(x, y; n, m)$:
 
@@ -85,8 +85,6 @@ The contrast measurement differs from the gradient measurement because it highli
 
 
 ## Case Study -- NIST SD27A latents
-
-<!-- Karen, are these images from another paper? If so, you need to reference the paper in the figure caption and the Figure in the paper where you got these images from. i.e. it should say "This is Figure 1 from Peskin & Kafadar (2017)." --> 
 
 To illustrate this measurement, we first look at the gradient values on a clear print with well defined minutiae. Figure \@ref(fig:clearprint) shows such a print. Along with it are close-up views of three minutiae from the print, where the ridge ending and bifurcations are clearly seen. One would expect these very clear minutiae to be at the high end of the quality scale when measuring latent minutiae quality. They are at pixel locations (97, 100), (126, 167), and (111, 68), from the upper left corner. The largest gradients at these 3 locations are 94.0, 66.5, and 88.0 intensity units per grid unit. Looking at gradient values in each $5 \times 5$ neighborhood, we find slightly higher gradient values for each minutia: 107.0, 122.0, and 121.0. For each minutia, we shift our focus point to the new $(x_0, y_0)$ corresponding to the slightly higher gradient value. For these $n_3(x_0, y_0)$ neighborhoods, we find the largest intensity differences to get the contrast. Contrast measures for the three locations are, respectively, 0.447, 0.651, and 0.561, yielding quality metrics 107.0 $\times$ 0.447 = 47.84, 122.0 $\times$ 0.651 = 79.42, and 121.0 $\times$ 0.561 = 67.85. The quality metric ranges from 0.133-100.0 (see Table 1) for NIST's SD27A latent fingerprint database, which has 15008 defined minutia locations. A quality metric value cannot exceed 100.0, and any larger scores are capped at 100.0 (out of the 15008 minutia, only 54 produced quality metrics over 100.0). We now turn to the issue of applying this quality metric to determine the usability of minutiae information in a latent print.
 
@@ -197,26 +195,27 @@ In future work, we plan to evaluate the value of this algorithm for real practic
 
 ## R Package
 
-This R Package implements the Peskin and Kafadar Quality Measurement for quantifying the quality of individual features, or minutiae, in a latent fingerprint. The primary functions include reading in the fingerprint image into the correct format (`convert_image`) then calculating the quality scores (`quality_scores`). If desired, additional information on gradient and contrast can be output by setting `verbose = TRUE` in the `quality_scores` function. If one wishes to only see gradient and contrast values, these can be output by functions `find_maxgrad` and `find_contrast`, respectively.
+This R Package implements the Contrast Gradient Quality Measurement for quantifying the quality of individual features, or minutiae, in a latent fingerprint. The primary functions include reading in the fingerprint image into the correct format (`convert_image`) then calculating the quality scores (`quality_scores`). If desired, additional information on gradient and contrast can be output by setting `verbose = TRUE` in the `quality_scores` function. If one wishes to only see gradient and contrast values, these can be output by functions `find_maxgrad` and `find_contrast`, respectively.
 
 https://github.com/kdp4be/fingerprint_package
 
 ```{r, echo = TRUE, eval = FALSE}
 library(bmp)
 
-temp_image <- read.bmp("data/G080.bmp")
-temp_min <- read.csv("data/G080_min.txt", header = TRUE, sep = ",")
+# this image is the first of two used in the simple latent case study below
+temp_image <- read.bmp("simple_latent.bmp")
+# minutiae information (one per row without semicolons): X,Y; 72,22; 72,32; 35,80; 90,85; 59,144
+temp_min <- read.csv("simple_latent_min.txt", header = TRUE, sep = ",")
 
 image_file <- convert_image(temp_image, "bmp")
-#min_file <- import_features(temp_min)
-min_file <- as.matrix(temp_min[, c(2, 3)])
+min_file <- as.matrix(temp_min)
 
-# assumes columns 1, 2 of minutiae file are x, y pixel locations
+# quality scores
 quality_scores(image_file, min_file)
 quality_scores(image_file, min_file, verbose = TRUE)
 
 # if image already in pixel array format, must be transposed before running quality_scores
-text_image <- read.csv("data/G080.txt", header = FALSE, sep = "\t")
+text_image <- read.csv("simple_latent.txt", header = FALSE, sep = "\t")
 quality_scores(t(text_image), min_file)
 ```
 
@@ -230,7 +229,7 @@ knitr::include_graphics("img/fingerprint_card.png")
 
 Five simple fingerprints were created on a clean glass plate using a single finger with differing levels of pressure. These levels range from one to five, with one indicating the largest amount of pressure applied. The glass plate was dusted using a black magnetic powder and the revealed prints lifted with tape onto the back of a white fingerprint card. As expected, as pressure decreases, the latents decrease in overall quality (visually, the ridges are less thick and lose some continuity) and amount of friction ridge area captured. The entire fingerprint card was scanned and each print was cropped into its own grayscale image file. These cropped images were converted into their equivalent 2D pixel array values (0 to 255, black to white).
 
-Five features (ridge endings (E) and bifurcations (B)) from the second and third prints were analyzed using the Peskin and Kafadar quality metric. As the metric is interested in contrast and gradients, the darker, blacker ridges in the Figure \@ref(fig:markedtwo) receive overall higher scores than the lighter gray ridges in the Figure \@ref(fig:markedthree) (feature 3 is an exception).
+Five features (ridge endings (E) and bifurcations (B)) from the second and third prints were analyzed using the Contrast Gradient Quality Metric. As the metric is interested in contrast and gradients, the darker, blacker ridges in the Figure \@ref(fig:markedtwo) receive overall higher scores than the lighter gray ridges in the Figure \@ref(fig:markedthree) (feature 3 is an exception).
 
 <!--
 ```{r csfp1, fig.cap="two images", fig.show='hold', echo = FALSE}
@@ -281,5 +280,5 @@ Although only five features are marked in the latents above, many more would be 
 <!--
 ## Acknowledgements
 
-We would like to acknowledge Dr. Adele Peskin, who was vital in the development and implementation of the Peskin and Kafadar Quality Measurement Algorithm and this chapter.
+We would like to thank Dr. Adele Peskin for vital discussion and conversation leading to the creation and development of the Contrast Gradient Algorithm as well as an unpublished manuscript [@pk_unpub].
 -->
