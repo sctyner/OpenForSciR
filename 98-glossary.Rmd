@@ -1,12 +1,34 @@
+# (APPENDIX) Appendix {-}
+
 # Glossary {#glossary}
 
-forensic evidence
+Terms are given in the order in which they appear in the body of the text.
 
-forensic science
+```{definition, label = 'forensics'}
+**: Forensics** - The art or study of argumentation and formal debate. *Source: [dictionary.com](https://www.dictionary.com/browse/forensics)*
+```
 
-source hypothesis
+```{definition, label = 'forsci'}
+**: Forensic Science** - Any science used for the purposes of the law. *Source: [American Academy of Forensic Sciences](https://www.aafs.org/home-page/students/choosing-a-career/what-is-forensic-science/)*
+```
 
-activity hypothesis
+```{definition, label = 'rstats'}
+**: R** - R is a free software environment for statistical computing and graphics. *Source: [The R Project for Statistical Computing](https://www.r-project.org/)*
+```
 
-offense hypothesis
+```{definition, label = 'ide'}
+**: IDE** - An IDE increases programmer productivity by combining common activities of writing software into a single application: editing source code, building executables, and debugging. *Source: [Codecademy](https://www.codecademy.com/articles/what-is-an-ide)*
+```
+
+```{definition, label = 'openss'}
+**: Open Source Software** - Open source software is software with source code that anyone can inspect, modify, and enhance. *Source: [opensource.com](https://opensource.com/resources/what-open-source)*
+```
+
+```{definition, label = 'sourcecode'}
+**: Source Code** - The part of software that most computer users don't ever see; it's the code computer programmers can manipulate to change how a piece of software—a "program" or "application"—works. *Source: [opensource.com](https://opensource.com/resources/what-open-source)*
+```
+
+```{definition, label = 'evidence'}
+**: Evidence** - Data presented to a court or jury in proof of the facts in issue and which may include the testimony of witnesses, records, documents, or objects. *Source: [dictionary.com](https://www.dictionary.com/browse/evidence)*
+```
 

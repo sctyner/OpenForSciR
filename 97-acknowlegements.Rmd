@@ -1,12 +1,11 @@
-# Acknowledgements
+# Acknowledgements {-}
 
-This book was made possible by an award from the ROpenSci Foundation. My eternal gratitude goes to Karthik Ram and the rest of the ROpenSci awards committee! 
+This book was made possible by an award from the rOpenSci Foundation. The PI on the award is Heike Hofmann, my PhD advisor, turned colleague and friend. Thank you, Heike! Our eternal gratitude goes to Karthik Ram and the rest of the rOpenSci awards committee for awarding us this fellowship. 
 
-Thank you also to the many contributors of this book's chapters: 
+Thank you also to the many contributors of this book's chapters, who have written something or have given me their time, guidance, aand patience: 
 
 - Eric Hare 
 - Soyoung Park
-- Chris Galbraith
 - Amanda Luby
 - Karen Pan
 - Nick Berry
@@ -14,4 +13,8 @@ Thank you also to the many contributors of this book's chapters:
 - Sarah Riman
 - ...
 
-Finally, thank you to my wonderful PI, Alicia Carriquiry, who allowed me to dedicate my time as a postdoc at CSAFE to this work. 
+Finally, thank you to my wonderful PI, Alicia Carriquiry, who allowed me to dedicate some of my time as a postdoc at CSAFE to this work. 
+
+Thank you,
+
+Sam C. Tyner, PhD

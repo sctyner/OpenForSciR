@@ -1,6 +1,8 @@
 # Forensic Science Problems {#forscip}
 
-The purpose of this chapter is to introduce the general type of problem that will be covered in the book. Investigators use forensic science resources to help solve crimes. At the highest level, the investigator is in charge of answering a very different question than the forensic scientist examining the evidence. The investigator wants to know who committed the crime, while the forensic scientist wants to determine the source of the evidence. The former is known as an *offense level hypothesis*, while the latter is the *source level hypothesis.* To write these hypotheses in the form of statistical hypothesis for testing, we write: 
+The purpose of this chapter is to introduce the general type of forensic science problem that will be covered in the book. The common understanding of forensic science is that law enforcement uses it to help solve crimes, but the primary professionals in forensic science are forensic scientists, not members of law enforcement. According to the American Academy of Forensic Sciences ([AAFS](https://www.aafs.org/home-page/students/choosing-a-career/whats-a-forensic-scientist/)), any forensic scientist is first and foremost a scientist, who communicates their knowledge and their tests results to lawyers, juries, and judges. 
+
+Where a legal matter is concerned, law enforcement is in charge of answering a very different question than the forensic scientist examining the [evidence](#ref:evidence). The investigator wants to know who committed the crime, while the forensic scientist wants to determine the source of the evidence. The former is known as an *offense level hypothesis*, while the latter is the *source level hypothesis.* To write these hypotheses in the form of statistical hypothesis for testing, we write: 
 \begin{align*}
 H_0: & \text{The suspect committed the crime.} \\
 H_A: & \text{The suspect did not commit the crime.}
