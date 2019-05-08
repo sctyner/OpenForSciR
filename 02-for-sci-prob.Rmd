@@ -1,30 +1,30 @@
-# Forensic Science Problems {#forscip}
+## Forensic Science Problems {#forscip}
 
-The purpose of this chapter is to introduce the general type of forensic science problem that will be covered in the book. The common understanding of forensic science is that law enforcement uses it to help solve crimes, but the primary professionals in forensic science are forensic scientists, not members of law enforcement. According to the American Academy of Forensic Sciences ([AAFS](https://www.aafs.org/home-page/students/choosing-a-career/whats-a-forensic-scientist/)), any forensic scientist is first and foremost a scientist, who communicates their knowledge and their tests results to lawyers, juries, and judges. 
+The purpose of this section is to introduce the general type of [forensic science](#def:forsci) problem that will be covered in the book. The common understanding of forensic science is that law enforcement uses it to help solve crimes, but the primary professionals in forensic science are forensic scientists, not members of law enforcement. According to the American Academy of Forensic Sciences ([AAFS](https://www.aafs.org/home-page/students/choosing-a-career/whats-a-forensic-scientist/)), any forensic scientist is first and foremost a scientist, who communicates their knowledge and their tests results to lawyers, juries, and judges. 
 
-Where a legal matter is concerned, law enforcement is in charge of answering a very different question than the forensic scientist examining the [evidence](#ref:evidence). The investigator wants to know who committed the crime, while the forensic scientist wants to determine the source of the evidence. The former is known as an *offense level hypothesis*, while the latter is the *source level hypothesis.* To write these hypotheses in the form of statistical hypothesis for testing, we write: 
-\begin{align*}
-H_0: & \text{The suspect committed the crime.} \\
-H_A: & \text{The suspect did not commit the crime.}
-\end{align*}
-for the offense level and 
-\begin{align*}
-H_0: & \text{The suspect is the source of the evidence.} \\
-H_A: & \text{The suspect is not the source of the evidence.}
-\end{align*}
-for the source level. Notice the distinction: the forensic scientist is not a criminal investigator, so their main concern is not "catching the bad guy." Instead, they are concerned with coming to the best conclusion using science.
+Where a legal matter is concerned, law enforcement is in charge of answering a very different question than the forensic scientist examining the [evidence](#def:evidence). Specifically in the criminal context, law enforcement wants to know who committed the crime, while the forensic scientist wants to understand the nature of the evidence. In theory, the forensic scientist's conclusion can be used by law enforcement, but law enforcement information should generally not be used by the scientist, with some exceptions per @cook_hierarchy_1998.
 
+Law enforcement and the courts focus on the *offense level hypotheses*, which describe the crime and its possible perpetrators [@cook_hierarchy_1998]. By contrast, the forensic scientist devotes their attention most often to the *source level hypotheses*, which describe the evidence and its possible sources [@cook_hierarchy_1998]. In between the offense level and the source level are the *activity level hypotheses*, which describe an action associated with the crime and the persons who did that action. For each level, two or more disjoint hypotheses are considered. For example, consider the following set of hypotheses adapted from @cook_hierarchy_1998: 
 
+Hypothesis Level | Competing Hypotheses 
+:---------------:|:---------------------
+Offense          | Mr X committed the burglary
+""               | Another person committed the burglary
+Activity         | Mr X smashed window W at the scene of the burglary
+""               | Mr X was not present when the window W was smashed
+Source           | The glass fragments came from window W
+""               | The glass fragments came from another unknown broken glass object
 
-First, let's define some terms: 
+In this example, the forensic scientist does not know the source of the glass fragments being analyzed, while the police may know that they were found on Mr X's clothes upon his arrest. The forensic scientist will likely have a sample from the window W and the small fragments, and will only be asked to determine if the two samples are distinguishable. Note that the scientist does not need to know any details from the case, such as where the burglary occurred, who the suspect is, or what was stolen, to analyze the two glass samples. Notice the distinction: the forensic scientist is not a member of law enforcement, so their main concern is not "catching the bad guy." Instead, they are concerned with coming to the best conclusion using science. 
 
-forensic evidence
+The problems discussed in this book concern the source level hypotheses exclusively: we are not interested in taking the place of law enforcement or legal professionals. We are chiefly concerned with *science*, not the law. Each chapter in this book is outlined as follows: 
 
-forensic science
+1. Introduction: This section familiarizes the reader with the type of forensic evidence covered in the chapter. Basic terms and concepts are covered, as well as what is typically done in a forensic science setting or lab to evaluate this type of evidence. The introduction section is not comprehensive by any stretch of the imagination: enough information is provided to understand the rest of the chapter, but that is all. For detailed coverage of a particular type of forensic evidence covered here, please consult each chapter's references section. 
+2. Data: This section covers the form of the forensic evidence and describes how that evidence is converted into computer-readable format for analysis in `R`. It will also provide the reader with an example dataset, including the type and structure of data objects that are required for the analyses. 
+3. `R` Package(s): This section introduces the `R` package(s) required for performing the analysis of the forensic evidence discussed. In some cases, the chapter author discusses (and in most cases is the author of) an `R` package explicitly for the particular forensic analysis. In other cases, the `R` package(s) used was applied the particular forensic science application, but is broadly applicable to other data analyses. 
+4. Drawing Conclusions: This section describes how to make a decision about the evidence under consideration. In some cases, there are [score](#def:score) based methods used to make a decision, and in others, a [likelihood ratio](#def:lr) is used. Comparisons to the current practice in forensic science are also made where applicable. 
+5. Case study: This section follows a piece of forensic evidence from reading the requisite data into `R` to drawing a conclusion about the source of the evidence. The author guides the reader step-by-step through the `R` code required to perform a complete analysis. 
 
-source hypothesis
+<!--With this book, we want to give more students and professionals interested in forensic science open source resources to pursue their research.  --> 
 
-activity hypothesis
-
-offense hypothesis
-
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a>

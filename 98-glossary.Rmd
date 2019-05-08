@@ -9,7 +9,7 @@ Terms are given in the order in which they appear in the body of the text.
 ```
 
 ```{definition, label = 'forsci'}
-**: Forensic Science** - Any science used for the purposes of the law. *Source: [American Academy of Forensic Sciences](https://www.aafs.org/home-page/students/choosing-a-career/what-is-forensic-science/)*
+**: Forensic Science** - Any science used for the purposes of the law. *Source: [American Academy of Forensic Sciences](https://www.aafs.org/home-page/students/choosing-a-career/what-is-forensic-science/))*
 ```
 
 ```{definition, label = 'rstats'}
@@ -30,5 +30,13 @@ Terms are given in the order in which they appear in the body of the text.
 
 ```{definition, label = 'evidence'}
 **: Evidence** - Data presented to a court or jury in proof of the facts in issue and which may include the testimony of witnesses, records, documents, or objects. *Source: [dictionary.com](https://www.dictionary.com/browse/evidence)*
+```
+
+```{definition, label = 'score'}
+**: Score** - The quanitification of similarity between two items via a univariate function meant to inform whether the two items have a common source. *Source: @hepler2012score*
+```
+
+```{definition, label = 'lr'}
+**: Likelihood Ratio** - A ratio which compares the probability (likelihood) of the evidence under two disjoint hypotheses *Source: @hepler2012score*
 ```
 

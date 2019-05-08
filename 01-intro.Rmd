@@ -5,7 +5,7 @@
 
 Here are all of the [`R`](#def:rstats) packages used in this book. If you would like to download and compile this book on your own system, this chunk will install and load all of the necessary packages for you. If you have problems with installation of any of these packages, this is probably due to an individual computer or `R` version issue. If you experience any installation problems, the best thing to do is to search for the error message you get on the web to see if anyone else has already solved your problem. If the package you are having troubles with has a [GitHub](https://github.com/) repository, you should search its [Issues](https://github.com/issues) to see if the author of the package has encountered and/or solved your problem before. If not, [community.rstudio.com](https://community.rstudio.com/) and [Stack Overflow](https://stackoverflow.com/questions/tagged/r) tend to be the most trustworthy sources of troubleshooting information. If all else fails, you can post an issue on the Github repo for this book (INSERT LINK). However, this should be your last resort: the authors of this book are subject matter experts, not necessarily computer debugging experts for your specific system and installation.  
 
-```{r all_packages, eval = TRUE}
+```{r all_packages, eval = FALSE}
 options(repos = "http://cran.us.r-project.org")
 
 # check if a package is installed, if not install it from cran
@@ -86,3 +86,7 @@ install_cran_missing("gridExtra")
 install_cran_missing("gghighlight")
 install_cran_missing("ggpubr")
 ```
+
+## Terminology and Definitions
+
+In the appendix, you will find a dedicated [Glossary](#glossary) section. The terms are listed in the order that they appear in the book. Throughout the book, the first time you encounter a glossary phrase, the phrase will be a link to the glossary entry, similar to the way Wikipedia handles their links. If you feel a term is lacking a glossary entry, please file an issue on Github. (INSERT LINK HERE). 
