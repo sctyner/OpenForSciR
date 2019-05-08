@@ -4,39 +4,115 @@
 
 Terms are given in the order in which they appear in the body of the text.
 
+## Introduction
+
 ```{definition, label = 'forensics'}
 **: Forensics** - The art or study of argumentation and formal debate. *Source: [dictionary.com](https://www.dictionary.com/browse/forensics)*
 ```
+
 
 ```{definition, label = 'forsci'}
 **: Forensic Science** - Any science used for the purposes of the law. *Source: [American Academy of Forensic Sciences](https://www.aafs.org/home-page/students/choosing-a-career/what-is-forensic-science/))*
 ```
 
+
 ```{definition, label = 'rstats'}
 **: R** - R is a free software environment for statistical computing and graphics. *Source: [The R Project for Statistical Computing](https://www.r-project.org/)*
 ```
 
+
 ```{definition, label = 'ide'}
-**: IDE** - An IDE increases programmer productivity by combining common activities of writing software into a single application: editing source code, building executables, and debugging. *Source: [Codecademy](https://www.codecademy.com/articles/what-is-an-ide)*
+**: Integrated Development Environment (IDE)** - An IDE increases programmer productivity by combining common activities of writing software into a single application: editing source code, building executables, and debugging. *Source: [Codecademy](https://www.codecademy.com/articles/what-is-an-ide)*
 ```
+
 
 ```{definition, label = 'openss'}
 **: Open Source Software** - Open source software is software with source code that anyone can inspect, modify, and enhance. *Source: [opensource.com](https://opensource.com/resources/what-open-source)*
 ```
 
+
 ```{definition, label = 'sourcecode'}
 **: Source Code** - The part of software that most computer users don't ever see; it's the code computer programmers can manipulate to change how a piece of software—a "program" or "application"—works. *Source: [opensource.com](https://opensource.com/resources/what-open-source)*
 ```
+
 
 ```{definition, label = 'evidence'}
 **: Evidence** - Data presented to a court or jury in proof of the facts in issue and which may include the testimony of witnesses, records, documents, or objects. *Source: [dictionary.com](https://www.dictionary.com/browse/evidence)*
 ```
 
+
 ```{definition, label = 'score'}
 **: Score** - The quanitification of similarity between two items via a univariate function meant to inform whether the two items have a common source. *Source: @hepler2012score*
 ```
 
+
 ```{definition, label = 'lr'}
-**: Likelihood Ratio** - A ratio which compares the probability (likelihood) of the evidence under two disjoint hypotheses *Source: @hepler2012score*
+**: Likelihood Ratio** - Statistical measurement evaluating the probability of evidence under one hypotheis, divided by the probability of evidence under an alternative, mutually exclusive hypothesis. In forensic science, the value of the likelihood ratio expresses the weight and meaning of scientific evidence and is used as a measure of probative value. *Source: [CSAFE](https://forensicstats.org/resources/glossary/)*
+```
+
+## DNA
+
+```{definition, label = 'dnaprof'}
+**: DNA profiling** - A method of identifying an individual through comparison of patterns arising from differences in DNA sequences, represented as a string of values compiles from the results of DNA testings at one or more genetic markers. *Source: @butler09*
+```
+
+
+```{definition, label = 'pcr'}
+**: Polymerase Chain Reaction (PCR)** - An *in vitro* process that yields millions of copies of desired DNA through repeated cycling of a reaction involving the DNA polymerase enzyme. *Source: @butler09*
+```
+
+
+```{definition, label = 'str'}
+**: Short Tandem Repeats (STRs)** - Multiple copies of an identical DNA sequence arranged in direct succession where the repeat  sequence unit is 2 to 6 base pairs in length. *Source: @butler09*
+```
+
+
+```{definition, label = 'snp'}
+**: Single Nucleotide Polymorphism (SNP)** - Any polymorphic variation at a single nucleotide. *Source: @butler09*
+```
+
+
+```{definition, label = 'mtdna'}
+**: Mitochondrial DNA (mtDNA)** - A small, circular DNA molecule located in the mitocondria that contains approximately 16,500 nucleotides. The abundance of hundreds of copies of mtDNA in each cell make it useful with samples originating from limited or damaged biological material. *Source: @butler09*
+```
+
+
+```{definition, label = 'chromo'}
+**: Chromosome** - The structure by which hereditary information is physically transmitted from one generation to the next. *Source: @butler09*
+```
+
+
+```{definition, label = 'locus'}
+**: Locus** - A unique physical location of a gene (or specific sequence of DNA) on a chromosome. The plural of locus is loci. *Source: @butler09*
+```
+
+
+```{definition, label = 'nucleotide'}
+**: Nucleotide** - A unit of nucleic acid composed of phospate, ribose or deoxyribose, and a purine or pyrimidine base *Source: @butler09*
+```
+
+
+```{definition, label = 'nucleicacid'}
+**: Nucleic Acid** - A general class of molecules that are polymers of nucleotides. DNA and RNA are the major types. *Source: @butler09*
+```
+
+
+```{definition, label = 'ce'}
+**: Capillary Electrophoresis (CE)** - An electrophoretic technique for separating DNA molecules by their size based on migration through a narrow glass capillary tube filled with a liquid polymer. *Source: @butler09*
+```
+
+
+```{definition, label = 'allele'}
+**: Allele** - An alternative form of a gene or a section of DNA at a particluar gentic location (locus). Typically, multiple alleles are possible for each STR marker. *Source: @butler09*
+```
+
+
+```{definition, label = 'stutter'}
+**: Stutter product** - Either (n-4) or (n+4). If (n-4), a minor peak appearing one repeat unit smapper than a primary STR allele resulting from strang slippage during the amplification process. If (n+4), a minor peak appearing one repeat unit larger than a primary STR allele resulting from strand slippage during the amplification process. *Source: @butler09*
+```
+
+
+```{definition, label = 'gui'}
+**: Graphical User Interface (GUI)** - A form of user interface that allows users to interact with electronic devices through graphical icons and visual indicators such as secondary notation, instead of text-based user interfaces. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Graphical_user_interface)*
 ```
 
