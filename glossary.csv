@@ -1,0 +1,23 @@
+chapter,label,term,definition_with_punc,source_display,source_link
+Introduction,forensics,Forensics,The art or study of argumentation and formal debate.,dictionary.com,https://www.dictionary.com/browse/forensics
+,forsci,Forensic Science,Any science used for the purposes of the law.,American Academy of Forensic Sciences,https://www.aafs.org/home-page/students/choosing-a-career/what-is-forensic-science/)
+,rstats,R,R is a free software environment for statistical computing and graphics.,The R Project for Statistical Computing,https://www.r-project.org/
+,ide,Integrated Development Environment (IDE),"An IDE increases programmer productivity by combining common activities of writing software into a single application: editing source code, building executables, and debugging.",Codecademy,https://www.codecademy.com/articles/what-is-an-ide
+,openss,Open Source Software,"Open source software is software with source code that anyone can inspect, modify, and enhance.",opensource.com,https://opensource.com/resources/what-open-source
+,sourcecode,Source Code ,"The part of software that most computer users don't ever see; it's the code computer programmers can manipulate to change how a piece of software—a ""program"" or ""application""—works. ",opensource.com,https://opensource.com/resources/what-open-source
+,evidence,Evidence,"Data presented to a court or jury in proof of the facts in issue and which may include the testimony of witnesses, records, documents, or objects.",dictionary.com,https://www.dictionary.com/browse/evidence
+,score,Score,The quanitification of similarity between two items via a univariate function meant to inform whether the two items have a common source.,@hepler2012score,
+,lr,Likelihood Ratio,"Statistical measurement evaluating the probability of evidence under one hypotheis, divided by the probability of evidence under an alternative, mutually exclusive hypothesis. In forensic science, the value of the likelihood ratio expresses the weight and meaning of scientific evidence and is used as a measure of probative value.",CSAFE,https://forensicstats.org/resources/glossary/
+DNA,dnaprof,DNA profiling ,"A method of identifying an individual through comparison of patterns arising from differences in DNA sequences, represented as a string of values compiles from the results of DNA testings at one or more genetic markers.",@butler09,
+,pcr,Polymerase Chain Reaction (PCR),An *in vitro* process that yields millions of copies of desired DNA through repeated cycling of a reaction involving the DNA polymerase enzyme.,@butler09,
+,str,Short Tandem Repeats (STRs),Multiple copies of an identical DNA sequence arranged in direct succession where the repeat  sequence unit is 2 to 6 base pairs in length. ,@butler09,
+,snp,Single Nucleotide Polymorphism (SNP),Any polymorphic variation at a single nucleotide.,@butler09,
+,mtdna,Mitochondrial DNA (mtDNA),"A small, circular DNA molecule located in the mitocondria that contains approximately 16,500 nucleotides. The abundance of hundreds of copies of mtDNA in each cell make it useful with samples originating from limited or damaged biological material.",@butler09,
+,chromo,Chromosome,The structure by which hereditary information is physically transmitted from one generation to the next.,@butler09,
+,locus,Locus,A unique physical location of a gene (or specific sequence of DNA) on a chromosome. The plural of locus is loci. ,@butler09,
+,nucleotide,Nucleotide,"A unit of nucleic acid composed of phospate, ribose or deoxyribose, and a purine or pyrimidine base",@butler09,
+,nucleicacid,Nucleic Acid,A general class of molecules that are polymers of nucleotides. DNA and RNA are the major types.,@butler09,
+,ce,Capillary Electrophoresis (CE) ,An electrophoretic technique for separating DNA molecules by their size based on migration through a narrow glass capillary tube filled with a liquid polymer.,@butler09,
+,allele,Allele,"An alternative form of a gene or a section of DNA at a particluar gentic location (locus). Typically, multiple alleles are possible for each STR marker.",@butler09,
+,stutter,Stutter product,"Either (n-4) or (n+4). If (n-4), a minor peak appearing one repeat unit smapper than a primary STR allele resulting from strang slippage during the amplification process. If (n+4), a minor peak appearing one repeat unit larger than a primary STR allele resulting from strand slippage during the amplification process.",@butler09,
+,gui,Graphical User Interface (GUI),"A form of user interface that allows users to interact with electronic devices through graphical icons and visual indicators such as secondary notation, instead of text-based user interfaces.",Wikipedia,https://en.wikipedia.org/wiki/Graphical_user_interface
