@@ -8,7 +8,7 @@ editor_options:
 #### Sam Tyner, PhD; Oskar Hansson, PhD {-}
 
 ```{r setup03, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache=TRUE, fig.align = "center", message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE, cache=TRUE, fig.align = "center", message = FALSE, warning = FALSE, tidy = TRUE)
 ```
 
 ## Introduction
@@ -27,7 +27,7 @@ y <- c("Body", "Cell", "Nucleus", "Chromosome", "[Locus](#def:locus) or gene", "
 knitr::kable(data.frame(x,y), col.names = c("Printed Information", "Genetic Information"), caption = "Recreation of Table 2.1 from @butler09")
 ```
 
-In forensic DNA profiling, a particular set loci are examined for comparison. The number of loci depends on the equipment and method used to analyzed the DNA sample, but can be as high as 27 for the particular method we discuss here [@loci27]. As of January 1, 2017, there are 20 core loci in CODIS, the Combined DNA Index System, which is the FBI's national program for DNA databases and software used in criminal justice systems across the United States [@codis]. These sets of loci were chosen because of their high variability in the population. To find the alleles at each loci, the DNA sample is amplified using PCR, and then run through [capillary electrophoresis](#def:ce) (CE). The result of CE is the DNA profile, with the alleles on each locus indicated by different colored peaks from a chemical dyeing process. <!--For interpreting the results of the chemical analysis, the loci need to be described in terms of their stutter ratio, heterozygote peak balance, inter-locus balance, and stochastic threshold. --> 
+In forensic DNA profiling, a particular set loci are examined for comparison. The number of loci depends on the equipment and method used to analyzed the DNA sample, but can be as high as 27 for the particular method we discuss here [@loci27]. As of January 1, 2017, there are 20 core loci in CODIS, the Combined DNA Index System, which is the FBI's national program for DNA [databases](#def:database) and software used in criminal justice systems across the United States [@codis]. These sets of loci were chosen because of their high variability in the population. To find the alleles at each loci, the DNA sample is amplified using PCR, and then run through [capillary electrophoresis](#def:ce) (CE). The result of CE is the DNA profile, with the alleles on each locus indicated by different colored peaks from a chemical dyeing process. <!--For interpreting the results of the chemical analysis, the loci need to be described in terms of their stutter ratio, heterozygote peak balance, inter-locus balance, and stochastic threshold. --> 
 
 The amplification process introduces random change known as *slippage*, which creates [*stutter peaks*](#def:stutter) in the observed DNA profile that are different than the true allele peaks [@butler09]. In addition, different labs may use different machines and materials in forensic analysis resulting in different measurements for the same DNA sample. Thus, the validation of methods and materials is a crucial step. According to the Scientific Working Group on DNA Analysis Methods (SWGDAM), "validation is a process by which a procedure is evaluated to determine its efficacy and reliability for forensic casework and/or database analysis" [@swgdamval].  Validation helps minimize error in forensic DNA analysis and helps keep results consistent across laboratories and materials.
 

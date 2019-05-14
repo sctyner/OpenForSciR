@@ -1,5 +1,20 @@
 book_filename: "open-forensic-science-in-r"
 language:
+  label:
+    fig: 'Figure '
+    tab: 'Table '
+    eq: 'Equation '
+    thm: 'Theorem '
+    lem: 'Lemma '
+    cor: 'Corollary '
+    prp: 'Proposition '
+    cnj: 'Conjecture '
+    def: ""
+    exm: 'Example '
+    exr: 'Exercise '
+    proof: 'Proof. '
+    remark: 'Remark. '
+    solution: 'Solution. '
   ui:
     chapter_name: "Chapter "
 delete_merged_file: true
@@ -8,14 +23,14 @@ rmd_files: [
   "01-intro.Rmd",
   "02-for-sci-prob.Rmd",
   "03-dna.Rmd",
-  "035-dna-mixure.Rmd",
-  "04-glass.Rmd",
+#  "035-dna-mixure.Rmd",
+ "04-glass.Rmd",
   "05-shoe.Rmd",
   "06-bullets.Rmd",
   "07-casings.Rmd" ,
   "08-digital1.Rmd",
   "09-fingerprints.Rmd",
-  "10-handwriting.Rmd",
+#  "10-handwriting.Rmd",
   "11-toolmarks.Rmd" ,
   "12-human-factors.Rmd",
   "97-acknowlegements.Rmd",
