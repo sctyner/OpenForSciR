@@ -1,30 +1,42 @@
+---
+no-cite: |
+  @R-purrr
+---
+
 # Firearms: bullets {#bullets}
 
 ```{r setupbullets, include=FALSE}
 knitr::opts_chunk$set(cache=TRUE, fig.align = "center")
 ```
 
-#### Eric Hare, PhD; Heike Hofmann, PhD {-}
+#### Eric Hare, Heike Hofmann {-}
 
-![Source: Close-up of a bullet under a Confocal Light Microscope in the Roy J Carver High-resolution microscopy lab. Photo by Heike Hofmann.](img/IMG_1480.png)
+```{r bulletcarver, echo = FALSE, fig.cap="Close-up of a bullet under a Confocal Light Microscope in the Roy J Carver High-resolution microscopy lab at Iowa State University. Photo by Heike Hofmann. Source: [forensicstats.org](https://forensicstats.org/wp-content/uploads/2017/01/csafe-logo-90.png)"}
+knitr::include_graphics("img/IMG_1480.png")
+```
+
 
 ## Introduction
 
-When a bullet is fired from a gun barrel, small imperfections in the barrel leave striation markings on the bullet. These striae are expressed most in the area of the bullet that has the closest contact to the barrel. 
+<!-- Sam's question: what is the difference between striation & striae?-->
 
- These engravings are assumed to be unique to individual gun barrels, and as a result, traditional forensic science methods have employed trained forensic examiners to assess the likelihood of two bullets being fired from the same barrel (a "match"). Conventionally, this has been done using the metric Consecutively Matching Striae, or CMS [@biasotti:1959]. However, no official standards have been established to scientifically delineate a number that effectively separates matches from non-matches. Therefore, significant work has been done, and continues to be done, in order to add scientific rigor to the bullet matching process.
+When a [bullet](#def:bullet) is fired from a [gun barrel](#def:gunbarrel), small imperfections in the barrel leave [striation](#def:striations) markings on the bullet. These markings are expressed most in the area of the bullet that has the closest contact to the barrel. 
 
-The 2009 National Academy of Sciences Report [@NAS:2009] may have been the "call-to-arms" that the field needed. This report both criticized the lack of rigor seen to this date, but also described the "path forward". As the authors saw it, the path forward included an aption of standards. A standard format to represent the structure of bullets opened the door for much of what you'll read about in this chapter, including opening up the formerly unknown process of bullet matching to a much wider audience, and providing the foundations for truly automated and statistical algorithms to perform the procedure.
+These engravings are assumed to be unique to individual gun barrels, and as a result, traditional forensic science methods have employed trained forensic examiners to assess the likelihood of two bullets being fired from the same barrel (a "match"). Conventionally, this has been done using the metric Consecutively Matching Striae(CMS) [@biasotti:1959]. However, no official standards have been established to scientifically delineate a number that effectively separates matches from non-matches. Therefore, significant work has been done, and continues to be done, in order to add scientific rigor to the bullet matching process.
+
+The 2009 National Academy of Sciences Report [@NAS:2009] may have been the "call-to-arms" that the field needed. This report criticized the lack of rigor in the field at the time, but also described the "path forward". As the authors saw it, the path forward included adoption of standards. A standard format to represent the structure of bullets opened the door for much of what you'll read about in this chapter, including opening up the formerly unknown process of bullet matching to a much wider audience, and providing the foundations for truly automated, statistical algorithms to perform the procedure.
 
 In this chapter, we outline the new standard data format used to store three-dimensional bullet scans. We proceed by outlying relevant R packages for the processing and analysis of these scans. Finally, we discuss ways in which to draw conclusions based on these results, and tie it all together in the form of a relevant case study.
 
 ## Data 
 
-Data on both breech face and land engraved areas are available from the NIST Ballistics Database Project in the x3p (XML 3-D Surface Profile) format. This format was designed to implement a standard for exchanging 3D profile data. This format was adopted by the Open Forensic Metrology Consortium, or OpenFMC, a group of firearm forensics researchers whose aim is to establish best practices for researchers using metrology in forensic science.
+<!-- Sam's question: is breech face actually on the projectile or no? What is a good definition of LEAs?  -->
+
+Data on both [breech face](#def:breechface) and [land engraved areas](#def:leas) are available from the [NIST Ballistics Toolmark Research Database](https://tsapps.nist.gov/NRBTD/Studies/Search) (BTRD) in the [x3p](https://tsapps.nist.gov/NRBTD/Home/DataFormat) (XML 3-D Surface Profile) format. The x3p format was designed to implement a standard for exchanging 3D profile data. It was adopted by the Open Forensic [Metrology](#def:metrology) Consortium, or [OpenFMC](https://www.openfmc.org/), a group of firearm forensics researchers whose aim is to establish best practices for researchers using metrology in forensic science.
 
 Figure \@ref(fig:bullets-x3pcontain) shows an illustration of the internal structure of the x3p file format. x3p files contain an XML data file with metadata on the bullet scans, as well as binary data containing the surface topology measurements. The metadata includes information on the scanning equipment and operator, as well as information on the resolution of the scans. 
 
-```{r, bullets-x3pcontain, echo=FALSE, fig.cap='An illustration of the internal structure of the x3p file format. x3p files contain an XML data file with metadata on the bullet scans, as well as binary data containing the surface topology measurements.'}
+```{r, bullets-x3pcontain, echo=FALSE, fig.cap='An illustration of the internal structure of the x3p file format. x3p files contain an XML data file with metadata on the bullet scans, as well as binary data containing the surface topology measurements. Source: [openGPS](https://sourceforge.net/p/open-gps/mwiki/X3p/)', out.width = "75%"}
 knitr::include_graphics("img/x3p_container.png")
 ```
 
@@ -32,29 +44,32 @@ The use of the x3p format has positively impacted procedures relating to forensi
 
 ## R Package(s)
 
-The first R package created to read and process x3p files was `x3pr` [@x3pr]. This package includes reading routines, to read in both the data as well as the metadata, of a particular bullet land, as well as some plotting functions and a writing routine to create x3p files. A new package, `x3ptools` [@x3ptools], was created to handle some limitations in x3p and expand upon the functionality. A companion package, `bulletxtrctr` [@bulletxtrctr], expands upon x3ptools and provides functions to perform an automated bullet analysis routine based on the algorithms described in @hare2017.
+<!-- Sam's question: isn't Petraco the author of x3pr??-->
 
-The two packages `x3ptools` and `bulletxtrctr` will be the focus of the remainder of this chapter.
+The first R package created to read and process x3p files was `x3pr` [@x3pr]. This package includes reading routines to read in both the data as well as the metadata of a particular bullet land. The package also has some plotting functions and a writing routine to create x3p files. A new package, `x3ptools` [@x3ptools], was created to handle some limitations in `x3pr` and expand upon the functionality. A companion package, `bulletxtrctr` [@bulletxtrctr], expands upon x3ptools and provides functions to perform an automated bullet analysis routine based on the algorithms described in @hare2017.
+
+The two packages [`x3ptools`](https://heike.github.io/x3ptools/) and [`bulletxtrctr`](https://heike.github.io/bulletxtrctr/) will be the focus of the remainder of this chapter.
 
 ### x3ptools
 
 Although `x3ptools` isn't written specifically for the purposes of handling bullet scans, it is the package of choice to begin a bullet analysis. In fact, the package itself is generic and can handle a wide range of data types that use the x3p container format.
 
-To begin, the package can be installed from CRAN:
+To begin, the package can be installed from [CRAN](https://cran.r-project.org/web/packages/x3ptools/) (stable release) or [GitHub](https://github.com/heike/x3ptools) (development version):
 
 ```{r, eval=FALSE}
+# from CRAN:
 #install.packages("x3ptools")
-# install from github for now
+# install development version from GitHub:
 devtools::install_github("heike/x3ptools")
 ```
 
-We will load the package and use some pre-provided x3p data to get a feel for the package functionality. We will work with the Center for Statistical Applications in Forensic Evidence (CSAFE) logo. In its original colored form, the logo looks like Figure \@ref(fig:bullets-csafelogo).
+We load the package and use some built-in x3p data to get a feel for the package functionality. We will work with the Center for Statistical Applications in Forensic Evidence (CSAFE) logo. In its original colored form, the logo looks like Figure \@ref(fig:bullets-csafelogo).
 
-```{r, bullets-csafelogo, fig.cap='The CSAFE logo.'}
+```{r, bullets-csafelogo, fig.cap='The CSAFE logo. Source: [CSAFE](https://forensicstats.org/).', echo = FALSE}
 knitr::include_graphics("img/csafe-logo.jpeg")
 ```
 
-A scan of a 3D version of this logo is available, where portions of the logo are raised and recessed. This makes for a good test case in introducing `x3ptools` and the idea behind 3D scans of objects, as we transition towards bullet analysis.
+A 3D version of this logo is available in `x3ptools`, where portions of the logo are raised and recessed. This makes for a good test case in introducing `x3ptools` and the idea behind 3D scans of objects, as we transition towards bullet analysis.
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -72,11 +87,28 @@ We can see that there are five elements to the list object returned:
 - **general.info** - Information on how the data was captured
 - **matrix.info** - Some information expanding upon header.info
 
-The two most relevant for our purposes are **header.info** and **surface.matrix**. To begin to understand this container format better, we can use the `image_x3p` function to produce a visualization of the surface. In interactive mode, this would be an interactive display. Here we're using the `file` parameter to export as a static image for purposes of viewing in this book, shown in Figure \@ref(fig:bullets-csafelogoscan).
+The two most relevant for our purposes are **header.info** and **surface.matrix**. To begin to understand this container format better, we can use the `image_x3p` function to produce a visualization of the surface, shown in Figure \@ref(fig:bullets-csafelogoscan). <!--In interactive mode, this would be an interactive display. Here we're using the `file` parameter to export as a static image for purposes of viewing in this book, shown in Figure \@ref(fig:bullets-csafelogoscan).-->
 
-```{r, bullets-csafelogoscan, fig.cap='3D surface scan of the CSAFE logo.'}
-image_x3p(logo, file = "img/csafe-logo-scan.png")
-knitr::include_graphics("img/csafe-logo-scan.png")
+```{r getWebGL, echo=FALSE, message = FALSE, warning = FALSE,fig.show='hide'}
+logo_small <- sample_x3p(logo, m = 2)
+image_x3p(logo_small)
+filename <- writeWebGL(dir = file.path("img", "3dlogo"), 
+                      width = 500, reuse = TRUE, template="img/webgltemplate.html")
+```
+
+```{r dummylogocode, eval = FALSE}
+image_x3p(logo)
+```
+
+<!--If the below doesn't render, run 
+install.packages("webshot")
+webshot::install_phantomjs()
+in your R console then restart R/RStudio and re-build. 
+-->
+
+```{r bullets-csafelogoscan, fig.cap='3D surface scan of the CSAFE logo. (Rendered image has been down-sampled to speed up page load.)', echo = FALSE, cache=TRUE}
+knitr::include_url(url = "./img/3dlogo/index.html", 
+  height = "200px")
 ```
 
 We can use the function `x3p_to_df` in order to convert this structure into a standard R data frame, which will allow us to do any number of data manipulation and plotting routines. In this case, Figure \@ref(fig:bullets-x3pplot) shows a simple scatterplot created with `ggplot2` of the height measurements across the surface of the bullet.
@@ -85,14 +117,16 @@ We can use the function `x3p_to_df` in order to convert this structure into a st
 logo_df <- x3p_to_df(logo)
 
 ggplot(data = logo_df, aes(x = x, y = y, color = value)) +
-  geom_point()
+  geom_point() + 
+  scale_color_gradient(low = "white", high = "black") + 
+  theme_bw()
 ```
 
-A key feature of the data is that the `value` column represents the height of the pixel corresponding to the particular location. In this logo, we can see that the fingerprint section of the logo is raised above the background quite clearly. As we transition to operating on images of bullets, this will be important to note.
+A key feature of the data is that the `value` column represents the height of the pixel corresponding to the particular $(x,y)$ location. In this logo, we can see that the fingerprint section of the logo is raised above the background quite clearly. As we transition to operating on images of bullets, this will be important to note.
 
 One other important feature of the package is the ability to sample. Depending on the size and resolution of a particular scan, the resulting object could be quite large. This CSAFE logo, despite being a relatively small physical size, still results in a 310,479 row data frame. Though manageable, this means that certain routines, such as producing the above scatterplot, can be quite slow.
 
-At times where resolution is not of a huge concern, we may elect to sample the data to reduce the resulting size. This can be done with the `sample_x3p` function. The function takes a parameter `m` to indicate the sampling factor to use. For example, a value of `m = 4` will sample every 4th height value from the 3D scan, as illustrated in Figure \@ref(fig:bullets-samp).
+When high resolution is not needed, we may elect to sample the data to reduce the resulting size. This can be done with the `sample_x3p` function. The function takes a parameter `m` to indicate the sampling factor to use. For example, a value of `m = 4` will sample every 4th height value from the 3D scan, as illustrated in Figure \@ref(fig:bullets-samp).
 
 ```{r, bullets-samp, fig.cap='A sampled scan of an x3p file extracted using the sample_x3p function.'}
 sample_logo <- sample_x3p(logo, m = 4)
@@ -100,57 +134,75 @@ sample_logo <- sample_x3p(logo, m = 4)
 sample_logo_df <- x3p_to_df(sample_logo)
 
 ggplot(data = sample_logo_df, aes(x = x, y = y, color = value)) +
-  geom_point()
+  geom_point() + 
+  scale_color_gradient(low = "white", high = "black") + 
+  theme_bw()
 ```
 
-You can see the clarity of the resulting plot has noticeably declined, but the overall structure has been maintained. Depending on the application, this could be a solution for making a slow statistical process a bit faster.
+You can see the clarity of the resulting plot has noticeably declined, but the overall structure has been maintained. Depending on the application, this could be a solution for making a slow analytical process a bit faster.
 
-### bulletxtrctr
+### `bulletxtrctr`
 
-As mentioned, we will use the `bulletxtrctr` package to process 3D surface scans of bullets. This package depends on `x3ptools` for the reading and writing portion (involving x3p files) but otherwise focuses on statistical routines for matching bullets. The package is not yet available on CRAN, but can be installed from GitHub:
+As mentioned, we will use the `bulletxtrctr` package to process 3D surface scans of bullets. This package depends on `x3ptools` for reading and writing x3p files but otherwise focuses on statistical routines for matching bullets. The package is not yet available on CRAN, but can be installed from GitHub:
 
 ```{r, eval=FALSE}
 devtools::install_github("heike/bulletxtrctr")
 ```
 
-We are going to pull data from the National Ballistics Toolmark Research Database at NIST. We will download the surface scan for a bullet from the Hamby Study [@hamby:2009], using built-in functions in this package, and rotate the images so that the long axis is the horizontal.
+To demonstrate the functionality of `bulletxtrctr`, we use data from the NBTRD at NIST. We download the surface scan for a bullet from the Hamby Study [@hamby:2009], using the `read_bullet` function, transform the measurements from meters to microns (`x3p_m_to_mum`), and rotate the images so that the long axis is the horizontal. Note that the object `hamby252demo` is a list object exported from `bulletxtrctr` that contains URLs to the NIST NBTRD. 
 
 ```{r, message=FALSE}
 library(randomForest)
 library(bulletxtrctr)
 
+# note: length(hamby252demo[[1]]) is 6
 br1_b1 <- read_bullet(urllist = hamby252demo[[1]]) %>%
+    # x3p_m_to_mum: converts from meters to microns
     mutate(x3p = x3p %>% purrr::map(.f = x3p_m_to_mum)) %>%
+    # rotate_x3p(angle = -90: change orientation by 90 degrees clockwise
+  # y_flip_x3p: flip image to conform to new ISO norm (see ??y_flip_x3p)
     mutate(x3p = x3p %>% purrr::map(.f = function(x) x %>% 
                              rotate_x3p(angle = -90) %>%
                              y_flip_x3p()))
 ```
 
-A note on the naming convention: A bullet is composed of a certain number of **land engraved areas**. 
-The rifling of the barrel induces these land engraved areas, which can be seen as a series of alternating raised and recessed portions on the fired bullet. In addition, manufacturing defects engrave **striation markings** on the bullet as it travels through the gun barrel when fired [@afte:1992].
+When working with lots of bullet data, it's important to stay organized when naming objects in your R session. The name of the object we just created is `br1_b1`.
+ This indicates that we are looking at the first bullet  (`b1`) that was fired from Barrel 1 (`br1`). A bullet is composed of a certain number of land engraved areas (LEAs), and each LEA is a separate file with a separate URL. So, the object `br1_b1` contains `nrow(br1_b1)` (6) observations, one for each land engraved area, which compose the whole bullet scan. The [rifling](#def:rifling) of the barrel induces these land engraved areas, which are a series of alternating raised and recessed portions on the fired bullet. In addition, manufacturing defects engrave striation markings on the bullet as it travels through the gun barrel when fired [@afte:1992].
 
-Why is this relevant to this portion? The data we just read in is of one single land. That is, it is a portion of the bullet that is assumed to contain striation markings. You'll notice the naming convention `br1_b1`. This indicates that we are looking at a bullet that was fired from Barrel 1 (`br1`). It's the first bullet (`b1`). There will be 6 observations in this data frame corresponding to each land engraved area.  When working with lots of bullet data, it's important to stay organized in terms of the naming convention of objects in your R session.
+Let's take a quick look at what we see one the first bullet land (Figure \@ref(fig:bullets-b111)).
 
-Let's take a quick look at what we see on this bullet land (Figure \@ref(fig:bullets-b111)).
-
-```{r, bullets-b111, fig.cap='Land 1 of Bullet 1 from Barrel 1 of the Hamby Study (Set 44).'}
-image_x3p(br1_b1$x3p[[1]], file = "img/b111-scan.png")
-knitr::include_graphics("img/b111-scan.png")
+```{r getWebGL2, echo=FALSE, message = FALSE, warning = FALSE,fig.show='hide'}
+downsam_brb11 <- sample_x3p(br1_b1$x3p[[1]], m = 4)
+image_x3p(downsam_brb11)
+filename <- writeWebGL(dir = file.path("img", "br1b1l1"), 
+                      width = 500, reuse = TRUE, template="img/webgltemplate.html")
 ```
 
-Immediately, the vertical striation markings become clear. To better visualize these markings, we can extract a cross-section from the bullet and plot in two dimensions. To accomplish this, `bulletxtrctr` provides us with a function `x3p_crosscut_optimize` to choose the ideal location at which to do so.
+```{r dummylogocode2, eval = FALSE}
+image_x3p(br1_b1$x3p[[1]])
+```
+
+```{r, bullets-b111, fig.cap='Land 1 of Bullet 1 from Barrel 1 of the Hamby Study (Set 44). Source: [NRBTD](https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/43567404-1611-4b40-ae74-a1e440e79f6a). (Rendered image has been down-sampled to speed up page load.)'}
+knitr::include_url(url = "./img/br1b1l1/index.html", 
+  height = "200px")
+```
+
+Immediately, we can clearly see the vertical striation markings. To better visualize these markings, we can extract a cross-section from the bullet and plot it in two dimensions. To accomplish this, `bulletxtrctr` provides us with a function `x3p_crosscut_optimize` to choose the ideal location at which to do so.
 
 ```{r}
 cc_b11 <- x3p_crosscut_optimize(br1_b1$x3p[[1]])
 cc_b11
 ```
 
+<!-- Sam's question: "percentage of pixels"??? this doesn't make sense to me --> 
+
 This value provides us with the location, in percentage of pixels, at which the algorithm believes is a good place to extract a cross-section. The two primary criteria for determining this are:
 
-1. The location should be nearest the barrel ($x = 0$) because the striae are most pronounced there.
+<!-- Shouldn't it be y = 0? also "nearest the bottom" or Nearest the breech face instead of " nearest the barrel" ??  -->
+1. The location should be nearest the barrel ($x = 0$) because the striation markings are most pronounced there.
 2. Cross-sections taken near this location should be similar to this cross-section (stability).
 
-`x3p_crosscut_optimize` looks for the first cross-section meeting this criteria, searching upwards from the base of the bullet land. With this value, we can extract and plot the cross-seciton like so (Figure \@ref(fig:bullets-cc)):
+The `x3p_crosscut_optimize` function looks for the first cross-section meeting this criteria, searching upwards from the base of the bullet land. With this value, we can extract and plot the cross-seciton like so (Figure \@ref(fig:bullets-cc)):
 
 ```{r, bullets-cc, fig.cap='Cross-section of the bullet land at the ideal cross-section location.', warning=FALSE}
 ccdata_b11 <- x3p_crosscut(br1_b1$x3p[[1]], y = cc_b11)
@@ -160,7 +212,7 @@ ggplot(data = ccdata_b11, aes(x = x, y = value)) +
   theme_bw()
 ```
 
-Most of the scans exhibit the pattern that we see here, where there are "wedges" on the left and right side - This area is called the **shoulder**, and its the area separating the land engraved area (the curved region in the middle) from the groove (the area not scanned because it doesn't exhibit striations). In other words, to better hone in on the striae along the land, we should subset this region to include only the middle curved land engraved area portion. Fortunately, `bulletxtrctr` provides us with functionality to automatically do that. First, we use the `cc_locate_grooves` function to detect the location of the grooves. This returns a list object, with one element being the two locations along the axis, and the lother element being the plot, given in Figure \@ref(fig:bullets-grooveloc).
+Most of the scans exhibit the pattern that we see here, where there are "wedges" on the left and right side. The wedge area is called the **shoulder**, and it is the area separating the land engraved area (the curved region in the middle) from the groove (the area not scanned because it doesn't exhibit striations). In other words, to better hone in on the striation markings along the land, we should subset this region to include only the middle curved land engraved area portion. Fortunately, `bulletxtrctr` provides us with functionality to automatically do that. First, we use the `cc_locate_grooves` function to detect the location of the grooves. This returns a list object, with one element being the two locations along the axis, and the lother element being the plot, given in Figure \@ref(fig:bullets-grooveloc).
 
 ```{r, bullets-grooveloc, fig.cap='Location of the grooves in our bullet scan, as detected by the get_grooves function.', warning=FALSE}
 grooves_b11 <- cc_locate_grooves(ccdata_b11, return_plot = TRUE, method = "middle")
@@ -317,7 +369,7 @@ subset(comparisons, land1=="2-3" & land2 =="1-2")$aligned[[1]]$lands %>%
   scale_color_brewer(palette = "Dark2")
 ```
 
-Though the visual evidence is strong, we want to quantify the similarity. To do this, we're going to use a number of functions which extract features from the aligned signatures of the bullets. We'll extract the Cross-Correlation, the matching striae count, the non-matching striae count, and many more.
+Though the visual evidence is strong, we want to quantify the similarity. To do this, we're going to use a number of functions which extract features from the aligned signatures of the bullets. We'll extract the Cross-Correlation, the matching striation count, the non-matching striation count, and many more.
 
 ```{r}
 comparisons <- comparisons %>% mutate(

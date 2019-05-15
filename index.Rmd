@@ -80,7 +80,7 @@ Ganesh is .....
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown', "x3ptools", "bulletxtrctr", "magrittr", "dplyr", "PRROC", "DescTools", "protoclust", "EBImage", "blackboxstudyR", "rstantools", "rstan", "RColorBrewer", "tidyr", "ggplot2", "gghighlight", "ggpubr", "caret", "shoeprintr", "patchwork"
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', "x3ptools", "bulletxtrctr", "magrittr", "dplyr", "PRROC", "DescTools", "protoclust", "EBImage", "blackboxstudyR", "rstantools", "rstan", "RColorBrewer", "tidyr", "ggplot2", "gghighlight", "ggpubr", "caret", "shoeprintr", "patchwork", "purrr"
 ), 'bib/packages.bib')
 # hmmm. how to generate the glossary automatically on build.....? 
 # source("code/generate-glossary.R")
