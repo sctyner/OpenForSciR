@@ -31,7 +31,7 @@ In forensic DNA profiling, a particular set loci are examined for comparison. Th
 
 The amplification process introduces random change known as *slippage*, which creates [*stutter peaks*](#def:stutter) in the observed DNA profile that are different than the true allele peaks [@butler09]. In addition, different labs may use different machines and materials in forensic analysis resulting in different measurements for the same DNA sample. Thus, the validation of methods and materials is a crucial step. According to the Scientific Working Group on DNA Analysis Methods (SWGDAM), "validation is a process by which a procedure is evaluated to determine its efficacy and reliability for forensic casework and/or database analysis" [@swgdamval].  Validation helps minimize error in forensic DNA analysis and helps keep results consistent across laboratories and materials.
 
-The process of validation for forensic DNA methodology is expensive, time consuming, and unstandardized, and the R package `strvalidator` was created to help solve these problems in forensic DNA analysis [@strval]. The `strvalidator` package makes the validation process faster by automating data analysis with respect to "heterozygote balance, stutter ratio, inter-locus balance, and the stochastic threshold" [@strval]. In the remainder of this chapter, we introduce the tyope of data to import for use of this package, the primary functions of the package, and show an example of each of the four aforementioned validation steps in R.  
+The process of validation for forensic DNA methodology is expensive, time consuming, and unstandardized, and the R package `strvalidator` was created to help solve these problems in forensic DNA analysis [@strval]. The `strvalidator` package makes the validation process faster by automating data analysis with respect to "heterozygote balance, stutter ratio, inter-locus balance, and the stochastic threshold" [@strval]. In the remainder of this chapter, we introduce the type of data to import for use of this package, the primary functions of the package, and show an example of each of the four aforementioned validation steps in R.  
 
 
 ## Data 
@@ -73,7 +73,7 @@ After the data has be loaded, there are four main families of functions in the `
 
 - `add*()`: Add to the DNA data. For example, use `addMarker()` to add locus information or `addSize()` to add the fragment size in base pair (bp) for each allele.
 - `calculate*()`: Compute properties of the DNA data. For example, use `calculateHb()` to compute heterozygous balance for the data  or `calculateLb()` to compute the inter-locus balance (profile balance) of the data. 
-- `remove*()` :  Remove artefacts from the data with `removeArtefact()` and remove spikes from the data with `removeSpike()`. 
+- `remove*()` :  Remove artifacts from the data with `removeArtefact()` and remove spikes from the data with `removeSpike()`. 
 - `table*()` : Summarize results from one of the `calculate*()` analyses. For example, `tableStutter()` summarizes the results from `calculateStutter()`. 
 
 For complete definitions and explanations of all functions available in `strvalidator`, please see the [`strvalidator` manual](https://drive.google.com/file/d/0B2v6NDpFIgvDMzlydllKaHVBYW8/view).  There are many other capabilities of `strvalidator` that do not cover in this chapter for the sake of brevity. 
@@ -86,7 +86,7 @@ For validation analysis with respect to heterozygote balance, stutter ratio, int
 
 ### Stutter ratio 
 
-The `*Stutter()` functions in `strvalidator` can analzye ratios of different types of stutter such as the backward stutter, the forward stutter, and the allowed overlap (none, stutter, or allele), as shown in Figure \@ref(fig:stutterfig). Each of @hill2011, @westen2012, @brookes2012, and @tvedebrink2012 show greater stutter with more repeats, and these results are similar to those in @strval. In addition they found that some loci, such as TH01, experience less stutter on average than others. 
+The `*Stutter()` functions in `strvalidator` can analyze ratios of different types of stutter such as the backward stutter, the forward stutter, and the allowed overlap (none, stutter, or allele), as shown in Figure \@ref(fig:stutterfig). Each of @hill2011, @westen2012, @brookes2012, and @tvedebrink2012 show greater stutter with more repeats, and these results are similar to those in @strval. In addition they found that some loci, such as TH01, experience less stutter on average than others. 
 
 ### Heterozygote balance
 
@@ -123,7 +123,7 @@ There are four pieces in validation:
 
 ### Get the data
 
-We'll use the package data `set1`, which is data from the genotyping of eight replicate measurments of a  positive control sample, one replicate of a negative control sample, and the ladder used in analysis. The PowerPlex® ESX 17 System from the Promega Corporation^[Technical manual: https://www.promega.com/-/media/files/resources/protocols/technical-manuals/101/powerplex-esx-17-system-protocol.pdf?la=en] was used on these samples for amplification of 17 loci recommended for analysis by the European Network fo Forensic Science Institutes (ENFSI) and the European DNA Profiling Group (EDNAP), the European equivalent of SWGDAM. The known reference sample used is the `ref1` data in the `strvalidator` package. 
+We'll use the package data `set1`, which is data from the genotyping of eight replicate measurements of a  positive control sample, one replicate of a negative control sample, and the ladder used in analysis. The PowerPlex® ESX 17 System from the Promega Corporation^[Technical manual: https://www.promega.com/-/media/files/resources/protocols/technical-manuals/101/powerplex-esx-17-system-protocol.pdf?la=en] was used on these samples for amplification of 17 loci recommended for analysis by the European Network fo Forensic Science Institutes (ENFSI) and the European DNA Profiling Group (EDNAP), the European equivalent of SWGDAM. The known reference sample used is the `ref1` data in the `strvalidator` package. 
 
 First, we load the data, then slim it for analysis. Then, we use `generateEPG()` to visualize an electropherogram-like plot of the data.  
 
@@ -192,7 +192,7 @@ plotref <- ref1.slim %>% sortMarker(kit = "ESX17") %>% filter(Marker == "AMEL")
 knitr::include_graphics("img/strval-fig2.jpg")
 ```
 
-Stutter peaks are byproducts of the DNA amplification process, and their presence muddles data interpretation [@strval]. Stutter is caused by strand slippage in PCR [@butler09]. This slippage causes small peaks to appear next to true peaks, and a threshold is needed to determine if a peak is caused by slippage or if it could be a mixture sample with a minor contributor. We calculate the stutter for the eight replicates in `set1` using one back stuffer, no forward stutter and no overlap. We compare these values to the 95th percentiles in Table 3 of @strval. See Figure \@ref(fig:stutterfig) for an example of stutter.   
+Stutter peaks are byproducts of the DNA amplification process, and their presence muddles data interpretation [@strval]. Stutter is caused by strand slippage in PCR [@butler09]. This slippage causes small peaks to appear next to true peaks, and a threshold is needed to determine if a peak is caused by slippage or if it could be a mixture sample with a minor contributor. We calculate the stutter for the eight replicates in `set1` using one back stutter, no forward stutter and no overlap. We compare these values to the 95th percentiles in Table 3 of @strval. See Figure \@ref(fig:stutterfig) for an example of stutter.   
 
 
 ```{r stutter1, fig.cap="Stutter ratios by allele for each of the eight samples in the `set1` data, computed for one back stutter, zero forward stutter, and no overlap. Note that SR increases with allele length (e.g. D10S1248; D2S1338; D12S391). Horizontal dotted lines represent the 95th percentile of stutter ratio values from the study done in @strval."}
@@ -260,7 +260,7 @@ Figure \@ref(fig:hb) shows the Hb values for the eight samples in `set1`. The ba
 set1_hb %>% filter(Hb < .6) %>% knitr::kable(caption = "Observations in the `set1` data which have Hb value less than 0.6.", label = "smhb", digits = 3)
 ```
 
-<!--Another way to look at the heterozygote balance is with a boxplot shown in Figure \@ref(fig:hbbox). 
+<!--Another way to look at the heterozygote balance is with a box plot shown in Figure \@ref(fig:hbbox). 
 
 ```{r hbbox}
 ggplot(data = hbplot, aes(x = Marker, y = Hb, color = Dye)) + 
@@ -315,7 +315,7 @@ The inter-locus balance for this kit should ideally be about $\frac{1}{17} \appr
 
 ### Check stochastic threshold
 
-The stochastic threshold is the value of interest for determining allele drop-out. If a peak is above the stochastic threshold, it is unlikely that an allele in a heterozygous sample "has dropped out" [@butler09]. Allele drop-out occurs when the allele peak height is less than the limit of detection threshold (LDT). As recommeneded in @butler09, we use an LDT of 50. The stochastic threshold is modeled with a logistic regression.  
+The stochastic threshold is the value of interest for determining allele drop-out. If a peak is above the stochastic threshold, it is unlikely that an allele in a heterozygous sample "has dropped out" [@butler09]. Allele drop-out occurs when the allele peak height is less than the limit of detection threshold (LDT). As recommended in @butler09, we use an LDT of 50. The stochastic threshold is modeled with a logistic regression.  
 
 ```{r sthresh}
 set1_do <- calculateDropout(data = set1.slim, ref = ref1.slim, threshold = 50, 
@@ -326,7 +326,7 @@ table(set1_do$Dropout)
 
 In `set1`, there is no dropout, as the samples included are control samples, and thus enough DNA is present during amplification so there are no stochastic effects.  
 
-For a more exciting dropout analysis, we use another dataset with more approporiate information. The data `set4` was created specifically for drop-out analysis, and contains 32 samples from three different reference profiles. The `method = "1"` argument computes dropout with respect to the low molecular weight allele in the locus.
+For a more exciting dropout analysis, we use another data set with more appropriate information. The data `set4` was created specifically for drop-out analysis, and contains 32 samples from three different reference profiles. The `method = "1"` argument computes dropout with respect to the low molecular weight allele in the locus.
 
 ```{r sthresh2}
 data(set4)
@@ -379,7 +379,7 @@ ggplot(data = predictionDf, aes(x = Exp, y = Prob)) +
   labs(x = "Peak Height (RFUs)", y = "Probability of allele drop-out")
 ```
 
-We can also look at a heatmap of dropout for each marker by sample. All the loci in sample BC10.11 dropped-out, while most other samples have no dropout whatsoever.
+We can also look at a heat map of dropout for each marker by sample. All the loci in sample BC10.11 dropped-out, while most other samples have no dropout whatsoever.
 
 ```{r heatmap, out.width='100%', fig.cap="Dropout for all samples in `set4` by marker."}
 set4_do %>% tidyr::separate(Sample.Name, into = c("num", "name", "num2")) %>% 

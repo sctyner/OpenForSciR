@@ -50,7 +50,7 @@ Terms are given in the order in which they appear in the body of the text.
 **: Likelihood Ratio** - Statistical measurement evaluating the probability of evidence under one hypotheis, divided by the probability of evidence under an alternative, mutually exclusive hypothesis. In forensic science, the value of the likelihood ratio expresses the weight and meaning of scientific evidence and is used as a measure of probative value. *Source: [CSAFE](https://forensicstats.org/resources/glossary/)*
 ```
 
-## DNA
+## Validation of DNA Interpretation Systems
 
 ```{definition, label = 'dnaprof'}
 **: DNA profiling** - A method of identifying an individual through comparison of patterns arising from differences in DNA sequences, represented as a string of values compiles from the results of DNA testings at one or more genetic markers. *Source: @butler09*
@@ -247,5 +247,80 @@ origin impressions from the substrate to a film. *Source: [SWGTREAD](http://trea
 
 ```{definition, label = 'maxclique'}
 **: Maximal Clique** - Given a group of vertices (points) some of which have edges (lines) in between them, the maximal clique is the largest subset of vertices in which each point is directly connected to every other vertex in the subset. *Source: [Stanford Computer Science](https://cs.stanford.edu/people/eroberts/courses/soco/projects/dna-computing/clique.htm)*
+```
+
+## Firearms: bullets
+
+```{definition, label = 'bullet'}
+**: Bullet** - A kinetic projectile and the component of firearm ammunition that is expelled from the gun barrel during shooting *Source: [Wikipedia](https://en.wikipedia.org/wiki/Bullet)*
+```
+
+
+```{definition, label = 'gunbarrel'}
+**: Gun Barrel** - The straight shooting tube through which a contained rapid expansion of high-pressure gas(es) is introduced behind a projectile in order to propel it out of the front end at a high velocity. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Gun_barrel)*
+```
+
+
+```{definition, label = 'striations'}
+**: Bullet Striations** - Where a bullet is pushed through the barrel of a rifled firearm, spiral grooves cut into the inside of the barrel (rifling) cause the bullet to spin. This allows increased accuracy of the shot. On the way out of the barrel, the bullet also acquires incidental markings, or striations, which may help in identifying the gun which fired a bullet. *Source: [CSAFE](https://forensicstats.org/resources/glossary/)*
+```
+
+
+```{definition, label = 'breechface'}
+**: Breech face** - In a firearm, the front part of the breechblock that makes contact with the cartridge. The breechblock is what holds a round in the chamber and absorbs the recoil of the cartridge when the round is fired, preventing the cartridge case from moving. *Source: [CSAFE](https://forensicstats.org/resources/glossary/)*
+```
+
+
+```{definition, label = 'leas'}
+**: Land engraved areas (LEAs)** - The impressions on a bullet from the lands of the barrel. See image at right. <img src="img/bullet_areas.png" width="184" height="113" align="right"> *Source: [Scientific American](https://www.scientificamerican.com/article/how-can-a-bullet-be-trace/)*
+```
+
+
+```{definition, label = 'geas'}
+**: Groove engraved areas (GEAs)** - The impressions on a bullet from the grooves of the barrel. See image at right. *Source: [Scientific American](https://www.scientificamerican.com/article/how-can-a-bullet-be-trace/)*
+```
+
+
+```{definition, label = 'metrology'}
+**: Metrology** - The science of weights and measures. *Source: [dictionary.com](https://www.dictionary.com/browse/metrology)*
+```
+
+
+```{definition, label = 'rifling'}
+**: Rifling of a gun barrel** - Helical grooves in the bore of a firearm barrel to impart rotary motion to a projectile. *Source: [National Forensic Science Technology Center](https://projects.nfstc.org/firearms/glossary.htm#rifling)*
+```
+
+
+```{definition, label = 'landsgrooves'}
+**: Lands and Grooves** - The lands are the raised areas between two grooves in the barrel of a firearm. See image at right. <img src="img/land_and_groove.png" width="127" height="107" align="right"> *Source: [FirearmsID.com](http://www.firearmsid.com/A_bulletIDrifling.htm)*
+```
+
+
+```{definition, label = 'crosscor'}
+**: Cross-Correlation** - A measure of similarity of two series as a function of the displacement of one relative to the other. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Cross-correlation)*
+```
+
+
+```{definition, label = 'matchingstria'}
+**: Consecutively Matching Striae** - Striated markings that line up exactly with one another without a break or
+dissimilarity in between them [biasotti:1959]. This and other forensic
+science papers using CMS typically count a single peak as a striae, while we count peaks
+and valleys, so our definition typically yields CMS values about twice those commonly
+found in the literature. *Source: @harethesis*
+```
+
+
+```{definition, label = 'nmatchingstria'}
+**: Non-matching Striation Count** - Striated markings that do not line up exactly with another, without matching striation between them. *Source: @harethesis*
+```
+
+
+```{definition, label = 'ccfval'}
+**: Cross-Correlation Function Value** - The maximum value of the Cross-Correlation function evaluated at the optimal alignment. *Source: @harethesis*
+```
+
+
+```{definition, label = 'bulletsam'}
+**: Sequence Average Matching (SAM)** - Using the CCF value between 2 lands, compute the average CCF value across all sequences of comparisons. The sequence with the highest average value is the "matching" sequence. If this value is greater than 0.5, then the bullets are declared to "match". *Source: [Sensofar Metrology](https://www.sensofar.com/wp-content/uploads/2016/06/AppNote-SensoMATCH-Bullet-Comparison.pdf)*
 ```
 

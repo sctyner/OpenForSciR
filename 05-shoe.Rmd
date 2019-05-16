@@ -22,7 +22,7 @@ Note that $Q$ and $K$ have different origins for shoe than they do for [trace gl
 
 ### Sources of variability in shoe outsole impressions
 
-There are many characteristics of shoes that are examined. First, the size of the shoe is determined, then the style and manufacturer. These characteristics are known as [*class characteristics*](#def:classchar): there are large numberso of shoes that share these characteristics, most other shoes that do not share class characteristics with the impression are easily excluded. For instance, a very popular shoe in the United States is the Nike Air Force one, pictured below [@fbishoes]. So, seeing a Nike logo and concentric circles in an impression from a Men's size 13 instantly excludes all shoes that are not Nike Air Force Ones in Men's size 13.
+There are many characteristics of shoes that are examined. First, the size of the shoe is determined, then the style and manufacturer. These characteristics are known as [*class characteristics*](#def:classchar): there are large numbers of shoes that share these characteristics, most other shoes that do not share class characteristics with the impression are easily excluded. For instance, a very popular shoe in the United States is the Nike Air Force one, pictured below [@fbishoes]. So, seeing a Nike logo and concentric circles in an impression from a Men's size 13 instantly excludes all shoes that are not Nike Air Force Ones in Men's size 13.
 
 ```{r nikeaf1, echo = FALSE, out.width="75%", fig.cap="The outsole of a Nike Air Force One Shoe. This pattern is common across all shoes in the Air Force One model. Source: [nike.com](https://c.static-nike.com/a/images/t_PDP_1728_v1/f_auto/q3byyhcazwdatzj7si11/air-force-1-mid-07-womens-shoe-0nT1KyYW.jpg)"}
 knitr::include_graphics("img/nikeshoewhite.png")
@@ -42,7 +42,7 @@ Footwear examiners compare $Q$ and $K$ by considering class, subclass and identi
 3. Indications of non-association 
 4. Limited association of class characteristics 
 5. Association of class characteristics
-6. High degree of assocation 
+6. High degree of association 
 7. Identification
 
 Examiners rely on their knowledge, experience, and [guidelines](http://treadforensics.com/images/swgtread/standards/current/swgtread_08_examination_200603.pdf) from SWGTREAD to come to one of these seven conclusions for footwear impression examinations. 
@@ -105,7 +105,7 @@ We use the data CSAFE collected to construct pairs of known mates (KM) and known
 
 The R package `shoeprintr` was created to perform shoe outsole comparisons (Chapter 3 in @park2018learning).
 
-To begin, the package can be installed from Github using [`devtools`](https://devtools.r-lib.org/):
+To begin, the package can be installed from GitHub using [`devtools`](https://devtools.r-lib.org/):
 
 ```{r, eval=FALSE}
 devtools::install_github("CSAFE-ISU/shoeprintr", force=TRUE)
@@ -140,7 +140,7 @@ start_plot(shoeQ[,-3], shoeK[,-3], input_circ)
 ```
 Here, we can draw the graph of coordinates of edges from $Q$ and $K$. For $Q$, we use the function `start_plot` draw the $Q$ impressions colored by the three circular areas we chose. We call the red circle, $q_1$, orange $q_2$, and green $q_3$. The goal here is to find the closest areas to $q_1$, $q_2$, and $q_3$ in shoe $K$. 
 
-To find the closest areas of $q_1$, $q_2$, and $q_3$ in shoe $K$, we use the function `match_print_subarea`. In this particular comparisons with full impressions of $Q$ and $K$, we know that circle $q_1$ is located in left toe area of $Q$. Thus, the algorithm confines the searhing area in $K$ into upper left area of $K$. 
+To find the closest areas of $q_1$, $q_2$, and $q_3$ in shoe $K$, we use the function `match_print_subarea`. In this particular comparisons with full impressions of $Q$ and $K$, we know that circle $q_1$ is located in left toe area of $Q$. Thus, the algorithm confines the searching area in $K$ into upper left area of $K$. 
 ```{r match, fig.align = 'center', eval=FALSE}
 match_print_subarea(shoeQ, shoeK, input_circ)
 ```
@@ -150,7 +150,7 @@ match_print_subarea(shoeQ, shoeK, input_circ)
 knitr::include_graphics("img/matchgraph.png", dpi = 100)
 ```
 
-The function `match_print_subarea` will produce the best matching areas in shoe $K$ for circles of $q_1$, $q_2$, and $q_3$ in shoe $Q$, which we fixed. Figure \@ref(fig:matchgraph) shows the final result from the function `match_print_subarea`. Three circles of red, orange, green colors in the right panel in Figure \@ref(fig:matchgraph) indicate that those circles that the algorithm foound showed the best overlap with circles of $q_1$, $q_2$, and $q_3$ in shoe $Q$. 
+The function `match_print_subarea` will produce the best matching areas in shoe $K$ for circles of $q_1$, $q_2$, and $q_3$ in shoe $Q$, which we fixed. Figure \@ref(fig:matchgraph) shows the final result from the function `match_print_subarea`. Three circles of red, orange, green colors in the right panel in Figure \@ref(fig:matchgraph) indicate that those circles that the algorithm found showed the best overlap with circles of $q_1$, $q_2$, and $q_3$ in shoe $Q$. 
 
 
 Next, we explore how the function `match_print_subarea` finds the corresponding areas between two shoe impressions. Too find the corresponding areas for circle $q_1$ in shoe $K$, the underlying algorithm first finds many candidate circles in shoe $K$, as shown in Figure \@ref(fig:step1plot).   
@@ -166,13 +166,13 @@ For the comparison, the function selects many candidate circles in $K$ labeled a
 <!-- 
 For the comparison, we will select many candidate circles in $K$ labeled as circle $k_1$, ..., $k_9$ in Figure \@ref(fig:step1plot). For candidate circles in $K$, we use larger radius than circle $q_1$ because we want any of candidate circles can contain circle $q_1$ if they are mates. Ideally, the union of candidate circles in $K$ should contain entire edge points in $K$. However, we know that circle $q_1$ in $Q$ is located in the toe so that we limit the search area into upper left of $K$. We might try to compare circle $q_1$ to circles $k_7, k_8, k_9$ which are overlapped each other. As an example here, we will compare circle $q_1$ with circle $k_8$. 
 
-For the comparison of circle $q_1$ and circle $k_8$, we will use the concept of maximum clique. A graph is an object consited with vertices or nodes connected with edges or lines. When comparing two graphs, the maximum clique from two graphs is defined as the largest complete subgraph, meaning the subset of nodes with the same geometrical relationship between two graphs. In the shoe outsole comparison application, The interest features detected from impression are becoming vertices and the distances among them become edges. The maximum clique is a good tool to reflect the fact that geometrics in the patterns (at least class characteristics) of shoe outsole are not changing a lot. 
+For the comparison of circle $q_1$ and circle $k_8$, we will use the concept of maximum clique. A graph is an object consisted with vertices or nodes connected with edges or lines. When comparing two graphs, the maximum clique from two graphs is defined as the largest complete subgraph, meaning the subset of nodes with the same geometrical relationship between two graphs. In the shoe outsole comparison application, The interest features detected from impression are becoming vertices and the distances among them become edges. The maximum clique is a good tool to reflect the fact that geometries in the patterns (at least class characteristics) of shoe outsole are not changing a lot. 
 
 ```{r mcgraph, fig.cap='caption', echo=FALSE, fig.align = 'center'}
 knitr::include_graphics("img/maxclique_ex2.png", dpi = 100)
 ```
 
-In Figure \@ref(fig:mcgraph), we want to compare Image 1 and Image 2. In Image 1, a set of nodes is {a, b, c, d, e, f, g} and a set of nodes for Image 2 is {1, 2, 3, 4, 5, 6}. When we look closely, the distances bewteen 'a' and three 'd','e' and 'g' in Image 1 are the same with distances between '1' and three '3', '6' and '5'. This way, pairwise distances among corresponding nodes between twoo images should have the same geometrics and the set of largest complete correspondence between two images are \{'a1','d3','e6','g5'\}. This set is a set of maximum clique. Some nodes such as \{'b','c','f'\} in Image 1 and \{'2','4'\} in Image 2 are examples of noises that might be apppeared in the outsole impressions.
+In Figure \@ref(fig:mcgraph), we want to compare Image 1 and Image 2. In Image 1, a set of nodes is {a, b, c, d, e, f, g} and a set of nodes for Image 2 is {1, 2, 3, 4, 5, 6}. When we look closely, the distances between 'a' and three 'd','e' and 'g' in Image 1 are the same with distances between '1' and three '3', '6' and '5'. This way, pairwise distances among corresponding nodes between two images should have the same geometries and the set of largest complete correspondence between two images are \{'a1','d3','e6','g5'\}. This set is a set of maximum clique. Some nodes such as \{'b','c','f'\} in Image 1 and \{'2','4'\} in Image 2 are examples of noises that might be appeared in the outsole impressions.
 -->
  
  
@@ -208,7 +208,7 @@ Figure \@ref(fig:MCresult) has four sections. In the first row, first column, th
 ```{r resulttable, results='asis', echo=FALSE}
 tabb <- data.frame(c(18, 12.05, 0.75, 0.97, 0.3, 54.5, 688.5, 50.28))
 tabb <- data.frame(t(tabb))
-tabb %>% knitr::kable(format = "html", caption="Resulting table from the matching betwen q1 and k8", longtable = FALSE,
+tabb %>% knitr::kable(format = "html", caption="Resulting table from the matching between q1 and k8", longtable = FALSE,
                       row.names = FALSE, col.names = c("Clique size","Rot. angle","Overlap on k8", "Overlap on q1","Median distance", "center x", "center y", "radius"))
 ```
 
@@ -244,7 +244,7 @@ tabb2 %>% knitr::kable(format = "html", caption="Resulting table comparing Q and
                       row.names = FALSE, col.names = c("Comparison","Clique size","Rot. angle","Overlap on k*", "Overlap on q","Median distance", "Diff in length from Triangle"))
 ```
 
-Table \@ref(tab:finaltable) contains the summary features from comparing the signature with three circles in $Q$ to the corresponding areas in $K$ which are the closest match.   There is one row for each comparison between $q_i$ and $k^{*}_i$ for $i=1,2,3$. The last column is the absolute value of difference of the triangle side lengths from three circles in $Q$ and $K$. Smaller differences incidate more similarity between $Q$ and $K$. Finally, we take the average of all features except rotation angle over the three circle. For the rotation angle, we take the standard deviation of the three measurements instead of the mean. If the two prints come from the same shoe, the rotation angle will be very similar in all three circles, so we expect small values of the standard deviation to indicate mates, while large values indicate non-mates. <!-- ??? Soyoung, I am confused about the triangle lengths. Which length is which?? Also, how do you actually make a final decision?????? -->
+Table \@ref(tab:finaltable) contains the summary features from comparing the signature with three circles in $Q$ to the corresponding areas in $K$ which are the closest match.   There is one row for each comparison between $q_i$ and $k^{*}_i$ for $i=1,2,3$. The last column is the absolute value of difference of the triangle side lengths from three circles in $Q$ and $K$. Smaller differences indicate more similarity between $Q$ and $K$. Finally, we take the average of all features except rotation angle over the three circle. For the rotation angle, we take the standard deviation of the three measurements instead of the mean. If the two prints come from the same shoe, the rotation angle will be very similar in all three circles, so we expect small values of the standard deviation to indicate mates, while large values indicate non-mates. <!-- ??? Soyoung, I am confused about the triangle lengths. Which length is which?? Also, how do you actually make a final decision?????? -->
 
 
 
@@ -264,7 +264,7 @@ Figure \@ref(fig:eximgs) displays three outsole impressions. With a cursory glan
 
 ### Compare $Q$ and $K_1$ {#sec:shoeqk1}
 
-Let's compare $Q$ and $K_1$ first. In $Q$, we select three circlular areas. For this, we use the function `initial_circle` to select three centers within the (30%, 80%), (20%, 40%), (70%, 70%) quantiles of the $(x, y)$ ranges of the coordinates in $Q$. The function automatically generates corresponding centers of the circles with radius of 50. 
+Let's compare $Q$ and $K_1$ first. In $Q$, we select three circular areas. For this, we use the function `initial_circle` to select three centers within the (30%, 80%), (20%, 40%), (70%, 70%) quantiles of the $(x, y)$ ranges of the coordinates in $Q$. The function automatically generates corresponding centers of the circles with radius of 50. 
 
 ```{r datshoe2, echo=FALSE}
 imgQ<-read.csv('dat/lc_nike_10.5_647_Q.csv')
@@ -283,7 +283,7 @@ input_circles_Q
 start_plot(imgQ, imgK1, input_circles_Q)
 ```
 
-Next, run `match_print_subarea()` to findcircles in $K$ that most closely correspond to the circles in $Q$. The result is shown in Figure \@ref(fig:exKM). In $K_1$, the algorithm finds the closest circles which show the most overlap with each of the circles that we fixed in $Q$. The corresponding circle information and summary features are shown in Tables \@ref(tab:KMtable1) and \@ref(ftab:KMtable2), respectively. Each row in Table  \@ref(tab:KMtable2) shows the similarity features from circle $q_i$ and circle $k^{1}_i$ when $i=1,2,3$. 
+Next, run `match_print_subarea()` to find circles in $K$ that most closely correspond to the circles in $Q$. The result is shown in Figure \@ref(fig:exKM). In $K_1$, the algorithm finds the closest circles which show the most overlap with each of the circles that we fixed in $Q$. The corresponding circle information and summary features are shown in Tables \@ref(tab:KMtable1) and \@ref(ftab:KMtable2), respectively. Each row in Table  \@ref(tab:KMtable2) shows the similarity features from circle $q_i$ and circle $k^{1}_i$ when $i=1,2,3$. 
 
 ```{r matchKM, eval=FALSE}
 match_print_subarea(imgQ, imgK1, input_circles_Q)
@@ -338,7 +338,7 @@ table_KNM[,c(6:10, 14)] %>% knitr::kable(format = "html", caption="Similarity fe
 Table \@ref(tab:KNMtable1) and Table \@ref(tab:KNMtable1) show the location information of matching circles in $K_2$ for fixed circles in $Q$ and their corresponding similarity features, respectively.
 
 
-### Interpreting Comparisons betwenn $Q, K_1$ and $Q, K_2$ 
+### Interpreting Comparisons between $Q, K_1$ and $Q, K_2$ 
 
 To summarize similarity features from the match of the two impressions, we will take the average of each similarity feature across the three circle matchings, and the standard deviation of the rotation angle estimates. For features such as clique size and overlap, larger values indicate more similar impressions. For the features median distance and absolute value of differences of lengths from two triangles in two impressions, smaller values indicate more similar impressions. For the rotation angle estimation, we use the standard deviation of the three values because we are interested in comparing the three values to each other, not in the value of the angles themselves. If all rotations are about the same, the algorithm is consistently finding those patterns, and the prints are likely from the same shoe, even if the image has been rotated . If the rotation angles are very different, however, the algorithm is forcing similarity where it doesn't exist, and the prints are likely from different shoes. 
 
@@ -365,7 +365,7 @@ D2 %>% summarize(clique_size=mean(clique_size),
 )->D_KNM
 
 Match<-c("Q, $K_1$", "Q,$K_2$")
-data.frame(Match, rbind(D_KM, D_KNM)) %>% knitr::kable(format = "html", caption="Summary table of two comparisons of $Q-K_1$ and $Q-K_2$. Similarity features are averaged but rotation angles are summarised as standard deviation.", longtable = FALSE, row.names = FALSE, digits=2)
+data.frame(Match, rbind(D_KM, D_KNM)) %>% knitr::kable(format = "html", caption="Summary table of two comparisons of $Q-K_1$ and $Q-K_2$. Similarity features are averaged but rotation angles are summarized as standard deviation.", longtable = FALSE, row.names = FALSE, digits=2)
 
 ```
 
@@ -374,5 +374,5 @@ Table \@ref(tab:summarytable) shows the summarized similarity features from two 
 
 
 
-Finally, we reveal the truth: the impressions $Q$ and $K_1$ are from the same shoe. The impression $K_2$ is scanned from different shoe of the same size, brand, and style. Because the two shoes share class characteristics, the comparisons we did here were the hardest cases. To see what typical values we will have for mates and non-mates, we need to do more analyses to get similarity features from many comparisons. In other analyses, for instance in @park2018learning,  we use random forests to classify mates and non-mates using the definitions of clique size, overlap, etc. as the features. The empirical probablity from the random forest could serve as a score, similar to what was done in Chapter \@ref(glass)
+Finally, we reveal the truth: the impressions $Q$ and $K_1$ are from the same shoe. The impression $K_2$ is scanned from different shoe of the same size, brand, and style. Because the two shoes share class characteristics, the comparisons we did here were the hardest cases. To see what typical values we will have for mates and non-mates, we need to do more analyses to get similarity features from many comparisons. In other analyses, for instance in @park2018learning,  we use random forests to classify mates and non-mates using the definitions of clique size, overlap, etc. as the features. The empirical probability from the random forest could serve as a score, similar to what was done in Chapter \@ref(glass)
 

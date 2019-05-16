@@ -127,7 +127,7 @@ glass_log %>% filter(element %in% c("Na","Ti","Zr","Hf")) %>%
 ```
 
 
-Figure \@ref(fig:boxplot) shows box plots of the measurements of four elements (Na, Ti, Zr, Hf) in each of the 48 panes in the database, colored by manufacturer. Boxes are ordered by date of production within manufacturer. We can confirm the between- and within- pane variability. Interestingly, element values of Zr and Hf in manufacturer A are both decreasing in time, which is evidence that the element measurements are highly correlated. To account for this relationship, we use methods that do not require independence of measurements. 
+Figure \@ref(fig:box plot) shows box plots of the measurements of four elements (Na, Ti, Zr, Hf) in each of the 48 panes in the database, colored by manufacturer. Boxes are ordered by date of production within manufacturer. We can confirm the between- and within- pane variability. Interestingly, element values of Zr and Hf in manufacturer A are both decreasing in time, which is evidence that the element measurements are highly correlated. To account for this relationship, we use methods that do not require independence of measurements. 
 
 
 ```{r correlation, fig.cap='Correlations among element concentrations in panes AA and BA. Blue and red colored area means correlations between elements are lager than 0.5 or lower than -0.5.', fig.align='center', eval = FALSE}
