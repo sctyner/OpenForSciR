@@ -20,7 +20,7 @@ knitr::include_graphics("img/IMG_1480.png")
 
 ## Introduction
 
-When a [bullet](#def:bullet) is fired from a [gun barrel](#def:gunbarrel), small imperfections in the barrel leave [striation](#def:striations) markings on the bullet. These markings are expressed most in the area of the bullet that has the closest contact to the barrel. 
+When a [bullet](#def:bullet) is fired from a [gun barrel](#def:gunbarrel), small imperfections in the barrel leave [striation](#def:striations) marks on the bullet. These marks are expressed most in the area of the bullet that has the closest contact to the barrel. 
 
 These engravings are assumed to be unique to individual gun barrels, and as a result, traditional forensic science methods have employed trained forensic examiners to assess the likelihood of two bullets being fired from the same barrel (a "match"). Conventionally, this has been done using the metric Consecutively Matching Striae(CMS) [@biasotti:1959]. However, no official standards have been established to scientifically delineate a number that effectively separates matches from non-matches. Therefore, significant work has been done, and continues to be done, in order to add scientific rigor to the bullet matching process.
 
@@ -163,7 +163,7 @@ br1_b1 <- read_bullet(urllist = hamby252demo[[1]]) %>%
 ```
 
 When working with lots of bullet data, it's important to stay organized when naming objects in your R session. The name of the object we just created is `br1_b1`.
- This indicates that we are looking at the first bullet  (`b1`) that was fired from Barrel 1 (`br1`). A bullet is composed of a certain number of land engraved areas (LEAs), and each LEA is a separate file with a separate URL. So, the object `br1_b1` contains `nrow(br1_b1)` (6) observations, one for each land engraved area, which compose the whole bullet scan. The [rifling](#def:rifling) of the barrel induces these land engraved areas, which are a series of alternating raised and recessed portions on the fired bullet. In addition, manufacturing defects engrave striation markings on the bullet as it travels through the gun barrel when fired [@afte:1992].
+ This indicates that we are looking at the first bullet  (`b1`) that was fired from Barrel 1 (`br1`). A bullet is composed of a certain number of land engraved areas (LEAs), and each LEA is a separate file with a separate URL. So, the object `br1_b1` contains `nrow(br1_b1)` (6) observations, one for each land engraved area, which compose the whole bullet scan. The [rifling](#def:rifling) of the barrel induces these land engraved areas, which are a series of alternating raised and recessed portions on the fired bullet. In addition, manufacturing defects engrave striation marks on the bullet as it travels through the gun barrel when fired [@afte:1992].
 
 Let's take a quick look at what we see one the first bullet land (Figure \@ref(fig:bullets-b111)).
 
@@ -183,7 +183,7 @@ knitr::include_url(url = "./img/br1b1l1/index.html",
   height = "200px")
 ```
 
-Immediately, we can clearly see the vertical striation markings. To better visualize these markings, we can extract a cross-section from the bullet and plot it in two dimensions. To accomplish this, `bulletxtrctr` provides us with a function `x3p_crosscut_optimize` to choose the ideal location at which to do so.
+Immediately, we can clearly see the vertical striation marks. To better visualize these marks, we can extract a cross-section from the bullet and plot it in two dimensions. To accomplish this, `bulletxtrctr` provides us with a function `x3p_crosscut_optimize` to choose the ideal location at which to do so.
 
 ```{r}
 cc_b11 <- x3p_crosscut_optimize(br1_b1$x3p[[1]])
@@ -206,14 +206,14 @@ ggplot(data = ccdata_b11, aes(x = x, y = value)) +
   theme_bw()
 ```
 
-Most of the scans exhibit the pattern that we see here, where there are "wedges" on the left and right side. The wedge area is called the **shoulder**, and it is the area separating the land engraved area (the curved region in the middle) from the groove (the area not scanned because it doesn't exhibit striations). In other words, to better hone in on the striation markings along the land, we should subset this region to include only the middle curved land engraved area portion. Fortunately, `bulletxtrctr` provides us with functionality to automatically do that. First, we use the `cc_locate_grooves` function to detect the location of the grooves. This returns a list object, with one element being the two locations along the axis, and the lother element being the plot, given in Figure \@ref(fig:bullets-grooveloc).
+Most of the scans exhibit the pattern that we see here, where there are "wedges" on the left and right side. The wedge area is called the **shoulder**, and it is the area separating the land engraved area (the curved region in the middle) from the groove (the area not scanned because it doesn't exhibit striations). In other words, to better hone in on the striation marks along the land, we should subset this region to include only the middle curved land engraved area portion. Fortunately, `bulletxtrctr` provides us with functionality to automatically do that. First, we use the `cc_locate_grooves` function to detect the location of the grooves. This returns a list object, with one element being the two locations along the axis, and the lother element being the plot, given in Figure \@ref(fig:bullets-grooveloc).
 
 ```{r, bullets-grooveloc, fig.cap='Location of the grooves in our bullet scan, as detected by the `get_grooves` function.', warning=FALSE}
 grooves_b11 <- cc_locate_grooves(ccdata_b11, return_plot = TRUE, method = "middle")
 grooves_b11$plot
 ```
 
-With the grooves detected, we can now smooth out the surface using locally estimated scatter plot smoothing (LOESS) [@cleveland:1979]. Once we do so, we obtain what we call a **bullet signature**, Figure \@ref(fig:bullets-loess), representing the clearest picture yet of the striation markings along the surface of the land.
+With the grooves detected, we can now smooth out the surface using locally estimated scatter plot smoothing (LOESS) [@cleveland:1979]. Once we do so, we obtain what we call a **bullet signature**, Figure \@ref(fig:bullets-loess), representing the clearest picture yet of the striation marks along the surface of the land.
 
 ```{r, bullets-loess, fig.cap='LOESS-smoothed version of our bullet profile, called the bullet signature.', warning=FALSE}
 b111_processed <- cc_get_signature(ccdata = ccdata_b11, grooves = grooves_b11,
@@ -316,7 +316,7 @@ bullets <- bullets %>% mutate(
 do.call(gridExtra::grid.arrange, lapply(bullets$grooves, `[[`, 2))
 ```
 
-With the groove locations detected, we proceed as before by using LOESS to smooth out the curvature of the surface and focus on the striation markings. Figure \@ref(fig:bullets-cssigs) shows us the raw signatures of the 12 lands. The striation markings are much more visible now.
+With the groove locations detected, we proceed as before by using LOESS to smooth out the curvature of the surface and focus on the striation marks. Figure \@ref(fig:bullets-cssigs) shows us the raw signatures of the 12 lands. The striation marks are much more visible now.
 
 ```{r, bullets-cssigs, out.width='120%', warning=FALSE, fig.cap='Signatures for the 12 bullet lands. Light gray lines show the raw data, while the dark gray lines are the smoothed signatures.'}
 bullets <- bullets %>% mutate(
