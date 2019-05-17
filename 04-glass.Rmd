@@ -292,8 +292,13 @@ val1 <- round((RF_classifier$results %>% filter(mtry == RF_classifier$bestTune$m
 
 From the RF fitting result, it showed the AUC (ROC), Sens ([Sensitivity](#def:sensitivity)) and Spec ([Specificity](#def:specificity)) values in each mtry values. R-package caret selects the best mtry value (it is 2, in our study) to give the highest AUC (ROC) value `r val1`, from 10-fold cross-validation and 3 repeated process. 
 
+```{r ugh2, echo=FALSE}
+fnr <- RF_classifier$finalModel$confusion[1, 3]
+fpr <- RF_classifier$finalModel$confusion[2, 3]
+oob <- (RF_classifier$finalModel$confusion[1,2] + RF_classifier$finalModel$confusion[2,1]) / nrow(RF_classifier$trainingData)
+```
 
-The final performance of the random forest algorithm with the optimal mtry of 2 with 500 of number of trees. In the training set, the false negative rate is `r round(RF_classifier$finalModel$confusion[1, 3], 3)` and the false positive rate is `r round(RF_classifier$finalModel$confusion[2, 3], 3)`  of false positive rate, which is the optimized classification result. We see the OOB estimate of error rate of `r round((RF_classifier$finalModel$confusion[1,2] + RF_classifier$finalModel$confusion[2,1]) / RF_classifier$trainingData %>% nrow(),3)`, which is the average error rate from the fold left out of the training set during cross-validation.  
+The final performance of the random forest algorithm with the optimal mtry of 2 with 500 of number of trees. In the training set, the false negative rate is `r round(fnr, 3)` and the false positive rate is `r round(fpr, 3)`  of false positive rate, which is the optimized classification result. We see the OOB estimate of error rate of `r round(oob,3)`, which is the average error rate from the fold left out of the training set during cross-validation.  
 
 ```{r RF3}
 RF_classifier$finalModel$confusion
