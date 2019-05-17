@@ -1,23 +1,20 @@
 # Toolmarks {#toolmarks}
 
-#### Ganesh Krishnan, MSc; Heike Hofmann, PhD {-}
+#### Ganesh Krishnan, MSc; Heike Hofmann, PhD; Jeremy Hadler, PhD {-}
 
-## Introduction to Toolmark analysis
+## Introduction  
 
-Toolmarks found on crime scenes have been an important part of forensic evidence presented in court proceedings. Unambiguous, clear and unbiased procedures of comparison of any two toolmarks is therfore necessary for identification of the source. This is also a vital step for the comparisons and markings to be presentable in court as conclusive evidence. In current standards such comparisons are made by Forensic Toolmark Examiners (FTEs) by looking at the markings under a comparison microscope and concluding if there is a sufficient degree of agreement between them. One drawback with this kind of comparison is that it introduces subjectivity in conclusions made by the examiners. This is a big reason why objective methods of comparison were given serious considereation. Objectivity can be achieved by the development of automated comparison methods that can be used to suggest error rates and thereby provide better understanding of how same-source or different-source classifications are made. Automated methods for solving the same source problem in toolmarks usually take two markings, convert them into a digitized format, standardize the marking, identify regions of interest, align the markings, calculate the correlation between the markings and try to come up with a score by performing a statistical test on them. Particularly for striated toolmarks, some such algorithmic methods have been developed for objective comparisons which not only give you a score but also allow calculation of associated error rates. Depending on the objective method being considered, these striated marking can either be directly used [@gkhh-chumbley] or sometimes further broken down based on two distinct features of the markings. These features of the markings are the class characteristics of the manufactured class of tools and individual characteristics of the tool [@hadlermorristhesis]. The toolmark is therefore assumed to be decomposable into separate markings each of which accounts for these features separately. The class charaterstics are the trend lines of the toolmark that signify the overall structure of the marking, while the individual characteristics are the minute oscillations observed on the marking trends. In this chapter we will be looking at some of these methods of objective comparison and look closely how the comparisons are made by them.
-
-## R packages
-
-The `toolmaRk` package in R, is a package available for objective analysis of toolmaRks in R and the only one to do so. The package has three methods of making a comparison between two markings. 
+Toolmarks found on crime scenes have been an important part of forensic evidence presented in court proceedings. Unambiguous, clear and unbiased procedures of comparison of any two toolmarks is therefore necessary for identification of the source. This is also a vital step for the comparisons and markings to be presentable in court as conclusive evidence. In current standards such comparisons are made by Forensic Toolmark Examiners (FTEs) by looking at the markings under a comparison microscope and concluding if there is a sufficient degree of agreement between them. One drawback with this kind of comparison is that it introduces subjectivity in conclusions made by the examiners. This is a big reason why objective methods of comparison were given serious consideration. Objectivity can be achieved by the development of automated comparison methods that can be used to suggest error rates and thereby provide better understanding of how same-source or different-source classifications are made. Automated methods for solving the same source problem in toolmarks usually take two markings, convert them into a digitized format, standardize the marking, identify regions of interest, align the markings, calculate the correlation between the markings and try to come up with a score by performing a statistical test on them. Particularly for striated toolmarks, some such algorithmic methods have been developed for objective comparisons which not only give you a score but also allow calculation of associated error rates. Depending on the objective method being considered, these striated marking can either be directly used [@gkhh-chumbley] or sometimes further broken down based on two distinct features of the markings. These features of the markings are the class characteristics of the manufactured class of tools and individual characteristics of the tool [@hadlermorristhesis]. The toolmark is therefore assumed to be decomposable into separate markings each of which accounts for these features separately. The class characteristics are the trend lines of the toolmark that signify the overall structure of the marking, while the individual characteristics are the minute oscillations observed on the marking trends. In this chapter we will be looking at some of these methods of objective comparison and look closely how the comparisons are made by them.
 
 ## Data
 
 For our examples we will be using striated markings made by screwdrivers under different angles. The data was generated at Ames lab \cite{datatoolmark} and is available inside the `toolmaRk` package. It consists of a sample of 16 toolmark profiles and descriptors. These profiles represent a cross-sectional cut information extracted from the surface on which the marking was made. The measurements in these profiles are taken at equispaced intervals across the toolmark.  The profiles with the same toolmark identifier are known matches, all other profiles are known non-matches.
-The 'ID' variable is a toolmark identifier and Factor variable. The side of the screwdriver from which the marking was made is called 'side'. It is a factor variable with values A or B. The 'angle' variable is the degree of the angle under which the toolmark was created. 'Rep' on the other hand shows the replicate number for a toolmark. The sample data provided is not complete, therefore it only shows one randomly sampled replicate for each of the 16 profiles under consideration. For a more complete data set or more information please contact the references given below.
+The 'ID' variable is a toolmark identifier and Factor variable. The side of the screwdriver from which the marking was made is called 'side'. It is a factor variable with values A or B. The 'angle' variable is the degree of the angle under which the toolmark was created. 'Rep' on the other hand shows the replicate number for a toolmark. The sample data provided is not complete, therefore it only shows one randomly sampled replicate for each of the 16 profiles under consideration. 
 
-In the following sections of this chapter we will be discussing the available methods for an analysis of toolmarks from the `toolmaRk` package. We will first build an intuition about what these methods are, along with how to use them in R. This allows us to understand what to expect out of the function  and how to make better inference from the output from these methods as we compare two toolmarks.
+## R packages
 
-## Methods
+The `toolmaRk` package in R, is a package available for objective analysis of toolmarks in R. The package has three methods of making a comparison between two markings. In the following sections we will be discussing these available methods and show how they are used for analysing toolmarks. We will first build an intuition about what these methods are, and then show how to use them in R. This allows us to understand what to expect out of the function  and how to make better inference from the output from these methods as we compare two toolmarks.
+
 
 ### Hypothesis
 
@@ -30,42 +27,43 @@ This means that the statistical test being performed, has to have sufficient evi
 
 ### Normalization and Smoothness settings
 
-The normalization of markings is an important step in all the methods of comparison of two toolmarks as implemented in the `toolmaRk` package. It removes relatevely smooth or long-range trends and any small aberrations or "fixturing errors" introduced in the markings during the digitizing of the markings. To achieve this a coarse LOWESS smooth is applied which resolves the aforementioned problems. The residuals from this coarse LOWESS smoothing is the normalized toolmark and is used in the comparison process for calculating a similarity index betweek two such toolmarkings.
+The normalization of markings is an important step in all the methods of comparison of two toolmarks as implemented in the `toolmaRk` package. It removes relatively smooth or long-range trends and any small aberrations or "fixturing errors" introduced in the markings during the digitizing of the markings. To achieve this a coarse LOWESS smooth is applied which resolves the aforementioned problems. The residuals from this coarse LOWESS smoothing is the normalized toolmark and is used in the comparison process for calculating a similarity index between two such toolmarks.
 
 
 ### Toolmark Windows
 
-The methods used in the `toolmaRk` package all rely on taking small equi-distant segments of each toolmark under considersation for comparison. These segments can be thought of small windows in the toolmark. These windows are used to calculate correlations at different positions of one toolmark with that of the  second toolmark. The length of the windows are manually selected and both toolmarks being compared will have the same number of windows. This is important because if the number of windows is say n, then the correlation matrix of the two toolmarks will have n x n elements in it.
+The methods used in the `toolmaRk` package all rely on taking small equi-distant segments of each toolmark under consideration for comparison. These segments can be thought of small windows in the toolmark. These windows are used to calculate correlations at different positions of one toolmark with that of the  second toolmark. The length of the windows are manually selected and both toolmarks being compared will have the same number of windows. This is important because if the number of windows is say n, then the correlation matrix of the two toolmarks will have n x n elements in it.
 
-### Diamond Search Fixed Width methods
+### Comparison Methods  
+#### Diamond Search Fixed Width methods
 
 The diamond search method is a method that relies on finding a suitable constraint region in the covariance or correlation matrix of the two marking. Each row and column of this correlation matrix represents a correlation between a window from the first toolmark and a window from the second toolmark. The constraint on the correlation matrix is for having a more appropriate search region around the maximum correlation identified in the matrix. The maximum correlation represents the maximum correlation between two windows in the two toolmarks under consideration and therefore signifies the lag between the two marking. The diamond search methods allow for a a diamond shaped search region around this point in the correlation matrix. Here a new parameter M is introduced to restrict the allowable search region for a maximized correlation by disallowing the first and last M rows and columns from matrix. Therefore M can be thought of the parameter that helps define the perimeter of the search region around the maximum correlation point. 
 
 The diamond search fixed width methods rely on the assumption that the toolmarks can always be decomposed into its class and individual components. It also relies on stationarity assumptions. 
 
-The R functions 'fixed_width_with_model' and 'fixed_width_with_no_model' use the diamond search fixed width method in its computations [@hadlermorris]. These functions return results in the form of variables and plots. The meaning of these lists, variables and plots are given below:
+The R functions 'fixed_width_with_model' and 'fixed_width_with_no_model' use the diamond search fixed width method in its computations [@hadlermorristhesis]. These functions return results in the form of variables and plots. The meaning of these lists, variables and plots are given below:
 
-1.  max_corr =  Maximized indiviudal component correlation, this is the value of the maximum correlation
+1.  max_corr =  Maximized individual component correlation, this is the value of the maximum correlation
 2.  Smooth_offset =  Optimal Class offset, this is location of the maximum class correlation matrix
 3.  Resid_offset =  Optimal individual offset, this is location of the maximum individual correlation matrix as computed by applying search constraints
 4.  dist_pval =  Distance p-value, this is the p-value computed using the distance test statistic
 5.  thresh_pval =  Threshold p-value, this is the p-value computed using the threshold test statistic.
 6.  Above =  Number of offsets with correlation bigger than threshold
 7.  total_thresh =  2*M+1, this is the interval width of the search region.
-8.  mark1_decompostion =  Plot of decomposition, shows the class and individual component of the first toolmark along with the normalized toolmark.
-9.  mark2_decompostion =  Plot of decomposition, shows the class and individual component of the second toolmark along with the normalized toolmark.
-10. class_correlations =  Plot of class correlation, shows a visalization of the correlation matrix of the class component of the toolmark
-11. individual_correlations =  Plot of individual correlation, shows a visalization of the correlation matrix of the individual component of the toolmark
+8.  mark1_decomposition =  Plot of decomposition, shows the class and individual component of the first toolmark along with the normalized toolmark.
+9.  mark2_decomposition =  Plot of decomposition, shows the class and individual component of the second toolmark along with the normalized toolmark.
+10. class_correlations =  Plot of class correlation, shows a visualization of the correlation matrix of the class component of the toolmark
+11. individual_correlations =  Plot of individual correlation, shows a visualization of the correlation matrix of the individual component of the toolmark
 12. distance_plot =  The distance step plot
 13. threshold_plot =  The threshold step plot
 
-To better understand what these results stand for and to be able to draw conclusions from them, we will have a closer look at the most important aspects of these functions, and their most important steps in the following sections. In te
+To better understand what these results stand for and to be able to draw conclusions from them, we will have a closer look at the most important aspects of these functions, and their most important steps in the following sections. 
 
-#### Smoothness for class and individual component decomposition
+##### Smoothness for class and individual component decomposition
 
-Bachrach [@bachrach] noted that “waviness" of a toolmark can be considered to be the class characteristics, while the individual characteristics are the “roughness" or deviations around the waviness. Therefore for the decomposition of the toolmarks the class component of the normalized tool mark is accepted as the general, long scale trend of the mark and the individual component is the shorter scale residual deviations around this trend.
+@bachrach noted that “waviness" of a toolmark can be considered to be the class characteristics, while the individual characteristics are the “roughness" or deviations around the waviness. Therefore for the decomposition of the toolmarks the class component of the normalized tool mark is accepted as the general, long scale trend of the mark and the individual component is the shorter scale residual deviations around this trend.
 
-In order to achieve these decompositions a second LOWESS smooth is applied to the normalized toolmarks and has a lower degree of smoothing than the smoothing that is done during the normalization step. This results in a representation of the trend which is considered to be the class component. The residuals of this smooth, which are the unique oscillations around this general trend, is the individual component. All the three i.r normalized marking, and two decomposed marking have approximately zero mean. From this it is clear the class component captures the general shape of the mark and
+In order to achieve these decompositions a second LOWESS smooth is applied to the normalized toolmarks and has a lower degree of smoothing than the smoothing that is done during the normalization step. This results in a representation of the trend which is considered to be the class component. The residuals of this smooth, which are unique oscillations around this general trend, is the individual component. All the three markings i.e. normalized and the two decomposed markings, have approximately zero mean. From this it is clear the class component captures the general shape of the mark and
 the individual component is the unique deviations around this trend.
 
 
@@ -104,49 +102,49 @@ ggplot(tmarkindiv, aes(x = x, y = Depth)) +  geom_line() +
 ```
 
 
-#### Distance Test Statistic
+##### Distance Test Statistic
 
-To understand this we recall the decomposition of each toolmark being compared into class and individual component series. The intuition behind understanding this test statistic is that given the location of the maximum of the class component correlation matrix (optimal class offset), the same location can be found in the correlation matrix of the individual component. A constraint which defines a diamond search perimeter is put on the individual component correlation matrix around the optimal class offset postition. Given this perimeter, the maximum of individual component correlation is computed.
+To understand this we recall the decomposition of each toolmark being compared into class and individual component series. The intuition behind understanding this test statistic is that given the location of the maximum of the class component correlation matrix (optimal class offset), the same location can be found in the correlation matrix of the individual component. A constraint which defines a diamond search perimeter is put on the individual component correlation matrix around the optimal class offset position. Given this perimeter, the maximum of individual component correlation is computed.
 
 The distance test statistic is therefore defined as follows
        t = absolute value of the difference between the Optimal class offset and the Optimal Individual offset 
   and the p-value which helps classify the two toolmarks as same-source and different source is computed as follows
      Pr(T <= t ) = (2t +1)/(2M+1) 
-     where t is the realized  value of the test statistic as shown above and 2M+1 is the interval width of the searc region. For tool marks made by the same tool, we expect relatively small values of T.
+     where t is the realized  value of the test statistic as shown above and 2M+1 is the interval width of the search region. For tool marks made by the same tool, we expect relatively small values of T.
      
-#### Threshold Test Statistic
+##### Threshold Test Statistic
 
-The threshold test statistic follows the same setup as described above for the Distance test statistic, but instead of computing the distance, searches the diamond search region in the individual component correlation matrix to identify the number of correlation values that are greater than or equal to the maximum of the class component correlation matrix. This is the number of offsets and is the thrshold test statistic t as the threshold here is the maximum of the class component correlation matrix. The computed t is used in the p-value computations for classification of matches and non-matched. The p-value has the same form as for the distance test statistic i.e (2t+1)/(2M+1).
+The threshold test statistic follows the same setup as described above for the Distance test statistic, but instead of computing the distance, searches the diamond search region in the individual component correlation matrix to identify the number of correlation values that are greater than or equal to the maximum of the class component correlation matrix. This is the number of offsets and is the threshold test statistic t as the threshold here is the maximum of the class component correlation matrix. The computed t is used in the p-value computations for classification of matches and non-matched. The p-value has the same form as for the distance test statistic i.e (2t+1)/(2M+1).
 Therefore to have evidence against the null hypothesis, we need only a small number of offsets from the individual components to result in a similarity value larger than the threshold as described above. A small p-value therefore rejects the null and concludes that the two marks were made by the same tool.
 
-#### Diamond search method based functions in R  
-##### Fixed width method with direct correlation computation
+##### Diamond search method based functions in R  
+###### Fixed width method with direct correlation computation
 
 This method follows all the described above, and only deals with direct pearson correlations computed between windows to generate the correlation matrix. The method does not involve any further modeling steps in it for identifying the optimal offset. It is therefore all that is described above and no additional steps are required.
 
-##### Fixed width method with modeling in correlation matrix
+###### Fixed width method with modeling in correlation matrix
 
 In this method the correlation matrix are first generated for both the class and individual components. The pearson correlations of the comparison windows are what comprise of the correlation matrix. a potential drawback of defining the optimal
 class offset as described earlier, is that there is no guarantee that all windows of comparison with the same optimal class offset value will produce large correlation values in the correlation matrix of individual component correlation matrix or the normalized marking correlation matrix (when correlations are computed between windows of comparison of two non-decomposed but normalized toolmarks to produce a correlation matrix). In fact the same optimal class offset value might have both the largest correlation values as well as the smallest correlation values in the normalized correlation matrix. To circumvent this contradiction, a modeling effort is made to first identify the optimal offsets for both the components.
 
-The modeling effort basically takes the current class correlation matrix as the responses and then finds estimates for a new correlation term that is supposed to be a parameter in the model and dependent on a new more restrictive search region. This search region now accounts for the minimum pearson correlation values from the original pearson class correlation matrix, that the same offset can take. The new estimated class correlation matrix is now used in the same way to compute the laocation of the maximum class correlation component. The rest of the statistical testing methods follows on the same lines as described in the previous sections. 
+The modeling effort basically takes the current class correlation matrix as the responses and then finds estimates for a new correlation term that is supposed to be a parameter in the model and dependent on a new more restrictive search region. This search region now accounts for the minimum pearson correlation values from the original pearson class correlation matrix, that the same offset can take. The new estimated class correlation matrix is now used in the same way to compute the location of the maximum class correlation component. The rest of the statistical testing methods follows on the same lines as described in the previous sections. 
 
 
-### Chumbley Adjusted Non-random score
+#### Chumbley Adjusted Non-random score
 
 The chumbley score method since it was first developed has gone through many modifications. The most recent and the only non-random versions are available in the `toolmaRk` package. In this chapter we will be discussing these methods of comparing two toolmarks as developed. The adjusted chumbley non-random method [@gkhh-chumbley] and chumbley non-random as developed by [@hadler] are both available in the `toolmaRk` package. 
 
-The method comprises of specifying a comparison window size for the so called optimization step and validation step, and  a coarseness parameter for the LOWESS smooth. The blockdiagram shown in \@ref{fig:blockdiag}, gives an overview of the chumbley score algorithms.
+The method comprises of specifying a comparison window size for the so called optimization step and validation step, and  a coarseness parameter for the LOWESS smooth. The block diagram shown in \@ref(fig:blockdiag), gives an overview of the chumbley score algorithms.
 
 
-```{r blockdiag, echo=FALSE}
+```{r, blockdiag, echo=FALSE}
 knitr::include_graphics("./img/blockdiagramchumb.PNG")
 ```
 
 
-The chumbley score methods as found in the `toolmaRk` package all work on the same principle as shown in \@ref{fig:blockdiag}. The optimization step includes computation of correlation between all possible combinations of optimization windows in the two signatures to generate an optimization step correlation matrix. The maximum value of this matrix essentially identifies the optimal locations by identifying the corresponding windows in the two toolmarks. The location of the pair of windows in the two markings is used to compute the lag in the two toolmarks. This is also called the optimal offset. Now the intuition is that for shifts in the pair of windows (a smaller window size) that are synchronized with the lag or this optimal offset, should in theory have higher correlations when the ground truth for the two toolmarks is a match. The correlation of these set of synchronized pair of windows would be systematically higher when compared to pairs of windows that do not correspond to a synchronized offsetting. The same-shift step therefore corresponds to a lag synchronized selection of pairs of windows and computing there correlations, while the different shift step corresponds to picking pair of windows that are not lag synchronized and computing a set of correlations for these. A Mann-whitney U statistic is then computed by comparing the same-shift set and the different-shift set of correlations. This U-statistic is used to compute a p-value and therefore classify the two toolmarks as same-source or different-source. [@gkhh-chumbley].
+The chumbley score methods as found in the `toolmaRk` package all work on the same principle as shown in \@ref(fig:blockdiag). The optimization step includes computation of correlation between all possible combinations of optimization windows in the two signatures to generate an optimization step correlation matrix. The maximum value of this matrix essentially identifies the optimal locations by identifying the corresponding windows in the two toolmarks. The location of the pair of windows in the two markings is used to compute the lag in the two toolmarks. This is also called the optimal offset. Now the intuition is that for shifts in the pair of windows (a smaller window size) that are synchronized with the lag or this optimal offset, should in theory have higher correlations when the ground truth for the two toolmarks is a match. The correlation of these set of synchronized pair of windows would be systematically higher when compared to pairs of windows that do not correspond to a synchronized offsetting. The same-shift step therefore corresponds to a lag synchronized selection of pairs of windows and computing there correlations, while the different shift step corresponds to picking pair of windows that are not lag synchronized and computing a set of correlations for these. A Mann-Whitney U statistic is then computed by comparing the same-shift set and the different-shift set of correlations. This U-statistic is used to compute a p-value and therefore classify the two toolmarks as same-source or different-source. [@gkhh-chumbley].
 
-The R functions 'chumbley_non_random_adj' uses the modified chumbley score method [@gkhh-chumbley] for its computations. The function returns results for the computed test statistic, associated p_value, and statistics related to the same-shift and different-shift segments of the validation step of the chumbley score method. The nomenclature and meaning of the reurned variables is given below:
+The R functions 'chumbley_non_random_adj' uses the modified chumbley score method [@gkhh-chumbley] for its computations. The function returns results for the computed test statistic, associated p_value, and statistics related to the same-shift and different-shift segments of the validation step of the chumbley score method. The nomenclature and meaning of the returned variables is given below:
 
 1. same_shift_n = Number of same shift offsets used
 2. diff_shift_n = Number of different shift offsets used
@@ -160,14 +158,14 @@ The R functions 'chumbley_non_random_adj' uses the modified chumbley score metho
 #### Coarseness parameter values
 For the Diamond Search fixed width functions there are two kinds smoothness parameter values namely 'coarse' and 'fine'. The coarse parameter is used for normalization, while the parameter 'fine' is used to get the class component of the two markings. The residual or the difference between these two smoothed processes is the individual component. The default value for 'coarse' is defined as 0.25 while that for the 'fine' is 0.01.
 
-For the Chumbley score methods there is no decomposition of the marking into class and individual components, but the first step is still to normalize the toolmark. Therfore, the 'coarse' parameter in this method is used to remove the major trend of the marking and to normalize it. One LOWESS smooth is therefore enough to achieve this and the value is taken around 0.25 for toolmarks.
+For the Chumbley score methods there is no decomposition of the marking into class and individual components, but the first step is still to normalize the toolmark. Therefore, the 'coarse' parameter in this method is used to remove the major trend of the marking and to normalize it. One LOWESS smooth is therefore enough to achieve this and the value is taken around 0.25 for toolmarks.
 
 #### Window size selection
 
-The choice of the window size is generally dependent on the size of the toolmark. An approximate rule of thumb suggested by [@hadler] for the Chumbley score methods is to use 10% of the length of the toolmark as the size of the optimization window. The size of the validation window is much smaller than the optimization window. This leads to a bigger correlation matrix for both same-shift comparisons as well as different shift comparisons. This said, the choice of the window size can have a big effect on the performance of the algorithm, especially if going too small or too large. An example of an indepth analysis on the choice of windows in the chumbley score methods can be seen in the work of [@gkhh-chumbley]. In the diamond search fixed width methods there is only one window size that needs to be specified. The default window size for this is taken around 6% of the toolmark length.
+The choice of the window size is generally dependent on the size of the toolmark. An approximate rule of thumb suggested by @hadler for the Chumbley score methods is to use 10% of the length of the toolmark as the size of the optimization window. The size of the validation window is much smaller than the optimization window. This leads to a bigger correlation matrix for both same-shift comparisons as well as different shift comparisons. This said, the choice of the window size can have a big effect on the performance of the algorithm, especially if going too small or too large. An example of an in depth analysis on the choice of windows in the chumbley score methods can be seen in the work of [@gkhh-chumbley]. In the diamond search fixed width methods there is only one window size that needs to be specified. The default window size for this is taken around 6% of the toolmark length.
 
 
-#### Case Study
+## Case Study
 
 To construct the set of comparisons, we  
 
@@ -190,7 +188,7 @@ known_non_match.dat2 <- matrix(known_non_match.dat2[round(0.01*nrow(known_non_ma
 ```
 
 
-2. Adjusted Chumbley score method by [@gkhh-chumbley]
+2. Adjusted Chumbley score method by @gkhh-chumbley
 ```{r echo= TRUE, eval = FALSE}
 # Analysis and Results for Same-source markings
 # Specify parameter values
@@ -353,9 +351,9 @@ fwnm_scoring_known_nonmatch$total_thresh
 # 500
 ```
 
-### Inference and drawing conclusions
+## Drawing conclusions
 
-The case study from the previous section demonstrated how the different methods can be used. We can see that for all the three methods the p-value for the chumbley test, distance test and the threshold test (wherever applicable), are very small. Depending on the significance level chosen we can check whether the statistical test is in favor of the null or against it. We notice that for all the three methods and different tests, the p_value for the known_matches remains very small. Therefore we reject the null hypothesis of different source of the markings and conclude that they come from the same source, which is what we expected given the fact that we chose known-matches for the pair of markings. Similarly we can see that for the pair of known non-matches the p-values remain higher for all the three methods and associated statistical tests. Therefore in this case we fail to reject the null and conlclude that the markings are from different sources.
+The case study from the previous section demonstrated how these different methods can be used. We can see that for all the three methods the p-value for the chumbley test, distance test and the threshold test (wherever applicable), are very small. Depending on the significance level chosen we can check whether the statistical test is in favor of the null or against it. We notice that for all the three methods and different tests, the p_value for the known_matches remains very small. Therefore we reject the null hypothesis of different source of the markings and conclude that they come from the same source, which is what we expected given the fact that we chose known-matches for the pair of markings. Similarly we can see that for the pair of known non-matches the p-values remain higher for all the three methods and associated statistical tests. Therefore in this case we fail to reject the null and conclude that the markings are from different sources.
 
-With a conclusive classification of the two markings as match or non-match from the three methods, its often important to also identify how good these methods are in reality. To do so we need a sample dataset with a large number of comparisons and ground truth available. Given the ground truth of several such cross-comparisons, its often helpful to make a confusion table which gives a good insight into how to intuitively think of the results. A confusion table and ROC curves can give us the False Positives, False Negatives, True Positives and True Negatives of the comparisons using the three methods prescribed in this chapter. This allows us to compute the error rates. The identification of error rates not only helps build trust into these objective method, but also enables understanding of the limitations under different parameter settings. This said, for a complete analysis of a new database using the prescribed statistical methods and tests, a preliminary analysis for identifying the optimum settings needed to use these methods should also be included.
+With a conclusive classification of the two markings as match or non-match from the three methods, its often important to also identify how good these methods are in reality. To do so we need a sample data set with a large number of comparisons and ground truth available. Given the ground truth of several such cross-comparisons, its often helpful to make a confusion table which gives a good insight into how to intuitively think of the results. A confusion table and ROC curves can give us the False Positives, False Negatives, True Positives and True Negatives of the comparisons using the three methods prescribed in this chapter. This allows us to compute the error rates. The identification of error rates not only helps build trust into these objective method, but also enables understanding of the limitations under different parameter settings. This said, for a complete analysis of a new database using the prescribed statistical methods and tests, a preliminary analysis for identifying the optimum settings needed to use these methods should also be included.
 
