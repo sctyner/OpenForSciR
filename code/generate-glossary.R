@@ -1,5 +1,5 @@
 # code to generate glossary
-
+library(dplyr)
 library(googlesheets4)
 # change this to a regular old csv eventually and ship it with the book.
 terms <- googlesheets4::sheets_read("1i2yBb5T1Dyxm_gT4oXwjm-5DSkeNftCCdcmPjbeqHx8")

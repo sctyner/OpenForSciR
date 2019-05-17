@@ -31,6 +31,11 @@ Terms are given in the order in which they appear in the body of the text.
 ```
 
 
+```{definition, label = 'proprietary'}
+**: Proprietary** - Of a brand name, product, service, formula, etc.: protected by a patent, copyright, or trademark. *Source: [dictionary.com](https://www.dictionary.com/browse/proprietary)*
+```
+
+
 ```{definition, label = 'sourcecode'}
 **: Source Code** - The part of software that most computer users don't ever see; it's the code computer programmers can manipulate to change how a piece of software—a "program" or "application"—works. *Source: [opensource.com](https://opensource.com/resources/what-open-source)*
 ```
@@ -302,11 +307,7 @@ origin impressions from the substrate to a film. *Source: [SWGTREAD](http://trea
 
 
 ```{definition, label = 'matchingstria'}
-**: Consecutively Matching Striae** - Striated markings that line up exactly with one another without a break or
-dissimilarity in between them [biasotti:1959]. This and other forensic
-science papers using CMS typically count a single peak as a striae, while we count peaks
-and valleys, so our definition typically yields CMS values about twice those commonly
-found in the literature. *Source: @harethesis*
+**: Consecutively Matching Striae** - Striated markings that line up exactly with one another without a break or dissimilarity in between them [@biasotti:1959]. This and other forensic science papers using CMS typically count a single peak as a striae, while we count peaks and valleys, so our definition typically yields CMS values about twice those commonly found in the literature. *Source: @harethesis*
 ```
 
 
@@ -322,5 +323,31 @@ found in the literature. *Source: @harethesis*
 
 ```{definition, label = 'bulletsam'}
 **: Sequence Average Matching (SAM)** - Using the CCF value between 2 lands, compute the average CCF value across all sequences of comparisons. The sequence with the highest average value is the "matching" sequence. If this value is greater than 0.5, then the bullets are declared to "match". *Source: [Sensofar Metrology](https://www.sensofar.com/wp-content/uploads/2016/06/AppNote-SensoMATCH-Bullet-Comparison.pdf)*
+```
+
+## Firearms: casings
+
+```{definition, label = 'cartridges'}
+**: Cartridge case** - <img src="https://upload.wikimedia.org/wikipedia/commons/3/35/Bulletfixed.PNG" width="166" height="231" align="right"> See image at right. A pre-assembled firearm ammunition packaging a projectile (1), a propellant substance (3) and an ignition device within a metallic, paper or plastic case (2) that fits within the barrel chamber of a breechloading gun, for the practical purpose of convenient transportation and handling during shooting. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Cartridge_(firearms))*
+```
+
+
+```{definition, label = 'firingpin'}
+**: Firing Pin** - A part of the firing mechanism used in a firearm or explosive device. Firing pins used in firearms usually have a small, rounded portion designed to strike the primer of a cartridge, detonating the priming compound, which then ignites the propellant (inside) or fires the detonator and booster. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Firing_pin)*
+```
+
+
+```{definition, label = 'primermat'}
+**: Primer** - A metal cup containing a primary explosive inserted into a recess in the center of the base of the cartridge. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Centerfire_ammunition#Centerfire_primers)*
+```
+
+
+```{definition, label = 'individualize'}
+**: Individualize** - Theoretically, a determination that two samples derive from the same source; practically, a determination that two samples derive from sources that cannot be distinguished at the level of analysis possible in the comparison process. *Source: [OSAC Lexicon](http://lexicon.forensicosac.org/Term/Home/index)*
+```
+
+
+```{definition, label = 'slide'}
+**: Pistol slide** - A part on semi-automatic pistols that moves during the operating cycle and generally houses the firing pin/striker and the extractor, and serves as the bolt. It is spring-loaded so that once it has moved to its rearmost position in the firing cycle, spring tension brings it back to the starting position chambering a fresh cartridge during the motion provided that the magazine is not empty. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Pistol_slide)*
 ```
 
