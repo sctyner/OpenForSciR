@@ -15,9 +15,8 @@ The 'ID' variable is a toolmark identifier and Factor variable. The side of the 
 
 The `toolmaRk` package in R, is a package available for objective analysis of toolmarks in R. The package has three methods of making a comparison between two markings. In the following sections we will be discussing these available methods and show how they are used for analysing toolmarks. We will first build an intuition about what these methods are, and then show how to use them in R. This allows us to understand what to expect out of the function  and how to make better inference from the output from these methods as we compare two toolmarks.
 
-### Methods
 
-#### Hypothesis
+### Hypothesis
 
 The hypothesis for all methods implemented in the `toolmaRk` package follow the principles of court. It means that given a crime has been committed, a suspect brought in court, is considered innocent until proven guilty. In similar lines, for setting up a null and alternate hypothesis, a match that identifies the source of a marking to be the same, is considered incriminating. Therefore the hypothesis for a statistical test that identifies a toolmark as same-sourced or different sourced is considered as follows
 
@@ -26,15 +25,16 @@ The hypothesis for all methods implemented in the `toolmaRk` package follow the 
 
 This means that the statistical test being performed, has to have sufficient evidence to reject the null hypothesis in order to conclude that two markings come from the same source.
 
-#### Normalization and Smoothness settings
+### Normalization and Smoothness settings
 
 The normalization of markings is an important step in all the methods of comparison of two toolmarks as implemented in the `toolmaRk` package. It removes relatively smooth or long-range trends and any small aberrations or "fixturing errors" introduced in the markings during the digitizing of the markings. To achieve this a coarse LOWESS smooth is applied which resolves the aforementioned problems. The residuals from this coarse LOWESS smoothing is the normalized toolmark and is used in the comparison process for calculating a similarity index between two such toolmarks.
 
 
-#### Toolmark Windows
+### Toolmark Windows
 
 The methods used in the `toolmaRk` package all rely on taking small equi-distant segments of each toolmark under consideration for comparison. These segments can be thought of small windows in the toolmark. These windows are used to calculate correlations at different positions of one toolmark with that of the  second toolmark. The length of the windows are manually selected and both toolmarks being compared will have the same number of windows. This is important because if the number of windows is say n, then the correlation matrix of the two toolmarks will have n x n elements in it.
 
+### Comparison Methods  
 #### Diamond Search Fixed Width methods
 
 The diamond search method is a method that relies on finding a suitable constraint region in the covariance or correlation matrix of the two marking. Each row and column of this correlation matrix represents a correlation between a window from the first toolmark and a window from the second toolmark. The constraint on the correlation matrix is for having a more appropriate search region around the maximum correlation identified in the matrix. The maximum correlation represents the maximum correlation between two windows in the two toolmarks under consideration and therefore signifies the lag between the two marking. The diamond search methods allow for a a diamond shaped search region around this point in the correlation matrix. Here a new parameter M is introduced to restrict the allowable search region for a maximized correlation by disallowing the first and last M rows and columns from matrix. Therefore M can be thought of the parameter that helps define the perimeter of the search region around the maximum correlation point. 
@@ -63,7 +63,7 @@ To better understand what these results stand for and to be able to draw conclus
 
 @bachrach noted that “waviness" of a toolmark can be considered to be the class characteristics, while the individual characteristics are the “roughness" or deviations around the waviness. Therefore for the decomposition of the toolmarks the class component of the normalized tool mark is accepted as the general, long scale trend of the mark and the individual component is the shorter scale residual deviations around this trend.
 
-In order to achieve these decompositions a second LOWESS smooth is applied to the normalized toolmarks and has a lower degree of smoothing than the smoothing that is done during the normalization step. This results in a representation of the trend which is considered to be the class component. The residuals of this smooth, which are the unique oscillations around this general trend, is the individual component. All the three i.r normalized marking, and two decomposed marking have approximately zero mean. From this it is clear the class component captures the general shape of the mark and
+In order to achieve these decompositions a second LOWESS smooth is applied to the normalized toolmarks and has a lower degree of smoothing than the smoothing that is done during the normalization step. This results in a representation of the trend which is considered to be the class component. The residuals of this smooth, which are unique oscillations around this general trend, is the individual component. All the three markings i.e. normalized and the two decomposed markings, have approximately zero mean. From this it is clear the class component captures the general shape of the mark and
 the individual component is the unique deviations around this trend.
 
 
@@ -153,14 +153,14 @@ The R functions 'chumbley_non_random_adj' uses the modified chumbley score metho
 5. same_shift = correlation values corresponding to the same shift offset. The number of such values should be equal to 'same_shift_n'.
 6. diff_shift = correlation values corresponding to the different shift offset. The number of such values should be equal to 'diff_shift_n'.
 
-#### Computational Considerations
+### Computational Considerations
 
-##### Coarseness parameter values
+#### Coarseness parameter values
 For the Diamond Search fixed width functions there are two kinds smoothness parameter values namely 'coarse' and 'fine'. The coarse parameter is used for normalization, while the parameter 'fine' is used to get the class component of the two markings. The residual or the difference between these two smoothed processes is the individual component. The default value for 'coarse' is defined as 0.25 while that for the 'fine' is 0.01.
 
 For the Chumbley score methods there is no decomposition of the marking into class and individual components, but the first step is still to normalize the toolmark. Therefore, the 'coarse' parameter in this method is used to remove the major trend of the marking and to normalize it. One LOWESS smooth is therefore enough to achieve this and the value is taken around 0.25 for toolmarks.
 
-##### Window size selection
+#### Window size selection
 
 The choice of the window size is generally dependent on the size of the toolmark. An approximate rule of thumb suggested by @hadler for the Chumbley score methods is to use 10% of the length of the toolmark as the size of the optimization window. The size of the validation window is much smaller than the optimization window. This leads to a bigger correlation matrix for both same-shift comparisons as well as different shift comparisons. This said, the choice of the window size can have a big effect on the performance of the algorithm, especially if going too small or too large. An example of an in depth analysis on the choice of windows in the chumbley score methods can be seen in the work of [@gkhh-chumbley]. In the diamond search fixed width methods there is only one window size that needs to be specified. The default window size for this is taken around 6% of the toolmark length.
 
