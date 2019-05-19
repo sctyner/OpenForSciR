@@ -1,14 +1,14 @@
 # Decision-making in Forensic Identification Tasks {#humans}
 
-#### Amanda Luby {-}
+#### *Amanda Luby* {-}
 
 ## Introduction
 
-Although forensic measurement and analysis tools are increasingly accurate and objective, many final decisions are largely left to individiual examiners [@pcast]. Human decision-makers will continue to play a central role in forensic science for the foreseeable future, and it is unrealistic to assume that, within our current criminal justice system, either a) there are no differences in the decision-making process between examiners, b) day-to-day forensic decision-making tasks are equally difficult, or c) human decision-making can be removed from the process entirely. 
+Although forensic measurement and analysis tools are increasingly accurate and objective, many final decisions are largely left to individual examiners [@pcast]. Human decision-makers will continue to play a central role in forensic science for the foreseeable future, and it is unrealistic to assume that, within our current criminal justice system, either a) there are no differences in the decision-making process between examiners, b) day-to-day forensic decision-making tasks are equally difficult, or c) human decision-making can be removed from the process entirely. 
 
-The role of human decisions in forensic science is perhaps most studied in the fingerprint domain, which will be the focus of this chapter. High-profile examples of misidentification have inspired studies showing that fingerprint examiners, like all humans, may be susceptible to biased instructions and unreliable in final decisions [@dror2008meta] or influenced by external factors or contextual information [@dror2006; @dror2010vision]. These studies contradict common perceptions of the accuracy of fingerprint examination, and demonstrate that fingerprint analysis is far from error-free. 
+The role of human decisions in forensic science is perhaps most studied in the fingerprint domain, which will be the focus of this chapter. High-profile examples of mis-identification have inspired studies showing that fingerprint examiners, like all humans, may be susceptible to biased instructions and unreliable in final decisions [@dror2008meta] or influenced by external factors or contextual information [@dror2006; @dror2010vision]. These studies contradict common perceptions of the accuracy of fingerprint examination, and demonstrate that fingerprint analysis is far from error-free. 
 
-Although fingerprint examination is the focus of this chapter, it is not the only forensic domain that relies on human decision-making. Firearms examination (See, e.g., @nas2009 pg. 150-155) is similar to latent print examination in many ways, particularly in that examiners rely on pattern evidence to determine whether two cartridges originated from the same source. Handwriting comparison (See Chapter \@ref(handwriting) for introduction, @nas2009 pg. 163-167 on "Questioned Document Examination" and @stoelshaky for discussion) consists of examiners determining whether two smples of handwriting were authored by the same person, taking potential forgery or disguise into account. A third example is interpreting mixtures of DNA evidence (Chapter \@ref(dna), @pcast Section 5.2). A DNA mixture is a biological sample that contains DNA from two or more donors and requires analysts to make subjective decisions to determine how many individuals contributed to the DNA profile. The President's Council of Advisors on Science and Technology (@pcast) has recommended increased "black box" error rate studies for subjective forensic methods.
+Although fingerprint examination is the focus of this chapter, it is not the only forensic domain that relies on human decision-making. Firearms examination (See, e.g., @nas2009 pg. 150-155) is similar to latent print examination in many ways, particularly in that examiners rely on pattern evidence to determine whether two cartridges originated from the same source. Handwriting comparison (See Chapter \@ref(handwriting) for introduction, @nas2009 pg. 163-167 on "Questioned Document Examination" and @stoelshaky for discussion) consists of examiners determining whether two samples of handwriting were authored by the same person, taking potential forgery or disguise into account. A third example is interpreting mixtures of DNA evidence (Chapter \@ref(dna), @pcast Section 5.2). A DNA mixture is a biological sample that contains DNA from two or more donors and requires analysts to make subjective decisions to determine how many individuals contributed to the DNA profile. The President's Council of Advisors on Science and Technology (@pcast) has recommended increased "black box" error rate studies for subjective forensic methods.
 
 The FBI "Black Box" study [@ulery2011] was the first large-scale study performed to assess the accuracy and reliability of latent print examiners' decisions.  The questions were designed to include a range of attributes and quality seen in casework, and to be representative of searches from an automated fingerprint identification system. The overall false positive rate in the study was 0.1% and the overall false negative rate was 7.5%. These computed quantities, however, have excluded all "inconclusive" responses (i.e. neither identifications nor exclusions). This is noteworthy, as nearly a third of all responses were inconclusive and respondents varied on how often they reported inconclusives. Respondents who report a large number of inconclusives, and only make identification or exclusion decisions for the most pristine prints, will likely make far fewer false positive and false negative decisions than respondents who reported fewer inconclusives. The authors of the study also note that it is difficult to compare the error rates and inconclusive rates of individual examiners because each examiner saw a different set of fingerprint images (@ulery2011, Appendix 3). In other words, it would be unfair to compare the error rate of someone who was given a set of "easy" questions to the error rate of someone who was given a set of "difficult" questions. A better measure of examiner skill would account for both error rates and difficulty of prints that were examined. 
 
@@ -18,30 +18,22 @@ There also exist substantial differences in the difficulty of forensic evaluatio
 
 Methods for analyzing forensic decision-making data should thus provide estimates for both participant proficiency and evidence difficulty, and these estimates should account for participants evaluating different sets of evidence. Item response models, a class of statistical methods used prominently in educational testing, have been proposed for use in forensic science for these reasons [@kerkhoff2015]. @luby2018proficiency provided the first item response analysis for forensic proficiency test data, and we improve and extend upon that work by (a) analyzing a different fingerprint identification study that includes richer data on decision-making, and (b) extending the range of models considered. 
 
-The remainder of the chapter is organized as follows: Section \@ref(humans-data) provides an overview on how decision-making data is collected in forensic science, Section \@ref(irt) gives a brief overview of Item Response Models, and Section \@ref(rpackages) describes R packages that can be used to fit these models.  Section \@ref(humans-conclusions) describes how conclusions are drawn from an Item Response analysis, and Section \@ref(casestudy) gives an example IRT analysis of the FBI "Black Box" study.
+The remainder of the chapter is organized as follows: Section \@ref(irt) gives a brief overview of Item Response Models, Section \@ref(humans-data) provides an overview on how decision-making data is collected in forensic science, and Section \@ref(rpackages) describes an R package that can be used to fit these models.  Section \@ref(humans-conclusions) describes how conclusions are drawn from an Item Response analysis, and Section \@ref(casestudy) gives an example IRT analysis of the FBI "Black Box" study.
 
-## Data {#humans-data}
-
-The vast majority of forensic decision-making occurs in casework, which is not often made available to researchers due to privacy concerns or active investigation policies. Besides real-world casework, data on forensic decision-making is collected through proficiency test results and in error rate studies. *Proficiency tests* are periodic competency exams that must be completed for forensic laboratories to maintain their accreditation. *Error rate studies* are independent research studies designed to measure casework error rates. As their names suggest, these two data collection scenarios serve completely different purposes. Proficiency tests are (currently) designed to assess basic competency of individuals, and mistakes are rare. Error rate studies are designed to mimic the difficulty of evidence in casework and estimate the overall error rate, aggregating over many individuals, and mistakes are more common by design. 
-
-Proficiency exams consist of a large number of participants (often $>400$) responding to a small set of questions (often $<20$). Since every participant answers every question, we can assess participant proficiency and question difficulty using the observed scores. As proficiency exams are designed to assess basic competency, most questions are relatively easy and the vast majority of participants score 100\%.  Error rate studies, on the other hand, consist of a smaller number of participants (fewer than $200$) and a larger pool of questions (more than $500$). The questions are designed to be difficult, and every participant does not answer every question, which makes determining participant proficiency and question difficulty a more complicated task. 
-
-Results from both proficiency tests and error rate studies can be represented as a set of individuals responding to several items, in which responses can be scored as correct or incorrect. This is not unlike an educational testing scenario such as the SAT, ACT, GRE, etc, where students (individuals) answer questions (items) either correctly or incorrectly.  There is a rich body of statistical methods for estimating student proficiency and item difficulty from test responses. Item Response Theory (IRT) is used extensively in educational testing to study the relationship between an individual's (unobserved) proficiency and their performance on varying tasks. IRT is an especially useful tool to estimate participant proficiencies and question difficulties when participants do not necessarily answer the same set of questions.
-
-## A Brief Overview of Item Response Models {#irt}
+### A Brief Overview of Item Response Models {#irt}
 
 For $P$ individuals responding to $I$ test items, we can express the binary responses (i.e. correct/incorrect) as a $P\times I$ matrix, $Y$. Item Response Theory (IRT) is based on the idea that the probability of a correct response depends on individual *proficiency*, $\theta_p, p = 1, \ldots, P$, and item *difficulty*, $b_i, i = 1, \ldots I$. 
 
-### Rasch Model
+#### Rasch Model
 
-The Rasch Model [@rasch1960studies; @raschbook] is a relatively simple, yet powerful, item response model, and serves as the basis for extensions introduced later. The probability of a correct response is modeled as the logit function of the difference between the participant proficiency, $\theta_p$ ($p=1, \dots, P$), and the item difficulty, $b_i$ ($i=1, \dots, I$):
+The Rasch Model [@rasch1960studies; @raschbook] is a relatively simple, yet powerful, item response model, and serves as the basis for extensions introduced later. The probability of a correct response is modeled as a logistic function of the difference between the participant proficiency, $\theta_p$ ($p=1, \dots, P$), and the item difficulty, $b_i$ ($i=1, \dots, I$):
 
 \begin{equation}
 P(Y_{pi} = 1) = \frac{1}{1-\exp(-(\theta_p - b_i))}. 
 \label{rasch}
 \end{equation}
 
-To identify the model, we shall use the convention of constraining the mean of the participant parameters ($\mu_\theta$) to be equal to zero. This allows for a nice interpretation of both participant and item parameters relative to the "average participant". If $\theta_p >0$, participant $p$ is of "above average" proficiency and if $\theta_p <0$, participant $p$ is of "below average" proficiency. Similarily, if $b_i < 0$ question $i$ is an "easier" question and the average participant is more likely to correctly answer question $i$. If $b_i >0$ then question $i$ is a more "difficult" question and the average participant is more likely to incorrectly answer question $i$. Other common conventions for identifying the model include setting a particular $b_i$ or the mean of the $b_i$s equal to zero. 
+To identify the model, we shall use the convention of constraining the mean of the participant parameters ($\mu_\theta$) to be equal to zero. This allows for a nice interpretation of both participant and item parameters relative to the "average participant". If $\theta_p >0$, participant $p$ is of "above average" proficiency and if $\theta_p <0$, participant $p$ is of "below average" proficiency. Similarly, if $b_i < 0$ question $i$ is an "easier" question and the average participant is more likely to correctly answer question $i$. If $b_i >0$ then question $i$ is a more "difficult" question and the average participant is more likely to incorrectly answer question $i$. Other common conventions for identifying the model include setting a particular $b_i$ or the mean of the $b_i$s equal to zero. 
 
 The item characteristic curve (ICC) describes the relationship between proficiency and performance on a particular item (see Figure \@ref(fig:extensionsexample) for examples). For item parameters estimated under a Rasch model, all ICCs are standard logistic curves with different locations on the latent difficulty/proficiency scale. 
 
@@ -71,7 +63,7 @@ legend("bottomright", legend =
        bty = 'n', lwd = rep(1.5,5), col = brewer.colors, cex = .8)
 ```
 
-### Partial Credit Model 
+#### Partial Credit Model 
 
 The *partial credit model* (PCM) [@masters1982] is distinct from the models discussed above because it allows for the response variable, $Y_{pi}$, to take additional values beyond zero (incorrect) and one (correct). This is especially useful for modeling partially correct responses, although may be applied in other contexts where the responses can be ordered. When $Y_{pi}$ is binary, the partial credit model is equivalent to the Rasch model. Under the PCM, the probability of response $Y_{pi}$ depends on $\theta_p$, the proficiency of participant $p$ as in the above models; $m_i$, the maximum score for item $i$ (and the number of step parameters); and $\beta_{il}$, the $l^{th}$ step parameter for item $i$ ($l=0, \dots, m_i$):
 
@@ -84,7 +76,7 @@ P(Y_{pi} = y, y>0)  = \frac{\exp\sum_{l=1}^y(\theta_p - \beta_{il})}{1+\sum_{k=1
 \label{pcm}
 \end{equation}
 
-An example PCM is shown in Figure\@ref(fig:pcmexample) by plotting the probabilities of observing each of three categories as a function of $\theta_p$ (analagous to the ICC curves above). 
+An example PCM is shown in Figure\@ref(fig:pcmexample) by plotting the probabilities of observing each of three categories as a function of $\theta_p$ (analogous to the ICC curves above). 
 
 ```{r hf-pcmexample, echo = FALSE, fig.cap = "Category response functions for the PCM."}
 brewer.colors = brewer.pal(4, "Set1")[2:4]
@@ -106,6 +98,14 @@ legend("right", legend =
          c("Incorrect", "Partial Credit", "Correct"),  lty = rep(1,3),
        bty = 'n', lwd = rep(1.5,3), col = brewer.colors, cex = .8)
 ```
+
+## Data {#humans-data}
+
+The vast majority of forensic decision-making occurs in casework, which is not often made available to researchers due to privacy concerns or active investigation policies. Besides real-world casework, data on forensic decision-making is collected through proficiency test results and in error rate studies. *Proficiency tests* are periodic competency exams that must be completed for forensic laboratories to maintain their accreditation. *Error rate studies* are independent research studies designed to measure casework error rates. As their names suggest, these two data collection scenarios serve completely different purposes. Proficiency tests are (currently) designed to assess basic competency of individuals, and mistakes are rare. Error rate studies are designed to mimic the difficulty of evidence in casework and estimate the overall error rate, aggregating over many individuals, and mistakes are more common by design. 
+
+Proficiency exams consist of a large number of participants (often $>400$) responding to a small set of questions (often $<20$). Since every participant answers every question, we can assess participant proficiency and question difficulty using the observed scores. As proficiency exams are designed to assess basic competency, most questions are relatively easy and the vast majority of participants score 100\%.  Error rate studies, on the other hand, consist of a smaller number of participants (fewer than $200$) and a larger pool of questions (more than $500$). The questions are designed to be difficult, and every participant does not answer every question, which makes determining participant proficiency and question difficulty a more complicated task. 
+
+Results from both proficiency tests and error rate studies can be represented as a set of individuals responding to several items, in which responses can be scored as correct or incorrect. This is not unlike an educational testing scenario such as the SAT, ACT, GRE, etc, where students (individuals) answer questions (items) either correctly or incorrectly.  There is a rich body of statistical methods for estimating student proficiency and item difficulty from test responses. Item Response Theory (IRT) is used extensively in educational testing to study the relationship between an individual's (unobserved) proficiency and their performance on varying tasks. IRT is an especially useful tool to estimate participant proficiencies and question difficulties when participants do not necessarily answer the same set of questions.
 
 ## R Packages {#rpackages}
 
@@ -159,7 +159,7 @@ The FBI "black box" data (`TestResponses`) is a data frame in which each row cor
     + "Pattern"
 - `Difficulty`: Reported difficulty ranging from "A_Obvious" to "E_VeryDifficult"
 
-In order to fit an IRT model, we must first score the data. Responses are scored as correct if they are true identifications  (`Mating == Mates` and `Compare_Value == Individualization`) or exclusions (`Mating == Non-mates` and `Compare_Value == Exclusion`). Similarily, responses are scored as incorrect if they are false identifications (`Mating == Non-mates` and `Compare_Value == Individualization`) or exclusions (`Mating == Mates` and `Compare_Value == Exclusion`).
+In order to fit an IRT model, we must first score the data. Responses are scored as correct if they are true identifications  (`Mating == Mates` and `Compare_Value == Individualization`) or exclusions (`Mating == Non-mates` and `Compare_Value == Exclusion`). Similarly, responses are scored as incorrect if they are false identifications (`Mating == Non-mates` and `Compare_Value == Individualization`) or exclusions (`Mating == Mates` and `Compare_Value == Exclusion`).
 
 Inconclusive responses complicate the scoring of the exam due to both their ambiguity and prevalence. "Inconclusive" is never keyed as the correct response, which leads to the ambiguity in scoring. There are a large number of inconclusive answers (`r sum(TestResponses$Compare_Value == "Inconclusive", na.rm = TRUE)` of `r nrow(TestResponses)` responses), and examiners vary on which latent print pairs are inconclusive. 
 
@@ -172,7 +172,7 @@ The `blackboxstudyR` package includes five methods to score inconclusive respons
 	b. Treat inconclusive responses as missing completely at random if no consensus reason exists (`no_consensus_mcar`). 
 4. Score inconclusive responses as "partial credit" (`partial_credit`). 
 
-The remainder of the case study will (a) demonstrate how to fit an IRT model in R, (b) illustrate how IRT analyis complements an error rate analysis by accounting for participants seeing different sets of questions, and (d) show how different scoring methods can change results from an IRT analysis. 
+The remainder of the case study will (a) demonstrate how to fit an IRT model in R, (b) illustrate how IRT analysis complements an error rate analysis by accounting for participants seeing different sets of questions, and (d) show how different scoring methods can change results from an IRT analysis. 
 
 ### Fitting the IRT model
 
@@ -209,7 +209,7 @@ The lighter gray interval represents the 95\% posterior interval and the black i
 
 ### IRT complements an error rate analysis
 
-The original analysis of the FBI "Black Box" Study [@ulery2011] did not include analysis of participant error rates, because each participant saw a different question set. Since proficiency accounts for the diffculty of question sets, however, we can directly compare participant proficiencies to each other, and also see how error rates and proficiency are related. 
+The original analysis of the FBI "Black Box" Study [@ulery2011] did not include analysis of participant error rates, because each participant saw a different question set. Since proficiency accounts for the difficulty of question sets, however, we can directly compare participant proficiencies to each other, and also see how error rates and proficiency are related. 
 
 First, we compute the observed person scores. 
 
@@ -380,9 +380,9 @@ p_score_im %>%
 ggarrange(p1, p2, ncol = 2, common.legend = TRUE, legend="bottom")
 ```
 
-Treating the inconclusives as missing ("im"), leads to both the smallest range of observed scores and largest range of estimated proficiencies. Harsher scoring methods (e.g. `no consensus incorrect` ("nci")) do not necessarily lead to lower estimated proficiencies. For instance, the participants who scored around 45\% under the "nci" scoring method (in green) are given higher proficiency estimates than the participant who scored 70\% under the "im" scoring method. The scoring method thus affects the proficiency estimates in a somewhat unintuitive way, as larger ranges of observed scores do not necessarily correspond to larger ranges of proficiency estimates. 
+Treating the inconclusives as missing ("im"), leads to both the smallest range of observed scores and largest range of estimated proficiencies. Harsher scoring methods (e.g. `no consensus incorrect` ("nci")) do not necessarily lead to lower estimated proficiencies. For instance, the participants who scored around 45\% under the "nci" scoring method (in green) are given higher proficiency estimates than the participant who scored 70\% under the "im" scoring method. The scoring method thus affects the proficiency estimates in a somewhat non-intuitive way, as larger ranges of observed scores do not necessarily correspond to larger ranges of proficiency estimates. 
 
-Also note that the uncertainty intervals under the "im" scoring scheme are noticeably larger than under the other scoring schemes. This is because the `inconclusive_mcar` scheme treats all of the inconclusives, nearly a third of the data, as missing. This missingness is completely uninformative when estimating the difficulty and proficiency estiamtes. Under the other scoring schemes (`no consensus incorrect` and `partial credit`) the inconclusive responses are never treated as missing, leading to a larger number of observations per participant and therefore a smaller amount of uncertainty in the proficiency estimate. 
+Also note that the uncertainty intervals under the "im" scoring scheme are noticeably larger than under the other scoring schemes. This is because the `inconclusive_mcar` scheme treats all of the inconclusives, nearly a third of the data, as missing. This missingness is completely uninformative when estimating the difficulty and proficiency estimates. Under the other scoring schemes (`no consensus incorrect` and `partial credit`) the inconclusive responses are never treated as missing, leading to a larger number of observations per participant and therefore a smaller amount of uncertainty in the proficiency estimate. 
 
 The range of proficiencies under different scoring schemes and the uncertainty intervals for the proficiency estimates both have substantial implications if we consider setting a "mastery level" for participants. As an example, let's consider setting the mastery threshold at $-0.5$. We will then say examiners have not demonstrated mastery if the upper end of their proficiency uncertainty estimate is below $-0.5$, illustrated in the right plot of Figure \@ref(fig:prof-three-scores). 
 

@@ -69,7 +69,7 @@ Karen Pan is a PhD student in the Department of Statistics at University of Virg
 
 ## Amanda Luby {-}
 
-Amanda is currently finishing her PhD in Statistics & Data Science at Carnegie Mellon University. Her dissertation focuses on statistical methods for understanding complex human decision-making, with applications to forensic evidence analysis. She will be an Assistant Professor of Statistics at Swarthmore College beginning August 2019. 
+Amanda is currently finishing her PhD in Statistics & Data Science at Carnegie Mellon University. Her dissertation focuses on statistical methods for understanding complex human decision-making, with applications in forensic evidence analysis. She will be an Assistant Professor of Statistics at Swarthmore College beginning August 2019. 
 
 ## Ganesh Krishnan {-}
 
