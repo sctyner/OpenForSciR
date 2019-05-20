@@ -70,7 +70,7 @@ Amanda is currently finishing her Ph.D. in Statistics & Data Science at Carnegie
 
 ## Ganesh Krishnan {-}
 
-Ganesh is .....
+Ganesh is a Ph.D. student in Statistics & Human Computer Interaction at Iowa State University. His current work is on statistical methods for bullet and toolmark comparisons. He also has a background in Scientific Computing & Numerical Analysis.
 
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a>
