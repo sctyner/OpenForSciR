@@ -290,3 +290,5 @@ Although only five features are marked in the latents above, many more would be 
 
 We would like to thank Dr. Adele Peskin for vital discussion and conversation leading to the creation and development of the Contrast Gradient Algorithm as well as an unpublished manuscript [@pk_unpub].
 -->
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a>

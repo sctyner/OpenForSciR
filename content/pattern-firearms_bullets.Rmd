@@ -475,3 +475,6 @@ comparisons %>%
   ylab("Land B") +
   theme(aspect.ratio = 1)
 ```
+
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a>
