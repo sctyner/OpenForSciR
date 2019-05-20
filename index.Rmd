@@ -1,6 +1,6 @@
 --- 
 title: "Open Forensic Science in R"
-author: "Editors: Sam Tyner, Heike Hofmann"
+author: "Editor: Sam Tyner, Ph.D."
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: 
@@ -32,15 +32,13 @@ This book is for anyone looking to do [forensic science](#def:forsci) analysis i
 
 This book **free** and is licensed under a [Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License](http://creativecommons.org/licenses/by-nc-nd/3.0/us/). 
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a>
 
-
-# About the Authors {.unnumbered}
+# About the Authors^[information current as of May 20, 2019] {.unnumbered}
 
 
 ## Sam Tyner, Ph.D. {-}
 
-Sam is a Postdoctoral Research Associate in the [Center for Statistics and Applications in Forensic Evidence](https://forensicstats.org/) (CSAFE) at [Iowa State University](https://www.iastate.edu/) (ISU). She earned her Ph.D. in Statistics from ISU in 2017. In 2018, she received a fellowship from [rOpenSci](https://ropensci.org/blog/2018/02/14/announcing-2018-ropensci-fellows/) to create this free book for anyone interested in open source forensic science.
+Sam is a Postdoctoral Research Associate in the [Center for Statistics and Applications in Forensic Evidence](https://forensicstats.org/) (CSAFE) at [Iowa State University](https://www.iastate.edu/) (ISU). She earned her Ph.D. in Statistics from ISU in 2017. In 2018, she received a fellowship from [rOpenSci](https://ropensci.org/blog/2018/02/14/announcing-2018-ropensci-fellows/) to create this free book for anyone interested in open source forensic science. For more about Sam, follow her on [Twitter](https://twitter.com/sctyner) or [GitHub](https://github.com/sctyner), and visit her [website](https://sctyner.github.io/). 
 
 ## Heike Hofmann, Ph.D.  {-}
 
@@ -64,11 +62,11 @@ Karen Kafadar is Commonwealth Professor and Chair of Statistics at University of
 
 ## Karen Pan {-}
 
-Karen Pan is a PhD student in the Department of Statistics at University of Virginia working on statistical issues in forensic science relating to fingerprints and glass evidence.
+Karen Pan is a Ph.D. student in the Department of Statistics at University of Virginia working on statistical issues in forensic science relating to fingerprints and glass evidence.
 
 ## Amanda Luby {-}
 
-Amanda is currently finishing her PhD in Statistics & Data Science at Carnegie Mellon University. Her dissertation focuses on statistical methods for understanding complex human decision-making, with applications in forensic evidence analysis. She will be an Assistant Professor of Statistics at Swarthmore College beginning August 2019. 
+Amanda is currently finishing her Ph.D. in Statistics & Data Science at Carnegie Mellon University. Her dissertation focuses on statistical methods for understanding complex human decision-making, with applications in forensic evidence analysis. She will be an Assistant Professor of Statistics at Swarthmore College beginning August 2019. 
 
 ## Ganesh Krishnan {-}
 

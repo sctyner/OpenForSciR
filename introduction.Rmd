@@ -1,0 +1,123 @@
+# Introduction {#intro}
+
+
+## R Packages 
+
+Here are all of the [`R`](#def:rstats) packages used in this book. If you would like to download and compile this book on your own system, this chunk will install and load all of the necessary packages for you. If you have problems with installation of any of these packages, this is probably due to an individual computer or `R` version issue. If you experience any installation problems, the best thing to do is to search for the error message you get on the web to see if anyone else has already solved your problem. If the package you are having troubles with has a [GitHub](https://github.com/) repository, you should search its [Issues](https://github.com/issues) to see if the author of the package has encountered and/or solved your problem before. If not, [community.rstudio.com](https://community.rstudio.com/) and [Stack Overflow](https://stackoverflow.com/questions/tagged/r) tend to be the most trustworthy sources of troubleshooting information. If all else fails, you can post an issue on the Github repo for this book (INSERT LINK). However, this should be your last resort: the authors of this book are subject matter experts, not necessarily computer debugging experts for your specific system and installation.  
+
+```{r all_packages, eval = FALSE}
+options(repos = "http://cran.us.r-project.org")
+
+# check if a package is installed, if not install it from cran
+install_cran_missing <- function(pkgname){
+  if(class(pkgname) != "character"){
+    stop("pkgname must be a character")
+  }
+  if (!require(pkgname, character.only = TRUE, quietly = TRUE)){
+    install.packages(pkgname, dep = T)
+    if(!require(pkgname,character.only = TRUE)) stop("CRAN Package not found")
+  }
+}
+# check if a package is installed, if not install it from Github
+install_dev_missing <- function(pkgname, ghuser){
+  if(class(pkgname) != "character"){
+    stop("pkgname must be a character")
+  }
+  if (!require(pkgname, character.only = TRUE, quietly = TRUE)){
+    repo <- paste(ghuser, pkgname, sep ='/')
+    devtools::install_github(repo)
+    if(!require(pkgname,character.only = TRUE)) stop("Github repo for package not found")
+  }
+}
+# need devtools to get some packages 
+install_cran_missing("devtools")
+# packages used throughout the book 
+install_cran_missing("tidyverse") # or install_dev_missing("tidyverse", "tidyverse")
+install_dev_missing("gt", "rstudio") 
+
+# Chapter 3: DNA Validation
+# Watch out for dependency issues with RGtk2...
+install_cran_missing("strvalidator")
+
+# Chapter 4: DNA Mixture
+# TBD
+
+# Chapter 5: Glass
+install_cran_missing("caret")
+install_cran_missing("GGally")
+install_cran_missing("stringr")
+install_dev_missing("patchwork", "thomasp85")
+install_dev_missing("csafethemes", "csafe-isu")
+
+
+# Chapter 6: Shoe
+# TBD
+
+# Chapter 7: Bullets
+install_cran_missing("x3ptools") # or install_dev_missing("x3ptools", "heike")
+install_cran_missing("randomForest") 
+install_dev_missing("bulletxtrctr", "heike")
+
+# Chapter 8: Casings
+if (!requireNamespace("BiocManager", quietly = TRUE)){
+    install.packages("BiocManager")
+  }
+BiocManager::install("EBImage", version = "3.8")
+install_dev_missing("cartridges", "xhtai")
+
+# Chapter 9: Digital 
+# TBD 
+
+# Chapter 10: Fingerprints
+install_cran_missing("bmp")
+install_cran_missing("kableExtra")
+
+# Chapter 11: Handwriting 
+# TBD
+
+# Chapter 12: Toolmarks
+# TBD
+
+# Chapter 13: Human Factors
+install_dev_missing("blackboxstudyR", "aluby")
+install_cran_missing("rstan")
+install_cran_missing("RColorBrewer")
+install_cran_missing("gridExtra")
+install_cran_missing("gghighlight")
+install_cran_missing("ggpubr")
+```
+
+## Terminology and Definitions
+
+In the appendix, you will find a dedicated [Glossary](#glossary) section. The terms are listed in the order that they appear in the book. Throughout the book, the first time you encounter a glossary phrase, the phrase will be a link to the glossary entry, similar to the way Wikipedia handles their links. If you feel a term is lacking a glossary entry, please file an issue on Github. (INSERT LINK HERE). 
+
+## Forensic Science Problems {#forscip}
+
+The purpose of this section is to introduce the general type of [forensic science](#def:forsci) problem that will be covered in the book. The common understanding of forensic science is that law enforcement uses it to help solve crimes, but the primary professionals in forensic science are forensic scientists, not members of law enforcement. According to the American Academy of Forensic Sciences ([AAFS](https://www.aafs.org/home-page/students/choosing-a-career/whats-a-forensic-scientist/)), any forensic scientist is first and foremost a scientist, who communicates their knowledge and their tests results to lawyers, juries, and judges. 
+
+Where a legal matter is concerned, law enforcement is in charge of answering a very different question than the forensic scientist examining the [evidence](#def:evidence). Specifically in the criminal context, law enforcement wants to know who committed the crime, while the forensic scientist wants to understand the nature of the evidence. In theory, the forensic scientist's conclusion can be used by law enforcement, but law enforcement information should generally not be used by the scientist, with some exceptions per @cook_hierarchy_1998.
+
+Law enforcement and the courts focus on the *offense level hypotheses*, which describe the crime and its possible perpetrators [@cook_hierarchy_1998]. By contrast, the forensic scientist devotes their attention most often to the *source level hypotheses*, which describe the evidence and its possible sources [@cook_hierarchy_1998]. In between the offense level and the source level are the *activity level hypotheses*, which describe an action associated with the crime and the persons who did that action. For each level, two or more disjoint hypotheses are considered. For example, consider the following set of hypotheses adapted from @cook_hierarchy_1998: 
+
+Hypothesis Level | Competing Hypotheses 
+:---------------:|:---------------------
+Offense          | Mr X committed the burglary
+""               | Another person committed the burglary
+Activity         | Mr X smashed window W at the scene of the burglary
+""               | Mr X was not present when the window W was smashed
+Source           | The glass fragments came from window W
+""               | The glass fragments came from another unknown broken glass object
+
+In this example, the forensic scientist does not know the source of the glass fragments being analyzed, while the police may know that they were found on Mr X's clothes upon his arrest. The forensic scientist will likely have a sample from the window W and the small fragments, and will only be asked to determine if the two samples are distinguishable. Note that the scientist does not need to know any details from the case, such as where the burglary occurred, who the suspect is, or what was stolen, to analyze the two glass samples. Notice the distinction: the forensic scientist is not a member of law enforcement, so their main concern is not "catching the bad guy." Instead, they are concerned with coming to the best conclusion using science. 
+
+The problems discussed in this book concern the source level hypotheses exclusively: we are not interested in taking the place of law enforcement or legal professionals. We are chiefly concerned with *science*, not the law. Each chapter in this book is outlined as follows: 
+
+1. Introduction: This section familiarizes the reader with the type of forensic evidence covered in the chapter. Basic terms and concepts are covered, as well as what is typically done in a forensic science setting or lab to evaluate this type of evidence. The introduction section is not comprehensive by any stretch of the imagination: enough information is provided to understand the rest of the chapter, but that is all. For detailed coverage of a particular type of forensic evidence covered here, please consult each chapter's references section. 
+2. Data: This section covers the form of the forensic evidence and describes how that evidence is converted into computer-readable format for analysis in `R`. It will also provide the reader with an example data set, including the type and structure of data objects that are required for the analyses. 
+3. `R` Package(s): This section introduces the `R` package(s) required for performing the analysis of the forensic evidence discussed. In some cases, the chapter author discusses (and in most cases is the author of) an `R` package explicitly for the particular forensic analysis. In other cases, the `R` package(s) used was applied the particular forensic science application, but is broadly applicable to other data analyses. 
+4. Drawing Conclusions: This section describes how to make a decision about the evidence under consideration. In some cases, there are [score](#def:score) based methods used to make a decision, and in others, a [likelihood ratio](#def:lr) is used. Comparisons to the current practice in forensic science are also made where applicable. 
+5. Case study: This section follows a piece of forensic evidence from reading the requisite data into `R` to drawing a conclusion about the source of the evidence. The author guides the reader step-by-step through the `R` code required to perform a complete analysis. 
+
+<!--With this book, we want to give more students and professionals interested in forensic science open source resources to pursue their research.  --> 
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a>
