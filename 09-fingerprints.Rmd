@@ -9,6 +9,7 @@ A new measurement to quantify the quality of individual features ("minutiae") in
 -->
 
 
+
 ## Introduction
 
 Latent fingerprints collected at crime scenes have been widely used for individual identification purposes, primarily because fingerprints have long been assumed to be unique to an individual. Thus it is assumed that some subset of features, or *minutiae*, on a print can be identified and will suffice to determine whether a latent print and a digital print from a database of prints collected under controlled conditions (e.g., in a police laboratory) came from the "same source." However, unlike digital fingerprints in a database, latent prints are generally of poor quality and incomplete, missing ridge structures or patterns. The quality of a latent print, needed for the "Analysis" and "Comparison" phases of the "ACE-V" fingerprint identification process [@swgfast] to assess clarity of the print and specific features of it for identification purposes, is currently judged visually and subjectively, rather than quantitatively, by forensic examiners. Once the examiner identifies seemingly usable minutiae on a latent print, the print is entered into an Automated Fingerprint Identification System (AFIS) which uses the examiner's minutiae to return likely matches from a fingerprint database. Thus, the accuracy of the identification depends first and foremost on the quality and usability of the minutiae in a latent. More independent, high-quality features should lead to more accurate calls (i.e., same or different sources, or "match" or "non-match").
@@ -19,58 +20,7 @@ Some authors have proposed measures of overall latent print quality. Bond (2008)
 
 Different features (minutiae) on a latent print supply different amounts of information to an examiner. Thus our goal is to develop a quality metric for each feature, based on a measure of information content in the feature. Visually, a feature on a print (ridge ending, bifurcation, etc.) is more recognizable when it is easily differentiated from the background around it. In the following sections we develop a quality metric for each latent fingerprint feature that quantifies its distinctiveness from its background value, and hence, how reliable a feature might be for purposes of comparison (step 2 of the ACE-V process).
 
-
-
-## Data
-
-```{r, out.width = "350px", echo = FALSE, fig.align='center', fig.cap = "Magnetic fingerprint powder clinging to a rod. Image taken from http://www.stapletonandassociates.com/images/MagPowder.jpg."}
-knitr::include_graphics("img/fingerprint_brush.jpg")
-```
-
-A common method for recovering unseen latent prints is dusting. Moisture clinging powder is gently brushed onto a surface using soft brushes to detect and increase the visibility of fingerprints. Magnetic powders that cling to a metal rod instead of brush exist that may help minimize possible damage to a print that may occur during dusting. After dusting, prints are usually recorded by lifting -- placing a piece of transparent tape over the fingerprint then transferring the tape, along with the powder, onto a card of contrasting color. Photographs may also be taken of the powdered print. In place of dusting, prints may be chemically processed (superglue, ninhydrin, Rhodamine 6G (R6G), etc.). Clearly visible prints (patent prints) such as those made by paint or blood may be photographed directly. If the fingerprint is left on an object that is easily transported, the object should sent to the forensics lab and photographed to create a digital image.
-
-```{r, out.width = "550px", echo = FALSE, fig.align="center", fig.cap = "Examples of powdered and lifted fingerprints using powders of different color. Image taken from https://www.kinseimatec.co.jp/en/?page_id=1868."}
-knitr::include_graphics("img/fingerprint_powders.png")
-```
-
-Photographs and fingerprint cards are scanned or otherwise converted to digital format. Enhancements to contrast or color may be made using a photo editing software before producing a finalized grayscale image that may be entered into an AFIS database, directly compared to a suspects' exemplar prints (known fingerprints, e.g., those taken on a tenprint card at a police station), or run through a quality metric algorithm.
-
-The information contained in a fingerprint can be divided into three levels [@doj_fingerprint_sourcebook].
-
-Level 1 detail is the most general, consisting of overall pattern type, friction ridge flow, and morphological information. While insufficient for individualization, level 1 detail may be used for exclusion. "Fingerprint pattern classification" refers to overall fingerprint patterns (e.g., loop, whorl) and their subcategories (e.g., left/right slanted) [@hicklin_2011].
-
-```{r, out.width = "400px", echo = FALSE, fig.align='center', fig.cap = "Level 1 detail in a fingerprint includes overall pattern type and ridge flow, such as loops, whorls, and arches. Image from https://mrthomascooper.weebly.com/."}
-knitr::include_graphics("img/level1_detail.jpg")
-```
-
-Level 2 detail consists of minutiae and individual friction ridge paths. Minutiae are also called "Galton details" after Sir Francis Galton, the first to define and name specific minutiae (bifurcation, enclosure, ridge endings, island) [@galton_fingerprints].
-
-```{r, out.width = "275px", echo = FALSE, fig.align='center', fig.cap = "Different types of Level 2 detail, or minutiae, in a fingerprint. Image from http://syhrl.blogspot.com/2012/04/036-fyp-minutiae.html."}
-knitr::include_graphics("img/minutiae.png")
-```
-
-Level 3 detail is the most specific, including friction ridge dimensional attributes such as width, edge shapes, and pores. These details may or may not appear on an exemplar print and are the least reliable.
-
-```{r, out.width = "350px", echo = FALSE, fig.align='center', fig.cap = "Level 3 detail of a fingerprint. Image from http://onin.com/fp/level123.html."}
-knitr::include_graphics("img/level3_detail.jpg")
-```
-
-### ACE-V and AFIS
-
-Latent prints may be submitted to an AFIS database which will return the top *n* potential matches. Examiners can then perform the ACE-V comparison process on these prints until a "match" is found.
-
-* Analysis: a digitized latent print is analyzed to determine if it is "suitable" for examination. During this process, LPEs mark clear, high quality sections of a print in green, moderate quality sections in yellow, and unclear or distorted sections in red. These colors correspond to features that can be used in comparison, may possibly be used, and will likely not be useful for comparison, respectfully. As level 3 detail is unreliable, LPEs use level 1 and 2 detail to determine if a print is suitable to continue to the comparison step. If not, the ACE-V process ends here.
-* Comparison: the latent and exemplar prints are compared side by side. In addition to overall pattern and ridge flow, examiners may look for the existence of target groups -- unique clusters of minutiae -- that correspond between a latent and exemplar. Additional features may be marked in orange.
-* Evaluation: a decision of *identification* (formerly "individualization"), *exclusion*, or *inconclusive* is made based on OSAC standards. An inconclusive conclusion may be reached if either print does not contain enough information for a decision. Examiners may request consultation with a colleague before reaching a decision, who would perform an independent markup on the latent.
-* Verification: a decision may (or may not) be verified by another examiner who performs an independent markup of the latent print. If the second examiner does not know the first examiner's decision, it is considered a blind verification.
-
-IAFIS is the Integrated Automatic Fingerprint Identification System developed and maintained by the US FBI [@fbi_iafis]. Implemented in 1999, it contains criminal history, photographs, and fingerprints for over 70 million individuals with criminal histories and fingerprints of 34 million civilians [@fbi_iafis, @fbi_ngi]. The FBI's Next Generation Identification (NGI) System was announced in 2014 to extend and improve the capabilities of IAFIS. INTERPOL also maintains a database of over 181,000 fingerprint records and almost 11,000 latent prints [@interpol_fingerprints].
-
-NIST maintains a series of Biometric Special Databases and Software [@nist_biometric], including several fingerprint databases. Special Database 302, not yet released, will contain realistic latent prints and their corresponding exemplars collected from the Intelligence Advanced Research Projects Activity (IARPA) Nail to Nail (N2N) Fingerprint Challenge [@fiumara_talk]. Annotations to these latents may be released at a future data. Special Database 27A, which has since been withdrawn, contained 258 latent and rolled mate pairs that two or more LPEs have agreed "match" [@watson_2015]; i.e., print pairs not guaranteed to be ground truth matches. The latent prints in this database were classified into three categories: good, bad, and ugly, which allows for general testing of correspondence between overall fingerprint quality and quality scores.
-
-
-
-## Contrast Gradient Quality Measurement
+### Contrast Gradient Quality Measurement
 
 The algorithm identifies and examines a small collection of pixels surrounding a given feature and assesses their distinctiveness from the background pixels. The underlying principle for this approach lies in recognizing that a forensic examiner can distinguish features in a fairly blurry latent print by recognizing (1) a gradient of intensity between the dark and light regions defining a minutia point, and (2) an overall contrast of intensity values in the general neighborhood of a minutiae point. The first step is to locate the pixel within a small neighborhood around the minutia location that produces the highest intensity gradient value, and focus calculation around that pixel. The largest gradient in a neighborhood of 5 pixels in each direction from a feature is found. For each pixel in this neighborhood, we compare the pixel intensity, $i(x, y)$, to a neighboring pixel intensity, $i(x + n, y + m)$, where $n$ and $m$ range from -2 to 2, and then divide by the corresponding distance between the pixels to get a measure of the gradient at pixel location $(x, y)$, $g(x, y; n, m)$:
 
@@ -82,9 +32,7 @@ $$ contrast = \frac{max\{abs(i(x_0, y_0) - i(x,y)\}}{I_M}, \qquad (x, y) \in n_3
 
 The contrast measurement differs from the gradient measurement because it highlights the maximum change in intensity among all nine points surrounding the minutia point at $(x_0, y_0)$, while the gradient reflects a change in intensity near the minutia point, divided by the distance over that intensity change. Despite the simplicity of this measurement, it quantifies well the visual selection made by a forensic examiner.
 
-
-
-## Case Study -- NIST SD27A latents
+### Contrast Gradient Quality Measurement Illustration
 
 To illustrate this measurement, we first look at the gradient values on a clear print with well defined minutiae. Figure \@ref(fig:clearprint) shows such a print. Along with it are close-up views of three minutiae from the print, where the ridge ending and bifurcations are clearly seen. One would expect these very clear minutiae to be at the high end of the quality scale when measuring latent minutiae quality. They are at pixel locations (97, 100), (126, 167), and (111, 68), from the upper left corner. The largest gradients at these 3 locations are 94.0, 66.5, and 88.0 intensity units per grid unit. Looking at gradient values in each $5 \times 5$ neighborhood, we find slightly higher gradient values for each minutia: 107.0, 122.0, and 121.0. For each minutia, we shift our focus point to the new $(x_0, y_0)$ corresponding to the slightly higher gradient value. For these $n_3(x_0, y_0)$ neighborhoods, we find the largest intensity differences to get the contrast. Contrast measures for the three locations are, respectively, 0.447, 0.651, and 0.561, yielding quality metrics 107.0 $\times$ 0.447 = 47.84, 122.0 $\times$ 0.651 = 79.42, and 121.0 $\times$ 0.561 = 67.85. The quality metric ranges from 0.133-100.0 (see Table 1) for NIST's SD27A latent fingerprint database, which has 15008 defined minutia locations. A quality metric value cannot exceed 100.0, and any larger scores are capped at 100.0 (out of the 15008 minutia, only 54 produced quality metrics over 100.0). We now turn to the issue of applying this quality metric to determine the usability of minutiae information in a latent print.
 
@@ -167,7 +115,7 @@ We then compared our minutiae quality metric to the ridge quality map, which is 
 knitr::include_graphics("img/pk_fig5.png")
 ```
 
-## Test for Usable Quality
+### Test for Usable Quality
 
 We designed a procedure to identify a threshold for this quality metric, below which the feature is unreliable, and above which it may provide reliable information for comparison purposes. Clear fingerprint images are systematically degraded and quality metric scores calculated for the minutiae accompanying each degraded image. We start by recognizing that a typical clear print has background intensity values of 255 on a scale of 0-255. Accordingly, we simulate different levels of image quality, decreasing the quality of clear prints by lowering the background intensity levels to levels lower than 255. As the background quality is lowered, the contrast between minutiae and background decreases. In this way, we create a series of images from each clear print with different levels of minutiae quality. We can then ask experts to evaluate, in a statistically designed experiment, which minutiae are, in their judgments, sufficiently distinguishable to be useful in a fingerprint analysis, and then note their conclusions following an actual comparison ("correct match found" or "incorrect match found"). This way, a range of $Q$ for minutiae that are highly correlated with accuracy of analysis can be estimated. Clearly, one cannot use actual latent prints for such a study, because (a) the background on latent prints is not well characterized; and (b) "ground truth" is unknown.
 
@@ -185,11 +133,56 @@ Given a quality metric and a method for systematically decreasing the quality of
 
 
 
-## Conclusions
 
-Presently, the first step in fingerprint analysis is the analysis phase, in which the examiner assesses a print for usable minutia that are judged to be sufficiently clear and distinctive for comparison with prints in a database. To reduce the subjectivity in this assessment, we propose a "minutia quality metric" for assessing the clarity, and hence usability, of minutia (e.g., ridge endings, bifurcations, islands) in a fingerprint. The metric is scaled between 0 (totally unusable) and 100 (perfectly clear); more high-scoring minutia should lead to greater distinctiveness in the print and hence fewer false positives that can occur when trying to match latent prints to database prints using much lower-quality minutia. We showed in this article that our metric is both computationally efficient and correlates well with image quality: by systematically (via image algorithms) reducing the image quality of a print (and hence of the minutia), the quality metric decreases accordingly. We also show, using NIST SD27A fingerprint images, that the existence of more high-quality minutia correlates well with the experts' three-category assessment of fingerprint images (good, bad, ugly).
 
-In future work, we plan to evaluate the value of this algorithm for real practice, and estimate false positive and false negative rates with and without the quality metric. We report on this work in a forthcoming article.
+## Data
+
+```{r, out.width = "350px", echo = FALSE, fig.align='center', fig.cap = "Magnetic fingerprint powder clinging to a rod. Image taken from http://www.stapletonandassociates.com/images/MagPowder.jpg."}
+knitr::include_graphics("img/fingerprint_brush.jpg")
+```
+
+A common method for recovering unseen latent prints is dusting. Moisture clinging powder is gently brushed onto a surface using soft brushes to detect and increase the visibility of fingerprints. Magnetic powders that cling to a metal rod instead of brush exist that may help minimize possible damage to a print that may occur during dusting. After dusting, prints are usually recorded by lifting -- placing a piece of transparent tape over the fingerprint then transferring the tape, along with the powder, onto a card of contrasting color. Photographs may also be taken of the powdered print. In place of dusting, prints may be chemically processed (super glue, ninhydrin, Rhodamine 6G (R6G), etc.). Clearly visible prints (patent prints) such as those made by paint or blood may be photographed directly. If the fingerprint is left on an object that is easily transported, the object should sent to the forensics lab and photographed to create a digital image.
+
+```{r, out.width = "550px", echo = FALSE, fig.align="center", fig.cap = "Examples of powdered and lifted fingerprints using powders of different color. Image taken from https://www.kinseimatec.co.jp/en/?page_id=1868."}
+knitr::include_graphics("img/fingerprint_powders.png")
+```
+
+Photographs and fingerprint cards are scanned or otherwise converted to digital format. Enhancements to contrast or color may be made using a photo editing software before producing a finalized grayscale image that may be entered into an AFIS database, directly compared to a suspects' exemplar prints (known fingerprints, e.g., those taken on a tenprint card at a police station), or run through a quality metric algorithm.
+
+The information contained in a fingerprint can be divided into three levels [@doj_fingerprint_sourcebook].
+
+Level 1 detail is the most general, consisting of overall pattern type, friction ridge flow, and morphological information. While insufficient for individualization, level 1 detail may be used for exclusion. "Fingerprint pattern classification" refers to overall fingerprint patterns (e.g., loop, whorl) and their subcategories (e.g., left/right slanted) [@hicklin_2011].
+
+```{r, out.width = "400px", echo = FALSE, fig.align='center', fig.cap = "Level 1 detail in a fingerprint includes overall pattern type and ridge flow, such as loops, whorls, and arches. Image from https://mrthomascooper.weebly.com/."}
+knitr::include_graphics("img/level1_detail.jpg")
+```
+
+Level 2 detail consists of minutiae and individual friction ridge paths. Minutiae are also called "Galton details" after Sir Francis Galton, the first to define and name specific minutiae (bifurcation, enclosure, ridge endings, island) [@galton_fingerprints].
+
+```{r, out.width = "275px", echo = FALSE, fig.align='center', fig.cap = "Different types of Level 2 detail, or minutiae, in a fingerprint. Image from http://syhrl.blogspot.com/2012/04/036-fyp-minutiae.html."}
+knitr::include_graphics("img/minutiae.png")
+```
+
+Level 3 detail is the most specific, including friction ridge dimensional attributes such as width, edge shapes, and pores. These details may or may not appear on an exemplar print and are the least reliable.
+
+```{r, out.width = "350px", echo = FALSE, fig.align='center', fig.cap = "Level 3 detail of a fingerprint. Image from http://onin.com/fp/level123.html."}
+knitr::include_graphics("img/level3_detail.jpg")
+```
+
+### ACE-V and AFIS
+
+Latent prints may be submitted to an AFIS database which will return the top *n* potential matches. Examiners can then perform the ACE-V comparison process on these prints until a "match" is found.
+
+* Analysis: a digitized latent print is analyzed to determine if it is "suitable" for examination. During this process, LPEs mark clear, high quality sections of a print in green, moderate quality sections in yellow, and unclear or distorted sections in red. These colors correspond to features that can be used in comparison, may possibly be used, and will likely not be useful for comparison, respectfully. As level 3 detail is unreliable, LPEs use level 1 and 2 detail to determine if a print is suitable to continue to the comparison step. If not, the ACE-V process ends here.
+* Comparison: the latent and exemplar prints are compared side by side. In addition to overall pattern and ridge flow, examiners may look for the existence of target groups -- unique clusters of minutiae -- that correspond between a latent and exemplar. Additional features may be marked in orange.
+* Evaluation: a decision of *identification* (formerly "individualization"), *exclusion*, or *inconclusive* is made based on OSAC standards. An inconclusive conclusion may be reached if either print does not contain enough information for a decision. Examiners may request consultation with a colleague before reaching a decision, who would perform an independent markup on the latent.
+* Verification: a decision may (or may not) be verified by another examiner who performs an independent markup of the latent print. If the second examiner does not know the first examiner's decision, it is considered a blind verification.
+
+IAFIS is the Integrated Automatic Fingerprint Identification System developed and maintained by the US FBI [@fbi_iafis]. Implemented in 1999, it contains criminal history, photographs, and fingerprints for over 70 million individuals with criminal histories and fingerprints of 34 million civilians [@fbi_iafis, @fbi_ngi]. The FBI's Next Generation Identification (NGI) System was announced in 2014 to extend and improve the capabilities of IAFIS. INTERPOL also maintains a database of over 181,000 fingerprint records and almost 11,000 latent prints [@interpol_fingerprints].
+
+NIST maintains a series of Biometric Special Databases and Software [@nist_biometric], including several fingerprint databases. Special Database 302, not yet released, will contain realistic latent prints and their corresponding exemplars collected from the Intelligence Advanced Research Projects Activity (IARPA) Nail to Nail (N2N) Fingerprint Challenge [@fiumara_talk]. Annotations to these latents may be released at a future data. Special Database 27A, which has since been withdrawn, contained 258 latent and rolled mate pairs that two or more LPEs have agreed "match" [@watson_2015]; i.e., print pairs not guaranteed to be ground truth matches. The latent prints in this database were classified into three categories: good, bad, and ugly, which allows for general testing of correspondence between overall fingerprint quality and quality scores.
+
+
 
 
 
@@ -221,7 +214,19 @@ quality_scores(t(text_image), min_file)
 
 
 
-## Case Study -- Simple latent
+
+
+## Drawing Conclusions
+
+Presently, the first step in fingerprint analysis is the analysis phase, in which the examiner assesses a print for usable minutia that are judged to be sufficiently clear and distinctive for comparison with prints in a database. To reduce the subjectivity in this assessment, we propose a "minutia quality metric" for assessing the clarity, and hence usability, of minutia (e.g., ridge endings, bifurcations, islands) in a fingerprint. The metric is scaled between 0 (totally unusable) and 100 (perfectly clear); more high-scoring minutia should lead to greater distinctiveness in the print and hence fewer false positives that can occur when trying to match latent prints to database prints using much lower-quality minutia. We showed in this article that our metric is both computationally efficient and correlates well with image quality: by systematically (via image algorithms) reducing the image quality of a print (and hence of the minutia), the quality metric decreases accordingly. We also show, using NIST SD27A fingerprint images, that the existence of more high-quality minutia correlates well with the experts' three-category assessment of fingerprint images (good, bad, ugly).
+
+In future work, we plan to evaluate the value of this algorithm for real practice, and estimate false positive and false negative rates with and without the quality metric. We report on this work in a forthcoming article.
+
+
+
+
+
+## Case Study
 
 ```{r fingerglass, out.width = "650px", echo = FALSE, fig.cap = "Five simple fingerprints on a clean glass plate."}
 knitr::include_graphics("img/fingerprint_card.png")
@@ -275,6 +280,9 @@ kableExtra::kable(pk_scores, align=rep('c', 5)) %>% kable_styling(full_width = F
 
 
 Although only five features are marked in the latents above, many more would be identified in casework. In cases where large number of minutiae are identified, minutiae quality scores could allow examiners to focus first on those with higher quality, from which presumably the most reliable information may be obtained. The minutiae in the first image above are relatively clear even to an unexperienced observer, and clearly of better contrast than minutiae in the second image, which the quality scores reflect. Using the quality scores, examiners may be able to focus on high scoring features first, or ignore minutiae scoring below a certain threshold.
+
+
+
 
 
 <!--
