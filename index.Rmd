@@ -10,7 +10,6 @@ output:
 documentclass: book
 bibliography: [bib/book.bib, bib/packages.bib, bib/glass.bib, bib/shoe.bib, bib/fingerprint.bib, bib/dna1.bib, bib/humans.bib, bib/bullets.bib, bib/casings.bib, bib/marketplaces.bib, bib/other.bib, bib/toolmarks.bib]
 biblio-style: apalike
-csl: apa.csl
 nocite: |
   @R-patchwork
 link-citations: yes
