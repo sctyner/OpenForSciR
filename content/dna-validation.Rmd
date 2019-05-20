@@ -118,7 +118,7 @@ There are four pieces in validation:
 
 ### Get the data
 
-We'll use the package data `set1`, which is data from the genotyping of eight replicate measurements of a  positive control sample, one replicate of a negative control sample, and the ladder used in analysis. The PowerPlex® ESX 17 System from the Promega Corporation^[Technical manual: https://www.promega.com/-/media/files/resources/protocols/technical-manuals/101/powerplex-esx-17-system-protocol.pdf?la=en] was used on these samples for amplification of 17 loci recommended for analysis by the European Network fo Forensic Science Institutes (ENFSI) and the European DNA Profiling Group (EDNAP), the European equivalent of SWGDAM. The known reference sample used is the `ref1` data in the `strvalidator` package. 
+We'll use the package data `set1`, which is data from the genotyping of eight replicate measurements of a  positive control sample, one replicate of a negative control sample, and the ladder used in analysis. The PowerPlex® ESX 17 System from the Promega Corporation^[Technical manual: https://www.promega.com/-/media/files/resources/protocols/technical-manuals/101/powerplex-esx-17-system-protocol.pdf?la=en] was used on these samples for amplification of 17 loci recommended for analysis by the European Network of Forensic Science Institutes (ENFSI) and the European DNA Profiling Group (EDNAP), the European equivalent of SWGDAM. The known reference sample used is the `ref1` data in the `strvalidator` package. 
 
 First, we load the data, then slim it for analysis. Then, we use `generateEPG()` to visualize an electropherogram-like plot of the data.  
 
@@ -187,7 +187,7 @@ plotref <- ref1.slim %>% sortMarker(kit = "ESX17") %>% filter(Marker == "AMEL")
 knitr::include_graphics("img/strval-fig2.jpg")
 ```
 
-Stutter peaks are byproducts of the DNA amplification process, and their presence muddles data interpretation [@strval]. Stutter is caused by strand slippage in PCR [@butler09]. This slippage causes small peaks to appear next to true peaks, and a threshold is needed to determine if a peak is caused by slippage or if it could be a mixture sample with a minor contributor. We calculate the stutter for the eight replicates in `set1` using one back stutter, no forward stutter and no overlap. We compare these values to the 95th percentiles in Table 3 of @strval. See Figure \@ref(fig:stutterfig) for an example of stutter.   
+Stutter peaks are byproducts of the DNA amplification process, and their presence muddles data interpretation [@strval]. Stutter is caused by strand slippage in PCR [@butler09]. This slippage causes small peaks to appear next to true peaks, and a threshold is needed to determine if a peak is caused by slippage or if it could be a mixture sample with a minor contributor. We calculate the stutter for the eight replicates in `set1` using one back stutter, no forward stutter and no overlap. We compare these values to the 95$^{th}$ percentiles in Table 3 of @strval. See Figure \@ref(fig:stutterfig) for an example of stutter.   
 
 
 ```{r stutter1, fig.cap="Stutter ratios by allele for each of the eight samples in the `set1` data, computed for one back stutter, zero forward stutter, and no overlap. Note that SR increases with allele length (e.g. D10S1248; D2S1338; D12S391). Horizontal dotted lines represent the 95th percentile of stutter ratio values from the study done in @strval."}
@@ -223,7 +223,7 @@ Figure \@ref(fig:stutter1) shows the ratio of stutter for each of the eight cont
 stutterplot %>% left_join(compare_dat) %>% mutate(large = Ratio > perc95) %>% 
   filter(large) %>% 
   select(Sample.Name:Type, `95th perc.` = perc95) %>% 
-  knitr::kable(caption = "Stutter peaks larger than the 95th percentile of peak values for the study in @strval.", label = "stuthigh", digits = 3)
+  knitr::kable(caption = "Stutter peaks larger than the 95$^{th}$ percentile of peak values for the study in @strval.", label = "stuthigh", digits = 3)
 ```
 
 ### Check heterozygote balance (intra-locus balance)
