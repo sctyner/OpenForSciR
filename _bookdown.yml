@@ -20,16 +20,16 @@ language:
 delete_merged_file: true
 rmd_files: [
   "index.Rmd",
-  "introduction.Rmd",
-  "dna-validation.Rmd",
-  "pattern-firearms_bullets.Rmd",
-  "pattern-firearms_casings.Rmd" ,
-  "pattern-toolmarks.Rmd",
-  "pattern-fingerprints.Rmd",
-  "pattern-shoe.Rmd",
-  "trace-glass.Rmd",
-  "human_factors-decision_making.Rmd",
-  "97-acknowlegements.Rmd",
-  "98-glossary.Rmd",
-  "99-references.Rmd"
+  "content/introduction.Rmd",
+  "content/dna-validation.Rmd",
+  "content/pattern-firearms_bullets.Rmd",
+  "content/pattern-firearms_casings.Rmd" ,
+  "content/pattern-toolmarks.Rmd",
+  "content/pattern-fingerprints.Rmd",
+  "content/pattern-shoe.Rmd",
+  "content/trace-glass.Rmd",
+  "content/human_factors-decision_making.Rmd",
+  "content/acknowlegements.Rmd",
+  "content/glossary.Rmd",
+  "content/references.Rmd"
 ]

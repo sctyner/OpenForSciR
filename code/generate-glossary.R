@@ -31,4 +31,4 @@ Terms are given in the order in which they appear in the body of the text.
 "
 
 
-cat(header, res, sep = "\n", file = "98-glossary.Rmd")
+cat(header, res, sep = "\n", file = "content/glossary.Rmd")
