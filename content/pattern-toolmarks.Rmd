@@ -137,7 +137,7 @@ The chumbley score method since it was first developed has gone through many mod
 The method comprises of specifying a comparison window size for the so called optimization step and validation step, and  a coarseness parameter for the LOWESS smooth. The block diagram shown in \@ref(fig:blockdiag), gives an overview of the chumbley score algorithms.
 
 
-```{r, blockdiag, echo=FALSE}
+```{r blockdiag, echo=FALSE, fig.cap = "Visual heuristic representing the Chumbley score algorithms."}
 knitr::include_graphics("./img/blockdiagramchumb.PNG")
 ```
 

@@ -283,7 +283,7 @@ input_circles_Q
 start_plot(imgQ, imgK1, input_circles_Q)
 ```
 
-Next, run `match_print_subarea()` to find circles in $K$ that most closely correspond to the circles in $Q$. The result is shown in Figure \@ref(fig:exKM). In $K_1$, the algorithm finds the closest circles which show the most overlap with each of the circles that we fixed in $Q$. The corresponding circle information and summary features are shown in Tables \@ref(tab:KMtable1) and \@ref(ftab:KMtable2), respectively. Each row in Table  \@ref(tab:KMtable2) shows the similarity features from circle $q_i$ and circle $k^{1}_i$ when $i=1,2,3$. 
+Next, run `match_print_subarea()` to find circles in $K$ that most closely correspond to the circles in $Q$. The result is shown in Figure \@ref(fig:exKM). In $K_1$, the algorithm finds the closest circles which show the most overlap with each of the circles that we fixed in $Q$. The corresponding circle information and summary features are shown in Tables \@ref(tab:KMtable1) and \@ref(tab:KMtable2), respectively. Each row in Table  \@ref(tab:KMtable2) shows the similarity features from circle $q_i$ and circle $k^{1}_i$ when $i=1,2,3$. 
 
 ```{r matchKM, eval=FALSE}
 match_print_subarea(imgQ, imgK1, input_circles_Q)

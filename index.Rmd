@@ -35,7 +35,7 @@ This book **free** and is licensed under a [Creative Commons Attribution-NonComm
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a>
 
 
-# About the Authors^[Information current as of May 20, 2019] {.unnumbered}
+# About the Authors^[I nformation current as of May 20, 2019] {.unnumbered}
 
 
 ## Sam Tyner, Ph.D. {-}
@@ -44,11 +44,11 @@ Sam is a Postdoctoral Research Associate in the [Center for Statistics and Appli
 
 ## Heike Hofmann, Ph.D.  {-}
 
-Heike is a Professor of Statistics at Iowa State University. 
+Heike is a Professor of [Statistics](https://www.stat.iastate.edu/people/heike-hofmann) at Iowa State University. She is a member of the CSAFE faculty and a core member of the [Bioinformatics and Computational Biology](https://www.bcb.iastate.edu/people/all-faculty) program at ISU. She is also a faculty member in the [Human-Computer Interaction](http://www.vrac.iastate.edu/directory/faculty/?ID=hofmann) program and is on the ISU [Data Science Curriculum Committee](https://www.datascience.iastate.edu/people-category/data-science-curriculum-committee).  Her primary research interests are data visualization, multivariate categorical data analysis, statistical computing, exploratory data analysis and interactive statistical graphics. 
 
 ## Soyoung Park, Ph.D. {-}
 
-Soyoung is ...
+Soyoung Park is a Postdoctoral Research Associate at CSAFE at Iowa State University. She received her Ph.D. in Statistics from ISU in 2018. Her research interests include applied statistics, data science, forensic science, image analysis, and machine learning. Her recent research focuses on pattern matching problems in two-dimensional shoe sole impressions and optimal matching criteria for chemical matching of forensic glass fragments.
 
 ## Eric Hare, Ph.D. {-}
 
