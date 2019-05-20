@@ -432,7 +432,7 @@ ggarrange(p1, p2, ncol=2, common.legend = TRUE, legend="bottom")
 ```
 
 
-## Discussion
+### Discussion
 
 We have provided an overview of human decision-making in forensic analyses, largely through the lens of latent print comparisons and the FBI "black box" study [@ulery2011]. A brief overview of Item Response Theory (IRT), a class of models used extensively in educational testing, was introduced in Section \@ref(irt). A case study is provided of an IRT analysis on the FBI ``black box'' study in \@ref(casestudy). 
 
