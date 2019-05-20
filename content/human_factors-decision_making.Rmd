@@ -131,7 +131,7 @@ In the forensic setting, completing an IRT analysis will often include an additi
 
 ## Case Study {#casestudy}
 
-```{r hf-setup, include = FALSE}
+```{r hf-setup, echo = FALSE, cache=FALSE}
 library(blackboxstudyR)
 library(dplyr)
 library(tidyr)
