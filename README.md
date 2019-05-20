@@ -16,6 +16,10 @@ This project was funded by [rOpenSci](https://ropensci.org/about/) through their
 - Trace glass evidence (chemical composition)
 - Decision-making in Forensic Identification Tasks
 
+### Contribute 
+
+Please make a pull request or file an issue if you would like to make a contribution to *Open Forensic Science in R*.
+
 
 ## Build the book
 
