@@ -13,7 +13,9 @@ __Abstract:__
 A new measurement to quantify the quality of individual features ("minutiae") in a latent fingerprint is developed. Currently latent fingerprint quality is based on an overall score for an entire print. However, minutiae of sufficiently high quality can be useful for identification even in prints having large sections of low fidelity. We develop a metric with a scale of 0-100 (low to high quality) that characterizes (via gradients) the clarity of ridge features, and calculate the quality metrics on minutiae from NIST's SD27A latent fingerprint database containing prints judged by experts as "good," "bad," or "ugly." The proposed minutiae quality metrics correlate well with the general classification from fingerprint examiners and serve as objective, versus subjective, measures of minutiae quality. The objective quality measure enables examiners to focus on only the highest-scoring minutiae for fingerprint analyses and to discard low-scoring minutiae, thereby removing some aspects of the subjectivity involved in selecting minutiae for comparisons. We then design a procedure to determine a threshold of minutiae quality to distinguish between useful and non-useful minutiae in a forensic identification. We simulate a range of different quality prints by degrading prints of good quality images in a systematic and defined way to find the threshold below which a slated percentage of experts are unable to reliably identify fingerprint features.
 -->
 
-
+```{r fpimage, echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/fingerprint-idea.png")
+```
 
 ## Introduction
 

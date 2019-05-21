@@ -3,9 +3,13 @@ no-cite: |
   @R-RColorBrewer, @R-dplyr, @R-tidyr, @R-ggplot2, @R-gghighlight, @R-ggpubr
 ---
 
-# Decision-making in Forensic Identification Tasks {#humans}
+# Decision-making in Forensic Identification Tasks {#decision-making}
 
 #### *Amanda Luby* {-}
+
+```{r decisionimage, echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/science-decide.png")
+```
 
 ## Introduction
 

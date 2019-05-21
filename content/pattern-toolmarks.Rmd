@@ -2,6 +2,14 @@
 
 #### Ganesh Krishnan, Heike Hofmann, and Jeremy Hadler, Ph.D. {-}
 
+```{r setuptool, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache=TRUE, fig.align = "center", tidy = TRUE)
+```
+
+```{r toolmimage, echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/tools.png")
+```
+
 ## Introduction  
 
 [Toolmarks](#def:toolmark) found at crime scenes have been an important part of forensic evidence presented in court proceedings <!--(CITATION?)-->. Unambiguous, clear and unbiased procedures for comparing any two toolmarks is therefore necessary for [source conclusions](#forscip). This is also a vital step for the comparisons and markings to be presentable in court as conclusive evidence. In current standards Forensic Toolmark Examiners (FTEs) make toolmark comparisons by looking at the markings under a comparison microscope and concluding if there is a sufficient degree of agreement between them <!--(CITATION?)-->. One drawback with this kind of comparison is the natural human subjectivity introduced into the conclusions. <!--This is a big reason why objective methods of comparison were given serious consideration.--> To move towards objectivity, quantitatve, automated comparison methods are in development, as suggested by the PCAST report [PCAST -@PCAST2016]. <!--With more automation, provide better understanding of how same-source or different-source classifications are made.-->  

@@ -10,6 +10,10 @@ This work would not have been possible without the excellent documentation of th
 knitr::opts_chunk$set(echo = TRUE, cache=TRUE, fig.align = "center", message = FALSE, warning = FALSE, tidy = TRUE)
 ```
 
+```{r dnaimage, echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/dna.png")
+```
+
 ## Introduction
 
 The earliest documented use of [DNA profiling](#def:dnaprof) in the legal system was an immigration dispute in the United Kingdom [@butler05]. A young man of Ghanaian descent with family in the UK was believed to have forged his Ghanaian passport and had an expired British passport^[See the interview (https://www.bbc.co.uk/sounds/play/b008fcdz) at 19:23.]. DNA profiling techniques developed by Sir Alec Jeffreys were used to prove that the he was indeed his mother's son, and thus he did have a right to immigrate to the UK. The technique was subsequently used for many other parentage cases, and soon after, DNA profiling was used for the first time to convict someone of murder in 1986 [@butler09].

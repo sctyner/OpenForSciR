@@ -2,6 +2,10 @@
 
 #### *Xiao Hui Tai* {-}
 
+```{r casingsimage, echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/casings.png")
+```
+
 ## Introduction
 
 Marks are left on [cartridge cases](#def:cartridges) due to the firing process of a gun, in a similar way that marks are left on bullets. In the case of cartridge cases, there are at least two types of marks that are of interest. First, the [firing pin](#def:firingpin) hits the [primer](#def:primer) at the base of the cartridge, leaving a firing pin impression. The subsequent explosion (which launches the bullet) also causes the cartridge case to be pressed against the breech block of the gun, leaving impressed marks known as [breechface](#def:breechface) marks. Both these types of marks are thought to [individualize](#def:individualize) a gun, hence law enforcement officers frequently collect cartridge cases from crime scenes, in hopes of connecting these to retrieved guns, or connecting crimes where the same weapon was used.

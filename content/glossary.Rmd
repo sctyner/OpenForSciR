@@ -126,134 +126,6 @@ Terms are given in the order in which they appear in the body of the text.
 **: Graphical User Interface (GUI)** - A form of user interface that allows users to interact with electronic devices through graphical icons and visual indicators such as secondary notation, instead of text-based user interfaces. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Graphical_user_interface)*
 ```
 
-## Trace Glass Evidence
-
-```{definition, label = 'questioned'}
-**: Questioned Source** - Evidence of unknown origin. These samples could be found at a crime scene, transferred to an offender during commission of a crime, or recovered from more than one crime scene. *Source: [forensicsciencesimplified.org](http://www.forensicsciencesimplified.org/csi/glossary.html)*
-```
-
-
-```{definition, label = 'known'}
-**: Known Source** - Also called a reference sample, this is material from a verifiable/documented source which, when compared with evidence of a questioned source, shows an association or linkage between an offender, crime scene, and/or victim. *Source: [forensicsciencesimplified.org](http://www.forensicsciencesimplified.org/csi/glossary.html)*
-```
-
-
-```{definition, label = 'specsource'}
-**: Specific source question** - The specific source identification question considers whether the trace originates from a fixed specific source. *Source: @sourcehyps*
-```
-
-
-```{definition, label = 'ri'}
-**: Refractive Index** - A dimensionless number that describes how fast light propagates through a material. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Refractive_index)*
-```
-
-
-```{definition, label = 'floatglass'}
-**: Float Glass** - Extremely smooth, nearly distortion-free plate glass manufactured by pouring molten glass onto asurface of molten tin. *Source: [dictionary.com](https://www.dictionary.com/browse/float-glass)*
-```
-
-
-```{definition, label = 'astm'}
-**: ASTM International** - An international standards organization that develops and publishes voluntary consensus technical standards for a wide range of materials, products, systems, and services. *Source: [Wikipedia](https://en.wikipedia.org/wiki/ASTM_International)*
-```
-
-
-```{definition, label = 'rfdef'}
-**: Random Forest** - An ensemble learning method for classification, regression and other tasks that operates by constructing a multitude of decision trees at training time and outputting the class that is the mode of the classes (classification) or mean prediction (regression) of the individual trees. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Random_forest)*
-```
-
-
-```{definition, label = 'fluor'}
-**: Fluorescence** - The emission of radiation, especially of visible light, by a substance during exposure to externalradiation, as light or x-rays. *Source: [dictionary.com](https://www.dictionary.com/browse/fluorescence)*
-```
-
-
-```{definition, label = 'laicpms'}
-**: Inductively Coupled Mass Spectrometry with a Laser Add-on (LA-ICP-MS)** - A powerful analytical technology that enables highly sensitive elemental and isotopic analysis to be performed directly on solid samples. LA-ICP-MS begins with a laser beam focused on the sample surface to generate fine particles – a process known as Laser Ablation. The ablated particles are then transported to the secondary excitation source of the ICP-MS instrument for digestion and ionization of the sampled mass. The excited ions in the plasma torch are subsequently introduced to a mass spectrometer detector for both elemental and isotopic analysis. *Source: [Applied Spectra](https://appliedspectra.com/technology/la-icp-ms.html)*
-```
-
-
-```{definition, label = 'ml'}
-**: Machine Learning** - The scientific study of algorithms and statistical models that computer systems use to effectively perform a specific task without using explicit instructions, relying on patterns and inference instead *Source: [Wikipedia](https://en.wikipedia.org/wiki/Machine_learning)*
-```
-
-
-```{definition, label = 'classifier'}
-**: Classifier** - An algorithm which takes in data observations and outputs a prediction about which class or group in the population each observation belongs to. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Statistical_classification)*
-```
-
-
-```{definition, label = 'features'}
-**: Features** - An individual measurable property or characteristic of a phenomenon being observed *Source: [Wikipedia](https://en.wikipedia.org/wiki/Feature_(machine_learning))*
-```
-
-
-```{definition, label = 'roc'}
-**: Receiver Operating Characteristic Curve** - A commonly used summary for assessing the tradeoff between sensitivity (true positive rate) and specificity (true negative rate) of a classifier. *Source: @statlearning*
-```
-
-
-```{definition, label = 'crossval'}
-**: K-fold Cross-Validation** - A method to assess performance of a prediction model. This method splits the data up into K parts, fits the model to K-1 parts of the data, then predicts on the leftover part of data K times. *Source: @statlearning*
-```
-
-
-```{definition, label = 'sensitivity'}
-**: Sensitivity** - A measure of performance for a 2 class classifier. It is equal to the true positive rate, the probability of predicting a positive response when the truth is positive. *Source: @statlearning*
-```
-
-
-```{definition, label = 'specificity'}
-**: Specificity** - A measure of performance for a 2 class classifier. It is equal to the true negative rate, the probability of predicting a negative response when the truth is negative. *Source: @statlearning*
-```
-
-## Shoe Outsole Impression Evidence
-
-```{definition, label = 'shoeoutsole'}
-**: Shoe Outsole** - The part of the shoe that is in direct contact with the ground *Source: [Wikipedia](https://en.wikipedia.org/wiki/Shoe)*
-```
-
-
-```{definition, label = 'adhesivelift'}
-**: Adhesive Lifter** - Any material coated with a tacky substance for the purpose of lifting footwear or fingerprint impressions. *Source: [SWGTREAD](http://treadforensics.com/images/swgtread/standards/current/swgtread_15_terminology_evidence_201303.pdf)*
-```
-
-
-```{definition, label = 'electrolift'}
-**: Electrostatic Lifting** - The process of using an electrostatic charge to transfer dry
-origin impressions from the substrate to a film. *Source: [SWGTREAD](http://treadforensics.com/images/swgtread/standards/current/swgtread_15_terminology_evidence_201303.pdf)*
-```
-
-
-```{definition, label = 'casting'}
-**: Cast** - The result of filling a three-dimensional impression with an appropriate material *Source: [SWGTREAD](http://treadforensics.com/images/swgtread/standards/current/swgtread_15_terminology_evidence_201303.pdf)*
-```
-
-
-```{definition, label = 'classchar'}
-**: Class Characteristics** - Distinctive features shared by many items of the same type. This could be a result from a manufacturing process, such as physical size, design and mold characteristics. Class characteristics can determine to which group an item belongs but does not discriminate one item in a group from another item in the same group. *Source: [CSAFE](https://forensicstats.org/resources/glossary/)*
-```
-
-
-```{definition, label = 'summstat'}
-**: Summary statistic** - A value which summarizes a set of observations in order to communicate the largest amount of information as simply as possible. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Summary_statistics)*
-```
-
-
-```{definition, label = 'subclasschar'}
-**: Subclass Characteristics** - Features that may be produced during manufacturing that are consistent among items created by the same material in the same approximate state of wear. For example, all guns manufactured right before sharpening or cleaning the machinery. Sub-class characteristics are more restrictive than class characteristics and are not determined prior to manufacturing. *Source: [CSAFE](https://forensicstats.org/resources/glossary/)*
-```
-
-
-```{definition, label = 'racs'}
-**: Randomly Acquired Characteristics (RACs)** - Identifying characteristics that do not result from the manufacturing process, but are accidental, unpredictable characteristics that result from wear. These could include objects that have become attached to the outsole of a shoe—such as rocks, thumb tacks, or tape—or marks on a bullet or casing caused by lack of cleaning of a gun. *Source: [CSAFE](https://forensicstats.org/resources/glossary/)*
-```
-
-
-```{definition, label = 'maxclique'}
-**: Maximal Clique** - Given a group of vertices (points) some of which have edges (lines) in between them, the maximal clique is the largest subset of vertices in which each point is directly connected to every other vertex in the subset. *Source: [Stanford Computer Science](https://cs.stanford.edu/people/eroberts/courses/soco/projects/dna-computing/clique.htm)*
-```
-
 ## Firearms: bullets
 
 ```{definition, label = 'bullet'}
@@ -349,5 +221,144 @@ origin impressions from the substrate to a film. *Source: [SWGTREAD](http://trea
 
 ```{definition, label = 'slide'}
 **: Pistol slide** - A part on semi-automatic pistols that moves during the operating cycle and generally houses the firing pin/striker and the extractor, and serves as the bolt. It is spring-loaded so that once it has moved to its rearmost position in the firing cycle, spring tension brings it back to the starting position chambering a fresh cartridge during the motion provided that the magazine is not empty. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Pistol_slide)*
+```
+
+## Toolmarks
+
+```{definition, label = 'toolmark'}
+**: Toolmark** -  *Source: *
+```
+
+
+```{definition, label = 'striatedtm'}
+**: Striated Toolmark** -  *Source: *
+```
+
+## Shoe Outsole Impression Evidence
+
+```{definition, label = 'shoeoutsole'}
+**: Shoe Outsole** - The part of the shoe that is in direct contact with the ground *Source: [Wikipedia](https://en.wikipedia.org/wiki/Shoe)*
+```
+
+
+```{definition, label = 'adhesivelift'}
+**: Adhesive Lifter** - Any material coated with a tacky substance for the purpose of lifting footwear or fingerprint impressions. *Source: [SWGTREAD](http://treadforensics.com/images/swgtread/standards/current/swgtread_15_terminology_evidence_201303.pdf)*
+```
+
+
+```{definition, label = 'electrolift'}
+**: Electrostatic Lifting** - The process of using an electrostatic charge to transfer dry
+origin impressions from the substrate to a film. *Source: [SWGTREAD](http://treadforensics.com/images/swgtread/standards/current/swgtread_15_terminology_evidence_201303.pdf)*
+```
+
+
+```{definition, label = 'casting'}
+**: Cast** - The result of filling a three-dimensional impression with an appropriate material *Source: [SWGTREAD](http://treadforensics.com/images/swgtread/standards/current/swgtread_15_terminology_evidence_201303.pdf)*
+```
+
+
+```{definition, label = 'classchar'}
+**: Class Characteristics** - Distinctive features shared by many items of the same type. This could be a result from a manufacturing process, such as physical size, design and mold characteristics. Class characteristics can determine to which group an item belongs but does not discriminate one item in a group from another item in the same group. *Source: [CSAFE](https://forensicstats.org/resources/glossary/)*
+```
+
+
+```{definition, label = 'summstat'}
+**: Summary statistic** - A value which summarizes a set of observations in order to communicate the largest amount of information as simply as possible. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Summary_statistics)*
+```
+
+
+```{definition, label = 'subclasschar'}
+**: Subclass Characteristics** - Features that may be produced during manufacturing that are consistent among items created by the same material in the same approximate state of wear. For example, all guns manufactured right before sharpening or cleaning the machinery. Sub-class characteristics are more restrictive than class characteristics and are not determined prior to manufacturing. *Source: [CSAFE](https://forensicstats.org/resources/glossary/)*
+```
+
+
+```{definition, label = 'racs'}
+**: Randomly Acquired Characteristics (RACs)** - Identifying characteristics that do not result from the manufacturing process, but are accidental, unpredictable characteristics that result from wear. These could include objects that have become attached to the outsole of a shoe—such as rocks, thumb tacks, or tape—or marks on a bullet or casing caused by lack of cleaning of a gun. *Source: [CSAFE](https://forensicstats.org/resources/glossary/)*
+```
+
+
+```{definition, label = 'maxclique'}
+**: Maximal Clique** - Given a group of vertices (points) some of which have edges (lines) in between them, the maximal clique is the largest subset of vertices in which each point is directly connected to every other vertex in the subset. *Source: [Stanford Computer Science](https://cs.stanford.edu/people/eroberts/courses/soco/projects/dna-computing/clique.htm)*
+```
+
+## Trace Glass Evidence
+
+```{definition, label = 'questioned'}
+**: Questioned Source** - Evidence of unknown origin. These samples could be found at a crime scene, transferred to an offender during commission of a crime, or recovered from more than one crime scene. *Source: [forensicsciencesimplified.org](http://www.forensicsciencesimplified.org/csi/glossary.html)*
+```
+
+
+```{definition, label = 'known'}
+**: Known Source** - Also called a reference sample, this is material from a verifiable/documented source which, when compared with evidence of a questioned source, shows an association or linkage between an offender, crime scene, and/or victim. *Source: [forensicsciencesimplified.org](http://www.forensicsciencesimplified.org/csi/glossary.html)*
+```
+
+
+```{definition, label = 'specsource'}
+**: Specific source question** - The specific source identification question considers whether the trace originates from a fixed specific source. *Source: @sourcehyps*
+```
+
+
+```{definition, label = 'ri'}
+**: Refractive Index** - A dimensionless number that describes how fast light propagates through a material. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Refractive_index)*
+```
+
+
+```{definition, label = 'floatglass'}
+**: Float Glass** - Extremely smooth, nearly distortion-free plate glass manufactured by pouring molten glass onto asurface of molten tin. *Source: [dictionary.com](https://www.dictionary.com/browse/float-glass)*
+```
+
+
+```{definition, label = 'astm'}
+**: ASTM International** - An international standards organization that develops and publishes voluntary consensus technical standards for a wide range of materials, products, systems, and services. *Source: [Wikipedia](https://en.wikipedia.org/wiki/ASTM_International)*
+```
+
+
+```{definition, label = 'rfdef'}
+**: Random Forest** - An ensemble learning method for classification, regression and other tasks that operates by constructing a multitude of decision trees at training time and outputting the class that is the mode of the classes (classification) or mean prediction (regression) of the individual trees. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Random_forest)*
+```
+
+
+```{definition, label = 'fluor'}
+**: Fluorescence** - The emission of radiation, especially of visible light, by a substance during exposure to externalradiation, as light or x-rays. *Source: [dictionary.com](https://www.dictionary.com/browse/fluorescence)*
+```
+
+
+```{definition, label = 'laicpms'}
+**: Inductively Coupled Mass Spectrometry with a Laser Add-on (LA-ICP-MS)** - A powerful analytical technology that enables highly sensitive elemental and isotopic analysis to be performed directly on solid samples. LA-ICP-MS begins with a laser beam focused on the sample surface to generate fine particles – a process known as Laser Ablation. The ablated particles are then transported to the secondary excitation source of the ICP-MS instrument for digestion and ionization of the sampled mass. The excited ions in the plasma torch are subsequently introduced to a mass spectrometer detector for both elemental and isotopic analysis. *Source: [Applied Spectra](https://appliedspectra.com/technology/la-icp-ms.html)*
+```
+
+
+```{definition, label = 'ml'}
+**: Machine Learning** - The scientific study of algorithms and statistical models that computer systems use to effectively perform a specific task without using explicit instructions, relying on patterns and inference instead *Source: [Wikipedia](https://en.wikipedia.org/wiki/Machine_learning)*
+```
+
+
+```{definition, label = 'classifier'}
+**: Classifier** - An algorithm which takes in data observations and outputs a prediction about which class or group in the population each observation belongs to. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Statistical_classification)*
+```
+
+
+```{definition, label = 'features'}
+**: Features** - An individual measurable property or characteristic of a phenomenon being observed *Source: [Wikipedia](https://en.wikipedia.org/wiki/Feature_(machine_learning))*
+```
+
+
+```{definition, label = 'roc'}
+**: Receiver Operating Characteristic Curve** - A commonly used summary for assessing the tradeoff between sensitivity (true positive rate) and specificity (true negative rate) of a classifier. *Source: @statlearning*
+```
+
+
+```{definition, label = 'crossval'}
+**: K-fold Cross-Validation** - A method to assess performance of a prediction model. This method splits the data up into K parts, fits the model to K-1 parts of the data, then predicts on the leftover part of data K times. *Source: @statlearning*
+```
+
+
+```{definition, label = 'sensitivity'}
+**: Sensitivity** - A measure of performance for a 2 class classifier. It is equal to the true positive rate, the probability of predicting a positive response when the truth is positive. *Source: @statlearning*
+```
+
+
+```{definition, label = 'specificity'}
+**: Specificity** - A measure of performance for a 2 class classifier. It is equal to the true negative rate, the probability of predicting a negative response when the truth is negative. *Source: @statlearning*
 ```
 
