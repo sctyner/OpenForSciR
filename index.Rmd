@@ -24,6 +24,8 @@ knitr::opts_chunk$set(echo = TRUE, cache=FALSE, fig.align = "center")
 
 # Prologue {.unnumbered}
 
+<img src="img/openforscir-hex.png" style="display: block; margin-left: auto; margin-right: auto; width: 20%;" />
+
 This book is for anyone looking to do [forensic science](#def:forsci) analysis in a data-driven and open way. Whether you are a student, teacher, or scientist, this book is for you. We take the latest research, primarily from the Center for Statistics and Applications in Forensic Evidence ([CSAFE](https://forensicstats.org/)) and the National Institute of Standards and Technology ([NIST](https://www.nist.gov/)) and show you how to solve forensic science problems in [`R`](https://www.r-project.org/). The book makes some assumptions about you: 
 
 1. **You have some experience with [`R`](#def:rstats) [@R-base].** We don't assume you are an expert by any means, but we do assume you are comfortable enough with `R` to install & library packages, load data, identify different data structures, and to follow along with the code we present in each chapter. If you need help getting started with `R`, there are lots of free resources online, and CSAFE has some resources available [here](https://csafe-isu.github.io/reu18/slides/). You can install `R` for Windows, Mac, and Linux [here](https://cloud.r-project.org/) for free. We also recommend you install [RStudio](https://www.rstudio.com/products/rstudio/download/), the wonderful free [IDE](#def:ide) (Integrated Development Environment) for `R`. If you want a deeper dive into `R`, take a walk through [*R for Data Science*](http://r4ds.had.co.nz/). If you really want to explore the depths, [*Advanced R*](https://adv-r.hadley.nz/) is an excellent resource. 
