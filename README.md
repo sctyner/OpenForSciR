@@ -1,4 +1,4 @@
-# *Open Forensic Science in R* <img src="img/openforscir-hex.png" align="right" width="120" />
+# *Open Forensic Science in R* <img src="img/openforscir-hex.png" align="right" width="200" />
 
 ## About
 
