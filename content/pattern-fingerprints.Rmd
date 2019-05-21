@@ -1,3 +1,8 @@
+---
+no-cite: |
+  @R-bmp, @R-kableExtra
+---
+
 # Latent Fingerprints {#fingerprints}
 
 #### *Karen Kafadar, Karen Pan* {-}

@@ -1,6 +1,10 @@
 # Validation of DNA Interpretation Systems {#dnaval}
 
-#### Sam Tyner, PhD; Oskar Hansson, PhD {-}
+#### Sam Tyner{-}
+
+### Acknowledgements {-}
+
+This work would not have been possible without the excellent documentation of the [`strvalidator`](https://sites.google.com/site/forensicapps/strvalidator) package [@strval]. Thank you to the package's author, [Oskar Hansson, Ph.D](https://www.linkedin.com/in/goto-oskarhansson/), who has authored many, many supporting documents, tutorials, etc. for his `strvalidator` package. Thank you, Oskar! 
 
 ```{r setup03, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, cache=TRUE, fig.align = "center", message = FALSE, warning = FALSE, tidy = TRUE)
@@ -120,7 +124,7 @@ There are four pieces in validation:
 
 We'll use the package data `set1`, which is data from the genotyping of eight replicate measurements of a  positive control sample, one replicate of a negative control sample, and the ladder used in analysis. The PowerPlex® ESX 17 System from the Promega Corporation^[Technical manual: https://www.promega.com/-/media/files/resources/protocols/technical-manuals/101/powerplex-esx-17-system-protocol.pdf?la=en] was used on these samples for amplification of 17 loci recommended for analysis by the European Network of Forensic Science Institutes (ENFSI) and the European DNA Profiling Group (EDNAP), the European equivalent of SWGDAM. The known reference sample used is the `ref1` data in the `strvalidator` package. 
 
-First, we load the data, then slim it for analysis. Then, we use `generateEPG()` to visualize an electropherogram-like plot of the data.  
+First, we load the data, then slim it for analysis. Then, we use `generateEPG()` to visualize an electropherogram-like plot of the data. This function, like the other plotting functions in `strvalidator`, is built on the `ggplot2` package [@R-ggplot2]. We also use the [`dplyr`](https://dplyr.tidyverse.org/) package throughout for data manipulation tasks [@R-dplyr].   
 
 ```{r set1, fig.show='hide'}
 library(strvalidator)

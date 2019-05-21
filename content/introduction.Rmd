@@ -1,9 +1,14 @@
+---
+no-cite: |
+  @R-devtools
+---
+
 # Introduction {#intro}
 
 
 ## R Packages 
 
-Here are all of the [`R`](#def:rstats) packages used in this book. If you would like to download and compile this book on your own system, this chunk will install and load all of the necessary packages for you. If you have problems with installation of any of these packages, this is probably due to an individual computer or `R` version issue. If you experience any installation problems, the best thing to do is to search for the error message you get on the web to see if anyone else has already solved your problem. If the package you are having troubles with has a [GitHub](https://github.com/) repository, you should search its [Issues](https://github.com/issues) to see if the author of the package has encountered and/or solved your problem before. If not, [community.rstudio.com](https://community.rstudio.com/) and [Stack Overflow](https://stackoverflow.com/questions/tagged/r) tend to be the most trustworthy sources of troubleshooting information. If all else fails, you can post an issue on the [Github repo](https://github.com/sctyner/OpenForSciR/issues) for this book. However, this should be your last resort: the authors of this book are subject matter experts, not necessarily computer debugging experts for your specific system and installation.  
+Here are all of the [`R`](#def:rstats) packages used in this book. Some are installed from [CRAN](https://cran.r-project.org/), some are installed from [Bioconductor](https://www.bioconductor.org/), and some are installed from GitHub using the [`devtools`](https://devtools.r-lib.org/) package [@R-devtools]. If you would like to download and compile this book on your own system, this chunk will install and load all of the necessary packages for you. If you have problems with installation of any of these packages, this is probably due to an individual computer or `R` version issue. If you experience any installation problems, the best thing to do is to search for the error message you get on the web to see if anyone else has already solved your problem. If the package you are having troubles with has a [GitHub](https://github.com/) repository, you should search its [Issues](https://github.com/issues) to see if the author of the package has encountered and/or solved your problem before. If not, [community.rstudio.com](https://community.rstudio.com/) and [Stack Overflow](https://stackoverflow.com/questions/tagged/r) tend to be the most trustworthy sources of troubleshooting information. If all else fails, you can post an issue on the [Github repo](https://github.com/sctyner/OpenForSciR/issues) for this book. However, this should be your last resort: the authors of this book are subject matter experts, not necessarily computer debugging experts for your specific system and installation.  
 
 ```{r all_packages, eval = FALSE}
 options(repos = "http://cran.us.r-project.org")

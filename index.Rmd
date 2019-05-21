@@ -11,7 +11,7 @@ documentclass: book
 bibliography: [bib/book.bib, bib/packages.bib, bib/glass.bib, bib/shoe.bib, bib/fingerprint.bib, bib/dna1.bib, bib/humans.bib, bib/bullets.bib, bib/casings.bib, bib/marketplaces.bib, bib/other.bib, bib/toolmarks.bib]
 biblio-style: apalike
 nocite: |
-  @R-patchwork
+  @R-devtools, @R-patchwork, @R-RColorBrewer, @R-tidyr, @R-gghighlight, @R-ggpubr, @R-rgl
 link-citations: yes
 github-repo: sctyner/openforscir
 description: "This book is for anyone looking to do forensic science analysis in a data-driven and open way."
@@ -70,7 +70,7 @@ Karen Pan is a Ph.D. student in the Department of Statistics at University of Vi
 
 Amanda is currently finishing her Ph.D. in Statistics & Data Science at Carnegie Mellon University. Her dissertation focuses on statistical methods for understanding complex human decision-making, with applications in forensic evidence analysis. She will be an Assistant Professor of Statistics at Swarthmore College beginning August 2019. 
 
-## Ganesh Krishnan {-}
+## Ganesh Krishnan, M.Sc. {-}
 
 Ganesh is a Ph.D. student in Statistics & Human Computer Interaction at Iowa State University. His current work is on statistical methods for bullet and toolmark comparisons. He also has a background in Scientific Computing & Numerical Analysis.
 
@@ -80,7 +80,7 @@ Ganesh is a Ph.D. student in Statistics & Human Computer Interaction at Iowa Sta
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown', "x3ptools", "bulletxtrctr", "magrittr", "dplyr", "PRROC", "DescTools", "protoclust", "EBImage", "blackboxstudyR", "rstantools", "rstan", "RColorBrewer", "tidyr", "ggplot2", "gghighlight", "ggpubr", "caret", "shoeprintr", "patchwork", "purrr"
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', "x3ptools", "bulletxtrctr", "magrittr", "dplyr", "PRROC", "DescTools", "protoclust", "EBImage", "blackboxstudyR", "rstantools", "rstan", "RColorBrewer", "tidyr", "ggplot2", "gghighlight", "ggpubr", "caret", "shoeprintr", "patchwork", "purrr", "strvalidator", "devtools", "bmp", "kableExtra", "rgl"
 ), 'bib/packages.bib')
 # hmmm. how to generate the glossary automatically on build.....? 
 # source("code/generate-glossary.R")
