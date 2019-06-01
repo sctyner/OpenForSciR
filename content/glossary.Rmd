@@ -234,6 +234,27 @@ Terms are given in the order in which they appear in the body of the text.
 **: Striated Toolmark** -  *Source: *
 ```
 
+## Latent Fingerprints
+
+```{definition, label = 'latentfp'}
+**: Latent fingerprint** - A fingerprint left on a surface by deposits of oils and/or perspiration from the finger. It is not usually visible to the naked eye but may be detected with special techniques such as dusting with fine powder and then lifting the pattern of powder with transparent tape. *Source: [USLegal.com](https://definitions.uslegal.com/l/latent-fingerprint/)*
+```
+
+
+```{definition, label = 'minutiae'}
+**: Minutiae** - The points where the ridge lines in a fingerprint end or fork. They can be of many types, such as ridge ending, ridge bifurcation, or crossovers. *Source: [Bayometric](https://www.bayometric.com/minutiae-based-extraction-fingerprint-recognition/)*
+```
+
+
+```{definition, label = 'patentprint'}
+**: Patent Prints** - Patent prints are those fingerprints that are easily spotted without the use of magnesium powders, ultra violet lights or chemicals that might assist in the visualisation of such a print. Patent prints are often found perhaps in blood, ink, oil or on surfaces such as glass, wooden doorframes or paper. *Source: [Explore Forensics](http://www.exploreforensics.co.uk/latent-prints.html)*
+```
+
+
+```{definition, label = 'exemplar'}
+**: Exemplar Prints** - Exemplar prints, or known prints, is the name given to fingerprints deliberately collected from a subject, whether for purposes of enrollment in a system or when under arrest for a suspected criminal offense. During criminal arrests, a set of exemplar prints will normally include one print taken from each finger that has been rolled from one edge of the nail to the other, plain (or slap) impressions of each of the four fingers of each hand, and plain impressions of each thumb. Exemplar prints can be collected using live scan or by using ink on paper cards. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Fingerprint)*
+```
+
 ## Shoe Outsole Impression Evidence
 
 ```{definition, label = 'shoeoutsole'}
