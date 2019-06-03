@@ -36,5 +36,3 @@ rmarkdown::render_site(output_format = 'bookdown::gitbook', encoding = 'UTF-8')
 ## Other R Resources
 
 Please see the current draft of the [CRAN Task View for Forensic Science](https://github.com/sctyner/ctv-forsci). Contributuions are welcome!
-Delete me later
-Delete me later, too
