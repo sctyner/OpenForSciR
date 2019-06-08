@@ -383,3 +383,9 @@ origin impressions from the substrate to a film. *Source: [SWGTREAD](http://trea
 **: Specificity** - A measure of performance for a 2 class classifier. It is equal to the true negative rate, the probability of predicting a negative response when the truth is negative. *Source: @statlearning*
 ```
 
+## Decision-making in Forensic Identification Tasks
+
+```{definition, label = 'blackbox'}
+**: Black box study** - Black-Box Study—A black box study assesses the accuracy of examiners’ conclusions without considering how the conclusions were reached. The examiner is treated as a “black-box” and the researcher measures how the output of the “black-box” (examiner’s conclusion) varies depending on the input (the test specimens presented for analysis). To test examiner accuracy, the “ground truth” regarding the type or source of the test specimens must be known with certainty. *Source: [OSAC Human Factors Committee](https://www.nist.gov/sites/default/files/documents/2018/05/21/draft_hfc_guidance_document-may_8.pdf)*
+```
+
