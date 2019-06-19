@@ -145,7 +145,7 @@ The modeling effort basically takes the current class correlation matrix as the 
 
 #### Chumbley Adjusted Non-random score
 
-The chumbley score method since it was first developed has gone through many modifications. The most recent and the only non-random versions are available in the `toolmaRk` package. In this chapter we will be discussing these methods of comparing two toolmarks as developed. The adjusted chumbley non-random method [@gkhh-chumbley] and chumbley non-random as developed by [@hadler] are both available in the `toolmaRk` package. 
+The chumbley score method since it was first developed has gone through many modifications. The most recent and the only non-random versions are available in the `toolmaRk` package. In this chapter we will be discussing these methods of comparing two toolmarks as developed. The adjusted chumbley non-random method [@gkhh-chumbley] and chumbley non-random as developed by @hadler are both available in the `toolmaRk` package. 
 
 The method comprises of specifying a comparison window size for the so called optimization step and validation step, and  a coarseness parameter for the LOWESS smooth. The block diagram shown in \@ref(fig:blockdiag), gives an overview of the chumbley score algorithms.
 
