@@ -16,16 +16,28 @@ knitr::include_graphics("img/tools.png")
 
 
 
-Automated methods for toolmark comparison take two markings and  convert them into a digitized format. After digitization, the marking are standardized and the examiner identifies regions of interest. The examiner then aligns the markings by these regions of interest for comparison, using their expertise to come to a conclusion. <!-- Sam's notes: need some citations for this section.--> <!--, calculate the correlation between the markings and try to come up with a score by performing a statistical test on them.--> Particularly for [striated toolmarks](#def:striatedtm), some such algorithmic methods have been developed for objective comparisons which result in a score which quantifies the strength of the similarity. Using the score-based methods, error rates can then be calculated.  Depending on the objective method being considered, these striated marking can be used directly, as in  @gkhh-chumbley, or further broken down into [class characteristics](#def:classchar), and individual characteristics [@hadlermorristhesis]. The toolmark can thus be decomposed into these two groups. <!-- each of which accounts for these features separately.--> The class characteristics form the <!--are the trend lines of the toolmark that signify the --> overall structure of the marking, while the individual characteristics are the minute oscillations or [striation marks](#def:striations) that appear as "noise" on the larger structure. In this chapter we will be examining some of these methods of objective comparison. <!--and look closely how the comparisons are made by them.-->
+Automated methods for toolmark comparison take two markings and  convert them into a digitized format. After digitization, the marking are standardized and the examiner identifies regions of interest. The examiner then aligns the markings by these regions of interest for comparison, using their expertise to come to a conclusion. <!-- Sam`s notes: need some citations for this section.--> <!--, calculate the correlation between the markings and try to come up with a score by performing a statistical test on them.--> Particularly for [striated toolmarks](#def:striatedtm), some such algorithmic methods have been developed for objective comparisons which result in a score which quantifies the strength of the similarity. Using the score-based methods, error rates can then be calculated.  Depending on the objective method being considered, these striated marking can be used directly, as in  @gkhh-chumbley, or further broken down into [class characteristics](#def:classchar), and individual characteristics [@hadlermorristhesis]. The toolmark can thus be decomposed into these two groups. <!-- each of which accounts for these features separately.--> The class characteristics form the <!--are the trend lines of the toolmark that signify the --> overall structure of the marking, while the individual characteristics are the minute oscillations or [striation marks](#def:striations) that appear as "noise" on the larger structure. In this chapter we will be examining some of these methods of objective comparison. <!--and look closely how the comparisons are made by them.-->
 
 ## Data
 
-For our examples we will be using striated markings made by screwdrivers under different angles. The data was generated at Ames lab \cite{datatoolmark} and is available inside the `toolmaRk` package. It consists of a sample of 16 toolmark profiles and descriptors. These profiles represent a cross-sectional cut information extracted from the surface on which the marking was made. The measurements in these profiles are taken at equispaced intervals across the toolmark.  The profiles with the same toolmark identifier are known matches, all other profiles are known non-matches.
-The 'ID' variable is a toolmark identifier and Factor variable. The side of the screwdriver from which the marking was made is called 'side'. It is a factor variable with values A or B. The 'angle' variable is the degree of the angle under which the toolmark was created. 'Rep' on the other hand shows the replicate number for a toolmark. The sample data provided is not complete, therefore it only shows one randomly sampled replicate for each of the 16 profiles under consideration. 
+For our examples we will be using striated markings made by screwdrivers under different angles. The data was generated at Ames lab  and is available inside the `toolmaRk` package [@datatoolmark, @R-toolmaRk]. It consists of a sample of 16 toolmark profiles and descriptors. These profiles represent a cross-sectional cut of the surface on which the marking was made. The measurements in these profiles are taken at equally spaced intervals across the toolmark.  The profiles with the same toolmark identifier are known mates: the same tool made both marks.  All other profiles are known non-mates. The data are structured as follows: 
+
+- `ID` (factor): toolmark identifier 
+- `side` (factor): the side of the screwdriver (either `"A"` or `"B"`) that created the the marking
+- `angle` (numeric): the degree of the angle between the screwdriver and the surface when the toolmark was made
+- `Rep` (integer): replicate number
+- `profile` (data frame): the profile
+
+The sample data provided is not the full experimental data from @datatoolmar: there is one randomly sampled replicate for each of the 16 toolmark profiles under consideration. 
 
 ## R packages
 
-The `toolmaRk` package in R, is a package available for objective analysis of toolmarks in R. The package has three methods of making a comparison between two markings. In the following sections we will be discussing these available methods and show how they are used for analysing toolmarks. We will first build an intuition about what these methods are, and then show how to use them in R. This allows us to understand what to expect out of the function  and how to make better inference from the output from these methods as we compare two toolmarks.
+The `toolmaRk` package in R, is a package available for objective analysis of toolmarks in R [@R-toolmaRk]. The package has three methods to make a comparison between two markings: 
+
+- the diamond search fixed width method
+- 
+
+In the following sections we will be discussing these available methods and show how they are used for analysing toolmarks. We will first build an intuition about what these methods are, and then show how to use them in R. This allows us to understand what to expect out of the function  and how to make better inference from the output from these methods as we compare two toolmarks.
 
 
 ### Hypothesis
@@ -54,7 +66,7 @@ The diamond search method is a method that relies on finding a suitable constrai
 
 The diamond search fixed width methods rely on the assumption that the toolmarks can always be decomposed into its class and individual components. It also relies on stationarity assumptions. 
 
-The R functions 'fixed_width_with_model' and 'fixed_width_with_no_model' use the diamond search fixed width method in its computations [@hadlermorristhesis]. These functions return results in the form of variables and plots. The meaning of these lists, variables and plots are given below:
+The R functions `fixed_width_with_model` and `fixed_width_with_no_model` use the diamond search fixed width method in its computations [@hadlermorristhesis]. These functions return results in the form of variables and plots. The meaning of these lists, variables and plots are given below:
 
 1.  max_corr =  Maximized individual component correlation, this is the value of the maximum correlation
 2.  Smooth_offset =  Optimal Class offset, this is location of the maximum class correlation matrix
@@ -81,7 +93,7 @@ the individual component is the unique deviations around this trend.
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+```{r echo=FALSE, message=FALSE, warning=FALSE, results=`hide`}
 load("./dat/ameslab.RData")
 library(tidyverse)
 dat1 <- ameslab$profile[[1]]
@@ -157,21 +169,21 @@ knitr::include_graphics("./img/blockdiagramchumb.PNG")
 
 The chumbley score methods as found in the `toolmaRk` package all work on the same principle as shown in \@ref(fig:blockdiag). The optimization step includes computation of correlation between all possible combinations of optimization windows in the two signatures to generate an optimization step correlation matrix. The maximum value of this matrix essentially identifies the optimal locations by identifying the corresponding windows in the two toolmarks. The location of the pair of windows in the two markings is used to compute the lag in the two toolmarks. This is also called the optimal offset. Now the intuition is that for shifts in the pair of windows (a smaller window size) that are synchronized with the lag or this optimal offset, should in theory have higher correlations when the ground truth for the two toolmarks is a match. The correlation of these set of synchronized pair of windows would be systematically higher when compared to pairs of windows that do not correspond to a synchronized offsetting. The same-shift step therefore corresponds to a lag synchronized selection of pairs of windows and computing there correlations, while the different shift step corresponds to picking pair of windows that are not lag synchronized and computing a set of correlations for these. A Mann-Whitney U statistic is then computed by comparing the same-shift set and the different-shift set of correlations. This U-statistic is used to compute a p-value and therefore classify the two toolmarks as same-source or different-source. [@gkhh-chumbley].
 
-The R functions 'chumbley_non_random_adj' uses the modified chumbley score method [@gkhh-chumbley] for its computations. The function returns results for the computed test statistic, associated p_value, and statistics related to the same-shift and different-shift segments of the validation step of the chumbley score method. The nomenclature and meaning of the returned variables is given below:
+The R functions `chumbley_non_random_adj` uses the modified chumbley score method [@gkhh-chumbley] for its computations. The function returns results for the computed test statistic, associated p_value, and statistics related to the same-shift and different-shift segments of the validation step of the chumbley score method. The nomenclature and meaning of the returned variables is given below:
 
 1. same_shift_n = Number of same shift offsets used
 2. diff_shift_n = Number of different shift offsets used
 3. U = observed U statistic
 4. p_value = p-value corresponding to the test statistic
-5. same_shift = correlation values corresponding to the same shift offset. The number of such values should be equal to 'same_shift_n'.
-6. diff_shift = correlation values corresponding to the different shift offset. The number of such values should be equal to 'diff_shift_n'.
+5. same_shift = correlation values corresponding to the same shift offset. The number of such values should be equal to `same_shift_n`.
+6. diff_shift = correlation values corresponding to the different shift offset. The number of such values should be equal to `diff_shift_n`.
 
 ### Computational Considerations
 
 #### Coarseness parameter values
-For the Diamond Search fixed width functions there are two kinds smoothness parameter values namely 'coarse' and 'fine'. The coarse parameter is used for normalization, while the parameter 'fine' is used to get the class component of the two markings. The residual or the difference between these two smoothed processes is the individual component. The default value for 'coarse' is defined as 0.25 while that for the 'fine' is 0.01.
+For the Diamond Search fixed width functions there are two kinds smoothness parameter values namely `coarse` and `fine`. The coarse parameter is used for normalization, while the parameter `fine` is used to get the class component of the two markings. The residual or the difference between these two smoothed processes is the individual component. The default value for `coarse` is defined as 0.25 while that for the `fine` is 0.01.
 
-For the Chumbley score methods there is no decomposition of the marking into class and individual components, but the first step is still to normalize the toolmark. Therefore, the 'coarse' parameter in this method is used to remove the major trend of the marking and to normalize it. One LOWESS smooth is therefore enough to achieve this and the value is taken around 0.25 for toolmarks.
+For the Chumbley score methods there is no decomposition of the marking into class and individual components, but the first step is still to normalize the toolmark. Therefore, the `coarse` parameter in this method is used to remove the major trend of the marking and to normalize it. One LOWESS smooth is therefore enough to achieve this and the value is taken around 0.25 for toolmarks.
 
 #### Window size selection
 
@@ -189,7 +201,7 @@ With a conclusive classification of the two markings as match or non-match from 
 To construct the set of comparisons, we  
 
 1. First specify the two toolmarks to be compared. For this we first choose a set of known match or same-source pairs and then a pair of different source pairs to see how the different tests perform.
-```{r echo=TRUE, eval=FALSE, results='asis'}
+```{r echo=TRUE, eval=FALSE, results=`asis`}
 # Same-source toolmarks
 known_match.dat1<- ameslab$profile[[1]]
 known_match.dat1 <- matrix(known_match.dat1[round(0.01*nrow(known_match.dat1)):round(0.99*nrow(known_match.dat1)),], ncol = 1)
@@ -316,7 +328,7 @@ fine_smooth = .01
 win_size_perc = .6
 M = 500
 
-# Additional Package Dependencies on 'glmnet' and 'Matrix', make sure they are installed
+# Additional Package Dependencies on `glmnet` and `Matrix`, make sure they are installed
 # before using this function
 
 # Run function
@@ -346,7 +358,7 @@ fine_smooth = .01
 win_size_perc = .6
 M = 500
 
-# Additional Package Dependencies on 'glmnet' and 'Matrix', make sure they are installed
+# Additional Package Dependencies on `glmnet` and `Matrix`, make sure they are installed
 # before using this function
 
 # Run function

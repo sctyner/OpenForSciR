@@ -223,17 +223,6 @@ Terms are given in the order in which they appear in the body of the text.
 **: Pistol slide** - A part on semi-automatic pistols that moves during the operating cycle and generally houses the firing pin/striker and the extractor, and serves as the bolt. It is spring-loaded so that once it has moved to its rearmost position in the firing cycle, spring tension brings it back to the starting position chambering a fresh cartridge during the motion provided that the magazine is not empty. *Source: [Wikipedia](https://en.wikipedia.org/wiki/Pistol_slide)*
 ```
 
-## Toolmarks
-
-```{definition, label = 'toolmark'}
-**: Toolmark** -  *Source: *
-```
-
-
-```{definition, label = 'striatedtm'}
-**: Striated Toolmark** -  *Source: *
-```
-
 ## Latent Fingerprints
 
 ```{definition, label = 'latentfp'}
