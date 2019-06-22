@@ -24,7 +24,6 @@ rmd_files: [
   "content/dna-validation.Rmd",
   "content/pattern-firearms_bullets.Rmd",
   "content/pattern-firearms_casings.Rmd" ,
-  "content/pattern-toolmarks.Rmd",
   "content/pattern-fingerprints.Rmd",
   "content/pattern-shoe.Rmd",
   "content/trace-glass.Rmd",

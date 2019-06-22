@@ -1,6 +1,6 @@
 # Acknowledgements {-}
 
-This book was made possible by an award from [rOpenSci](https://ropensci.org/about/), a fiscally sponsored project of [NumFOCUS](https://numfocus.org/). The PI on the award is Heike Hofmann, my Ph.D. advisor, turned colleague and friend. Thank you, Heike! Big thanks go to Karthik Ram and the rest of the rOpenSci awards committee for awarding us this fellowship. 
+This book was made possible by an award from [rOpenSci](https://ropensci.org/about/), a fiscally sponsored project of [NumFOCUS](https://numfocus.org/). The PI on the award is Heike Hofmann, my Ph.D. advisor, turned colleague and friend. Thank you, Heike! Big thanks go to Karthik Ram and the rOpenSci awards committee, Di Cook, Mine Cetinkaya-Rundel, Matt Jones, and Ken Benoit, for awarding us this fellowship. 
 
 Thank you also to the many contributors of this book's chapters, who have written something or have given me their time, guidance, and patience: 
 

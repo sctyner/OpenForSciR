@@ -54,15 +54,15 @@ Soyoung Park is a Postdoctoral Research Associate at CSAFE at Iowa State Univers
 
 ## Eric Hare, Ph.D. {-}
 
-Eric is the Chief Data Scientist at [Omni Analytics](https://omnianalytics.io/). He earned his Ph.D. in Statistics and Computer Science from Iowa State University in 2017. For his dissertation, Eric assisted in the development of `bulletr` and the associated bullet matching models which are a focus of a section of this book.
+Eric is the Chief Data Scientist at [Omni Analytics](https://omnianalytics.io/). He earned his Ph.D. in Statistics and Computer Science from Iowa State University in 2017. For his dissertation, Eric assisted in the development of `bulletr`, the precursor to the  `x3ptools` and `bulletxtrctr` packages introduced in Chapter \@ref(#bullets), and the associated bullet matching models which are a focus of a section of this book.
 
 ## Xiao Hui Tai {-}
 
-Xiao Hui is a PhD student in the Department of Statistics and Data Science at Carnegie Mellon University. She is currently working on matching problems in forensic science. Previously she was a statistician with the Singapore government.
+Xiao Hui is a Ph.D. student in the Department of Statistics and Data Science at Carnegie Mellon University. She is currently working on matching problems in forensic science. Previously she was a statistician with the Singapore government.
 
 ## Karen Kafadar, Ph.D. {-}
 
-Karen Kafadar is Commonwealth Professor and Chair of Statistics at University of Virginia. She received her Ph.D. in Statistics from Princeton and has served on several National Academy of Science committees, including the ones that led to the reports Weighing Bullet Lead Evidence (2004), Strengthening Forensic Science in the United States: A Path Forward (2009), Evaluating Testing, Costs, and Benefits of Advanced Spectroscopic Portals (2011), and Identifying the Culprit: Assessing Eyewitness Identification (2014). She also has served on the governing boards for ASA, IMS, ISI, NISS, FSSB, and is the 2019 ASA President.
+Karen Kafadar is Commonwealth Professor and Chair of Statistics at University of Virginia. She received her Ph.D. in Statistics from Princeton and has served on several National Academy of Science committees, including the ones that led to the reports [Weighing Bullet Lead Evidence](https://www.nap.edu/catalog/10924/forensic-analysis-weighing-bullet-lead-evidence) (2004), [Strengthening Forensic Science in the United States: A Path Forward](https://www.ncjrs.gov/pdffiles1/nij/grants/228091.pdf) (2009), [Evaluating Testing, Costs, and Benefits of Advanced Spectroscopic Portals](https://www.nap.edu/catalog/13082/evaluating-testing-costs-and-benefits-of-advanced-spectroscopic-portals-final) (2011), and [Identifying the Culprit: Assessing Eyewitness Identification](https://www.nap.edu/catalog/18891/identifying-the-culprit-assessing-eyewitness-identification) (2014). She also has served on the governing boards for the American Statistical Association (ASA), Institute of Mathematical Statistics, International Statistical Institute, National Institute of Statistical Sciences, Forensic Science Standards Board, and is the 2019 ASA President.
 
 ## Karen Pan {-}
 

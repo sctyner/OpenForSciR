@@ -51,26 +51,23 @@ if (!requireNamespace("BiocManager", quietly = TRUE)){
 BiocManager::install("EBImage", version = "3.8")
 install_dev_missing("cartridges", "xhtai")
 
-# Chapter 5: Toolmarks
-install_dev_missing("toolmaRk", "heike")
-
-# Chapter 6: Fingerprints
+# Chapter 5: Fingerprints
 install_cran_missing("bmp")
 install_cran_missing("kableExtra")
 install_dev_missing("fingerprintr", "kdp4be")
 
-# Chapter 7: Shoe 
+# Chapter 6: Shoe 
 install_dev_missing("shoeprintr", "CSAFE-ISU")
 install_dev_missing("patchwork", "thomasp85")
 
 
-# Chapter 8: Glass
+# Chapter 7: Glass
 install_cran_missing("caret")
 install_cran_missing("GGally")
 install_cran_missing("stringr")
 install_dev_missing("csafethemes", "csafe-isu")
 
-# Chapter 9: Decision Making
+# Chapter 8: Decision Making
 install_dev_missing("blackboxstudyR", "aluby")
 install_cran_missing("rstan")
 install_cran_missing("RColorBrewer")
@@ -85,7 +82,7 @@ In the appendix, you will find a dedicated [Glossary](#glossary) section. The te
 
 ## Forensic Science Problems {#forscip}
 
-The purpose of this section is to introduce the general type of [forensic science](#def:forsci) problem that will be covered in the book. The common understanding of forensic science is that law enforcement uses it to help solve crimes, but the primary professionals in forensic science are forensic scientists, not members of law enforcement. According to the American Academy of Forensic Sciences ([AAFS](https://www.aafs.org/home-page/students/choosing-a-career/whats-a-forensic-scientist/)), any forensic scientist is first and foremost a scientist, who communicates their knowledge and their tests results to lawyers, juries, and judges. 
+The purpose of this section is to introduce the general type of [forensic science](#def:forsci) problem that will be covered in the book. The common understanding of forensic science is that law enforcement uses it to help solve crimes, but the primary professionals in forensic science are scientists, not members of law enforcement. According to the American Academy of Forensic Sciences ([AAFS](https://www.aafs.org/home-page/students/choosing-a-career/whats-a-forensic-scientist/)), any forensic scientist is first and foremost a scientist, who communicates their knowledge and their tests results to lawyers, juries, and judges. 
 
 Where a legal matter is concerned, law enforcement is in charge of answering a very different question than the forensic scientist examining the [evidence](#def:evidence). Specifically in the criminal context, law enforcement wants to know who committed the crime, while the forensic scientist wants to understand the nature of the evidence. In theory, the forensic scientist's conclusion can be used by law enforcement, but law enforcement information should generally not be used by the scientist, with some exceptions per @cook_hierarchy_1998.
 
