@@ -32,3 +32,4 @@ rmd_files: [
   "content/glossary.Rmd",
   "content/references.Rmd"
 ]
+output_dir: "docs"

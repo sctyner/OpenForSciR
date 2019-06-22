@@ -6,7 +6,7 @@ bookdown::gitbook:
         <li><a href="./">Open Forensic Science in R</a></li>
       after: |
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-    edit: https://github.com/sctyner/OpenForSciR
+    edit: https://github.com/sctyner/OpenForSciR/edit/master/content/%s
     download: ["pdf", "epub"]
 bookdown::pdf_book:
   includes:
