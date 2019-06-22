@@ -4,21 +4,32 @@
 
 This project was funded by [rOpenSci](https://ropensci.org/about/) through their [Research Fellowship program](https://ropensci.org/blog/2018/02/14/announcing-2018-ropensci-fellows/).
 
+
 ### Topics Covered
 
 - Validation of DNA Interpretation Systems
 - Firearms
     * Bullets
     * Casings
-- Toolmarks
 - Latent Fingerprints
 - Shoe Outsole Impressions
 - Trace glass evidence (chemical composition)
 - Decision-making in Forensic Identification Tasks
 
+### Future Topics 
+
+- Toolmarks
+- Handwriting
+- DNA Mixture Interpretation
+- Digital Evidence: Online Behavior
+
 ### Contribute 
 
 Please make a pull request or file an issue if you would like to make a contribution to *Open Forensic Science in R*.
+
+Please note that this project is released with a
+[Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
 
 
 ## Build the book
