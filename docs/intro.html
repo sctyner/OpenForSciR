@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 1 Introduction | Open Forensic Science in R</title>
+  <meta name="description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 1 Introduction | Open Forensic Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  <meta name="github-repo" content="sctyner/openforscir" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Introduction | Open Forensic Science in R" />
+  
+  <meta name="twitter:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  
+
+<meta name="author" content="Editor: Sam Tyner, Ph.D.">
+
+
+<meta name="date" content="2019-06-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="about-the-authors.html">
+<link rel="next" href="dnaval.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.5/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Open Forensic Science in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prologue</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a><ul>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#sam-tyner-ph.d."><i class="fa fa-check"></i>Sam Tyner, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#heike-hofmann-ph.d."><i class="fa fa-check"></i>Heike Hofmann, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#soyoung-park-ph.d."><i class="fa fa-check"></i>Soyoung Park, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#eric-hare-ph.d."><i class="fa fa-check"></i>Eric Hare, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#xiao-hui-tai"><i class="fa fa-check"></i>Xiao Hui Tai</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-kafadar-ph.d."><i class="fa fa-check"></i>Karen Kafadar, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-pan"><i class="fa fa-check"></i>Karen Pan</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#amanda-luby"><i class="fa fa-check"></i>Amanda Luby</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#ganesh-krishnan-m.sc."><i class="fa fa-check"></i>Ganesh Krishnan, M.Sc.</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#r-packages"><i class="fa fa-check"></i><b>1.1</b> R Packages</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#terminology-and-definitions"><i class="fa fa-check"></i><b>1.2</b> Terminology and Definitions</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#forscip"><i class="fa fa-check"></i><b>1.3</b> Forensic Science Problems</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dnaval.html"><a href="dnaval.html"><i class="fa fa-check"></i><b>2</b> Validation of DNA Interpretation Systems</a><ul>
+<li class="chapter" data-level="" data-path="dnaval.html"><a href="dnaval.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="2.1" data-path="dnaval.html"><a href="dnaval.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="dnaval.html"><a href="dnaval.html#procedure-for-dna-analysis-using-strs"><i class="fa fa-check"></i><b>2.1.1</b> Procedure for DNA Analysis using STRs</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="dnaval.html"><a href="dnaval.html#data"><i class="fa fa-check"></i><b>2.2</b> Data</a></li>
+<li class="chapter" data-level="2.3" data-path="dnaval.html"><a href="dnaval.html#r-package"><i class="fa fa-check"></i><b>2.3</b> R Package</a></li>
+<li class="chapter" data-level="2.4" data-path="dnaval.html"><a href="dnaval.html#drawing-conclusions"><i class="fa fa-check"></i><b>2.4</b> Drawing Conclusions</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="dnaval.html"><a href="dnaval.html#stutter-ratio"><i class="fa fa-check"></i><b>2.4.1</b> Stutter ratio</a></li>
+<li class="chapter" data-level="2.4.2" data-path="dnaval.html"><a href="dnaval.html#heterozygote-balance"><i class="fa fa-check"></i><b>2.4.2</b> Heterozygote balance</a></li>
+<li class="chapter" data-level="2.4.3" data-path="dnaval.html"><a href="dnaval.html#inter-locus-balance"><i class="fa fa-check"></i><b>2.4.3</b> Inter-locus balance</a></li>
+<li class="chapter" data-level="2.4.4" data-path="dnaval.html"><a href="dnaval.html#stochastic-threshold"><i class="fa fa-check"></i><b>2.4.4</b> Stochastic threshold</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="dnaval.html"><a href="dnaval.html#case-study"><i class="fa fa-check"></i><b>2.5</b> Case Study</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="dnaval.html"><a href="dnaval.html#get-the-data"><i class="fa fa-check"></i><b>2.5.1</b> Get the data</a></li>
+<li class="chapter" data-level="2.5.2" data-path="dnaval.html"><a href="dnaval.html#check-the-stutter-ratio"><i class="fa fa-check"></i><b>2.5.2</b> Check the stutter ratio</a></li>
+<li class="chapter" data-level="2.5.3" data-path="dnaval.html"><a href="dnaval.html#check-heterozygote-balance-intra-locus-balance"><i class="fa fa-check"></i><b>2.5.3</b> Check heterozygote balance (intra-locus balance)</a></li>
+<li class="chapter" data-level="2.5.4" data-path="dnaval.html"><a href="dnaval.html#check-inter-locus-balance"><i class="fa fa-check"></i><b>2.5.4</b> Check inter-locus balance</a></li>
+<li class="chapter" data-level="2.5.5" data-path="dnaval.html"><a href="dnaval.html#check-stochastic-threshold"><i class="fa fa-check"></i><b>2.5.5</b> Check stochastic threshold</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="bullets.html"><a href="bullets.html"><i class="fa fa-check"></i><b>3</b> Firearms: bullets</a><ul>
+<li class="chapter" data-level="3.1" data-path="bullets.html"><a href="bullets.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="bullets.html"><a href="bullets.html#data-1"><i class="fa fa-check"></i><b>3.2</b> Data</a></li>
+<li class="chapter" data-level="3.3" data-path="bullets.html"><a href="bullets.html#r-packages-1"><i class="fa fa-check"></i><b>3.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="bullets.html"><a href="bullets.html#x3ptools"><i class="fa fa-check"></i><b>3.3.1</b> x3ptools</a></li>
+<li class="chapter" data-level="3.3.2" data-path="bullets.html"><a href="bullets.html#bulletxtrctr"><i class="fa fa-check"></i><b>3.3.2</b> <code>bulletxtrctr</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="bullets.html"><a href="bullets.html#drawing-conclusions-1"><i class="fa fa-check"></i><b>3.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="3.5" data-path="bullets.html"><a href="bullets.html#case-study-1"><i class="fa fa-check"></i><b>3.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="casings.html"><a href="casings.html"><i class="fa fa-check"></i><b>4</b> Firearms: casings</a><ul>
+<li class="chapter" data-level="4.1" data-path="casings.html"><a href="casings.html#introduction-2"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="casings.html"><a href="casings.html#data-2"><i class="fa fa-check"></i><b>4.2</b> Data</a></li>
+<li class="chapter" data-level="4.3" data-path="casings.html"><a href="casings.html#r-packages-2"><i class="fa fa-check"></i><b>4.3</b> R Package(s)</a></li>
+<li class="chapter" data-level="4.4" data-path="casings.html"><a href="casings.html#casings-conclusions"><i class="fa fa-check"></i><b>4.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="4.5" data-path="casings.html"><a href="casings.html#casings-caseStudy"><i class="fa fa-check"></i><b>4.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fingerprints.html"><a href="fingerprints.html"><i class="fa fa-check"></i><b>5</b> Latent Fingerprints</a><ul>
+<li class="chapter" data-level="5.1" data-path="fingerprints.html"><a href="fingerprints.html#introduction-3"><i class="fa fa-check"></i><b>5.1</b> Introduction</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement"><i class="fa fa-check"></i><b>5.1.1</b> Contrast Gradient Quality Measurement</a></li>
+<li class="chapter" data-level="5.1.2" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement-illustration"><i class="fa fa-check"></i><b>5.1.2</b> Contrast Gradient Quality Measurement Illustration</a></li>
+<li class="chapter" data-level="5.1.3" data-path="fingerprints.html"><a href="fingerprints.html#test-for-usable-quality"><i class="fa fa-check"></i><b>5.1.3</b> Test for Usable Quality</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="fingerprints.html"><a href="fingerprints.html#data-3"><i class="fa fa-check"></i><b>5.2</b> Data</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="fingerprints.html"><a href="fingerprints.html#ace-v-and-afis"><i class="fa fa-check"></i><b>5.2.1</b> ACE-V and AFIS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="fingerprints.html"><a href="fingerprints.html#r-package-1"><i class="fa fa-check"></i><b>5.3</b> R Package</a></li>
+<li class="chapter" data-level="5.4" data-path="fingerprints.html"><a href="fingerprints.html#drawing-conclusions-2"><i class="fa fa-check"></i><b>5.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="5.5" data-path="fingerprints.html"><a href="fingerprints.html#case-study-2"><i class="fa fa-check"></i><b>5.5</b> Case Study</a><ul>
+<li class="chapter" data-level="" data-path="fingerprints.html"><a href="fingerprints.html#acknowledgements-1"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shoe.html"><a href="shoe.html"><i class="fa fa-check"></i><b>6</b> Shoe Outsole Impression Evidence</a><ul>
+<li class="chapter" data-level="6.1" data-path="shoe.html"><a href="shoe.html#introduction-4"><i class="fa fa-check"></i><b>6.1</b> Introduction</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="shoe.html"><a href="shoe.html#sources-of-variability-in-shoe-outsole-impressions"><i class="fa fa-check"></i><b>6.1.1</b> Sources of variability in shoe outsole impressions</a></li>
+<li class="chapter" data-level="6.1.2" data-path="shoe.html"><a href="shoe.html#current-practice"><i class="fa fa-check"></i><b>6.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="6.1.3" data-path="shoe.html"><a href="shoe.html#goal-of-this-chapter"><i class="fa fa-check"></i><b>6.1.3</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="shoe.html"><a href="shoe.html#data-4"><i class="fa fa-check"></i><b>6.2</b> Data</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="shoe.html"><a href="shoe.html#data-collection"><i class="fa fa-check"></i><b>6.2.1</b> Data collection</a></li>
+<li class="chapter" data-level="6.2.2" data-path="shoe.html"><a href="shoe.html#transformation-of-shoe-image"><i class="fa fa-check"></i><b>6.2.2</b> Transformation of shoe image</a></li>
+<li class="chapter" data-level="6.2.3" data-path="shoe.html"><a href="shoe.html#definition-of-classes"><i class="fa fa-check"></i><b>6.2.3</b> Definition of classes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="shoe.html"><a href="shoe.html#r-packages-3"><i class="fa fa-check"></i><b>6.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="shoe.html"><a href="shoe.html#one-subarea-matching"><i class="fa fa-check"></i><b>6.3.1</b> One subarea matching</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="shoe.html"><a href="shoe.html#drawing-conclusions-3"><i class="fa fa-check"></i><b>6.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="6.5" data-path="shoe.html"><a href="shoe.html#shoe-case-study"><i class="fa fa-check"></i><b>6.5</b> Case Study</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="shoe.html"><a href="shoe.html#sec:shoeqk1"><i class="fa fa-check"></i><b>6.5.1</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_1\)</span></a></li>
+<li class="chapter" data-level="6.5.2" data-path="shoe.html"><a href="shoe.html#compare-q-and-k_2"><i class="fa fa-check"></i><b>6.5.2</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_2\)</span></a></li>
+<li class="chapter" data-level="6.5.3" data-path="shoe.html"><a href="shoe.html#interpreting-comparisons-between-q-k_1-and-q-k_2"><i class="fa fa-check"></i><b>6.5.3</b> Interpreting Comparisons between <span class="math inline">\(Q, K_1\)</span> and <span class="math inline">\(Q, K_2\)</span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="glass.html"><a href="glass.html"><i class="fa fa-check"></i><b>7</b> Trace glass evidence: chemical composition</a><ul>
+<li class="chapter" data-level="7.1" data-path="glass.html"><a href="glass.html#introduction-5"><i class="fa fa-check"></i><b>7.1</b> Introduction</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="glass.html"><a href="glass.html#problems-of-interest"><i class="fa fa-check"></i><b>7.1.1</b> Problems of interest</a></li>
+<li class="chapter" data-level="7.1.2" data-path="glass.html"><a href="glass.html#current-practice-1"><i class="fa fa-check"></i><b>7.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="7.1.3" data-path="glass.html"><a href="glass.html#comparing-glass-fragments"><i class="fa fa-check"></i><b>7.1.3</b> Comparing glass fragments</a></li>
+<li class="chapter" data-level="7.1.4" data-path="glass.html"><a href="glass.html#goal-of-this-chapter-1"><i class="fa fa-check"></i><b>7.1.4</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="glass.html"><a href="glass.html#data-5"><i class="fa fa-check"></i><b>7.2</b> Data</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="glass.html"><a href="glass.html#chemical-composition-of-glass"><i class="fa fa-check"></i><b>7.2.1</b> Chemical composition of glass</a></li>
+<li class="chapter" data-level="7.2.2" data-path="glass.html"><a href="glass.html#data-source"><i class="fa fa-check"></i><b>7.2.2</b> Data source</a></li>
+<li class="chapter" data-level="7.2.3" data-path="glass.html"><a href="glass.html#data-structure"><i class="fa fa-check"></i><b>7.2.3</b> Data structure</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="glass.html"><a href="glass.html#glass_rpkgs"><i class="fa fa-check"></i><b>7.3</b> R Packages</a></li>
+<li class="chapter" data-level="7.4" data-path="glass.html"><a href="glass.html#drawing-conclusions-4"><i class="fa fa-check"></i><b>7.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="7.5" data-path="glass.html"><a href="glass.html#case-study-3"><i class="fa fa-check"></i><b>7.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="decision-making.html"><a href="decision-making.html"><i class="fa fa-check"></i><b>8</b> Decision-making in Forensic Identification Tasks</a><ul>
+<li class="chapter" data-level="8.1" data-path="decision-making.html"><a href="decision-making.html#introduction-6"><i class="fa fa-check"></i><b>8.1</b> Introduction</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="decision-making.html"><a href="decision-making.html#irt"><i class="fa fa-check"></i><b>8.1.1</b> A Brief Overview of Item Response Models</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="decision-making.html"><a href="decision-making.html#humans-data"><i class="fa fa-check"></i><b>8.2</b> Data</a></li>
+<li class="chapter" data-level="8.3" data-path="decision-making.html"><a href="decision-making.html#rpackages"><i class="fa fa-check"></i><b>8.3</b> R Packages</a></li>
+<li class="chapter" data-level="8.4" data-path="decision-making.html"><a href="decision-making.html#humans-conclusions"><i class="fa fa-check"></i><b>8.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="8.5" data-path="decision-making.html"><a href="decision-making.html#casestudy"><i class="fa fa-check"></i><b>8.5</b> Case Study</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="decision-making.html"><a href="decision-making.html#fitting-the-irt-model"><i class="fa fa-check"></i><b>8.5.1</b> Fitting the IRT model</a></li>
+<li class="chapter" data-level="8.5.2" data-path="decision-making.html"><a href="decision-making.html#irt-complements-an-error-rate-analysis"><i class="fa fa-check"></i><b>8.5.2</b> IRT complements an error rate analysis</a></li>
+<li class="chapter" data-level="8.5.3" data-path="decision-making.html"><a href="decision-making.html#scoring-method-affects-proficiency-estimates"><i class="fa fa-check"></i><b>8.5.3</b> Scoring method affects proficiency estimates</a></li>
+<li class="chapter" data-level="8.5.4" data-path="decision-making.html"><a href="decision-making.html#discussion"><i class="fa fa-check"></i><b>8.5.4</b> Discussion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="acknowledgements-2.html"><a href="acknowledgements-2.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="glossary.html"><a href="glossary.html"><i class="fa fa-check"></i><b>A</b> Glossary</a><ul>
+<li class="chapter" data-level="A.1" data-path="glossary.html"><a href="glossary.html#introduction-7"><i class="fa fa-check"></i><b>A.1</b> Introduction</a></li>
+<li class="chapter" data-level="A.2" data-path="glossary.html"><a href="glossary.html#validation-of-dna-interpretation-systems"><i class="fa fa-check"></i><b>A.2</b> Validation of DNA Interpretation Systems</a></li>
+<li class="chapter" data-level="A.3" data-path="glossary.html"><a href="glossary.html#firearms-bullets"><i class="fa fa-check"></i><b>A.3</b> Firearms: bullets</a></li>
+<li class="chapter" data-level="A.4" data-path="glossary.html"><a href="glossary.html#firearms-casings"><i class="fa fa-check"></i><b>A.4</b> Firearms: casings</a></li>
+<li class="chapter" data-level="A.5" data-path="glossary.html"><a href="glossary.html#latent-fingerprints"><i class="fa fa-check"></i><b>A.5</b> Latent Fingerprints</a></li>
+<li class="chapter" data-level="A.6" data-path="glossary.html"><a href="glossary.html#shoe-outsole-impression-evidence"><i class="fa fa-check"></i><b>A.6</b> Shoe Outsole Impression Evidence</a></li>
+<li class="chapter" data-level="A.7" data-path="glossary.html"><a href="glossary.html#trace-glass-evidence"><i class="fa fa-check"></i><b>A.7</b> Trace Glass Evidence</a></li>
+<li class="chapter" data-level="A.8" data-path="glossary.html"><a href="glossary.html#decision-making-in-forensic-identification-tasks"><i class="fa fa-check"></i><b>A.8</b> Decision-making in Forensic Identification Tasks</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Open Forensic Science in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="intro" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
+<div id="r-packages" class="section level2">
+<h2><span class="header-section-number">1.1</span> R Packages</h2>
+<p>Here are all of the <a href="glossary.html#def:rstats"><code>R</code></a> packages used in this book. Some are installed from <a href="https://cran.r-project.org/">CRAN</a>, some are installed from <a href="https://www.bioconductor.org/">Bioconductor</a>, and some are installed from GitHub using the <a href="https://devtools.r-lib.org/"><code>devtools</code></a> package <span class="citation">(Wickham, Hester, and Chang <a href="#ref-R-devtools">2019</a>)</span>. If you would like to download and compile this book on your own system, this chunk will install and load all of the necessary packages for you. If you have problems with installation of any of these packages, this is probably due to an individual computer or <code>R</code> version issue. If you experience any installation problems, the best thing to do is to search for the error message you get on the web to see if anyone else has already solved your problem. If the package you are having troubles with has a <a href="https://github.com/">GitHub</a> repository, you should search its <a href="https://github.com/issues">Issues</a> to see if the author of the package has encountered and/or solved your problem before. If not, <a href="https://community.rstudio.com/">community.rstudio.com</a> and <a href="https://stackoverflow.com/questions/tagged/r">Stack Overflow</a> tend to be the most trustworthy sources of troubleshooting information. If all else fails, you can post an issue on the <a href="https://github.com/sctyner/OpenForSciR/issues">Github repo</a> for this book. However, this should be your last resort: the authors of this book are subject matter experts, not necessarily computer debugging experts for your specific system and installation.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">repos =</span> <span class="st">&quot;http://cran.us.r-project.org&quot;</span>)
+
+<span class="co"># check if a package is installed, if not install it from cran</span>
+install_cran_missing &lt;-<span class="st"> </span><span class="cf">function</span>(pkgname){
+  <span class="cf">if</span>(<span class="kw">class</span>(pkgname) <span class="op">!=</span><span class="st"> &quot;character&quot;</span>){
+    <span class="kw">stop</span>(<span class="st">&quot;pkgname must be a character&quot;</span>)
+  }
+  <span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(pkgname, <span class="dt">character.only =</span> <span class="ot">TRUE</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)){
+    <span class="kw">install.packages</span>(pkgname, <span class="dt">dep =</span> T)
+    <span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(pkgname,<span class="dt">character.only =</span> <span class="ot">TRUE</span>)) <span class="kw">stop</span>(<span class="st">&quot;CRAN Package not found&quot;</span>)
+  }
+}
+<span class="co"># check if a package is installed, if not install it from Github</span>
+install_dev_missing &lt;-<span class="st"> </span><span class="cf">function</span>(pkgname, ghuser){
+  <span class="cf">if</span>(<span class="kw">class</span>(pkgname) <span class="op">!=</span><span class="st"> &quot;character&quot;</span>){
+    <span class="kw">stop</span>(<span class="st">&quot;pkgname must be a character&quot;</span>)
+  }
+  <span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(pkgname, <span class="dt">character.only =</span> <span class="ot">TRUE</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)){
+    repo &lt;-<span class="st"> </span><span class="kw">paste</span>(ghuser, pkgname, <span class="dt">sep =</span><span class="st">&#39;/&#39;</span>)
+    devtools<span class="op">::</span><span class="kw">install_github</span>(repo)
+    <span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(pkgname,<span class="dt">character.only =</span> <span class="ot">TRUE</span>)) <span class="kw">stop</span>(<span class="st">&quot;Github repo for package not found&quot;</span>)
+  }
+}
+<span class="co"># need devtools to get some packages </span>
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;devtools&quot;</span>)
+<span class="co"># packages used throughout the book </span>
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;tidyverse&quot;</span>) <span class="co"># or install_dev_missing(&quot;tidyverse&quot;, &quot;tidyverse&quot;)</span>
+<span class="kw">install_dev_missing</span>(<span class="st">&quot;gt&quot;</span>, <span class="st">&quot;rstudio&quot;</span>) 
+
+<span class="co"># Chapter 2: DNA Validation</span>
+<span class="co"># Watch out for dependency issues with RGtk2...</span>
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;strvalidator&quot;</span>)
+
+<span class="co"># Chapter 3: Bullets</span>
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;x3ptools&quot;</span>) <span class="co"># or install_dev_missing(&quot;x3ptools&quot;, &quot;heike&quot;)</span>
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;randomForest&quot;</span>) 
+<span class="kw">install_dev_missing</span>(<span class="st">&quot;bulletxtrctr&quot;</span>, <span class="st">&quot;heike&quot;</span>)
+
+<span class="co"># Chapter 4: Casings</span>
+<span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)){
+    <span class="kw">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)
+  }
+BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;EBImage&quot;</span>, <span class="dt">version =</span> <span class="st">&quot;3.8&quot;</span>)
+<span class="kw">install_dev_missing</span>(<span class="st">&quot;cartridges&quot;</span>, <span class="st">&quot;xhtai&quot;</span>)
+
+<span class="co"># Chapter 5: Fingerprints</span>
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;bmp&quot;</span>)
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;kableExtra&quot;</span>)
+<span class="kw">install_dev_missing</span>(<span class="st">&quot;fingerprintr&quot;</span>, <span class="st">&quot;kdp4be&quot;</span>)
+
+<span class="co"># Chapter 6: Shoe </span>
+<span class="kw">install_dev_missing</span>(<span class="st">&quot;shoeprintr&quot;</span>, <span class="st">&quot;CSAFE-ISU&quot;</span>)
+<span class="kw">install_dev_missing</span>(<span class="st">&quot;patchwork&quot;</span>, <span class="st">&quot;thomasp85&quot;</span>)
+
+
+<span class="co"># Chapter 7: Glass</span>
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;caret&quot;</span>)
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;GGally&quot;</span>)
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;stringr&quot;</span>)
+<span class="kw">install_dev_missing</span>(<span class="st">&quot;csafethemes&quot;</span>, <span class="st">&quot;csafe-isu&quot;</span>)
+
+<span class="co"># Chapter 8: Decision Making</span>
+<span class="kw">install_dev_missing</span>(<span class="st">&quot;blackboxstudyR&quot;</span>, <span class="st">&quot;aluby&quot;</span>)
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;rstan&quot;</span>)
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;RColorBrewer&quot;</span>)
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;gridExtra&quot;</span>)
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;gghighlight&quot;</span>)
+<span class="kw">install_cran_missing</span>(<span class="st">&quot;ggpubr&quot;</span>)</code></pre>
+</div>
+<div id="terminology-and-definitions" class="section level2">
+<h2><span class="header-section-number">1.2</span> Terminology and Definitions</h2>
+<p>In the appendix, you will find a dedicated <a href="glossary.html#glossary">Glossary</a> section. The terms are listed in the order that they appear in the book. Throughout the book, the first time you encounter a glossary phrase, the phrase will be a link to the glossary entry, similar to the way Wikipedia handles their links. If you feel a term is lacking a glossary entry, please file an issue on <a href="https://github.com/sctyner/OpenForSciR/issues">GitHub</a>.</p>
+</div>
+<div id="forscip" class="section level2">
+<h2><span class="header-section-number">1.3</span> Forensic Science Problems</h2>
+<p>The purpose of this section is to introduce the general type of <a href="glossary.html#def:forsci">forensic science</a> problem that will be covered in the book. The common understanding of forensic science is that law enforcement uses it to help solve crimes, but the primary professionals in forensic science are scientists, not members of law enforcement. According to the American Academy of Forensic Sciences (<a href="https://www.aafs.org/home-page/students/choosing-a-career/whats-a-forensic-scientist/">AAFS</a>), any forensic scientist is first and foremost a scientist, who communicates their knowledge and their tests results to lawyers, juries, and judges.</p>
+<p>Where a legal matter is concerned, law enforcement is in charge of answering a very different question than the forensic scientist examining the <a href="glossary.html#def:evidence">evidence</a>. Specifically in the criminal context, law enforcement wants to know who committed the crime, while the forensic scientist wants to understand the nature of the evidence. In theory, the forensic scientist’s conclusion can be used by law enforcement, but law enforcement information should generally not be used by the scientist, with some exceptions per <span class="citation">R. Cook et al. (<a href="#ref-cook_hierarchy_1998">1998</a>)</span>.</p>
+<p>Law enforcement and the courts focus on the <em>offense level hypotheses</em>, which describe the crime and its possible perpetrators <span class="citation">(R. Cook et al. <a href="#ref-cook_hierarchy_1998">1998</a>)</span>. By contrast, the forensic scientist devotes their attention most often to the <em>source level hypotheses</em>, which describe the evidence and its possible sources <span class="citation">(R. Cook et al. <a href="#ref-cook_hierarchy_1998">1998</a>)</span>. In between the offense level and the source level are the <em>activity level hypotheses</em>, which describe an action associated with the crime and the persons who did that action. For each level, two or more disjoint hypotheses are considered. For example, consider the following set of hypotheses adapted from <span class="citation">R. Cook et al. (<a href="#ref-cook_hierarchy_1998">1998</a>)</span>:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Hypothesis Level</th>
+<th align="left">Competing Hypotheses</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Offense</td>
+<td align="left">Mr X committed the burglary</td>
+</tr>
+<tr class="even">
+<td align="center">""</td>
+<td align="left">Another person committed the burglary</td>
+</tr>
+<tr class="odd">
+<td align="center">Activity</td>
+<td align="left">Mr X smashed window W at the scene of the burglary</td>
+</tr>
+<tr class="even">
+<td align="center">""</td>
+<td align="left">Mr X was not present when the window W was smashed</td>
+</tr>
+<tr class="odd">
+<td align="center">Source</td>
+<td align="left">The glass fragments came from window W</td>
+</tr>
+<tr class="even">
+<td align="center">""</td>
+<td align="left">The glass fragments came from another unknown broken glass object</td>
+</tr>
+</tbody>
+</table>
+<p>In this example, the forensic scientist does not know the source of the glass fragments being analyzed, while the police may know that they were found on Mr X’s clothes upon his arrest. The forensic scientist will likely have a sample from the window W and the small fragments, and will only be asked to determine if the two samples are distinguishable. Note that the scientist does not need to know any details from the case, such as where the burglary occurred, who the suspect is, or what was stolen, to analyze the two glass samples. Notice the distinction: the forensic scientist is not a member of law enforcement, so their main concern is not “catching the bad guy.” Instead, they are concerned with coming to the best conclusion using science.</p>
+<p>The problems discussed in this book concern the source level hypotheses exclusively: we are not interested in taking the place of law enforcement or legal professionals. We are chiefly concerned with <em>science</em>, not the law. Each chapter in this book is outlined as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Introduction: This section familiarizes the reader with the type of forensic evidence covered in the chapter. Basic terms and concepts are covered, as well as what is typically done in a forensic science setting or lab to evaluate this type of evidence. The introduction section is not comprehensive by any stretch of the imagination: enough information is provided to understand the rest of the chapter, but that is all. For detailed coverage of a particular type of forensic evidence covered here, please consult each chapter’s references section.</li>
+<li>Data: This section covers the form of the forensic evidence and describes how that evidence is converted into computer-readable format for analysis in <code>R</code>. It will also provide the reader with an example data set, including the type and structure of data objects that are required for the analyses.</li>
+<li><code>R</code> Package(s): This section introduces the <code>R</code> package(s) required for performing the analysis of the forensic evidence discussed. In some cases, the chapter author discusses (and in most cases is the author of) an <code>R</code> package explicitly for the particular forensic analysis. In other cases, the <code>R</code> package(s) used was applied the particular forensic science application, but is broadly applicable to other data analyses.</li>
+<li>Drawing Conclusions: This section describes how to make a decision about the evidence under consideration. In some cases, there are <a href="glossary.html#def:score">score</a> based methods used to make a decision, and in others, a <a href="glossary.html#def:lr">likelihood ratio</a> is used. Comparisons to the current practice in forensic science are also made where applicable.</li>
+<li>Case study: This section follows a piece of forensic evidence from reading the requisite data into <code>R</code> to drawing a conclusion about the source of the evidence. The author guides the reader step-by-step through the <code>R</code> code required to perform a complete analysis.</li>
+</ol>
+<!--With this book, we want to give more students and professionals interested in forensic science open source resources to pursue their research.  -->
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a></p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-R-devtools">
+<p>Wickham, Hadley, Jim Hester, and Winston Chang. 2019. <em>Devtools: Tools to Make Developing R Packages Easier</em>. <a href="https://CRAN.R-project.org/package=devtools">https://CRAN.R-project.org/package=devtools</a>.</p>
+</div>
+<div id="ref-cook_hierarchy_1998">
+<p>Cook, R., I.W. Evett, G. Jackson, P.J. Jones, and J.A. Lambert. 1998. “A Hierarchy of Propositions: Deciding Which Level to Address in Casework.” <em>Science &amp; Justice</em> 38 (4): 231–39.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="about-the-authors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dnaval.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/sctyner/OpenForSciR/edit/master/content/content/introduction.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["open-forensic-science-in-r.pdf", "open-forensic-science-in-r.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

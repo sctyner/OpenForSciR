@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 8 Decision-making in Forensic Identification Tasks | Open Forensic Science in R</title>
+  <meta name="description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 8 Decision-making in Forensic Identification Tasks | Open Forensic Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  <meta name="github-repo" content="sctyner/openforscir" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Decision-making in Forensic Identification Tasks | Open Forensic Science in R" />
+  
+  <meta name="twitter:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  
+
+<meta name="author" content="Editor: Sam Tyner, Ph.D.">
+
+
+<meta name="date" content="2019-06-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="glass.html">
+<link rel="next" href="acknowledgements-2.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.5/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Open Forensic Science in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prologue</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a><ul>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#sam-tyner-ph.d."><i class="fa fa-check"></i>Sam Tyner, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#heike-hofmann-ph.d."><i class="fa fa-check"></i>Heike Hofmann, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#soyoung-park-ph.d."><i class="fa fa-check"></i>Soyoung Park, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#eric-hare-ph.d."><i class="fa fa-check"></i>Eric Hare, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#xiao-hui-tai"><i class="fa fa-check"></i>Xiao Hui Tai</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-kafadar-ph.d."><i class="fa fa-check"></i>Karen Kafadar, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-pan"><i class="fa fa-check"></i>Karen Pan</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#amanda-luby"><i class="fa fa-check"></i>Amanda Luby</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#ganesh-krishnan-m.sc."><i class="fa fa-check"></i>Ganesh Krishnan, M.Sc.</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#r-packages"><i class="fa fa-check"></i><b>1.1</b> R Packages</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#terminology-and-definitions"><i class="fa fa-check"></i><b>1.2</b> Terminology and Definitions</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#forscip"><i class="fa fa-check"></i><b>1.3</b> Forensic Science Problems</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dnaval.html"><a href="dnaval.html"><i class="fa fa-check"></i><b>2</b> Validation of DNA Interpretation Systems</a><ul>
+<li class="chapter" data-level="" data-path="dnaval.html"><a href="dnaval.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="2.1" data-path="dnaval.html"><a href="dnaval.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="dnaval.html"><a href="dnaval.html#procedure-for-dna-analysis-using-strs"><i class="fa fa-check"></i><b>2.1.1</b> Procedure for DNA Analysis using STRs</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="dnaval.html"><a href="dnaval.html#data"><i class="fa fa-check"></i><b>2.2</b> Data</a></li>
+<li class="chapter" data-level="2.3" data-path="dnaval.html"><a href="dnaval.html#r-package"><i class="fa fa-check"></i><b>2.3</b> R Package</a></li>
+<li class="chapter" data-level="2.4" data-path="dnaval.html"><a href="dnaval.html#drawing-conclusions"><i class="fa fa-check"></i><b>2.4</b> Drawing Conclusions</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="dnaval.html"><a href="dnaval.html#stutter-ratio"><i class="fa fa-check"></i><b>2.4.1</b> Stutter ratio</a></li>
+<li class="chapter" data-level="2.4.2" data-path="dnaval.html"><a href="dnaval.html#heterozygote-balance"><i class="fa fa-check"></i><b>2.4.2</b> Heterozygote balance</a></li>
+<li class="chapter" data-level="2.4.3" data-path="dnaval.html"><a href="dnaval.html#inter-locus-balance"><i class="fa fa-check"></i><b>2.4.3</b> Inter-locus balance</a></li>
+<li class="chapter" data-level="2.4.4" data-path="dnaval.html"><a href="dnaval.html#stochastic-threshold"><i class="fa fa-check"></i><b>2.4.4</b> Stochastic threshold</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="dnaval.html"><a href="dnaval.html#case-study"><i class="fa fa-check"></i><b>2.5</b> Case Study</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="dnaval.html"><a href="dnaval.html#get-the-data"><i class="fa fa-check"></i><b>2.5.1</b> Get the data</a></li>
+<li class="chapter" data-level="2.5.2" data-path="dnaval.html"><a href="dnaval.html#check-the-stutter-ratio"><i class="fa fa-check"></i><b>2.5.2</b> Check the stutter ratio</a></li>
+<li class="chapter" data-level="2.5.3" data-path="dnaval.html"><a href="dnaval.html#check-heterozygote-balance-intra-locus-balance"><i class="fa fa-check"></i><b>2.5.3</b> Check heterozygote balance (intra-locus balance)</a></li>
+<li class="chapter" data-level="2.5.4" data-path="dnaval.html"><a href="dnaval.html#check-inter-locus-balance"><i class="fa fa-check"></i><b>2.5.4</b> Check inter-locus balance</a></li>
+<li class="chapter" data-level="2.5.5" data-path="dnaval.html"><a href="dnaval.html#check-stochastic-threshold"><i class="fa fa-check"></i><b>2.5.5</b> Check stochastic threshold</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="bullets.html"><a href="bullets.html"><i class="fa fa-check"></i><b>3</b> Firearms: bullets</a><ul>
+<li class="chapter" data-level="3.1" data-path="bullets.html"><a href="bullets.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="bullets.html"><a href="bullets.html#data-1"><i class="fa fa-check"></i><b>3.2</b> Data</a></li>
+<li class="chapter" data-level="3.3" data-path="bullets.html"><a href="bullets.html#r-packages-1"><i class="fa fa-check"></i><b>3.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="bullets.html"><a href="bullets.html#x3ptools"><i class="fa fa-check"></i><b>3.3.1</b> x3ptools</a></li>
+<li class="chapter" data-level="3.3.2" data-path="bullets.html"><a href="bullets.html#bulletxtrctr"><i class="fa fa-check"></i><b>3.3.2</b> <code>bulletxtrctr</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="bullets.html"><a href="bullets.html#drawing-conclusions-1"><i class="fa fa-check"></i><b>3.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="3.5" data-path="bullets.html"><a href="bullets.html#case-study-1"><i class="fa fa-check"></i><b>3.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="casings.html"><a href="casings.html"><i class="fa fa-check"></i><b>4</b> Firearms: casings</a><ul>
+<li class="chapter" data-level="4.1" data-path="casings.html"><a href="casings.html#introduction-2"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="casings.html"><a href="casings.html#data-2"><i class="fa fa-check"></i><b>4.2</b> Data</a></li>
+<li class="chapter" data-level="4.3" data-path="casings.html"><a href="casings.html#r-packages-2"><i class="fa fa-check"></i><b>4.3</b> R Package(s)</a></li>
+<li class="chapter" data-level="4.4" data-path="casings.html"><a href="casings.html#casings-conclusions"><i class="fa fa-check"></i><b>4.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="4.5" data-path="casings.html"><a href="casings.html#casings-caseStudy"><i class="fa fa-check"></i><b>4.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fingerprints.html"><a href="fingerprints.html"><i class="fa fa-check"></i><b>5</b> Latent Fingerprints</a><ul>
+<li class="chapter" data-level="5.1" data-path="fingerprints.html"><a href="fingerprints.html#introduction-3"><i class="fa fa-check"></i><b>5.1</b> Introduction</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement"><i class="fa fa-check"></i><b>5.1.1</b> Contrast Gradient Quality Measurement</a></li>
+<li class="chapter" data-level="5.1.2" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement-illustration"><i class="fa fa-check"></i><b>5.1.2</b> Contrast Gradient Quality Measurement Illustration</a></li>
+<li class="chapter" data-level="5.1.3" data-path="fingerprints.html"><a href="fingerprints.html#test-for-usable-quality"><i class="fa fa-check"></i><b>5.1.3</b> Test for Usable Quality</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="fingerprints.html"><a href="fingerprints.html#data-3"><i class="fa fa-check"></i><b>5.2</b> Data</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="fingerprints.html"><a href="fingerprints.html#ace-v-and-afis"><i class="fa fa-check"></i><b>5.2.1</b> ACE-V and AFIS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="fingerprints.html"><a href="fingerprints.html#r-package-1"><i class="fa fa-check"></i><b>5.3</b> R Package</a></li>
+<li class="chapter" data-level="5.4" data-path="fingerprints.html"><a href="fingerprints.html#drawing-conclusions-2"><i class="fa fa-check"></i><b>5.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="5.5" data-path="fingerprints.html"><a href="fingerprints.html#case-study-2"><i class="fa fa-check"></i><b>5.5</b> Case Study</a><ul>
+<li class="chapter" data-level="" data-path="fingerprints.html"><a href="fingerprints.html#acknowledgements-1"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shoe.html"><a href="shoe.html"><i class="fa fa-check"></i><b>6</b> Shoe Outsole Impression Evidence</a><ul>
+<li class="chapter" data-level="6.1" data-path="shoe.html"><a href="shoe.html#introduction-4"><i class="fa fa-check"></i><b>6.1</b> Introduction</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="shoe.html"><a href="shoe.html#sources-of-variability-in-shoe-outsole-impressions"><i class="fa fa-check"></i><b>6.1.1</b> Sources of variability in shoe outsole impressions</a></li>
+<li class="chapter" data-level="6.1.2" data-path="shoe.html"><a href="shoe.html#current-practice"><i class="fa fa-check"></i><b>6.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="6.1.3" data-path="shoe.html"><a href="shoe.html#goal-of-this-chapter"><i class="fa fa-check"></i><b>6.1.3</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="shoe.html"><a href="shoe.html#data-4"><i class="fa fa-check"></i><b>6.2</b> Data</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="shoe.html"><a href="shoe.html#data-collection"><i class="fa fa-check"></i><b>6.2.1</b> Data collection</a></li>
+<li class="chapter" data-level="6.2.2" data-path="shoe.html"><a href="shoe.html#transformation-of-shoe-image"><i class="fa fa-check"></i><b>6.2.2</b> Transformation of shoe image</a></li>
+<li class="chapter" data-level="6.2.3" data-path="shoe.html"><a href="shoe.html#definition-of-classes"><i class="fa fa-check"></i><b>6.2.3</b> Definition of classes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="shoe.html"><a href="shoe.html#r-packages-3"><i class="fa fa-check"></i><b>6.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="shoe.html"><a href="shoe.html#one-subarea-matching"><i class="fa fa-check"></i><b>6.3.1</b> One subarea matching</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="shoe.html"><a href="shoe.html#drawing-conclusions-3"><i class="fa fa-check"></i><b>6.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="6.5" data-path="shoe.html"><a href="shoe.html#shoe-case-study"><i class="fa fa-check"></i><b>6.5</b> Case Study</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="shoe.html"><a href="shoe.html#sec:shoeqk1"><i class="fa fa-check"></i><b>6.5.1</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_1\)</span></a></li>
+<li class="chapter" data-level="6.5.2" data-path="shoe.html"><a href="shoe.html#compare-q-and-k_2"><i class="fa fa-check"></i><b>6.5.2</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_2\)</span></a></li>
+<li class="chapter" data-level="6.5.3" data-path="shoe.html"><a href="shoe.html#interpreting-comparisons-between-q-k_1-and-q-k_2"><i class="fa fa-check"></i><b>6.5.3</b> Interpreting Comparisons between <span class="math inline">\(Q, K_1\)</span> and <span class="math inline">\(Q, K_2\)</span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="glass.html"><a href="glass.html"><i class="fa fa-check"></i><b>7</b> Trace glass evidence: chemical composition</a><ul>
+<li class="chapter" data-level="7.1" data-path="glass.html"><a href="glass.html#introduction-5"><i class="fa fa-check"></i><b>7.1</b> Introduction</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="glass.html"><a href="glass.html#problems-of-interest"><i class="fa fa-check"></i><b>7.1.1</b> Problems of interest</a></li>
+<li class="chapter" data-level="7.1.2" data-path="glass.html"><a href="glass.html#current-practice-1"><i class="fa fa-check"></i><b>7.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="7.1.3" data-path="glass.html"><a href="glass.html#comparing-glass-fragments"><i class="fa fa-check"></i><b>7.1.3</b> Comparing glass fragments</a></li>
+<li class="chapter" data-level="7.1.4" data-path="glass.html"><a href="glass.html#goal-of-this-chapter-1"><i class="fa fa-check"></i><b>7.1.4</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="glass.html"><a href="glass.html#data-5"><i class="fa fa-check"></i><b>7.2</b> Data</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="glass.html"><a href="glass.html#chemical-composition-of-glass"><i class="fa fa-check"></i><b>7.2.1</b> Chemical composition of glass</a></li>
+<li class="chapter" data-level="7.2.2" data-path="glass.html"><a href="glass.html#data-source"><i class="fa fa-check"></i><b>7.2.2</b> Data source</a></li>
+<li class="chapter" data-level="7.2.3" data-path="glass.html"><a href="glass.html#data-structure"><i class="fa fa-check"></i><b>7.2.3</b> Data structure</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="glass.html"><a href="glass.html#glass_rpkgs"><i class="fa fa-check"></i><b>7.3</b> R Packages</a></li>
+<li class="chapter" data-level="7.4" data-path="glass.html"><a href="glass.html#drawing-conclusions-4"><i class="fa fa-check"></i><b>7.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="7.5" data-path="glass.html"><a href="glass.html#case-study-3"><i class="fa fa-check"></i><b>7.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="decision-making.html"><a href="decision-making.html"><i class="fa fa-check"></i><b>8</b> Decision-making in Forensic Identification Tasks</a><ul>
+<li class="chapter" data-level="8.1" data-path="decision-making.html"><a href="decision-making.html#introduction-6"><i class="fa fa-check"></i><b>8.1</b> Introduction</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="decision-making.html"><a href="decision-making.html#irt"><i class="fa fa-check"></i><b>8.1.1</b> A Brief Overview of Item Response Models</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="decision-making.html"><a href="decision-making.html#humans-data"><i class="fa fa-check"></i><b>8.2</b> Data</a></li>
+<li class="chapter" data-level="8.3" data-path="decision-making.html"><a href="decision-making.html#rpackages"><i class="fa fa-check"></i><b>8.3</b> R Packages</a></li>
+<li class="chapter" data-level="8.4" data-path="decision-making.html"><a href="decision-making.html#humans-conclusions"><i class="fa fa-check"></i><b>8.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="8.5" data-path="decision-making.html"><a href="decision-making.html#casestudy"><i class="fa fa-check"></i><b>8.5</b> Case Study</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="decision-making.html"><a href="decision-making.html#fitting-the-irt-model"><i class="fa fa-check"></i><b>8.5.1</b> Fitting the IRT model</a></li>
+<li class="chapter" data-level="8.5.2" data-path="decision-making.html"><a href="decision-making.html#irt-complements-an-error-rate-analysis"><i class="fa fa-check"></i><b>8.5.2</b> IRT complements an error rate analysis</a></li>
+<li class="chapter" data-level="8.5.3" data-path="decision-making.html"><a href="decision-making.html#scoring-method-affects-proficiency-estimates"><i class="fa fa-check"></i><b>8.5.3</b> Scoring method affects proficiency estimates</a></li>
+<li class="chapter" data-level="8.5.4" data-path="decision-making.html"><a href="decision-making.html#discussion"><i class="fa fa-check"></i><b>8.5.4</b> Discussion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="acknowledgements-2.html"><a href="acknowledgements-2.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="glossary.html"><a href="glossary.html"><i class="fa fa-check"></i><b>A</b> Glossary</a><ul>
+<li class="chapter" data-level="A.1" data-path="glossary.html"><a href="glossary.html#introduction-7"><i class="fa fa-check"></i><b>A.1</b> Introduction</a></li>
+<li class="chapter" data-level="A.2" data-path="glossary.html"><a href="glossary.html#validation-of-dna-interpretation-systems"><i class="fa fa-check"></i><b>A.2</b> Validation of DNA Interpretation Systems</a></li>
+<li class="chapter" data-level="A.3" data-path="glossary.html"><a href="glossary.html#firearms-bullets"><i class="fa fa-check"></i><b>A.3</b> Firearms: bullets</a></li>
+<li class="chapter" data-level="A.4" data-path="glossary.html"><a href="glossary.html#firearms-casings"><i class="fa fa-check"></i><b>A.4</b> Firearms: casings</a></li>
+<li class="chapter" data-level="A.5" data-path="glossary.html"><a href="glossary.html#latent-fingerprints"><i class="fa fa-check"></i><b>A.5</b> Latent Fingerprints</a></li>
+<li class="chapter" data-level="A.6" data-path="glossary.html"><a href="glossary.html#shoe-outsole-impression-evidence"><i class="fa fa-check"></i><b>A.6</b> Shoe Outsole Impression Evidence</a></li>
+<li class="chapter" data-level="A.7" data-path="glossary.html"><a href="glossary.html#trace-glass-evidence"><i class="fa fa-check"></i><b>A.7</b> Trace Glass Evidence</a></li>
+<li class="chapter" data-level="A.8" data-path="glossary.html"><a href="glossary.html#decision-making-in-forensic-identification-tasks"><i class="fa fa-check"></i><b>A.8</b> Decision-making in Forensic Identification Tasks</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Open Forensic Science in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="decision-making" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Decision-making in Forensic Identification Tasks</h1>
+<div id="amanda-luby-1" class="section level4 unnumbered">
+<h4><em>Amanda Luby</em></h4>
+<p><img src="img/science-decide.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="introduction-6" class="section level2">
+<h2><span class="header-section-number">8.1</span> Introduction</h2>
+<p>Although forensic measurement and analysis tools are increasingly accurate and objective, many final decisions are largely left to individual examiners <span class="citation">(PCAST <a href="#ref-pcast">2016</a>)</span>. Human decision-makers will continue to play a central role in forensic science for the foreseeable future, and it is unrealistic to assume that, within the United States’ current criminal justice system,
+- there are no differences in the decision-making process between examiners,
+- day-to-day forensic decision-making tasks are equally difficult, or - human decision-making can be removed from the process entirely.</p>
+<p>The role of human decisions in forensic science is perhaps most studied in the fingerprint domain, which will be the focus of this chapter.<!--citation?--> High-profile examples of misidentification have inspired studies showing that fingerprint examiners, like all humans, may be susceptible to biased instructions and unreliable in final decisions <span class="citation">(Dror and Rosenthal <a href="#ref-dror2008meta">2008</a>)</span> or influenced by external factors or contextual information <span class="citation">(Dror, Charlton, and Péron <a href="#ref-dror2006">2006</a>; Dror and Cole <a href="#ref-dror2010vision">2010</a>)</span>. These studies contradict common perceptions of the accuracy of fingerprint examination, and demonstrate that fingerprint analysis is far from error-free.</p>
+<p>Although fingerprint examination is the focus of this chapter, it is not the only forensic domain that relies on human decision-making. Firearms examination (see, e.g., NRC <span class="citation">(<a href="#ref-nas2009">2009</a><a href="#ref-nas2009">b</a>)</span> pg. 150-155) is similar to latent print examination in many ways, particularly in that examiners rely on pattern evidence to determine whether two cartridges originated from the same source. Handwriting comparison (see <span class="citation">National Research Council (<a href="#ref-nas2009">2009</a><a href="#ref-nas2009">b</a>)</span> pg. 163-167 on “Questioned Document Examination” and <span class="citation">Stoel et al. (<a href="#ref-stoelshaky">2010</a>)</span> for discussion) consists of examiners determining whether two samples of handwriting were authored by the same person, taking potential forgery or disguise into account. A third example is interpreting mixtures of DNA evidence (see <span class="citation">PCAST (<a href="#ref-pcast">2016</a>)</span> Section 5.2). A DNA mixture is a biological sample that contains DNA from two or more donors and requires analysts to make subjective decisions to determine how many individuals contributed to the DNA profile. Due to these currently unavoidable human factors, the President’s Council of Advisors on Science and Technology <span class="citation">(<a href="#ref-pcast">2016</a>)</span> recommended increased “black box” error rate studies for these and other subjective forensic science methods.</p>
+<p>The FBI “Black Box” study <span class="citation">(Bradford T. Ulery et al. <a href="#ref-ulery2011">2011</a>)</span> was the first large-scale study performed to assess the accuracy and reliability of latent print examiners’ decisions. The questions included a range of attributes and quality seen in casework, and were representative of searches from an automated fingerprint identification system. The overall false positive rate in the study was 0.1% and the overall false negative rate was 7.5%. These computed quantities, however, have excluded all “inconclusive” responses (i.e. neither identifications nor exclusions). This is noteworthy, as nearly a third of all responses were inconclusive and respondents varied on how often they reported inconclusives. Respondents who report a large number of inconclusives, and only make identification or exclusion decisions for the most pristine prints, will likely make far fewer false positive and false negative decisions than respondents who reported fewer inconclusives. The authors of the study also note that it is difficult to compare the error rates and inconclusive rates of individual examiners because each examiner saw a different set of fingerprint images (see Appendix 3 of <span class="citation">Bradford T. Ulery et al. (<a href="#ref-ulery2011">2011</a>)</span>). In other words, it would be unfair to compare the error rate of someone who was given a set of “easy” questions to the error rate of someone who was given a set of “difficult” questions. A better measure of examiner skill would account for both error rates and difficulty of prints that were examined.</p>
+<p>Accurately measuring proficiency, or examiner skill, is valuable not only for determining whether a forensic examiner has met baseline competency requirements, but for training purposes as well. Personalized feedback after participating in a study could lead to targeted training for examiners in order to improve their proficiency. Additionally, if proficiency is not accounted for among a group of study participants, which often include trainees or non-experts as well as experienced examiners, the overall results from the study may be biased.</p>
+<p>There also exist substantial differences in the difficulty of forensic evaluation tasks. Properties of the evidence, such as the quality, quantity, concentration, or rarity of characteristics may make it easier or harder to evaluate. Some evidence, regardless of how skilled the examiner is, will not have enough information to result in an identification or exclusion in a comparison task. An inconclusive response, in this case, should be treated as the “correct” response. Inconclusive responses on more straightforward identification tasks, on the other hand, may be treated as mistakes.</p>
+<p>Methods for analyzing forensic decision-making data should thus provide estimates for both participant proficiency and evidence difficulty.<!--, and these estimates should account for participants evaluating different sets of evidence.--> <em>Item response models</em>, a class of statistical methods used prominently in educational testing, have been proposed for use in forensic science for these reasons <span class="citation">(Kerkhoff et al. <a href="#ref-kerkhoff2015">2015</a>)</span>. <span class="citation">Luby and Kadane (<a href="#ref-luby2018proficiency">2018</a>)</span> provided the first item response analysis for forensic proficiency test data, and we improve and extend upon that work by
+- analyzing a different fingerprint identification study that includes richer data on decision-making, and
+- extending the range of models considered.</p>
+<p>The remainder of the chapter is organized as follows: Section <a href="decision-making.html#irt">8.1.1</a> gives a brief overview of Item Response Models, Section <a href="decision-making.html#humans-data">8.2</a> provides an overview on how decision-making data is collected in forensic science, and Section <a href="decision-making.html#rpackages">8.3</a> describes an R package that can be used to fit these models. Section <a href="decision-making.html#humans-conclusions">8.4</a> describes how conclusions are drawn from an Item Response analysis, and Section <a href="decision-making.html#casestudy">8.5</a> gives an example IRT analysis of the FBI “Black Box” study.</p>
+<div id="irt" class="section level3">
+<h3><span class="header-section-number">8.1.1</span> A Brief Overview of Item Response Models</h3>
+<p>For <span class="math inline">\(P\)</span> individuals responding to <span class="math inline">\(I\)</span> test items, we can express the binary responses (i.e. correct/incorrect) as a <span class="math inline">\(P\times I\)</span> matrix, <span class="math inline">\(Y\)</span>. Item Response Theory (IRT) is based on the idea that the probability of a correct response depends on individual <em>proficiency</em>, <span class="math inline">\(\theta_p, p = 1, \ldots, P\)</span>, and item <em>difficulty</em>, <span class="math inline">\(b_i, i = 1, \ldots I\)</span>.</p>
+<div id="rasch-model" class="section level4">
+<h4><span class="header-section-number">8.1.1.1</span> Rasch Model</h4>
+<p>The Rasch Model <span class="citation">(Rasch <a href="#ref-rasch1960studies">1960</a>; Fischer and Molenaar <a href="#ref-raschbook">2012</a>)</span> is a relatively simple yet powerful item response model, and serves as the basis for extensions introduced later. The probability of a correct response is modeled as a logistic function of the difference between the participant proficiency, <span class="math inline">\(\theta_p\)</span> (<span class="math inline">\(p=1, \dots, P\)</span>), and the item difficulty, <span class="math inline">\(b_i\)</span> (<span class="math inline">\(i=1, \dots, I\)</span>):</p>
+<p><span class="math display" id="eq:rasch">\[\begin{equation}
+P(Y_{pi} = 1) = \frac{1}{1-\exp(-(\theta_p - b_i))}. 
+\tag{8.1}
+\end{equation}\]</span></p>
+<p>To identify the model, we shall use the convention of constraining the mean of the participant parameters (<span class="math inline">\(\mu_\theta\)</span>) to be equal to zero. This allows for a nice interpretation of both participant and item parameters relative to the “average participant”. If <span class="math inline">\(\theta_p &gt;0\)</span>, participant <span class="math inline">\(p\)</span> is of “above average” proficiency and if <span class="math inline">\(\theta_p &lt;0\)</span>, participant <span class="math inline">\(p\)</span> is of “below average” proficiency. Similarly, if <span class="math inline">\(b_i &lt; 0\)</span> question <span class="math inline">\(i\)</span> is an “easier” question and the average participant is more likely to correctly answer question <span class="math inline">\(i\)</span>. If <span class="math inline">\(b_i &gt;0\)</span> then question <span class="math inline">\(i\)</span> is a more “difficult” question and the average participant is less likely to correctly answer question <span class="math inline">\(i\)</span>. Other common conventions for identifying the model include setting a particular <span class="math inline">\(b_i\)</span> or the mean of the <span class="math inline">\(b_i\)</span>s equal to zero.</p>
+<p>The item characteristic curve (ICC) describes the relationship between proficiency and performance on a particular item (see Figure <a href="decision-making.html#fig:hf-extensionsexample">8.1</a> for examples). For item parameters estimated under a Rasch model, all ICCs are standard logistic curves with different locations on the latent difficulty/proficiency scale.</p>
+<!-- Below paragraph is too stats-y. Maybe take out? -->
+<p>Note that Equation <a href="decision-making.html#eq:rasch">(8.1)</a> also describes a generalized linear model (GLM), where <span class="math inline">\(\theta_p - b_i\)</span> is the linear component, with a logit link function. By formulating the Rasch Model as a hierarchical GLM with prior distributions on both <span class="math inline">\(\theta_p\)</span> and <span class="math inline">\(b_i\)</span>, the identifiability problem is solved. We assign <span class="math inline">\(\theta_p \sim N(0, \sigma_\theta^2)\)</span> and <span class="math inline">\(b_i \sim N(\mu_b, \sigma_b^2)\)</span>, although more complicated prior distributions are certainly possible.</p>
+<p>The <em>two-parameter logistic model</em> (2PL) and <em>three-parameter logistic model</em> (3PL) are additional popular item response models <span class="citation">(Lord <a href="#ref-lord1980applications">1980</a>)</span>. They are both similar to the Rasch model in that the probability of a correct response depends on participant proficiency and item difficulty, but additional item parameters are also included. We omit a full discussion of these models here, but further reading may be found in <span class="citation">van der Linden and Hambleton (<a href="#ref-van2013handbook">2013</a>)</span> and <span class="citation">Boeck and Wilson (<a href="#ref-eirtbook">2004</a>)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:hf-extensionsexample"></span>
+<img src="open-forensic-science-in-r_files/figure-html/hf-extensionsexample-1.png" alt="Item Characteristic Curve (ICC) examples for the Rasch, 2PL, and 3PL models." width="672" />
+<p class="caption">
+Figure 8.1: Item Characteristic Curve (ICC) examples for the Rasch, 2PL, and 3PL models.
+</p>
+</div>
+</div>
+<div id="partial-credit-model" class="section level4">
+<h4><span class="header-section-number">8.1.1.2</span> Partial Credit Model</h4>
+<p>The <em>partial credit model</em> (PCM) <span class="citation">(Masters <a href="#ref-masters1982">1982</a>)</span> is distinct from the models discussed above because it allows for the response variable, <span class="math inline">\(Y_{pi}\)</span>, to take additional values beyond zero (incorrect) and one (correct). This is especially useful for modeling partially correct responses, although may be applied in other contexts where the responses can be ordered. When <span class="math inline">\(Y_{pi}\)</span> is binary, the partial credit model is equivalent to the Rasch model. Under the PCM, the probability of response <span class="math inline">\(Y_{pi}\)</span> depends on <span class="math inline">\(\theta_p\)</span>, the proficiency of participant <span class="math inline">\(p\)</span> as in the above models; <span class="math inline">\(m_i\)</span>, the maximum score for item <span class="math inline">\(i\)</span> (and the number of step parameters); and <span class="math inline">\(\beta_{il}\)</span>, the <span class="math inline">\(l^{th}\)</span> step parameter for item <span class="math inline">\(i\)</span> (<span class="math inline">\(l=0, \dots, m_i\)</span>):</p>
+<p><span class="math display">\[\begin{equation}
+P(Y_{pi} = 0)  = \frac{1}{1+\sum_{k=1}^{m_i} \exp \sum_{l=1}^k (\theta_p - \beta_{il})}
+\end{equation}\]</span></p>
+<p><span class="math display" id="eq:pcm">\[\begin{equation}
+P(Y_{pi} = y, y&gt;0)  = \frac{\exp\sum_{l=1}^y(\theta_p - \beta_{il})}{1+\sum_{k=1}^{m_i}\exp \sum_{l=1}^k (\theta_p - \beta_{il})}.
+\tag{8.2}
+\end{equation}\]</span></p>
+<p>An example PCM is shown in Figure <a href="decision-making.html#fig:hf-pcmexample">8.2</a> by plotting the probabilities of observing each of three categories as a function of <span class="math inline">\(\theta_p\)</span> (analogous to the ICC curves above).</p>
+<div class="figure" style="text-align: center"><span id="fig:hf-pcmexample"></span>
+<img src="open-forensic-science-in-r_files/figure-html/hf-pcmexample-1.png" alt="Category response functions for the PCM." width="672" />
+<p class="caption">
+Figure 8.2: Category response functions for the PCM.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="humans-data" class="section level2">
+<h2><span class="header-section-number">8.2</span> Data</h2>
+<p>The vast majority of forensic decision-making occurs in casework, information about which is not often made available to researchers due to privacy concerns. Outside of casework, data on forensic science decision-making is collected through proficiency test results and in error rate studies. <em>Proficiency tests</em> are periodic competency exams that must be completed for forensic laboratories to maintain their accreditation. <em>Error rate studies</em> are independent research studies designed to measure casework error rates. As their names suggest, these two data collection scenarios serve completely different purposes. Proficiency tests are designed to assess <em>basic competency</em> of individuals, and mistakes are rare. Error rate studies are designed to mimic the difficulty of evidence in casework and estimate the <em>overall error rate</em>, aggregating over many individuals, and mistakes are more common by design.</p>
+<p>Proficiency exams consist of a large number of participants (often <span class="math inline">\(&gt;400\)</span>) responding to a small set of questions (often <span class="math inline">\(&lt;20\)</span>). Since every participant answers every question, we can assess participant proficiency and question difficulty using the observed scores. As proficiency exams are designed to assess basic competency, most questions are relatively easy and the vast majority of participants score 100%. Error rate studies, on the other hand, consist of a smaller number of participants (fewer than <span class="math inline">\(200\)</span>) and a larger pool of questions (more than <span class="math inline">\(500\)</span>). The questions are designed to be difficult, and every participant does not answer every question, which makes determining participant proficiency and question difficulty a more complicated task.</p>
+<p>Results from both proficiency tests and error rate studies can be represented as a set of individuals responding to several items, in which responses can be scored as correct or incorrect. This is not unlike an educational testing scenario where students (individuals) answer questions (items) either correctly or incorrectly. There is a rich body of statistical methods for estimating student proficiency and item difficulty from test responses. Item Response Theory (IRT) is used extensively in educational testing to study the relationship between an individual’s (unobserved) proficiency and their performance on varying tasks. IRT is an especially useful tool to estimate participant proficiencies and question difficulties when participants do not necessarily answer the same set of questions.</p>
+</div>
+<div id="rpackages" class="section level2">
+<h2><span class="header-section-number">8.3</span> R Packages</h2>
+<p>The case study makes use of the <a href="https://github.com/aluby/blackboxstudyR"><code>blackboxstudyR</code></a> R package <span class="citation">(Luby <a href="#ref-R-blackboxstudyR">2019</a>)</span>, which provides functions for working with the FBI black box data, implementations of basic IRT models in Stan <span class="citation">(Guo, Gabry, and Goodrich <a href="#ref-R-rstan">2018</a>)</span>, and plotting functions for results.</p>
+<p>The primary functions of <code>blackboxstudyR</code> include:</p>
+<ul>
+<li><code>score_bb_data()</code>: Scores the FBI “Black Box” data under one of five scoring schemes.</li>
+<li><code>irt_data_bb()</code>: Formats the FBI “Black Box” data into a form appropriate for fitting a Stan model.</li>
+<li><code>fit_irt()</code>: Wrapper for Stan to fit standard IRT models to data (does not be the FBI data). Models currently available are:
+<ul>
+<li>Rasch Model (Section <a href="decision-making.html#rasch-model">8.1.1.1</a>)</li>
+<li>2PL Model (Section <a href="decision-making.html#rasch-model">8.1.1.1</a>)</li>
+<li>Partial Credit Model (Section <a href="decision-making.html#partial-credit-model">8.1.1.2</a>)</li>
+</ul></li>
+<li><code>plot_difficulty_posteriors</code> and <code>plot_proficiency_posteriors</code>: Plot posterior intervals for difficulty and proficiency estimates, respectively.</li>
+</ul>
+</div>
+<div id="humans-conclusions" class="section level2">
+<h2><span class="header-section-number">8.4</span> Drawing Conclusions</h2>
+<p>An IRT analysis produces estimates of both participant proficiency and item difficulty. <!--A major benefit of using an IRT analysis, as opposed to the raw scores alone, and vice-versa.--> As mentioned previously, this property is especially useful for settings where participants respond to different subsets of items, as it allows all participants to be compared on the same scale.</p>
+<p>By comparing the estimated proficiency to more traditional measures of participant performance (e.g. false positive rate or false negative rate), we can see whether there are aspects captured by proficiency that are not captured in other measures. For instance, the false positive rate and the false negative rate contain no information about the inconclusive rate, while IRT does implicitly, as it accounts for the number of question answered by each participant.</p>
+<p>In the forensic science setting, completing an IRT analysis will often include an additional step of choosing how the data should be scored. For example, should inconclusive responses be scored as incorrect or treated as missing? An additional question we may wish to answer is, “Which scoring scheme is most appropriate for the setting at hand?” In some cases, the optimal scoring scheme may be determined using expert knowledge, or by specifying the expected answers to each item beforehand. In other cases, it may not be possible to determine the optimal scoring scheme before fitting an IRT model. In those cases, multiple scoring methods should be used to fit an IRT model, and the results from each model should be compared and contrasted.</p>
+</div>
+<div id="casestudy" class="section level2">
+<h2><span class="header-section-number">8.5</span> Case Study</h2>
+<!--Sam's note: stopped here on Mon jun 3-->
+<p>We use the FBI “black box” data (<code>blackboxstudyR::TestResponses</code>) for our case study. <code>TestResponses</code> is a data frame in which each row corresponds to an examiner, each column represents the item, and the value in each unique combination of row and column is the examiner’s response to that item. In addition to the examiner ID (<code>Examiner_ID</code>) and item ID (<code>Pair_ID</code>), the data contains:</p>
+<ul>
+<li><code>Mating</code>: whether the pair of prints were “Mates” (same source) or “Non-mates” (different source)</li>
+<li><code>Latent_Value</code>: the examiner’s assessment of the value of the print (NV = No Value, VEO = Value for Exclusion Only, VID = Value for Individualization)</li>
+<li><code>Compare_Value</code>: the examiner’s assessment of whether the pair of prints is an “Exclusion”, “Inconclusive” or “Individualization”</li>
+<li><code>Inconclusive_Reason</code>: If inconclusive, the reason for the inconclusive
+<ul>
+<li>“Close”: <em>The correspondence of features is supportive of the conclusion that the two impressions originated from the same source, but not the extent sufficient for individualization.</em></li>
+<li>“Insufficient”: <em>Potentially corresponding areas are present, but there is insufficient information present.</em> Participants were told to select this reason if the reference print was not of value.</li>
+<li>“No Overlap”: <em>No overlapping area between the latent and reference</em></li>
+</ul></li>
+<li><code>Exclusion_Reason</code>: If exclusion, the reason for the exclusion
+<ul>
+<li>“Minutiae”</li>
+<li>“Pattern”</li>
+</ul></li>
+<li><code>Difficulty</code>: Reported difficulty ranging from “A_Obvious” to “E_VeryDifficult”</li>
+</ul>
+<p>In order to fit an IRT model, we must first score the data. Responses are scored as correct if they are true identifications (<code>Mating == Mates</code> and <code>Compare_Value == Individualization</code>) or exclusions (<code>Mating == Non-mates</code> and <code>Compare_Value == Exclusion</code>). Similarly, responses are scored as incorrect if they are false identifications (<code>Mating == Non-mates</code> and <code>Compare_Value == Individualization</code>) or false exclusions (<code>Mating == Mates</code> and <code>Compare_Value == Exclusion</code>).</p>
+<p>Inconclusive responses, which are never keyed as correct responses, complicate the scoring of the exam due to both their ambiguity and prevalence. There are a large number of inconclusive answers (4907 of 17121 responses), and examiners vary on which latent print pairs are inconclusive.</p>
+<p>The <code>blackboxstudyR</code> package includes five methods to score inconclusive responses:</p>
+<ol style="list-style-type: decimal">
+<li>Score all inconclusive responses as incorrect (<code>inconclusive_incorrect</code>). This may penalize participants who were shown more vague or harder questions and therefore reported more inconclusives.</li>
+<li>Treat inconclusive responses as missing completely at random (<code>inconclusive_mcar</code>). This decreases the amount of data included in the analysis, and does not explicitly penalize examiners who report many inconclusives. This is the scoring method most similar to the method used in <span class="citation">Bradford T. Ulery et al. (<a href="#ref-ulery2011">2011</a>)</span> to compute false positive and false negative rates.</li>
+<li>Score inconclusive as correct if the reason given for an inconclusive is “correct”. Since the ground truth “correct” inconclusive reason is unknown, the consensus reason from other inconclusive responses for that question is used. If no consensus reason exists, the inconclusive response was scored in one of two ways:
+<ol style="list-style-type: lower-alpha">
+<li>Treat inconclusive responses as incorrect if no consensus reason exists (<code>no_consensus_incorrect</code>).</li>
+<li>Treat inconclusive responses as missing completely at random if no consensus reason exists (<code>no_consensus_mcar</code>).</li>
+</ol></li>
+<li>Score inconclusive responses as “partial credit” (<code>partial_credit</code>).</li>
+</ol>
+<p>In the remainder of the case study we will
+1. demonstrate how to fit an IRT model in R,
+2. illustrate how IRT analysis complements an error rate analysis by accounting for participants seeing different sets of questions, and
+3. show how different scoring methods can change results from an IRT analysis.</p>
+<div id="fitting-the-irt-model" class="section level3">
+<h3><span class="header-section-number">8.5.1</span> Fitting the IRT model</h3>
+<p>We’ll proceed with an IRT analysis of the data under the <code>inconclusive_mcar</code> scoring scheme, which is analogous to how the data were scored under <span class="citation">Bradford T. Ulery et al. (<a href="#ref-ulery2011">2011</a>)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">im_scored &lt;-<span class="st"> </span><span class="kw">score_bb_data</span>(TestResponses, <span class="st">&quot;inconclusive_mcar&quot;</span>)</code></pre>
+<p>Scoring the black box data as above gives us the response variable (<span class="math inline">\(y\)</span>). The <code>irt_data_bb</code> function takes the original black box data, along with the scored variable produced by <code>score_bb_data</code>, and produces a list object in the form needed by Stan to fit the IRT models. If you wish to fit the models on a different set of data, you can do so if the dataset has been formatted as a list object with the same attributes as the <code>irt_data_bb</code> function output (see package documentation for additional details).</p>
+<pre class="sourceCode r"><code class="sourceCode r">im_data &lt;-<span class="st"> </span><span class="kw">irt_data_bb</span>(TestResponses, im_scored)</code></pre>
+<p>We can now use <code>fit_irt</code> to fit the Rasch models.</p>
+<pre class="sourceCode r"><code class="sourceCode r">im_model &lt;-<span class="st"> </span><span class="kw">fit_rasch</span>(im_data, <span class="dt">iterations =</span> <span class="dv">600</span>, <span class="dt">n_chains =</span> <span class="dv">4</span>)</code></pre>
+<p>In practice, it is necessary to ensure that the MCMC sampler has converged using a variety of diagnostics. We omit these steps here for brevity, but the <code>blackboxstudyR</code> package will include a vignette detailing this process, or see e.g. <span class="citation">Gelman et al. (<a href="#ref-bda3">2013</a>)</span>.</p>
+<p>After the model has been fit, we can plot the posterior distributions of difficulties and proficiencies:</p>
+<pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">plot_proficiency_posteriors</span>(im_samples) <span class="op">+</span><span class="st"> </span>my_theme
+p2 &lt;-<span class="st"> </span><span class="kw">plot_difficulty_posteriors</span>(im_samples) <span class="op">+</span><span class="st"> </span>my_theme
+<span class="kw">ggarrange</span>(p1, p2, <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre>
+<p><img src="open-forensic-science-in-r_files/figure-html/hf-im-plots-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The lighter gray interval represents the 95% posterior interval and the black interval represents the 50% posterior interval. If we examine the posterior intervals for the difficulty estimates (<span class="math inline">\(b\)</span>), we can see groups which have noticeably larger intervals, and thus more uncertainty regarding the estimate:
+1. those on the bottom left
+2. those on the upper right, and
+3. those in the middle.</p>
+<p>These three groups of uncertain estimates correspond to:
+1. the questions that every participant answered correctly,
+2. the questions that every participant answered incorrectly, and
+3. the questions that every participant reported as an “inconclusive” or “no value”.</p>
+</div>
+<div id="irt-complements-an-error-rate-analysis" class="section level3">
+<h3><span class="header-section-number">8.5.2</span> IRT complements an error rate analysis</h3>
+<p>The original analysis of the FBI “Black Box” Study <span class="citation">(see Bradford T. Ulery et al. <a href="#ref-ulery2011">2011</a>)</span> did not include analysis of participant error rates, because each participant saw a different question set. Since proficiency accounts for the difficulty of question sets, however, we can directly compare participant proficiencies to each other, and also see how error rates and proficiency are related.</p>
+<p>First, we compute the observed person scores.</p>
+<pre class="sourceCode r"><code class="sourceCode r">obs_p_score &lt;-<span class="st"> </span><span class="kw">bb_person_score</span>(TestResponses, im_scored)</code></pre>
+<p>In order to use the <code>error_rate_analysis</code> function, we need to extract the median question difficulties from MCMC results.</p>
+<pre class="sourceCode r"><code class="sourceCode r">q_diff &lt;-<span class="st"> </span><span class="kw">apply</span>(im_samples, <span class="dv">3</span>, median)[<span class="kw">grep</span>(<span class="st">&quot;b</span><span class="ch">\\</span><span class="st">[&quot;</span>, <span class="kw">names</span>(<span class="kw">apply</span>(im_samples, 
+    <span class="dv">3</span>, median)))]
+ex_error_rates &lt;-<span class="st"> </span><span class="kw">error_rate_analysis</span>(TestResponses, q_diff)</code></pre>
+<p>Now, we can plot the proficiency estimates (with 95% posterior intervals) against the results from a traditional error rate analysis.</p>
+<pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">person_mcmc_intervals</span>(im_samples) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">right_join</span>(., obs_p_score, <span class="dt">by =</span> <span class="st">&quot;exID&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">full_join</span>(., ex_error_rates, <span class="dt">by =</span> <span class="st">&quot;exID&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(., score, m, 
+    ll, hh, exID, avg_diff, fpr, fnr) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(., <span class="kw">aes</span>(<span class="dt">x =</span> fpr, <span class="dt">y =</span> m, <span class="dt">ymin =</span> ll, 
+    <span class="dt">ymax =</span> hh)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_pointrange</span>(<span class="dt">size =</span> <span class="fl">0.3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;False Positive Rate&quot;</span>, 
+    <span class="dt">y =</span> <span class="st">&quot;Proficiency Estimate&quot;</span>) <span class="op">+</span><span class="st"> </span>my_theme
+
+p2 &lt;-<span class="st"> </span><span class="kw">person_mcmc_intervals</span>(im_samples) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">right_join</span>(., obs_p_score, <span class="dt">by =</span> <span class="st">&quot;exID&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">full_join</span>(., ex_error_rates, <span class="dt">by =</span> <span class="st">&quot;exID&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(., score, m, 
+    ll, hh, exID, avg_diff, fpr, fnr) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(., <span class="kw">aes</span>(<span class="dt">x =</span> fnr, <span class="dt">y =</span> m, <span class="dt">ymin =</span> ll, 
+    <span class="dt">ymax =</span> hh, <span class="dt">color =</span> fpr <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_pointrange</span>(<span class="dt">size =</span> <span class="fl">0.3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;False Negative Rate&quot;</span>, 
+    <span class="dt">y =</span> <span class="st">&quot;Proficiency Estimate&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;steelblue&quot;</span>)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>my_theme <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)
+
+<span class="kw">ggarrange</span>(p1, p2, <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:hf-error-rate-plots"></span>
+<img src="open-forensic-science-in-r_files/figure-html/hf-error-rate-plots-1.png" alt="Proficiency vs False Positive Rate (left) and False Negative Rate (right)" width="672" />
+<p class="caption">
+Figure 8.3: Proficiency vs False Positive Rate (left) and False Negative Rate (right)
+</p>
+</div>
+<p>Figure <a href="decision-making.html#fig:hf-error-rate-plots">8.3</a> shows proficiency against the false positive rate (left) and false negative rate (right). Those participants who made at least one false positive error are colored in blue on the right side plot. We see that one of the participants who made a false positive error still received a relatively large proficiency estimate due to having such a small false negative rate.</p>
+<p>If, instead of looking error rates for each participant, we examine observed scores, the estimated proficiencies correlate with the observed score (Figure <a href="decision-making.html#fig:hf-prof-observed">8.4</a>. That is, participants with a higher observed score are generally given larger proficiency estimates than participants with lower scores. There are, however, cases where participants scored roughly the same on the study but are given vastly different proficiency estimates. For example, the highlighted participants in the right plot above all scored between 94% and 96%, but their estimated proficiencies range from <span class="math inline">\(-1.25\)</span> to <span class="math inline">\(2.5\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">person_mcmc_intervals</span>(im_samples) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">right_join</span>(obs_p_score, <span class="dt">by =</span> <span class="st">&quot;exID&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> score, <span class="dt">y =</span> m, <span class="dt">ymin =</span> ll, <span class="dt">ymax =</span> hh)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_pointrange</span>(<span class="dt">size =</span> <span class="fl">0.3</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Observed Score&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Proficiency Estimate&quot;</span>) <span class="op">+</span><span class="st"> </span>my_theme
+
+p2 &lt;-<span class="st"> </span><span class="kw">person_mcmc_intervals</span>(im_samples) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">right_join</span>(obs_p_score, <span class="dt">by =</span> <span class="st">&quot;exID&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> score, <span class="dt">y =</span> m, <span class="dt">ymin =</span> ll, <span class="dt">ymax =</span> hh)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_pointrange</span>(<span class="dt">size =</span> <span class="fl">0.3</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">gghighlight</span>(score <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.96</span> <span class="op">&amp;</span><span class="st"> </span>score <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.94</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Observed Score&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Proficiency Estimate&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>my_theme
+
+<span class="kw">ggarrange</span>(p1, p2, <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:hf-prof-observed"></span>
+<img src="open-forensic-science-in-r_files/figure-html/hf-prof-observed-1.png" alt="Proficiency vs Observed Score" width="672" />
+<p class="caption">
+Figure 8.4: Proficiency vs Observed Score
+</p>
+</div>
+<p>If we examine those participants who scored between 94% and 96% more closely, we can see that the discrepancies in their proficiencies are largely explained by the difficulty of the specific question set they saw. This is evidenced by the positive trend in Figure <a href="decision-making.html#fig:hf-prof-by-diff">8.5</a>. In addition to the observed score and difficulty of the question set, the number of questions the participant answers conclusively (i.e. individualization or exclusion) also plays a role in the proficiency estimate. Participants who are conclusive more often generally receive higher estimates of proficiency than participants who are conclusive less often.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">person_mcmc_intervals</span>(im_samples) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">right_join</span>(obs_p_score, <span class="dt">by =</span> <span class="st">&quot;exID&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">full_join</span>(ex_error_rates, <span class="dt">by =</span> <span class="st">&quot;exID&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(score, m, ll, hh, 
+    exID, avg_diff, pct_skipped) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(score <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.96</span> <span class="op">&amp;</span><span class="st"> </span>score <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.94</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> avg_diff, <span class="dt">y =</span> m, <span class="dt">ymin =</span> ll, <span class="dt">ymax =</span> hh, <span class="dt">col =</span> <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>pct_skipped)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">size =</span> <span class="fl">0.3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Avg Q Difficulty&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Proficiency Estimate&quot;</span>, 
+    <span class="dt">color =</span> <span class="st">&quot;% Conclusive&quot;</span>) <span class="op">+</span><span class="st"> </span>my_theme</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:hf-prof-by-diff"></span>
+<img src="open-forensic-science-in-r_files/figure-html/hf-prof-by-diff-1.png" alt="Proficiency vs Average Question Difficulty, for participants with observed score between 94 and 96 percent correct." width="672" />
+<p class="caption">
+Figure 8.5: Proficiency vs Average Question Difficulty, for participants with observed score between 94 and 96 percent correct.
+</p>
+</div>
+</div>
+<div id="scoring-method-affects-proficiency-estimates" class="section level3">
+<h3><span class="header-section-number">8.5.3</span> Scoring method affects proficiency estimates</h3>
+<p>To illustrate the difference in results between different scoring methods, we’ll now score the data and fit models in two more ways: <code>no_consensus_incorrect</code> and <code>partial_credit</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">nci_scored &lt;-<span class="st"> </span><span class="kw">score_bb_data</span>(TestResponses, <span class="st">&quot;no_consensus_incorrect&quot;</span>)
+nci_data &lt;-<span class="st"> </span><span class="kw">irt_data_bb</span>(TestResponses, nci_scored)
+pc_scored &lt;-<span class="st"> </span><span class="kw">score_bb_data</span>(TestResponses, <span class="st">&quot;partial_credit&quot;</span>)
+pc_data &lt;-<span class="st"> </span><span class="kw">irt_data_bb</span>(TestResponses, pc_scored)</code></pre>
+<p>We use <code>fit_rasch</code> to fit the Rasch model to the <code>no_consensus_incorrect</code> data, and since the <code>partial_credit</code> data has three outcomes (correct, inconclusive, or incorrect) instead of only two (correct/incorrect), we use <code>fit_pcm</code> to fit a partial credit model to the data.</p>
+<pre class="sourceCode r"><code class="sourceCode r">nci_model &lt;-<span class="st"> </span><span class="kw">fit_rasch</span>(nci_data, <span class="dt">iterations =</span> <span class="dv">1000</span>, <span class="dt">n_chains =</span> <span class="dv">4</span>)
+pc_model &lt;-<span class="st"> </span><span class="kw">fit_pcm</span>(pc_data, <span class="dt">iterations =</span> <span class="dv">1000</span>, <span class="dt">n_chains =</span> <span class="dv">4</span>)</code></pre>
+<p>We can examine the proficiency estimates and observed scores for each participant under each of the three scoring schemes, similar to Figure <a href="decision-making.html#fig:hf-prof-observed">8.4</a> above. Under the partial credit scoring scheme, a correct identification/exclusion is scored as a “2”, an inconclusive response is scored as a “1” and an incorrect identification/exclusion is scored as a “0”. The observed score is then computed by <span class="math inline">\((\# Correct + \# Inconclusive) / (2 \times \# Responses)\)</span> to scale the score to be between 0 and 1.</p>
+<pre class="sourceCode r"><code class="sourceCode r">p_score_im &lt;-<span class="st"> </span><span class="kw">bb_person_score</span>(TestResponses, im_scored)
+p_score_im &lt;-<span class="st"> </span><span class="kw">person_mcmc_intervals</span>(blackboxstudyR<span class="op">::</span>im_samples) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">right_join</span>(p_score_im, 
+    <span class="dt">by =</span> <span class="st">&quot;exID&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">scoring =</span> <span class="kw">rep</span>(<span class="st">&quot;im&quot;</span>, <span class="kw">nrow</span>(p_score_im)))
+
+p_score_nci &lt;-<span class="st"> </span><span class="kw">bb_person_score</span>(TestResponses, nci_scored)
+p_score_nci &lt;-<span class="st"> </span><span class="kw">person_mcmc_intervals</span>(blackboxstudyR<span class="op">::</span>nci_samples) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">right_join</span>(p_score_nci, 
+    <span class="dt">by =</span> <span class="st">&quot;exID&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">scoring =</span> <span class="kw">rep</span>(<span class="st">&quot;nci&quot;</span>, <span class="kw">nrow</span>(p_score_nci)))
+
+p_score_pc &lt;-<span class="st"> </span><span class="kw">bb_person_score</span>(TestResponses, pc_scored)
+p_score_pc &lt;-<span class="st"> </span><span class="kw">person_mcmc_intervals</span>(blackboxstudyR<span class="op">::</span>pc_samples) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">right_join</span>(p_score_pc, 
+    <span class="dt">by =</span> <span class="st">&quot;exID&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">scoring =</span> <span class="kw">rep</span>(<span class="st">&quot;pc&quot;</span>, <span class="kw">nrow</span>(p_score_pc)))
+
+p1 &lt;-<span class="st"> </span>p_score_im <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>(p_score_nci) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>(p_score_pc) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> score, 
+    <span class="dt">y =</span> m, <span class="dt">ymin =</span> ll, <span class="dt">ymax =</span> hh, <span class="dt">col =</span> scoring)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_pointrange</span>(<span class="dt">size =</span> <span class="fl">0.3</span>, 
+    <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Observed Score&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Estimated Proficiency&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>my_theme
+
+p2 &lt;-<span class="st"> </span>p_score_im <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>(p_score_nci) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>(p_score_pc) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(exID) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> score, <span class="dt">y =</span> m, <span class="dt">ymin =</span> ll, <span class="dt">ymax =</span> hh, <span class="dt">col =</span> scoring, <span class="dt">group =</span> exID)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_pointrange</span>() <span class="op">+</span><span class="st"> </span><span class="kw">gghighlight</span>(hh <span class="op">&lt;</span><span class="st"> </span><span class="fl">-0.5</span>, <span class="dt">use_group_by =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, 
+    <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Observed Score&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Estimated Proficiency&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">-0.5</span>, <span class="dt">col =</span> <span class="st">&quot;darkred&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st"> </span>my_theme
+
+<span class="kw">ggarrange</span>(p1, p2, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">common.legend =</span> <span class="ot">TRUE</span>, <span class="dt">legend =</span> <span class="st">&quot;bottom&quot;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:hf-prof-three-scores"></span>
+<img src="open-forensic-science-in-r_files/figure-html/hf-prof-three-scores-1.png" alt="Proficiency vs Observed Score for each of three scoring schemes" width="672" />
+<p class="caption">
+Figure 8.6: Proficiency vs Observed Score for each of three scoring schemes
+</p>
+</div>
+<p>Treating the inconclusives as missing (“im”), leads to both the smallest range of observed scores and largest range of estimated proficiencies. Harsher scoring methods (e.g. <code>no consensus incorrect</code> (“nci”)) do not necessarily lead to lower estimated proficiencies. For instance, the participants who scored around 45% under the “nci” scoring method (in green) are given higher proficiency estimates than the participant who scored 70% under the “im” scoring method. The scoring method thus affects the proficiency estimates in a somewhat non-intuitive way, as larger ranges of observed scores do not necessarily correspond to larger ranges of proficiency estimates.</p>
+<p>Also note that the uncertainty intervals under the “im” scoring scheme are noticeably larger than under the other scoring schemes. This is because the <code>inconclusive_mcar</code> scheme treats all of the inconclusives, nearly a third of the data, as missing. This missingness is completely uninformative when estimating the difficulty and proficiency estimates. Under the other scoring schemes (<code>no consensus incorrect</code> and <code>partial credit</code>) the inconclusive responses are never treated as missing, leading to a larger number of observations per participant and therefore a smaller amount of uncertainty in the proficiency estimate.</p>
+<p>The range of proficiencies under different scoring schemes and the uncertainty intervals for the proficiency estimates both have substantial implications if we consider setting a “mastery level” for participants. As an example, let’s consider setting the mastery threshold at <span class="math inline">\(-0.5\)</span>. We will then say examiners have not demonstrated mastery if the upper end of their proficiency uncertainty estimate is below <span class="math inline">\(-0.5\)</span>, illustrated in the right plot of Figure <a href="decision-making.html#fig:hf-prof-three-scores">8.6</a>.</p>
+<p>The number of examiners that have not demonstrated mastery varies based on the scoring method used (11 for “nci”, 8 for “pc” and 11 for “im”) due to the variation in range of proficiency estimates. Additionally, for each of the scoring schemes, there are a number of examiners that did achieve mastery with the same observed score as those that did not demonstrate mastery. This is due to a main feature of item response models discussed earlier: participants that answered more difficult questions are given higher proficiency estimates than participants that answered the same number of easier questions.</p>
+<p>We’ve also drawn dotted lines between proficiency estimates that correspond to the same person. Note that many of the participants who do not achieve mastery under one scoring scheme <em>do</em> achieve mastery under the other scoring schemes, since not all of the points are connected by dotted lines. There are also a few participants who do not achieve mastery under any of the scoring schemes. This raises the question of how much the proficiency estimates change for each participant under the different scoring schemes.</p>
+<p>The plot on the left in Figure <a href="decision-making.html#fig:hf-prof-by-id">8.7</a> shows both a change in examiner proficiencies across scoring schemes (the lines connecting the proficiencies are not horizontal) as well as a change in the ordering of examiner proficiencies (the lines cross one another). That is, different scoring schemes affect examiner proficiencies in different ways.</p>
+<p>The plot on the right illustrates participants that see substantial differences in their proficiency estimates under different scoring schemes. Examiners 105 and 3 benefit from the leniency in scoring when inconclusives are treated as missing (“im”). When inconclusives are scored as incorrect (“nci”) or partial credit (“pc”), they see a substantial decrease in their proficiency due to reporting a high number of inconclusives and differing from other examiners in their reasoning for reporting inconclusives. Examiners 142, 60 and 110, on the other hand, are hurt by the leniency in scoring when inconclusives are treated as missing (“im”). Their proficiency estimates increase when inconclusives are scored as correct when they match the consensus reason (“nci”) or are worth partial credit (“pc”).</p>
+<pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span>p_score_im <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>(p_score_nci) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>(p_score_pc) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(parameter) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">169</span>, <span class="dt">each =</span> <span class="dv">3</span>)) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(id, m, scoring) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">spread</span>(scoring, m) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">max.diff =</span> <span class="kw">apply</span>(<span class="kw">cbind</span>(<span class="kw">abs</span>(im <span class="op">-</span><span class="st"> </span>nci), <span class="kw">abs</span>(nci <span class="op">-</span><span class="st"> </span>
+<span class="st">    </span>pc), <span class="kw">abs</span>(im <span class="op">-</span><span class="st"> </span>pc)), <span class="dv">1</span>, max)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">gather</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;median&quot;</span>, <span class="op">-</span><span class="kw">c</span>(id, max.diff)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> model, <span class="dt">y =</span> median, <span class="dt">group =</span> id, <span class="dt">col =</span> id)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Scoring Method&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Estimated Proficiency&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>my_theme
+
+p2 &lt;-<span class="st"> </span>p_score_im <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>(p_score_nci) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>(p_score_pc) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(parameter) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">169</span>, <span class="dt">each =</span> <span class="dv">3</span>)) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(id, m, scoring) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">spread</span>(scoring, m) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">max.diff =</span> <span class="kw">apply</span>(<span class="kw">cbind</span>(<span class="kw">abs</span>(im <span class="op">-</span><span class="st"> </span>nci), <span class="kw">abs</span>(nci <span class="op">-</span><span class="st"> </span>
+<span class="st">    </span>pc), <span class="kw">abs</span>(im <span class="op">-</span><span class="st"> </span>pc)), <span class="dv">1</span>, max)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">gather</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;median&quot;</span>, <span class="op">-</span><span class="kw">c</span>(id, max.diff)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> model, <span class="dt">y =</span> median, <span class="dt">group =</span> id, <span class="dt">col =</span> id)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Scoring Method&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Estimated Proficiency&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">gghighlight</span>(max.diff <span class="op">&gt;</span><span class="st"> </span><span class="fl">1.95</span>, <span class="dt">label_key =</span> id, <span class="dt">use_group_by =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span>my_theme
+
+<span class="kw">ggarrange</span>(p1, p2, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">common.legend =</span> <span class="ot">TRUE</span>, <span class="dt">legend =</span> <span class="st">&quot;bottom&quot;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:hf-prof-by-id"></span>
+<img src="open-forensic-science-in-r_files/figure-html/hf-prof-by-id-1.png" alt="Change in proficiency for each examiner under the three scoring schemes. The right side plot has highlighted five examiners whose proficiency estimates change the most across schemes." width="672" />
+<p class="caption">
+Figure 8.7: Change in proficiency for each examiner under the three scoring schemes. The right side plot has highlighted five examiners whose proficiency estimates change the most across schemes.
+</p>
+</div>
+</div>
+<div id="discussion" class="section level3">
+<h3><span class="header-section-number">8.5.4</span> Discussion</h3>
+<p>We have provided an overview of human decision-making in forensic analyses, through the lens of latent print comparisons and the FBI “black box” study <span class="citation">(Bradford T. Ulery et al. <a href="#ref-ulery2011">2011</a>)</span>. A brief overview of Item Response Theory (IRT), a class of models used extensively in educational testing, was introduced in Section <a href="decision-making.html#irt">8.1.1</a>. A case study is provided of an IRT analysis on the FBI ``black box’’ study in <a href="decision-making.html#casestudy">8.5</a>.</p>
+<p>Results from an IRT analysis are largely consistent with conclusions from an error rate analysis. However, IRT provides substantially more information than a more traditional analysis, specifically through accounting for the difficulty of questions seen. Additionally, IRT implicitly accounts for the inconclusive rate of different participants and provides estimates of uncertainty for both participant proficiency and item difficulty. If IRT were to be adopted on a large scale, participants would be able to be directly compared even if they took different exams (for instance, proficiency exams in different years).</p>
+<p>Three scoring schemes were presented in the case study, each of which leads to substantially different proficiency estimates across participants. Although IRT is a powerful tool for better understanding examiner performance on forensic identification tasks, we must be careful when choosing a scoring scheme. This is especially important for analyzing ambiguous responses, such as the inconclusive responses in the “black box” study.</p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a></p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-pcast">
+<p>PCAST, President’s Council of Advisors on Science and Technology. 2016. “Forensic Science in Criminal Courts: Ensuring Scientific Validity of Feature-Comparison Methods.” Executive Office of The President’s Council of Advisors on Science; Technology, Washington DC.</p>
+</div>
+<div id="ref-dror2008meta">
+<p>Dror, Itiel E, and Robert Rosenthal. 2008. “Meta-Analytically Quantifying the Reliability and Biasability of Forensic Experts.” <em>Journal of Forensic Sciences</em> 53 (4): 900–903.</p>
+</div>
+<div id="ref-dror2006">
+<p>Dror, Itiel E, David Charlton, and Ailsa E Péron. 2006. “Contextual Information Renders Experts Vulnerable to Making Erroneous Identifications.” <em>Forensic Science International</em> 156 (1): 74–78.</p>
+</div>
+<div id="ref-dror2010vision">
+<p>Dror, Itiel E, and Simon A Cole. 2010. “The Vision in ‘Blind’ Justice: Expert Perception, Judgment, and Visual Cognition in Forensic Pattern Recognition.” <em>Psychonomic Bulletin &amp; Review</em> 17 (2): 161–67.</p>
+</div>
+<div id="ref-nas2009">
+<p>National Research Council. 2009b. <em>Strengthening Forensic Science in the United States: A Path Forward</em>. Washington, D.C.: The National Academies Press.</p>
+</div>
+<div id="ref-stoelshaky">
+<p>Stoel, Reinoud, Charles Berger, Elisa van den Heuvel, and Wil Fagel. 2010. “The Shaky Criticism of Forensic Handwriting Analysis.”</p>
+</div>
+<div id="ref-ulery2011">
+<p>Ulery, Bradford T., R. Austin Hicklin, JoAnn Buscaglia, and Maria Antonia Roberts. 2011. “Accuracy and Reliability of Forensic Latent Fingerprint Decisions.” <em>Proceedings of the National Academy of Sciences</em> 108 (19): 7733–8.</p>
+</div>
+<div id="ref-kerkhoff2015">
+<p>Kerkhoff, W., R.D. Stoel, C.E.H. Berger, E.J.A.T. Mattijssen, R. Hermsen, N. Smits, and H.J.J. Hardy. 2015. “Design and Results of an Exploratory Double Blind Testing Program in Firearms Examination.” <em>Science &amp; Justice</em> 55 (6): 514–19. <a href="https://doi.org/https://doi.org/10.1016/j.scijus.2015.06.007">https://doi.org/https://doi.org/10.1016/j.scijus.2015.06.007</a>.</p>
+</div>
+<div id="ref-luby2018proficiency">
+<p>Luby, Amanda S, and Joseph B Kadane. 2018. “Proficiency Testing of Fingerprint Examiners with Bayesian Item Response Theory.” <em>Law, Probability and Risk</em> 17 (2): 111–21.</p>
+</div>
+<div id="ref-rasch1960studies">
+<p>Rasch, Georg. 1960. <em>Probabilistic Models for Some Intelligence and Attainment Tests</em>. Chicago: University of Chicago Press.</p>
+</div>
+<div id="ref-raschbook">
+<p>Fischer, Gerhard H, and Ivo W Molenaar. 2012. <em>Rasch Models: Foundations, Recent Developments, and Applications</em>. New York: Springer Science &amp; Business Media.</p>
+</div>
+<div id="ref-lord1980applications">
+<p>Lord, Frederic M. 1980. <em>Applications of Item Response Theory to Practical Testing Problems</em>. Hillsdale, NJ: Erlbaum.</p>
+</div>
+<div id="ref-van2013handbook">
+<p>van der Linden, Wim J, and Ronald K Hambleton. 2013. <em>Handbook of Modern Item Response Theory</em>. Springer Science &amp; Business Media.</p>
+</div>
+<div id="ref-eirtbook">
+<p>Boeck, Paul de, and Mark Wilson. 2004. <em>Explanatory Item Response Models: A Generalized Linear and Nonlinear Approach</em>. New York: Springer.</p>
+</div>
+<div id="ref-masters1982">
+<p>Masters, Geoff N. 1982. “A Rasch Model for Partial Credit Scoring.” <em>Psychometrika</em> 47 (2): 149–74.</p>
+</div>
+<div id="ref-R-blackboxstudyR">
+<p>Luby, Amanda. 2019. <em>BlackboxstudyR: Fits Basic Irt Models to Fbi Black Box Data</em>.</p>
+</div>
+<div id="ref-R-rstan">
+<p>Guo, Jiqiang, Jonah Gabry, and Ben Goodrich. 2018. <em>Rstan: R Interface to Stan</em>. <a href="https://CRAN.R-project.org/package=rstan">https://CRAN.R-project.org/package=rstan</a>.</p>
+</div>
+<div id="ref-bda3">
+<p>Gelman, Andrew, John B. Carlin, Hal S. Stern, David B. Dunson, Aki Vehtari, and Donald B. Rubin. 2013. <em>Bayesian Data Analysis</em>. Third. Taylor &amp; Francis.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="glass.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="acknowledgements-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/sctyner/OpenForSciR/edit/master/content/content/human_factors-decision_making.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["open-forensic-science-in-r.pdf", "open-forensic-science-in-r.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

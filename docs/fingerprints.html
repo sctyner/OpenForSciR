@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 5 Latent Fingerprints | Open Forensic Science in R</title>
+  <meta name="description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 5 Latent Fingerprints | Open Forensic Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  <meta name="github-repo" content="sctyner/openforscir" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Latent Fingerprints | Open Forensic Science in R" />
+  
+  <meta name="twitter:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  
+
+<meta name="author" content="Editor: Sam Tyner, Ph.D.">
+
+
+<meta name="date" content="2019-06-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="casings.html">
+<link rel="next" href="shoe.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.5/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Open Forensic Science in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prologue</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a><ul>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#sam-tyner-ph.d."><i class="fa fa-check"></i>Sam Tyner, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#heike-hofmann-ph.d."><i class="fa fa-check"></i>Heike Hofmann, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#soyoung-park-ph.d."><i class="fa fa-check"></i>Soyoung Park, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#eric-hare-ph.d."><i class="fa fa-check"></i>Eric Hare, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#xiao-hui-tai"><i class="fa fa-check"></i>Xiao Hui Tai</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-kafadar-ph.d."><i class="fa fa-check"></i>Karen Kafadar, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-pan"><i class="fa fa-check"></i>Karen Pan</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#amanda-luby"><i class="fa fa-check"></i>Amanda Luby</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#ganesh-krishnan-m.sc."><i class="fa fa-check"></i>Ganesh Krishnan, M.Sc.</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#r-packages"><i class="fa fa-check"></i><b>1.1</b> R Packages</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#terminology-and-definitions"><i class="fa fa-check"></i><b>1.2</b> Terminology and Definitions</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#forscip"><i class="fa fa-check"></i><b>1.3</b> Forensic Science Problems</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dnaval.html"><a href="dnaval.html"><i class="fa fa-check"></i><b>2</b> Validation of DNA Interpretation Systems</a><ul>
+<li class="chapter" data-level="" data-path="dnaval.html"><a href="dnaval.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="2.1" data-path="dnaval.html"><a href="dnaval.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="dnaval.html"><a href="dnaval.html#procedure-for-dna-analysis-using-strs"><i class="fa fa-check"></i><b>2.1.1</b> Procedure for DNA Analysis using STRs</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="dnaval.html"><a href="dnaval.html#data"><i class="fa fa-check"></i><b>2.2</b> Data</a></li>
+<li class="chapter" data-level="2.3" data-path="dnaval.html"><a href="dnaval.html#r-package"><i class="fa fa-check"></i><b>2.3</b> R Package</a></li>
+<li class="chapter" data-level="2.4" data-path="dnaval.html"><a href="dnaval.html#drawing-conclusions"><i class="fa fa-check"></i><b>2.4</b> Drawing Conclusions</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="dnaval.html"><a href="dnaval.html#stutter-ratio"><i class="fa fa-check"></i><b>2.4.1</b> Stutter ratio</a></li>
+<li class="chapter" data-level="2.4.2" data-path="dnaval.html"><a href="dnaval.html#heterozygote-balance"><i class="fa fa-check"></i><b>2.4.2</b> Heterozygote balance</a></li>
+<li class="chapter" data-level="2.4.3" data-path="dnaval.html"><a href="dnaval.html#inter-locus-balance"><i class="fa fa-check"></i><b>2.4.3</b> Inter-locus balance</a></li>
+<li class="chapter" data-level="2.4.4" data-path="dnaval.html"><a href="dnaval.html#stochastic-threshold"><i class="fa fa-check"></i><b>2.4.4</b> Stochastic threshold</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="dnaval.html"><a href="dnaval.html#case-study"><i class="fa fa-check"></i><b>2.5</b> Case Study</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="dnaval.html"><a href="dnaval.html#get-the-data"><i class="fa fa-check"></i><b>2.5.1</b> Get the data</a></li>
+<li class="chapter" data-level="2.5.2" data-path="dnaval.html"><a href="dnaval.html#check-the-stutter-ratio"><i class="fa fa-check"></i><b>2.5.2</b> Check the stutter ratio</a></li>
+<li class="chapter" data-level="2.5.3" data-path="dnaval.html"><a href="dnaval.html#check-heterozygote-balance-intra-locus-balance"><i class="fa fa-check"></i><b>2.5.3</b> Check heterozygote balance (intra-locus balance)</a></li>
+<li class="chapter" data-level="2.5.4" data-path="dnaval.html"><a href="dnaval.html#check-inter-locus-balance"><i class="fa fa-check"></i><b>2.5.4</b> Check inter-locus balance</a></li>
+<li class="chapter" data-level="2.5.5" data-path="dnaval.html"><a href="dnaval.html#check-stochastic-threshold"><i class="fa fa-check"></i><b>2.5.5</b> Check stochastic threshold</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="bullets.html"><a href="bullets.html"><i class="fa fa-check"></i><b>3</b> Firearms: bullets</a><ul>
+<li class="chapter" data-level="3.1" data-path="bullets.html"><a href="bullets.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="bullets.html"><a href="bullets.html#data-1"><i class="fa fa-check"></i><b>3.2</b> Data</a></li>
+<li class="chapter" data-level="3.3" data-path="bullets.html"><a href="bullets.html#r-packages-1"><i class="fa fa-check"></i><b>3.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="bullets.html"><a href="bullets.html#x3ptools"><i class="fa fa-check"></i><b>3.3.1</b> x3ptools</a></li>
+<li class="chapter" data-level="3.3.2" data-path="bullets.html"><a href="bullets.html#bulletxtrctr"><i class="fa fa-check"></i><b>3.3.2</b> <code>bulletxtrctr</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="bullets.html"><a href="bullets.html#drawing-conclusions-1"><i class="fa fa-check"></i><b>3.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="3.5" data-path="bullets.html"><a href="bullets.html#case-study-1"><i class="fa fa-check"></i><b>3.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="casings.html"><a href="casings.html"><i class="fa fa-check"></i><b>4</b> Firearms: casings</a><ul>
+<li class="chapter" data-level="4.1" data-path="casings.html"><a href="casings.html#introduction-2"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="casings.html"><a href="casings.html#data-2"><i class="fa fa-check"></i><b>4.2</b> Data</a></li>
+<li class="chapter" data-level="4.3" data-path="casings.html"><a href="casings.html#r-packages-2"><i class="fa fa-check"></i><b>4.3</b> R Package(s)</a></li>
+<li class="chapter" data-level="4.4" data-path="casings.html"><a href="casings.html#casings-conclusions"><i class="fa fa-check"></i><b>4.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="4.5" data-path="casings.html"><a href="casings.html#casings-caseStudy"><i class="fa fa-check"></i><b>4.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fingerprints.html"><a href="fingerprints.html"><i class="fa fa-check"></i><b>5</b> Latent Fingerprints</a><ul>
+<li class="chapter" data-level="5.1" data-path="fingerprints.html"><a href="fingerprints.html#introduction-3"><i class="fa fa-check"></i><b>5.1</b> Introduction</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement"><i class="fa fa-check"></i><b>5.1.1</b> Contrast Gradient Quality Measurement</a></li>
+<li class="chapter" data-level="5.1.2" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement-illustration"><i class="fa fa-check"></i><b>5.1.2</b> Contrast Gradient Quality Measurement Illustration</a></li>
+<li class="chapter" data-level="5.1.3" data-path="fingerprints.html"><a href="fingerprints.html#test-for-usable-quality"><i class="fa fa-check"></i><b>5.1.3</b> Test for Usable Quality</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="fingerprints.html"><a href="fingerprints.html#data-3"><i class="fa fa-check"></i><b>5.2</b> Data</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="fingerprints.html"><a href="fingerprints.html#ace-v-and-afis"><i class="fa fa-check"></i><b>5.2.1</b> ACE-V and AFIS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="fingerprints.html"><a href="fingerprints.html#r-package-1"><i class="fa fa-check"></i><b>5.3</b> R Package</a></li>
+<li class="chapter" data-level="5.4" data-path="fingerprints.html"><a href="fingerprints.html#drawing-conclusions-2"><i class="fa fa-check"></i><b>5.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="5.5" data-path="fingerprints.html"><a href="fingerprints.html#case-study-2"><i class="fa fa-check"></i><b>5.5</b> Case Study</a><ul>
+<li class="chapter" data-level="" data-path="fingerprints.html"><a href="fingerprints.html#acknowledgements-1"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shoe.html"><a href="shoe.html"><i class="fa fa-check"></i><b>6</b> Shoe Outsole Impression Evidence</a><ul>
+<li class="chapter" data-level="6.1" data-path="shoe.html"><a href="shoe.html#introduction-4"><i class="fa fa-check"></i><b>6.1</b> Introduction</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="shoe.html"><a href="shoe.html#sources-of-variability-in-shoe-outsole-impressions"><i class="fa fa-check"></i><b>6.1.1</b> Sources of variability in shoe outsole impressions</a></li>
+<li class="chapter" data-level="6.1.2" data-path="shoe.html"><a href="shoe.html#current-practice"><i class="fa fa-check"></i><b>6.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="6.1.3" data-path="shoe.html"><a href="shoe.html#goal-of-this-chapter"><i class="fa fa-check"></i><b>6.1.3</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="shoe.html"><a href="shoe.html#data-4"><i class="fa fa-check"></i><b>6.2</b> Data</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="shoe.html"><a href="shoe.html#data-collection"><i class="fa fa-check"></i><b>6.2.1</b> Data collection</a></li>
+<li class="chapter" data-level="6.2.2" data-path="shoe.html"><a href="shoe.html#transformation-of-shoe-image"><i class="fa fa-check"></i><b>6.2.2</b> Transformation of shoe image</a></li>
+<li class="chapter" data-level="6.2.3" data-path="shoe.html"><a href="shoe.html#definition-of-classes"><i class="fa fa-check"></i><b>6.2.3</b> Definition of classes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="shoe.html"><a href="shoe.html#r-packages-3"><i class="fa fa-check"></i><b>6.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="shoe.html"><a href="shoe.html#one-subarea-matching"><i class="fa fa-check"></i><b>6.3.1</b> One subarea matching</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="shoe.html"><a href="shoe.html#drawing-conclusions-3"><i class="fa fa-check"></i><b>6.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="6.5" data-path="shoe.html"><a href="shoe.html#shoe-case-study"><i class="fa fa-check"></i><b>6.5</b> Case Study</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="shoe.html"><a href="shoe.html#sec:shoeqk1"><i class="fa fa-check"></i><b>6.5.1</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_1\)</span></a></li>
+<li class="chapter" data-level="6.5.2" data-path="shoe.html"><a href="shoe.html#compare-q-and-k_2"><i class="fa fa-check"></i><b>6.5.2</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_2\)</span></a></li>
+<li class="chapter" data-level="6.5.3" data-path="shoe.html"><a href="shoe.html#interpreting-comparisons-between-q-k_1-and-q-k_2"><i class="fa fa-check"></i><b>6.5.3</b> Interpreting Comparisons between <span class="math inline">\(Q, K_1\)</span> and <span class="math inline">\(Q, K_2\)</span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="glass.html"><a href="glass.html"><i class="fa fa-check"></i><b>7</b> Trace glass evidence: chemical composition</a><ul>
+<li class="chapter" data-level="7.1" data-path="glass.html"><a href="glass.html#introduction-5"><i class="fa fa-check"></i><b>7.1</b> Introduction</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="glass.html"><a href="glass.html#problems-of-interest"><i class="fa fa-check"></i><b>7.1.1</b> Problems of interest</a></li>
+<li class="chapter" data-level="7.1.2" data-path="glass.html"><a href="glass.html#current-practice-1"><i class="fa fa-check"></i><b>7.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="7.1.3" data-path="glass.html"><a href="glass.html#comparing-glass-fragments"><i class="fa fa-check"></i><b>7.1.3</b> Comparing glass fragments</a></li>
+<li class="chapter" data-level="7.1.4" data-path="glass.html"><a href="glass.html#goal-of-this-chapter-1"><i class="fa fa-check"></i><b>7.1.4</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="glass.html"><a href="glass.html#data-5"><i class="fa fa-check"></i><b>7.2</b> Data</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="glass.html"><a href="glass.html#chemical-composition-of-glass"><i class="fa fa-check"></i><b>7.2.1</b> Chemical composition of glass</a></li>
+<li class="chapter" data-level="7.2.2" data-path="glass.html"><a href="glass.html#data-source"><i class="fa fa-check"></i><b>7.2.2</b> Data source</a></li>
+<li class="chapter" data-level="7.2.3" data-path="glass.html"><a href="glass.html#data-structure"><i class="fa fa-check"></i><b>7.2.3</b> Data structure</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="glass.html"><a href="glass.html#glass_rpkgs"><i class="fa fa-check"></i><b>7.3</b> R Packages</a></li>
+<li class="chapter" data-level="7.4" data-path="glass.html"><a href="glass.html#drawing-conclusions-4"><i class="fa fa-check"></i><b>7.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="7.5" data-path="glass.html"><a href="glass.html#case-study-3"><i class="fa fa-check"></i><b>7.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="decision-making.html"><a href="decision-making.html"><i class="fa fa-check"></i><b>8</b> Decision-making in Forensic Identification Tasks</a><ul>
+<li class="chapter" data-level="8.1" data-path="decision-making.html"><a href="decision-making.html#introduction-6"><i class="fa fa-check"></i><b>8.1</b> Introduction</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="decision-making.html"><a href="decision-making.html#irt"><i class="fa fa-check"></i><b>8.1.1</b> A Brief Overview of Item Response Models</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="decision-making.html"><a href="decision-making.html#humans-data"><i class="fa fa-check"></i><b>8.2</b> Data</a></li>
+<li class="chapter" data-level="8.3" data-path="decision-making.html"><a href="decision-making.html#rpackages"><i class="fa fa-check"></i><b>8.3</b> R Packages</a></li>
+<li class="chapter" data-level="8.4" data-path="decision-making.html"><a href="decision-making.html#humans-conclusions"><i class="fa fa-check"></i><b>8.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="8.5" data-path="decision-making.html"><a href="decision-making.html#casestudy"><i class="fa fa-check"></i><b>8.5</b> Case Study</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="decision-making.html"><a href="decision-making.html#fitting-the-irt-model"><i class="fa fa-check"></i><b>8.5.1</b> Fitting the IRT model</a></li>
+<li class="chapter" data-level="8.5.2" data-path="decision-making.html"><a href="decision-making.html#irt-complements-an-error-rate-analysis"><i class="fa fa-check"></i><b>8.5.2</b> IRT complements an error rate analysis</a></li>
+<li class="chapter" data-level="8.5.3" data-path="decision-making.html"><a href="decision-making.html#scoring-method-affects-proficiency-estimates"><i class="fa fa-check"></i><b>8.5.3</b> Scoring method affects proficiency estimates</a></li>
+<li class="chapter" data-level="8.5.4" data-path="decision-making.html"><a href="decision-making.html#discussion"><i class="fa fa-check"></i><b>8.5.4</b> Discussion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="acknowledgements-2.html"><a href="acknowledgements-2.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="glossary.html"><a href="glossary.html"><i class="fa fa-check"></i><b>A</b> Glossary</a><ul>
+<li class="chapter" data-level="A.1" data-path="glossary.html"><a href="glossary.html#introduction-7"><i class="fa fa-check"></i><b>A.1</b> Introduction</a></li>
+<li class="chapter" data-level="A.2" data-path="glossary.html"><a href="glossary.html#validation-of-dna-interpretation-systems"><i class="fa fa-check"></i><b>A.2</b> Validation of DNA Interpretation Systems</a></li>
+<li class="chapter" data-level="A.3" data-path="glossary.html"><a href="glossary.html#firearms-bullets"><i class="fa fa-check"></i><b>A.3</b> Firearms: bullets</a></li>
+<li class="chapter" data-level="A.4" data-path="glossary.html"><a href="glossary.html#firearms-casings"><i class="fa fa-check"></i><b>A.4</b> Firearms: casings</a></li>
+<li class="chapter" data-level="A.5" data-path="glossary.html"><a href="glossary.html#latent-fingerprints"><i class="fa fa-check"></i><b>A.5</b> Latent Fingerprints</a></li>
+<li class="chapter" data-level="A.6" data-path="glossary.html"><a href="glossary.html#shoe-outsole-impression-evidence"><i class="fa fa-check"></i><b>A.6</b> Shoe Outsole Impression Evidence</a></li>
+<li class="chapter" data-level="A.7" data-path="glossary.html"><a href="glossary.html#trace-glass-evidence"><i class="fa fa-check"></i><b>A.7</b> Trace Glass Evidence</a></li>
+<li class="chapter" data-level="A.8" data-path="glossary.html"><a href="glossary.html#decision-making-in-forensic-identification-tasks"><i class="fa fa-check"></i><b>A.8</b> Decision-making in Forensic Identification Tasks</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Open Forensic Science in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="fingerprints" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Latent Fingerprints</h1>
+<div id="karen-kafadar-karen-pan" class="section level4 unnumbered">
+<h4><em>Karen Kafadar, Karen Pan</em></h4>
+<!--
+__Abstract:__
+
+A new measurement to quantify the quality of individual features ("minutiae") in a latent fingerprint is developed. Currently latent fingerprint quality is based on an overall score for an entire print. However, minutiae of sufficiently high quality can be useful for identification even in prints having large sections of low fidelity. We develop a metric with a scale of 0-100 (low to high quality) that characterizes (via gradients) the clarity of ridge features, and calculate the quality metrics on minutiae from NIST's SD27A latent fingerprint database containing prints judged by experts as "good," "bad," or "ugly." The proposed minutiae quality metrics correlate well with the general classification from fingerprint examiners and serve as objective, versus subjective, measures of minutiae quality. The objective quality measure enables examiners to focus on only the highest-scoring minutiae for fingerprint analyses and to discard low-scoring minutiae, thereby removing some aspects of the subjectivity involved in selecting minutiae for comparisons. We then design a procedure to determine a threshold of minutiae quality to distinguish between useful and non-useful minutiae in a forensic identification. We simulate a range of different quality prints by degrading prints of good quality images in a systematic and defined way to find the threshold below which a slated percentage of experts are unable to reliably identify fingerprint features.
+-->
+<p><img src="img/fingerprint-idea.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="introduction-3" class="section level2">
+<h2><span class="header-section-number">5.1</span> Introduction</h2>
+<p><a href="glossary.html#def:latentfp">Latent fingerprints</a> collected at crime scenes have been widely used for individual identification purposes, primarily because fingerprints have long been assumed to be unique to an individual. <!--Citation?--> Thus it is assumed that some subset of features, or <a href="glossary.html#def:minutiae"><em>minutiae</em></a>, on a print can be identified and will suffice to determine whether a latent print and a digital print from a database collected under controlled conditions (e.g., in a police laboratory) came from the “same source.” However, unlike digital fingerprints in a database, latent prints are generally of poor quality and incomplete, missing ridge structures or patterns. The quality of a latent print is needed for the “Analysis” and “Comparison” phases of the “ACE-V” fingerprint identification process <span class="citation">(Friction Ridge Analysis Study and Technology <a href="#ref-swgfast">2012</a>)</span>. This quality is currently judged visually, based on clarity of the print and specific features of it for identification purposes. This process, though done by trained fingerprint examiners, is nevertheless subjective and qualitative, as opposed to objective and quantitative. Once the examiner identifies seemingly usable minutiae on a latent print, the print is entered into an Automated Fingerprint Identification System (AFIS) which uses the examiner’s minutiae to return likely “matches” from a fingerprint database. Thus, the accuracy of the identification depends first and foremost on the quality and usability of the minutiae in a latent. More independent, high-quality features should lead to more accurate database “matches”.</p>
+<p>To date, neither objective measures of quality in selected minutiae, nor dependence among features, nor the number needed for high-accuracy calls, has been considered. Quoting from <span class="citation">B. T. Ulery et al. (<a href="#ref-ulery_2011">2011</a>)</span>, “No such absolute criteria exist for judging whether the evidence is sufficient to reach a conclusion as opposed to making an inconclusive or no-value decision. The best information we have to evaluate the appropriateness of reaching a conclusion is the collective judgments of the experts.” A digital fingerprint acquisition system does provide a numerical “quality” score of an exemplar print at the time it is taken (to ensure adequate clarity for later comparison), but the “quality” of the latent fingerprint is typically assessed qualitatively by the examiner.</p>
+<p>Some authors have proposed measures of overall latent print quality. <span class="citation">Bond (<a href="#ref-bond_2008">2008</a>)</span> defines a five-point scale primarily in terms of ridge continuity<!--definition of ridge continuity??-->. <span class="citation">Tabassi, Wilson, and Watson (<a href="#ref-tabassi_2004">2004</a>)</span> define a five-point quality scale in terms of contrast and clarity of features. The five-point scale reflects how the quality of the latent print impacts the ability of a matching algorithm to find and score matching prints: high [low] quality is associated with good [poor] match performance. <span class="citation">Yoon, Liu, and Jain (<a href="#ref-yoon_2012">2012</a>)</span> define a latent fingerprint image quality (LFIQ) score from a user-defined set of features based on clarity of ridges and features. <span class="citation">Tabassi, Wilson, and Watson (<a href="#ref-tabassi_2004">2004</a>)</span> cite other latent print quality measures that have been proposed and conclude that, for all of them, “evaluating their quality measure is a subjective matter” <span class="citation">(Tabassi, Wilson, and Watson <a href="#ref-tabassi_2004">2004</a>, 6)</span>. Nonetheless, there remains “substantial variability in the attributes of latent prints, in the capabilities of latent print examiners, in the types of casework received by agencies, and the procedures used among agencies” <span class="citation">(Ulery et al. <a href="#ref-ulery_2012">2012</a>)</span>. Consequently, some procedure that offers an objective measure of minutiae quality is needed.</p>
+<p>Different features (minutiae) on a latent print supply different amounts of information to an examiner. Our goal is to develop a quality metric for each feature, based on a measure of information in the feature. Visually, a feature on a print (ridge ending, bifurcation, etc.) is more recognizable when it is easily differentiated from the background around it. In subsequent sections we develop a quality metric for each latent fingerprint feature that quantifies its distinctiveness from its background value, and hence, how reliable a feature might be for purposes of comparison (step 2 of the ACE-V process).</p>
+<div id="contrast-gradient-quality-measurement" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> Contrast Gradient Quality Measurement</h3>
+<p>An algorithm introduced in <span class="citation">Peskin and Kafadar (<a href="#ref-pk_unpub">n.d.</a>)</span> identifies and examines a small collection of pixels surrounding a given feature and assesses their distinctiveness from the background pixels. The underlying principle for this approach lies in recognizing that a forensic examiner can distinguish features in a fairly blurry latent print by recognizing:</p>
+<ul>
+<li>a gradient of intensity between the dark and light regions defining a minutia point, and</li>
+<li>an overall contrast of intensity values in the general neighborhood of a minutiae point.</li>
+</ul>
+<p>The first step in the algorithm locates the pixel within a small neighborhood around the minutia location that produces the highest intensity gradient value. Further calculation is done around that pixel. The largest gradient in a neighborhood of 5 pixels in each direction from a feature is found. For each pixel in this neighborhood, we compare the pixel intensity, <span class="math inline">\(i(x, y)\)</span>, to a neighboring pixel intensity, <span class="math inline">\(i(x + n, y + m)\)</span>, where <span class="math inline">\(n, m \in \{-2, -1, 0, 1, 2\}\)</span>, and then divide by the corresponding distance between the pixels to get a measure of the gradient at pixel location <span class="math inline">\((x, y)\)</span>, <span class="math inline">\(g(x, y; n, m)\)</span>:</p>
+<p><span class="math display">\[ g(x, y; n, m) = \frac{i(x, y) - i(x + n, y + m)}{ \sqrt{n^2 + m^2}}, \qquad n, m = -2, ..., 2. \]</span></p>
+<p>Define <span class="math inline">\(G_5(x, y)\)</span> as the set of all 24 gradients in the <span class="math inline">\(5 \times 5\)</span> neighborhood of <span class="math inline">\((x, y)\)</span>. The value used for the quality measurement is the maximum value in the set <span class="math inline">\(G_5(x, y)\)</span>. We define <span class="math inline">\((x_0, y_0)\)</span> as the point that produces the largest gradient.</p>
+<p>The next step in the algorithm locates the largest contrast between the point <span class="math inline">\((x_0, y_0)\)</span> and its immediate <span class="math inline">\(3 \times 3\)</span> neighborhood, <span class="math inline">\((x_0 + n, y_0 + m)\)</span>, or <span class="math inline">\(n_3(x_0, y_0)\)</span>, where <span class="math inline">\(n,m \in \{-1, 0, 1\}\)</span>. The contrast factor is the largest intensity difference between <span class="math inline">\(i(x_0, y_0)\)</span> and any neighbor intensity in <span class="math inline">\(n_3(x_0, y_0)\)</span>, divided by the maximum intensity in the print, <span class="math inline">\(I_M\)</span>, usually 255:</p>
+<p><span class="math display">\[ contrast = \frac{max\{abs(i(x_0, y_0) - i(x,y)\}}{I_M}, \qquad (x, y) \in n_3(x_0, y_0). \]</span></p>
+<p>The contrast measurement differs from the gradient measurement because it highlights the maximum change in intensity among all nine points surrounding the minutia point at <span class="math inline">\((x_0, y_0)\)</span>, while the gradient reflects a change in intensity near the minutia point, divided by the distance over that intensity change. Though the calculations are relatively simple, they are able to approximate the two properties around minutiae seen by a forensic examiner.</p>
+</div>
+<div id="contrast-gradient-quality-measurement-illustration" class="section level3">
+<h3><span class="header-section-number">5.1.2</span> Contrast Gradient Quality Measurement Illustration</h3>
+<p>To illustrate this measurement, we first look at the gradient values on a clear print with well defined minutiae. Figure <a href="fingerprints.html#fig:clearprint">5.1</a> shows such a print. Along with it are close-up views of three minutiae from the print, where the ridge ending and bifurcations are clearly seen. One would expect these very clear minutiae to be at the high end of the quality scale when measuring latent minutiae quality. They are at pixel locations (97, 100), (126, 167), and (111, 68), where the origin (0,0) is the upper left corner of the image. The largest gradients at these 3 locations are 94.0, 66.5, and 88.0 intensity units per grid unit. Looking at gradient values in each <span class="math inline">\(5 \times 5\)</span> neighborhood, we find slightly higher gradient values for each minutia: 107.0, 122.0, and 121.0. For each minutia, we shift our focus point to the new <span class="math inline">\((x_0, y_0)\)</span> corresponding to the slightly higher gradient value. For these <span class="math inline">\(n_3(x_0, y_0)\)</span> neighborhoods, we find the largest intensity differences to get the contrast. Contrast measures for the three locations are, respectively, 0.447, 0.651, and 0.561, yielding quality metrics 107.0 <span class="math inline">\(\times\)</span> 0.447 = 47.84, 122.0 <span class="math inline">\(\times\)</span> 0.651 = 79.42, and 121.0 <span class="math inline">\(\times\)</span> 0.561 = 67.85. The quality metric ranges from 0.133-100.0 (see Figure <a href="fingerprints.html#fig:table1">5.5</a>) for NIST’s SD27A latent fingerprint database, which has 15,008 defined minutia locations. A quality metric value cannot exceed 100.0, and any larger scores are capped at 100.0 (out of the 15,008 minutia, only 54 produced quality metrics over 100.0). We now turn to the issue of applying this quality metric to determine the usability of minutiae information in a latent print.</p>
+<div class="figure" style="text-align: center"><span id="fig:clearprint"></span>
+<img src="img/pk_fig1.PNG" alt="(Figure 1 from @pk_unpub.) Example of a clear fingerprint and close-up views of three minutiae from this print. Each horizontal green line in the whole print ends at one of the minutia." width="450px" />
+<p class="caption">
+Figure 5.1: (Figure 1 from <span class="citation">Peskin and Kafadar (<a href="#ref-pk_unpub">n.d.</a>)</span>.) Example of a clear fingerprint and close-up views of three minutiae from this print. Each horizontal green line in the whole print ends at one of the minutia.
+</p>
+</div>
+<p>The high quality minutiae above are contrasted with those in a latent print. Previously available database NIST SD27A included latent prints classified as “good,” “bad,” and “ugly” by forensic examiners to which we apply our quality metric. Figure <a href="fingerprints.html#fig:gbugly1">5.2</a> shows three typical latent fingerprints from this data set, one from each class. Figure <a href="fingerprints.html#fig:gbugly2">5.3</a> shows a closer look at one of the highest quality minutiae on each of these three latent fingerprints.</p>
+<div class="figure" style="text-align: center"><span id="fig:gbugly1"></span>
+<img src="img/pk_fig2.PNG" alt="(Figure 2 from @pk_unpub.) Examples of a good, bad, and ugly latent print from the SD27A set: G043, B132, and U296." width="450px" />
+<p class="caption">
+Figure 5.2: (Figure 2 from <span class="citation">Peskin and Kafadar (<a href="#ref-pk_unpub">n.d.</a>)</span>.) Examples of a good, bad, and ugly latent print from the SD27A set: G043, B132, and U296.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:gbugly2"></span>
+<img src="img/pk_fig3.PNG" alt="(Figure 3 from @pk_unpub). Examples of good, bad, and ugly minutiae of approximately the same quality. G043: (502, 741), quality = 21.9, B132: (553, 651), quality = 27.3, and U296: (548, 655), quality = 24.3. Each minutia is located at the center of the 40 × 40 cropped image." width="450px" />
+<p class="caption">
+Figure 5.3: (Figure 3 from <span class="citation">Peskin and Kafadar (<a href="#ref-pk_unpub">n.d.</a>)</span>). Examples of good, bad, and ugly minutiae of approximately the same quality. G043: (502, 741), quality = 21.9, B132: (553, 651), quality = 27.3, and U296: (548, 655), quality = 24.3. Each minutia is located at the center of the 40 × 40 cropped image.
+</p>
+</div>
+<p>To understand how our quality measure compares with an examiner’s assessment, we select one of the latent prints and show minutiae that were selected by one examiner at different quality levels. Figure <a href="fingerprints.html#fig:badlatents">5.4</a> shows a “bad” latent and close-up views of three minutiae with quality scores 5.0, 15.2, and 28.8. The gradient and contrast measures increase from left to right in these <span class="math inline">\(20 \times 20\)</span> pixel images, and the quality metric is calculated within the center quarter (<span class="math inline">\(5 \times 5\)</span>) of the image.</p>
+<div class="figure" style="text-align: center"><span id="fig:badlatents"></span>
+<img src="img/pk_fig4.PNG" alt="(Figure 4 from @pk_unpub). One of the fingerprints labeled as bad, B110, and an expanded view of three of the minutiae from one examiner, in order of quality: (742, 903), quality = 5.0; (727, 741), quality = 15.2; and (890, 405), quality = 28.8. For each minutiae point, the examiner-marked location is at the center of a 20 × 20 square of pixels." width="450px" />
+<p class="caption">
+Figure 5.4: (Figure 4 from <span class="citation">Peskin and Kafadar (<a href="#ref-pk_unpub">n.d.</a>)</span>). One of the fingerprints labeled as bad, B110, and an expanded view of three of the minutiae from one examiner, in order of quality: (742, 903), quality = 5.0; (727, 741), quality = 15.2; and (890, 405), quality = 28.8. For each minutiae point, the examiner-marked location is at the center of a 20 × 20 square of pixels.
+</p>
+</div>
+<p>The SD27A set of latent prints is associated with 849 sets of forensic examiner data, each an ANSI/NIST formatted record, containing the locations of all marked minutiae. From these, we can compare our algorithm’s quality metric with the examiner’s assessment of “good,” “bad,” or “ugly.” In Figure <a href="fingerprints.html#fig:table1">5.5</a>, we tabulate the number of minutiae that a forensic examiner located in each set, and the average quality metric of all minutiae in each set. In addition to calculating the average quality metric across all minutiae on the print, we also calculate the average for only those subsets of minutiae with quality metric exceeding 10.0, 20.0, and 30.0. In each set of results, latent prints labeled “good” have more higher-scoring minutiae than prints labeled “bad,” and substantially more than prints labeled “ugly.” The average minutiae quality metric for each set is similar, suggesting that the assigned label of “good,” “bad,” or “ugly” is highly influenced by the number of distinguishable (high-scoring) minutiae on the print.</p>
+<!--
+\begin{table}
+    \begin{tabular}{lrrr}
+        & good & bad & ugly \\
+        \hline
+        \multicolumn{4}{c}{All minutiae} \\
+        Number of sets & 273 & 276 & 300 \\
+        Number of minutiae & 7651 & 4313 & 3044 \\
+        avg \#minutiae per set & 28.0 & 15.6 & 10.1 \\
+        (range min, max) & (0.13,100.0) & (0.18,100.0) & (0.64-100.0) \\
+        avg $Q$ per set & 24.4 & 25.4 & 24.2 \\
+        (SD) & 17.1 & 18.0 & 18.4 \\
+        \multicolumn{4}{c}{Minutiae with $Q > 10.0$} \\
+        Number of minutiae & 6213 & 3542 & 2414 \\
+        avg \#minutiae per set & 22.8 & 12.8 & 8.0 \\
+        (SD) & 12.7 & 6.2 & 3.5 \\
+        avg $Q$ per set & 28.5 & 29.6 & 28.9 \\
+        (SD) & 16.4 & 17.1 & 17.9 \\
+        \multicolumn{4}{c}{Minutiae with $Q > 20.0$} \\
+        Number of minutiae & 3873 & 2331 & 1474 \\
+        avg \#minutiae per set & 14.2 & 8.4 & 4.9 \\
+        (SD) & 11.0 & 5.5 & 3.6 \\
+        avg $Q$ per set & 36.7 & 37.3 & 37.9 \\
+        (SD) & 15.7 & 16.4 & 17.5 \\
+        \multicolumn{4}{c}{Minutiae with $Q > 30.0$} \\
+        Number of minutiae & 2160 & 1397 & 854 \\
+        avg \#minutiae & 7.9 & 5.0 & 2.8 \\
+        (SD) & 8.8 & 4.4 & 3.0 \\
+        avg $Q$ per set & 46.4 & 45.8 & 47.8 \\
+        (SD) & 15.1 & 16.3 & 17.2 \\
+    \end{tabular}
+\caption{Numbers of minutiae and average minutiae quality metric ($Q$) for three sets of minutia: All sets combined and subsets defined by $Q$ (SD = standard deviation).}
+\end{table}
+-->
+<div class="figure" style="text-align: center"><span id="fig:table1"></span>
+<img src="img/pk_tab1.PNG" alt="(Table 1 from @pk_unpub) Numbers of minutiae and average minutiae quality metric ($Q$) for three sets of minutia for: all sets combined, and subsets defined by $Q$ (SD = standard deviation)." width="350px" />
+<p class="caption">
+Figure 5.5: (Table 1 from <span class="citation">Peskin and Kafadar (<a href="#ref-pk_unpub">n.d.</a>)</span>) Numbers of minutiae and average minutiae quality metric (<span class="math inline">\(Q\)</span>) for three sets of minutia for: all sets combined, and subsets defined by <span class="math inline">\(Q\)</span> (SD = standard deviation).
+</p>
+</div>
+<p>We then compared our minutiae quality metric to the ridge quality map, which is provided in record 9.308 of the American National Standard for Information Systems data format for the Interchange of Fingerprint, Facial, and other Biometric Information <span class="citation">(NIST, <a href="#ref-nist_itl">n.d.</a>)</span>. The 9.308 record contains a small grid of scores for individual pixels on small sections of the latent print, ranked for the quality of a ridge present in that section, with 5 representing the highest score and 0 the lowest. From these grids of 0-5 values, we obtained the ridge quality scores for individual minutia locations. We compare our (objective) quality metric scores with observer (subjective) ridge qualities for all 15,008 minutia in the database, as shown in Table <a href="fingerprints.html#tab:comparefp">5.1</a></p>
+<table>
+<caption><span id="tab:comparefp">Table 5.1: </span>Means and standard deviations (SD) of quality metric values for all 15,008 prints by their ordinal ridge quality score.</caption>
+<thead>
+<tr class="header">
+<th align="center">Ridge Quality Score</th>
+<th align="center">Frequency</th>
+<th align="right">Quality Metric Mean</th>
+<th align="right">Quality Metric SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">76</td>
+<td align="right">18.6</td>
+<td align="right">19.9</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">10829</td>
+<td align="right">23.7</td>
+<td align="right">17.1</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">3940</td>
+<td align="right">26.5</td>
+<td align="right">18.2</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">144</td>
+<td align="right">43.2</td>
+<td align="right">26.1</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">17</td>
+<td align="right">39.9</td>
+<td align="right">14.8</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="test-for-usable-quality" class="section level3">
+<h3><span class="header-section-number">5.1.3</span> Test for Usable Quality</h3>
+<p>We designed a procedure to identify a threshold for this quality metric, below which the feature is unreliable, and above which it may provide reliable information for comparison purposes. To identify this threshold value, clear fingerprint images are systematically degraded and quality metric scores calculated for the minutiae accompanying each degraded image. We start by recognizing that a typical clear print has foreground (ridge) intensity values of 255 (black) on a scale of 0-255 (white-black). Accordingly, we simulate different levels of image quality by decreasing the quality of clear prints by lowering the foreground intensity levels to levels lower than 255. As the foreground quality decreases, contrast between the minutiae and background also decreases. In this way, we create a series of images from each clear print with different levels of minutiae quality. We can then ask experts to evaluate which minutiae are, in their judgments, sufficiently distinguishable to be useful in a fingerprint analysis, and then note their conclusions following an actual comparison (“correct match found” or “incorrect match found”). This way, a range of <span class="math inline">\(Q\)</span> for minutiae that are highly correlated with accuracy of analysis can be estimated. Note that one cannot use actual latent prints for such a study, because the background on latent prints is not well characterized and ground truth is unknown.</p>
+<p>Figure <a href="fingerprints.html#fig:fptrans">5.6</a> shows an example of a clear print with foreground (ridges) starting at 255 followed by a series of prints in which the ridge intensity is progressively lowered to 100. Figure <a href="fingerprints.html#fig:fptranszoom">5.7</a> magnifies the region around three of the minutiae for foreground values equal to 255 and 100 to show the decreased visibility of the minutiae when the gradients and contrast are severely reduced.</p>
+<div class="figure" style="text-align: center"><span id="fig:fptrans"></span>
+<img src="img/pk_fig6.PNG" alt="(Figure 6 from @pk_unpub). A clear fingerprint on the left and a series of transformations with ridge intensity lowered from 255 to 220, 200, 180, 160, 140, 120, and 100." width="550px" />
+<p class="caption">
+Figure 5.6: (Figure 6 from <span class="citation">Peskin and Kafadar (<a href="#ref-pk_unpub">n.d.</a>)</span>). A clear fingerprint on the left and a series of transformations with ridge intensity lowered from 255 to 220, 200, 180, 160, 140, 120, and 100.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:fptranszoom"></span>
+<img src="img/pk_fig7.PNG" alt="(Figure 7 from @pk_unpub). Three of the minutiae from Figure \@ref(fig:fptrans) with foreground = 255 (top row) and foreground = 100 (bottom row)." width="400px" />
+<p class="caption">
+Figure 5.7: (Figure 7 from <span class="citation">Peskin and Kafadar (<a href="#ref-pk_unpub">n.d.</a>)</span>). Three of the minutiae from Figure <a href="fingerprints.html#fig:fptrans">5.6</a> with foreground = 255 (top row) and foreground = 100 (bottom row).
+</p>
+</div>
+<p>Given a quality metric and a method for systematically decreasing the quality of a fingerprint, we can now design an experiment with different examiners of different abilities and correlate the results of their analyses with true outcomes. If accuracy exceeds, say, 95% only when the print has at least <span class="math inline">\(n_0\)</span> minutiae having quality metrics above a threshold <span class="math inline">\(Q_0\)</span>, then the examiner has an objective criterion for the “A” (analysis) phase of the ACE-V process.</p>
+</div>
+</div>
+<div id="data-3" class="section level2">
+<h2><span class="header-section-number">5.2</span> Data</h2>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-21"></span>
+<img src="img/fingerprint_brush.jpg" alt="Magnetic fingerprint powder clinging to a rod. Source: [Stapleton and Associates](http://www.stapletonandassociates.com/images/MagPowder.jpg)" width="350px" />
+<p class="caption">
+Figure 5.8: Magnetic fingerprint powder clinging to a rod. Source: <a href="http://www.stapletonandassociates.com/images/MagPowder.jpg">Stapleton and Associates</a>
+</p>
+</div>
+<p>A common method for recovering latent prints is dusting. Moisture clinging powder is gently brushed onto a surface using soft brushes to increase the visibility of fingerprints. <!--Magnetic powders that cling to a metal rod instead of brush exist that may help minimize possible damage to a print that may occur during dusting.--> After dusting, prints are usually recorded by lifting – placing a piece of transparent tape over the fingerprint then transferring the tape, along with the powder, onto a card of contrasting color. Photographs may also be taken of the powdered print. In place of dusting, prints may be chemically processed (super glue, ninhydrin, Rhodamine 6G (R6G), etc.). Clearly visible prints (<a href="glossary.html#def:patentprint">patent prints</a>) such as those made by paint or blood may be photographed directly. If the fingerprint is left on an object that is easily transported, the object should be sent to the forensics lab and photographed to create a digital image in a controlled environment.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-22"></span>
+<img src="img/fingerprint_powders.png" alt="Examples of powdered and lifted fingerprints using powders of different color. Source: [Minsei Matec Co.](https://www.kinseimatec.co.jp/en/?page_id=1868.)" width="550px" />
+<p class="caption">
+Figure 5.9: Examples of powdered and lifted fingerprints using powders of different color. Source: <a href="https://www.kinseimatec.co.jp/en/?page_id=1868.">Minsei Matec Co.</a>
+</p>
+</div>
+<p>Photographs and fingerprint cards are scanned or otherwise converted to digital format. Enhancements to contrast or color may be made using a photo editing software before producing a finalized grayscale image that may be entered into an AFIS database, directly compared to a suspects’ <a href="glossary.html#def:exemplar">exemplar prints</a> (known fingerprints, e.g., those taken on a ten print card at a police station), or run through a quality metric algorithm.</p>
+<p>The information contained in a fingerprint can be divided into three levels <span class="citation">(Scientific Working Group on Friction Ridge Analysis and Technology <a href="#ref-doj_fingerprint_sourcebook">2011</a>)</span>.</p>
+<p>Level 1 detail is the most general, consisting of overall pattern type, friction ridge flow, and morphological information. While insufficient for individualization, level 1 detail may be used for exclusion. “Fingerprint pattern classification” refers to overall fingerprint patterns (e.g., loop, whorl) and their subcategories (e.g., left/right slanted) <span class="citation">(Hicklin et al. <a href="#ref-hicklin_2011">2011</a>)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-23"></span>
+<img src="https://fslweb.files.wordpress.com/2016/08/fingerprints-1.jpg" alt="Level 1 detail in a fingerprint includes overall pattern type and ridge flow, such as loops, whorls, and arches. Source: [Duquesne University](https://fslweb.wordpress.com/category/fingerprints/)" width="400px" />
+<p class="caption">
+Figure 5.10: Level 1 detail in a fingerprint includes overall pattern type and ridge flow, such as loops, whorls, and arches. Source: <a href="https://fslweb.wordpress.com/category/fingerprints/">Duquesne University</a>
+</p>
+</div>
+<p>Level 2 detail consists of minutiae and individual friction ridge paths. Minutiae are also called “Galton details” after Sir Francis Galton, the first to define and name specific minutiae (bifurcation, enclosure, ridge endings, island) <span class="citation">(Galton <a href="#ref-galton_fingerprints">1892</a>)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-24"></span>
+<img src="img/minutiae.png" alt="Different types of Level 2 detail, or minutiae, in a fingerprint. Source: [syhrl.blogspot.com](http://syhrl.blogspot.com/2012/04/036-fyp-minutiae.html)." width="275px" />
+<p class="caption">
+Figure 5.11: Different types of Level 2 detail, or minutiae, in a fingerprint. Source: <a href="http://syhrl.blogspot.com/2012/04/036-fyp-minutiae.html">syhrl.blogspot.com</a>.
+</p>
+</div>
+<p>Level 3 detail is the most specific, including friction ridge dimensional attributes such as width, edge shapes, and pores. These details may or may not appear on an exemplar print and are the least reliable.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-25"></span>
+<img src="img/level3_detail.jpg" alt="Level 3 detail of a fingerprint. Source: [onin.com/fp/](http://onin.com/fp/level123.html)." width="350px" />
+<p class="caption">
+Figure 5.12: Level 3 detail of a fingerprint. Source: <a href="http://onin.com/fp/level123.html">onin.com/fp/</a>.
+</p>
+</div>
+<div id="ace-v-and-afis" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> ACE-V and AFIS</h3>
+<p>Latent prints may be submitted to an AFIS database which will return the top <em>n</em> potential matches. Examiners can then perform the ACE-V comparison process on these prints until a “match” is found:</p>
+<ul>
+<li><strong>A</strong>nalysis: a digitized latent print is analyzed to determine if it is “suitable” for examination. During this process, latent print examiners (LPEs) mark clear, high quality sections of a print in green, moderate quality sections in yellow, and unclear or distorted sections in red. These colors correspond to features that can be used in comparison, may possibly be used, and will likely not be useful for comparison, respectfully. As level 3 detail is unreliable, LPEs use level 1 and 2 detail to determine if a print is suitable to continue to the comparison step. If not, the ACE-V process ends here.</li>
+<li><strong>C</strong>omparison: the latent and exemplar prints are compared side by side. In addition to overall pattern and ridge flow, examiners may look for the existence of target groups – unique clusters of minutiae – that correspond between a latent and exemplar. Additional features may be marked in orange.</li>
+<li><strong>E</strong>valuation: a decision of <em>identification</em> (formerly “individualization”), <em>exclusion</em>, or <em>inconclusive</em> is made based on <a href="https://www.nist.gov/sites/default/files/documents/2016/10/26/swgfast_examinations-conclusions_2.0_130427.pdf">OSAC standards</a>. An inconclusive conclusion may be reached if either print does not contain enough information for a decision. Examiners may request consultation with a colleague before reaching a decision, who would perform an independent markup on the latent print.</li>
+<li><strong>V</strong>erification: a decision may (or may not) be verified by another examiner who performs an independent markup of the latent print. If the second examiner does not know the first examiner’s decision, it is considered a blind verification.</li>
+</ul>
+<p>IAFIS is the Integrated Automatic Fingerprint Identification System developed and maintained by the US FBI <span class="citation">(Investigation, <a href="#ref-fbi_iafis">n.d.</a><a href="#ref-fbi_iafis">a</a>)</span>. Implemented in 1999, it contains criminal history, photographs, and fingerprints for over 70 million individuals with criminal histories and fingerprints of 34 million civilians <span class="citation">(Investigation, <a href="#ref-fbi_iafis">n.d.</a><a href="#ref-fbi_iafis">a</a>, <span class="citation">@fbi_ngi</span>)</span>. The FBI’s Next Generation Identification (NGI) System was announced in 2014 to extend and improve the capabilities of IAFIS. INTERPOL also maintains a database of over 181,000 fingerprint records and almost 11,000 latent prints <span class="citation">(INTERPOL, <a href="#ref-interpol_fingerprints">n.d.</a>)</span>.</p>
+<p>NIST maintains a series of Biometric Special Databases and Software <span class="citation">(NIST, <a href="#ref-nist_biometric">n.d.</a>)</span>, including several fingerprint databases. Special Database 302, not yet released, will contain realistic latent prints and their corresponding exemplars collected from the Intelligence Advanced Research Projects Activity (IARPA) Nail to Nail (N2N) Fingerprint Challenge <span class="citation">(Fiumara <a href="#ref-fiumara_talk">2018</a>)</span>. Annotations to these latent prints may be released at a future date. Special Database 27A, which has since been withdrawn, contained 258 latent and rolled mate pairs that two or more LPEs have agreed “match” (i.e. print pairs not guaranteed to be ground truth matches) <span class="citation">(Watson <a href="#ref-watson_2015">2015</a>)</span>. The latent prints in this database were classified into three categories: good, bad, and ugly, which allows for general testing of correspondence between overall fingerprint quality and quality scores.</p>
+</div>
+</div>
+<div id="r-package-1" class="section level2">
+<h2><span class="header-section-number">5.3</span> R Package</h2>
+<p>The R Package <a href="https://github.com/kdp4be/fingerprintr"><code>fingerprintr</code></a> implements the Contrast Gradient Quality Measurement for quantifying the quality of individual features, or minutiae, in a latent fingerprint <span class="citation">(Kafadar and Pan <a href="#ref-fingerprintr">2019</a>)</span>. The primary functions include reading in the fingerprint image into the correct format (<code>convert_image</code>) then calculating the quality scores (<code>quality_scores</code>). If desired, additional information on gradient and contrast can be output by setting <code>verbose = TRUE</code> in the <code>quality_scores</code> function. If one wishes to only see gradient and contrast values, these can be output by functions <code>find_maxgrad</code> and <code>find_contrast</code>, respectively.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(bmp)
+<span class="kw">library</span>(fingerprintr)
+<span class="co"># this image is the first of two used in the simple latent case study below</span>
+temp_image &lt;-<span class="st"> </span><span class="kw">read.bmp</span>(<span class="st">&quot;simple_latent.bmp&quot;</span>)
+<span class="co"># minutiae information (one per row without semicolons): X,Y; 72,22; 72,32;</span>
+<span class="co"># 35,80; 90,85; 59,144</span>
+temp_min &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;simple_latent_min.txt&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>)
+
+image_file &lt;-<span class="st"> </span><span class="kw">convert_image</span>(temp_image, <span class="st">&quot;bmp&quot;</span>)
+min_file &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(temp_min)
+
+<span class="co"># quality scores</span>
+<span class="kw">quality_scores</span>(image_file, min_file)
+<span class="kw">quality_scores</span>(image_file, min_file, <span class="dt">verbose =</span> <span class="ot">TRUE</span>)
+
+<span class="co"># if image already in pixel array format, must be transposed before running</span>
+<span class="co"># quality_scores</span>
+text_image &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;simple_latent.txt&quot;</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)
+<span class="kw">quality_scores</span>(<span class="kw">t</span>(text_image), min_file)</code></pre>
+</div>
+<div id="drawing-conclusions-2" class="section level2">
+<h2><span class="header-section-number">5.4</span> Drawing Conclusions</h2>
+<p>Presently, the first step in fingerprint comparison is the analysis phase, in which the examiner assesses a print for usable minutia that are judged to be sufficiently clear and distinctive for comparison with prints in a database. To reduce the subjectivity in this assessment, we have proposed a “minutia quality metric” for assessing the clarity, and hence usability, of minutia (e.g., ridge endings, bifurcations, islands) in a fingerprint. The metric is scaled between 0 (totally unusable) and 100 (perfectly clear); more high-scoring minutia should lead to greater distinctiveness in the print and hence fewer false positives that can occur when trying to match latent prints to database prints using much lower-quality minutia. We have shown in this chapter that our metric is both computationally efficient and correlates well with image quality: by systematically (via image algorithms) reducing the image quality of a print (and hence of the minutia), the quality metric decreases accordingly. We also show, using NIST SD27A fingerprint images, that the existence of more high-quality minutia correlates well with the experts’ three-category assessment of fingerprint images (good, bad, ugly).</p>
+<p>In future work, we plan to evaluate the value of this algorithm for real practice, and estimate false positive and false negative rates with and without the quality metric. We report on this work in a forthcoming article.</p>
+</div>
+<div id="case-study-2" class="section level2">
+<h2><span class="header-section-number">5.5</span> Case Study</h2>
+<div class="figure" style="text-align: center"><span id="fig:fingerglass"></span>
+<img src="img/fingerprint_card.PNG" alt="Five simple fingerprints on a clean glass plate." width="650px" />
+<p class="caption">
+Figure 5.13: Five simple fingerprints on a clean glass plate.
+</p>
+</div>
+<p>Five simple fingerprints were created on a clean glass plate using a single finger with differing levels of pressure. These levels range from one to five, with one indicating the largest amount of pressure applied. The glass plate was dusted using a black magnetic powder and the revealed prints lifted with tape onto a white fingerprint card. As expected, as pressure decreases, the latent prints decrease in overall quality (visually, the ridges are less thick and lose some continuity) and amount of friction ridge area captured. The entire fingerprint card was scanned and each print was cropped into its own grayscale image file. These cropped images were converted into their equivalent 2D pixel array values (0 to 255, black to white).</p>
+<p>Five features (ridge endings (E) and bifurcations (B)) from the second and third prints were analyzed using the Contrast Gradient Quality Metric. As the metric is interested in contrast and gradients, the darker, blacker ridges in the Figure <a href="fingerprints.html#fig:markedtwo">5.14</a> receive overall higher scores than the lighter gray ridges in the Figure <a href="fingerprints.html#fig:markedthree">5.15</a> (feature 3 is an exception).</p>
+<!--
+<div class="figure" style="text-align: center">
+<img src="img/print_case_study_2.bmp" alt="two images"  /><img src="img/print_case_study_3.bmp" alt="two images"  />
+<p class="caption">(\#fig:csfp1)two images</p>
+</div>
+-->
+<style type="text/css">
+.twoC {width: 80%}
+.clearer {clear: both}
+.twoC .table {max-width: 40%; float: right}
+.twoC img {max-width: 40%; float: left; margin-top:50px;}
+</style>
+<div class="twoC">
+<div class="figure" style="text-align: center"><span id="fig:markedtwo"></span>
+<img src="img/print_case_study_2.bmp" alt="Second print" width="200px" />
+<p class="caption">
+Figure 5.14: Second print
+</p>
+</div>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+Feature
+</th>
+<th style="text-align:center;">
+Type
+</th>
+<th style="text-align:center;">
+Score
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+E
+</td>
+<td style="text-align:center;">
+70.27
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+B
+</td>
+<td style="text-align:center;">
+57.76
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+E
+</td>
+<td style="text-align:center;">
+54.99
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+E
+</td>
+<td style="text-align:center;">
+58.32
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+B
+</td>
+<td style="text-align:center;">
+54.78
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="clearer">
+
+</div>
+<div class="twoC">
+<div class="figure" style="text-align: center"><span id="fig:markedthree"></span>
+<img src="img/print_case_study_3.bmp" alt="Third print" width="200px" />
+<p class="caption">
+Figure 5.15: Third print
+</p>
+</div>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+Feature
+</th>
+<th style="text-align:center;">
+Type
+</th>
+<th style="text-align:center;">
+Score
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+E
+</td>
+<td style="text-align:center;">
+29.46
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+B
+</td>
+<td style="text-align:center;">
+19.99
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+E
+</td>
+<td style="text-align:center;">
+79.86
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+E
+</td>
+<td style="text-align:center;">
+20.97
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+B
+</td>
+<td style="text-align:center;">
+23.79
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="clearer">
+
+</div>
+<!--**Fig. 8a (top), 8b (bottom).** Five marked minutiae from latent number 2 (top) and 3 (bottom).-->
+<p>Although only five features are marked in the latent prints above, many more would be identified in casework. In cases where large number of minutiae are identified, minutiae quality scores could allow examiners to focus first on those with higher quality, from which presumably the most reliable information may be obtained. The minutiae in the first image above are relatively clear even to an inexperienced observer, and clearly of better contrast than minutiae in the second image, which the quality scores reflect. Using the quality scores, examiners may be able to focus on high scoring features first, or ignore minutiae scoring below a certain threshold.</p>
+<div id="acknowledgements-1" class="section level3 unnumbered">
+<h3>Acknowledgements</h3>
+<p>We would like to thank Dr. Adele Peskin for vital discussion and conversation leading to the creation and development of the Contrast Gradient Algorithm as well as an unpublished manuscript <span class="citation">(Peskin and Kafadar, <a href="#ref-pk_unpub">n.d.</a>)</span>.</p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a></p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-swgfast">
+<p>Friction Ridge Analysis Study, Scientific Working Group on, and Technology. 2012. “Standard for the Documentation of Analysis, Comparison, Evaluation, and Verification (Ace-V) (Latent).” <a href="http://clpex.com/swgfast/documents/documentation/121124_Standard-Documentation-ACE-V_2.0.pdf">http://clpex.com/swgfast/documents/documentation/121124_Standard-Documentation-ACE-V_2.0.pdf</a>.</p>
+</div>
+<div id="ref-ulery_2011">
+<p>Ulery, B. T., R. A. Hicklin, J. A. Buscaglia, and M. A. Roberts. 2011. “Accuracy and Reliability of Forensic Latent Fingerprint Decisions.” <em>Proceedings of the National Academy of Sciences</em> 108(19): 7733–8. <a href="https://www.pnas.org/content/pnas/108/19/7733.full.pdf">https://www.pnas.org/content/pnas/108/19/7733.full.pdf</a>.</p>
+</div>
+<div id="ref-bond_2008">
+<p>Bond, John W. 2008. “Visualization of Latent Fingerprint Corrosion of Metallic Surfaces.” <em>Journal of Forensic Sciences</em> 53(4): 812–22. <a href="https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1556-4029.2008.00738.x">https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1556-4029.2008.00738.x</a>.</p>
+</div>
+<div id="ref-tabassi_2004">
+<p>Tabassi, E., C. L. Wilson, and C. I. Watson. 2004. “Fingerint Image Quality, Nistir 7151.” 7151. National Institute of Standards; Technology. <a href="https://www.nist.gov/publications/fingerprint-image-qualitiy">https://www.nist.gov/publications/fingerprint-image-qualitiy</a>.</p>
+</div>
+<div id="ref-yoon_2012">
+<p>Yoon, W., E. Liu, and A. K. Jain. 2012. “Computational Forensics.” In. Springer, Cham.</p>
+</div>
+<div id="ref-ulery_2012">
+<p>Ulery, B. T., R. A. Hicklin, J. Buscaglia, and M. A. Roberts. 2012. “Repeatability and Reproducibility of Decisions by Latent Fingerprint Examiners.” <em>PloS One</em> 7(3): e32800. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0032800">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0032800</a>.</p>
+</div>
+<div id="ref-pk_unpub">
+<p>Peskin, A., and K. Kafadar. n.d. “A New Measurement for the Quality of Individual Minutiae in Latent Fingerprints.”</p>
+</div>
+<div id="ref-nist_itl">
+<p>National Institute of Standards and Technology. n.d. <em>ANSI/Nist Itl-1:2011, American National Standard for Information Systems Data Format for the Interchange of Fingerprint, Facial &amp; Other Biometric Information</em>.</p>
+</div>
+<div id="ref-doj_fingerprint_sourcebook">
+<p>Scientific Working Group on Friction Ridge Analysis, Study, and Technology. 2011. <em>Fingerprint Sourcebook</em>. NCJRS. <a href="https://www.ncjrs.gov/App/Publications/abstract.aspx?ID=247300">https://www.ncjrs.gov/App/Publications/abstract.aspx?ID=247300</a>.</p>
+</div>
+<div id="ref-hicklin_2011">
+<p>Hicklin, R. A., J. Buscaglia, M. A. Roberts, S. B. Meagher, W. Fellner, M. J. Burge, M. Monaco, et al. 2011. “Latent Fingerprint Quality: A Survey of Examiners.” <em>Journal of Forensic Identification</em> 61(4): 385–418. <a href="https://search.proquest.com/openview/c5ae411f5ed9ded6371f0b9b4c32774b/1?cbl=29772&amp;pq-origsite=gscholar">https://search.proquest.com/openview/c5ae411f5ed9ded6371f0b9b4c32774b/1?cbl=29772&amp;pq-origsite=gscholar</a>.</p>
+</div>
+<div id="ref-galton_fingerprints">
+<p>Galton, Francis. 1892. <em>Finger Prints</em>. Macmillan; Company.</p>
+</div>
+<div id="ref-fbi_iafis">
+<p>Investigation, US Federal Bureau of. n.d.a. “FBI – Iafis.” <a href="https://web.archive.org/web/20160612100902/https://www.fbi.gov/about-us/cjis/fingerprints_biometrics/iafis/iafis">https://web.archive.org/web/20160612100902/https://www.fbi.gov/about-us/cjis/fingerprints_biometrics/iafis/iafis</a>.</p>
+</div>
+<div id="ref-interpol_fingerprints">
+<p>INTERPOL. n.d. “Forensics – Fingerprints.” <a href="https://www.interpol.int/INTERPOL-expertise/Forensics/Fingerprints">https://www.interpol.int/INTERPOL-expertise/Forensics/Fingerprints</a>.</p>
+</div>
+<div id="ref-nist_biometric">
+<p>NIST. n.d. “Biometric Special Databases and Software.” <a href="https://www.nist.gov/itl/iad/image-group/resources/biometric-special-databases-and-software#Fingerprint">https://www.nist.gov/itl/iad/image-group/resources/biometric-special-databases-and-software#Fingerprint</a>.</p>
+</div>
+<div id="ref-fiumara_talk">
+<p>Fiumara, Greg. 2018. “The Making of Nist Special Database 302.”</p>
+</div>
+<div id="ref-watson_2015">
+<p>Watson, Craig. 2015. “NIST Fingerprint Data.”</p>
+</div>
+<div id="ref-fingerprintr">
+<p>Kafadar, Karen, and Karen Pan. 2019. <em>Fingerprintr: A Quality Metric for Fingerprints</em>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="casings.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="shoe.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/sctyner/OpenForSciR/edit/master/content/content/pattern-fingerprints.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["open-forensic-science-in-r.pdf", "open-forensic-science-in-r.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

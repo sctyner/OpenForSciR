@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 2 Validation of DNA Interpretation Systems | Open Forensic Science in R</title>
+  <meta name="description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 2 Validation of DNA Interpretation Systems | Open Forensic Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  <meta name="github-repo" content="sctyner/openforscir" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Validation of DNA Interpretation Systems | Open Forensic Science in R" />
+  
+  <meta name="twitter:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  
+
+<meta name="author" content="Editor: Sam Tyner, Ph.D.">
+
+
+<meta name="date" content="2019-06-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="intro.html">
+<link rel="next" href="bullets.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.5/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Open Forensic Science in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prologue</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a><ul>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#sam-tyner-ph.d."><i class="fa fa-check"></i>Sam Tyner, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#heike-hofmann-ph.d."><i class="fa fa-check"></i>Heike Hofmann, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#soyoung-park-ph.d."><i class="fa fa-check"></i>Soyoung Park, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#eric-hare-ph.d."><i class="fa fa-check"></i>Eric Hare, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#xiao-hui-tai"><i class="fa fa-check"></i>Xiao Hui Tai</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-kafadar-ph.d."><i class="fa fa-check"></i>Karen Kafadar, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-pan"><i class="fa fa-check"></i>Karen Pan</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#amanda-luby"><i class="fa fa-check"></i>Amanda Luby</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#ganesh-krishnan-m.sc."><i class="fa fa-check"></i>Ganesh Krishnan, M.Sc.</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#r-packages"><i class="fa fa-check"></i><b>1.1</b> R Packages</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#terminology-and-definitions"><i class="fa fa-check"></i><b>1.2</b> Terminology and Definitions</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#forscip"><i class="fa fa-check"></i><b>1.3</b> Forensic Science Problems</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dnaval.html"><a href="dnaval.html"><i class="fa fa-check"></i><b>2</b> Validation of DNA Interpretation Systems</a><ul>
+<li class="chapter" data-level="" data-path="dnaval.html"><a href="dnaval.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="2.1" data-path="dnaval.html"><a href="dnaval.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="dnaval.html"><a href="dnaval.html#procedure-for-dna-analysis-using-strs"><i class="fa fa-check"></i><b>2.1.1</b> Procedure for DNA Analysis using STRs</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="dnaval.html"><a href="dnaval.html#data"><i class="fa fa-check"></i><b>2.2</b> Data</a></li>
+<li class="chapter" data-level="2.3" data-path="dnaval.html"><a href="dnaval.html#r-package"><i class="fa fa-check"></i><b>2.3</b> R Package</a></li>
+<li class="chapter" data-level="2.4" data-path="dnaval.html"><a href="dnaval.html#drawing-conclusions"><i class="fa fa-check"></i><b>2.4</b> Drawing Conclusions</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="dnaval.html"><a href="dnaval.html#stutter-ratio"><i class="fa fa-check"></i><b>2.4.1</b> Stutter ratio</a></li>
+<li class="chapter" data-level="2.4.2" data-path="dnaval.html"><a href="dnaval.html#heterozygote-balance"><i class="fa fa-check"></i><b>2.4.2</b> Heterozygote balance</a></li>
+<li class="chapter" data-level="2.4.3" data-path="dnaval.html"><a href="dnaval.html#inter-locus-balance"><i class="fa fa-check"></i><b>2.4.3</b> Inter-locus balance</a></li>
+<li class="chapter" data-level="2.4.4" data-path="dnaval.html"><a href="dnaval.html#stochastic-threshold"><i class="fa fa-check"></i><b>2.4.4</b> Stochastic threshold</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="dnaval.html"><a href="dnaval.html#case-study"><i class="fa fa-check"></i><b>2.5</b> Case Study</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="dnaval.html"><a href="dnaval.html#get-the-data"><i class="fa fa-check"></i><b>2.5.1</b> Get the data</a></li>
+<li class="chapter" data-level="2.5.2" data-path="dnaval.html"><a href="dnaval.html#check-the-stutter-ratio"><i class="fa fa-check"></i><b>2.5.2</b> Check the stutter ratio</a></li>
+<li class="chapter" data-level="2.5.3" data-path="dnaval.html"><a href="dnaval.html#check-heterozygote-balance-intra-locus-balance"><i class="fa fa-check"></i><b>2.5.3</b> Check heterozygote balance (intra-locus balance)</a></li>
+<li class="chapter" data-level="2.5.4" data-path="dnaval.html"><a href="dnaval.html#check-inter-locus-balance"><i class="fa fa-check"></i><b>2.5.4</b> Check inter-locus balance</a></li>
+<li class="chapter" data-level="2.5.5" data-path="dnaval.html"><a href="dnaval.html#check-stochastic-threshold"><i class="fa fa-check"></i><b>2.5.5</b> Check stochastic threshold</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="bullets.html"><a href="bullets.html"><i class="fa fa-check"></i><b>3</b> Firearms: bullets</a><ul>
+<li class="chapter" data-level="3.1" data-path="bullets.html"><a href="bullets.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="bullets.html"><a href="bullets.html#data-1"><i class="fa fa-check"></i><b>3.2</b> Data</a></li>
+<li class="chapter" data-level="3.3" data-path="bullets.html"><a href="bullets.html#r-packages-1"><i class="fa fa-check"></i><b>3.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="bullets.html"><a href="bullets.html#x3ptools"><i class="fa fa-check"></i><b>3.3.1</b> x3ptools</a></li>
+<li class="chapter" data-level="3.3.2" data-path="bullets.html"><a href="bullets.html#bulletxtrctr"><i class="fa fa-check"></i><b>3.3.2</b> <code>bulletxtrctr</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="bullets.html"><a href="bullets.html#drawing-conclusions-1"><i class="fa fa-check"></i><b>3.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="3.5" data-path="bullets.html"><a href="bullets.html#case-study-1"><i class="fa fa-check"></i><b>3.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="casings.html"><a href="casings.html"><i class="fa fa-check"></i><b>4</b> Firearms: casings</a><ul>
+<li class="chapter" data-level="4.1" data-path="casings.html"><a href="casings.html#introduction-2"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="casings.html"><a href="casings.html#data-2"><i class="fa fa-check"></i><b>4.2</b> Data</a></li>
+<li class="chapter" data-level="4.3" data-path="casings.html"><a href="casings.html#r-packages-2"><i class="fa fa-check"></i><b>4.3</b> R Package(s)</a></li>
+<li class="chapter" data-level="4.4" data-path="casings.html"><a href="casings.html#casings-conclusions"><i class="fa fa-check"></i><b>4.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="4.5" data-path="casings.html"><a href="casings.html#casings-caseStudy"><i class="fa fa-check"></i><b>4.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fingerprints.html"><a href="fingerprints.html"><i class="fa fa-check"></i><b>5</b> Latent Fingerprints</a><ul>
+<li class="chapter" data-level="5.1" data-path="fingerprints.html"><a href="fingerprints.html#introduction-3"><i class="fa fa-check"></i><b>5.1</b> Introduction</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement"><i class="fa fa-check"></i><b>5.1.1</b> Contrast Gradient Quality Measurement</a></li>
+<li class="chapter" data-level="5.1.2" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement-illustration"><i class="fa fa-check"></i><b>5.1.2</b> Contrast Gradient Quality Measurement Illustration</a></li>
+<li class="chapter" data-level="5.1.3" data-path="fingerprints.html"><a href="fingerprints.html#test-for-usable-quality"><i class="fa fa-check"></i><b>5.1.3</b> Test for Usable Quality</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="fingerprints.html"><a href="fingerprints.html#data-3"><i class="fa fa-check"></i><b>5.2</b> Data</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="fingerprints.html"><a href="fingerprints.html#ace-v-and-afis"><i class="fa fa-check"></i><b>5.2.1</b> ACE-V and AFIS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="fingerprints.html"><a href="fingerprints.html#r-package-1"><i class="fa fa-check"></i><b>5.3</b> R Package</a></li>
+<li class="chapter" data-level="5.4" data-path="fingerprints.html"><a href="fingerprints.html#drawing-conclusions-2"><i class="fa fa-check"></i><b>5.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="5.5" data-path="fingerprints.html"><a href="fingerprints.html#case-study-2"><i class="fa fa-check"></i><b>5.5</b> Case Study</a><ul>
+<li class="chapter" data-level="" data-path="fingerprints.html"><a href="fingerprints.html#acknowledgements-1"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shoe.html"><a href="shoe.html"><i class="fa fa-check"></i><b>6</b> Shoe Outsole Impression Evidence</a><ul>
+<li class="chapter" data-level="6.1" data-path="shoe.html"><a href="shoe.html#introduction-4"><i class="fa fa-check"></i><b>6.1</b> Introduction</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="shoe.html"><a href="shoe.html#sources-of-variability-in-shoe-outsole-impressions"><i class="fa fa-check"></i><b>6.1.1</b> Sources of variability in shoe outsole impressions</a></li>
+<li class="chapter" data-level="6.1.2" data-path="shoe.html"><a href="shoe.html#current-practice"><i class="fa fa-check"></i><b>6.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="6.1.3" data-path="shoe.html"><a href="shoe.html#goal-of-this-chapter"><i class="fa fa-check"></i><b>6.1.3</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="shoe.html"><a href="shoe.html#data-4"><i class="fa fa-check"></i><b>6.2</b> Data</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="shoe.html"><a href="shoe.html#data-collection"><i class="fa fa-check"></i><b>6.2.1</b> Data collection</a></li>
+<li class="chapter" data-level="6.2.2" data-path="shoe.html"><a href="shoe.html#transformation-of-shoe-image"><i class="fa fa-check"></i><b>6.2.2</b> Transformation of shoe image</a></li>
+<li class="chapter" data-level="6.2.3" data-path="shoe.html"><a href="shoe.html#definition-of-classes"><i class="fa fa-check"></i><b>6.2.3</b> Definition of classes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="shoe.html"><a href="shoe.html#r-packages-3"><i class="fa fa-check"></i><b>6.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="shoe.html"><a href="shoe.html#one-subarea-matching"><i class="fa fa-check"></i><b>6.3.1</b> One subarea matching</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="shoe.html"><a href="shoe.html#drawing-conclusions-3"><i class="fa fa-check"></i><b>6.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="6.5" data-path="shoe.html"><a href="shoe.html#shoe-case-study"><i class="fa fa-check"></i><b>6.5</b> Case Study</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="shoe.html"><a href="shoe.html#sec:shoeqk1"><i class="fa fa-check"></i><b>6.5.1</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_1\)</span></a></li>
+<li class="chapter" data-level="6.5.2" data-path="shoe.html"><a href="shoe.html#compare-q-and-k_2"><i class="fa fa-check"></i><b>6.5.2</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_2\)</span></a></li>
+<li class="chapter" data-level="6.5.3" data-path="shoe.html"><a href="shoe.html#interpreting-comparisons-between-q-k_1-and-q-k_2"><i class="fa fa-check"></i><b>6.5.3</b> Interpreting Comparisons between <span class="math inline">\(Q, K_1\)</span> and <span class="math inline">\(Q, K_2\)</span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="glass.html"><a href="glass.html"><i class="fa fa-check"></i><b>7</b> Trace glass evidence: chemical composition</a><ul>
+<li class="chapter" data-level="7.1" data-path="glass.html"><a href="glass.html#introduction-5"><i class="fa fa-check"></i><b>7.1</b> Introduction</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="glass.html"><a href="glass.html#problems-of-interest"><i class="fa fa-check"></i><b>7.1.1</b> Problems of interest</a></li>
+<li class="chapter" data-level="7.1.2" data-path="glass.html"><a href="glass.html#current-practice-1"><i class="fa fa-check"></i><b>7.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="7.1.3" data-path="glass.html"><a href="glass.html#comparing-glass-fragments"><i class="fa fa-check"></i><b>7.1.3</b> Comparing glass fragments</a></li>
+<li class="chapter" data-level="7.1.4" data-path="glass.html"><a href="glass.html#goal-of-this-chapter-1"><i class="fa fa-check"></i><b>7.1.4</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="glass.html"><a href="glass.html#data-5"><i class="fa fa-check"></i><b>7.2</b> Data</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="glass.html"><a href="glass.html#chemical-composition-of-glass"><i class="fa fa-check"></i><b>7.2.1</b> Chemical composition of glass</a></li>
+<li class="chapter" data-level="7.2.2" data-path="glass.html"><a href="glass.html#data-source"><i class="fa fa-check"></i><b>7.2.2</b> Data source</a></li>
+<li class="chapter" data-level="7.2.3" data-path="glass.html"><a href="glass.html#data-structure"><i class="fa fa-check"></i><b>7.2.3</b> Data structure</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="glass.html"><a href="glass.html#glass_rpkgs"><i class="fa fa-check"></i><b>7.3</b> R Packages</a></li>
+<li class="chapter" data-level="7.4" data-path="glass.html"><a href="glass.html#drawing-conclusions-4"><i class="fa fa-check"></i><b>7.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="7.5" data-path="glass.html"><a href="glass.html#case-study-3"><i class="fa fa-check"></i><b>7.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="decision-making.html"><a href="decision-making.html"><i class="fa fa-check"></i><b>8</b> Decision-making in Forensic Identification Tasks</a><ul>
+<li class="chapter" data-level="8.1" data-path="decision-making.html"><a href="decision-making.html#introduction-6"><i class="fa fa-check"></i><b>8.1</b> Introduction</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="decision-making.html"><a href="decision-making.html#irt"><i class="fa fa-check"></i><b>8.1.1</b> A Brief Overview of Item Response Models</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="decision-making.html"><a href="decision-making.html#humans-data"><i class="fa fa-check"></i><b>8.2</b> Data</a></li>
+<li class="chapter" data-level="8.3" data-path="decision-making.html"><a href="decision-making.html#rpackages"><i class="fa fa-check"></i><b>8.3</b> R Packages</a></li>
+<li class="chapter" data-level="8.4" data-path="decision-making.html"><a href="decision-making.html#humans-conclusions"><i class="fa fa-check"></i><b>8.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="8.5" data-path="decision-making.html"><a href="decision-making.html#casestudy"><i class="fa fa-check"></i><b>8.5</b> Case Study</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="decision-making.html"><a href="decision-making.html#fitting-the-irt-model"><i class="fa fa-check"></i><b>8.5.1</b> Fitting the IRT model</a></li>
+<li class="chapter" data-level="8.5.2" data-path="decision-making.html"><a href="decision-making.html#irt-complements-an-error-rate-analysis"><i class="fa fa-check"></i><b>8.5.2</b> IRT complements an error rate analysis</a></li>
+<li class="chapter" data-level="8.5.3" data-path="decision-making.html"><a href="decision-making.html#scoring-method-affects-proficiency-estimates"><i class="fa fa-check"></i><b>8.5.3</b> Scoring method affects proficiency estimates</a></li>
+<li class="chapter" data-level="8.5.4" data-path="decision-making.html"><a href="decision-making.html#discussion"><i class="fa fa-check"></i><b>8.5.4</b> Discussion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="acknowledgements-2.html"><a href="acknowledgements-2.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="glossary.html"><a href="glossary.html"><i class="fa fa-check"></i><b>A</b> Glossary</a><ul>
+<li class="chapter" data-level="A.1" data-path="glossary.html"><a href="glossary.html#introduction-7"><i class="fa fa-check"></i><b>A.1</b> Introduction</a></li>
+<li class="chapter" data-level="A.2" data-path="glossary.html"><a href="glossary.html#validation-of-dna-interpretation-systems"><i class="fa fa-check"></i><b>A.2</b> Validation of DNA Interpretation Systems</a></li>
+<li class="chapter" data-level="A.3" data-path="glossary.html"><a href="glossary.html#firearms-bullets"><i class="fa fa-check"></i><b>A.3</b> Firearms: bullets</a></li>
+<li class="chapter" data-level="A.4" data-path="glossary.html"><a href="glossary.html#firearms-casings"><i class="fa fa-check"></i><b>A.4</b> Firearms: casings</a></li>
+<li class="chapter" data-level="A.5" data-path="glossary.html"><a href="glossary.html#latent-fingerprints"><i class="fa fa-check"></i><b>A.5</b> Latent Fingerprints</a></li>
+<li class="chapter" data-level="A.6" data-path="glossary.html"><a href="glossary.html#shoe-outsole-impression-evidence"><i class="fa fa-check"></i><b>A.6</b> Shoe Outsole Impression Evidence</a></li>
+<li class="chapter" data-level="A.7" data-path="glossary.html"><a href="glossary.html#trace-glass-evidence"><i class="fa fa-check"></i><b>A.7</b> Trace Glass Evidence</a></li>
+<li class="chapter" data-level="A.8" data-path="glossary.html"><a href="glossary.html#decision-making-in-forensic-identification-tasks"><i class="fa fa-check"></i><b>A.8</b> Decision-making in Forensic Identification Tasks</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Open Forensic Science in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="dnaval" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Validation of DNA Interpretation Systems</h1>
+<div id="sam-tyner" class="section level4 unnumbered">
+<h4>Sam Tyner</h4>
+</div>
+<div id="acknowledgements" class="section level3 unnumbered">
+<h3>Acknowledgements</h3>
+<p>This work would not have been possible without the excellent documentation of the <a href="https://sites.google.com/site/forensicapps/strvalidator"><code>strvalidator</code></a> package <span class="citation">(Hansson, Gill, and Egeland <a href="#ref-strval">2014</a>)</span>. Thank you to the package’s author, <a href="https://www.linkedin.com/in/goto-oskarhansson/">Oskar Hansson, Ph.D</a>, who has authored many, many supporting documents, tutorials, etc. for his <code>strvalidator</code> package. Thank you, Oskar!</p>
+<p><img src="img/dna.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="introduction" class="section level2">
+<h2><span class="header-section-number">2.1</span> Introduction</h2>
+<p>The earliest documented use of <a href="glossary.html#def:dnaprof">DNA profiling</a> in the legal system was an immigration dispute in the United Kingdom <span class="citation">(Butler <a href="#ref-butler05">2005</a>)</span>. A young man of Ghanaian descent with family in the UK was believed to have forged his Ghanaian passport and had an expired British passport<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. DNA profiling techniques developed by Sir Alec Jeffreys were used to prove that the he was indeed his mother’s son, and thus he did have a right to immigrate to the UK. The technique was subsequently used for many other parentage cases, and soon after, DNA profiling was used for the first time to convict someone of murder in 1986 <span class="citation">(Butler <a href="#ref-butler09">2009</a>)</span>.</p>
+<p>When DNA profiling began, an individual’s blood sample was taken to create their DNA profile. Now, DNA can be taken by a cheek swab, and minute traces of touch DNA can tie a perpetrator to the scene of the crime. This is thanks to the <a href="glossary.html#def:pcr">polymerase chain reaction</a> (PCR), a method of copying a DNA sample over and over again to amplify the genetic signal for profile extraction. Once a DNA sample is amplified with PCR, different DNA markers can be analyzed to make an identification. The standard for forensic DNA typing is to use <a href="glossary.html#def:str">short tandem repeats</a> (STRs) as the DNA marker. Other markers, <a href="glossary.html#def:snp">single nucleotide polymorphisms</a> (SNPs) and the mitochondrial genome (<a href="glossary.html#def:mtdna">mtDNA</a>), have different uses. SNPs can be used to identify ancestry or visible traits of a human, while mtDNA is used in cases where DNA is highly degraded <span class="citation">(Liu and Harbison <a href="#ref-dnareview">2018</a>)</span>. Because STR is the standard, we dedicate the rest of this chapter to its methodology.</p>
+<div id="procedure-for-dna-analysis-using-strs" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Procedure for DNA Analysis using STRs</h3>
+<p>In order to understand the STR methodology, we first need to understand what is being analysed. We present the comparison of genetic and printed information from <span class="citation">Butler (<a href="#ref-butler09">2009</a>)</span> in Table <a href="dnaval.html#tab:comparetable">2.1</a>. When forensic scientists analyze a DNA sample, they are looking for repeated “words” or DNA sequences in different “paragraphs,” or loci. The locus information is stored in the <a href="glossary.html#def:chromo">chromosome</a>, which is the “page” the genetic information is on. Your <em>chromosomes</em> exist in the <em>nucleus</em> of every <em>cell</em> in your <em>body</em>, just like a <em>page</em> is within a <em>chapter</em> in a <em>book</em> in a <em>library</em>. STR markers are a set of loci or genes. At each locus, the number of times a tetranucleotide sequence (e.g. AAGC) repeats is counted <span class="citation">(Butler <a href="#ref-butler05">2005</a>)</span>. This count indicates the <a href="glossary.html#def:allele">allele</a>, or gene variation, at that particular locus.</p>
+<table>
+<caption><span id="tab:comparetable">Table 2.1: </span>Recreation of Table 2.1 from <span class="citation">Butler (<a href="#ref-butler09">2009</a>)</span></caption>
+<thead>
+<tr class="header">
+<th align="left">Printed Information</th>
+<th align="left">Genetic Information</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Library</td>
+<td align="left">Body</td>
+</tr>
+<tr class="even">
+<td align="left">Book</td>
+<td align="left">Cell</td>
+</tr>
+<tr class="odd">
+<td align="left">Chapter</td>
+<td align="left">Nucleus</td>
+</tr>
+<tr class="even">
+<td align="left">Page</td>
+<td align="left">Chromosome</td>
+</tr>
+<tr class="odd">
+<td align="left">Paragraph</td>
+<td align="left"><a href="glossary.html#def:locus">Locus</a> or gene</td>
+</tr>
+<tr class="even">
+<td align="left">Word</td>
+<td align="left">Short DNA sequence</td>
+</tr>
+<tr class="odd">
+<td align="left">Letter</td>
+<td align="left">DNA <a href="glossary.html#def:nucleotide">nucleotide</a></td>
+</tr>
+</tbody>
+</table>
+<p>In forensic DNA profiling, a particular set loci are examined for comparison. The number of loci depends on the equipment and method used to analyzed the DNA sample, but can be as high as 27 for the particular method we discuss here <span class="citation">(Butler, Hill, and Coble <a href="#ref-loci27">2012</a>)</span>. As of January 1, 2017, there are 20 core loci in CODIS, the Combined DNA Index System, which is the FBI’s national program for DNA <a href="glossary.html#def:database">databases</a> and software used in criminal justice systems across the United States <span class="citation">(FBI <a href="#ref-codis">2017</a>)</span>. These sets of loci were chosen because of their high variability in the population. To find the alleles at each loci, the DNA sample is amplified using PCR, and then run through <a href="glossary.html#def:ce">capillary electrophoresis</a> (CE). The result of CE is the DNA profile, with the alleles on each locus indicated by different colored peaks from a chemical dyeing process. <!--For interpreting the results of the chemical analysis, the loci need to be described in terms of their stutter ratio, heterozygote peak balance, inter-locus balance, and stochastic threshold. --></p>
+<p>The amplification process introduces random change known as <em>slippage</em>, which creates <a href="glossary.html#def:stutter"><em>stutter peaks</em></a> in the observed DNA profile that are different than the true allele peaks <span class="citation">(Butler <a href="#ref-butler09">2009</a>)</span>. In addition, different labs may use different machines and materials in forensic analysis resulting in different measurements for the same DNA sample. Thus, the validation of methods and materials is a crucial step. According to the Scientific Working Group on DNA Analysis Methods (SWGDAM), “validation is a process by which a procedure is evaluated to determine its efficacy and reliability for forensic casework and/or database analysis” <span class="citation">(SWGDAM <a href="#ref-swgdamval">2016</a>)</span>. Validation helps minimize error in forensic DNA analysis and helps keep results consistent across laboratories and materials.</p>
+<p>The process of validation for forensic DNA methodology is expensive, time consuming, and unstandardized, and the R package <code>strvalidator</code> was created to help solve these problems in forensic DNA analysis <span class="citation">(Hansson, Gill, and Egeland <a href="#ref-strval">2014</a>)</span>. The <code>strvalidator</code> package makes the validation process faster by automating data analysis with respect to “heterozygote balance, stutter ratio, inter-locus balance, and the stochastic threshold” <span class="citation">(Hansson, Gill, and Egeland <a href="#ref-strval">2014</a>)</span>. In the remainder of this chapter, we introduce the type of data to import for use of this package, the primary functions of the package, and show an example of each of the four aforementioned validation steps in R.</p>
+</div>
+</div>
+<div id="data" class="section level2">
+<h2><span class="header-section-number">2.2</span> Data</h2>
+<p>The <code>strvalidator</code> package takes files exported from the <a href="https://www.thermofisher.com/order/catalog/product/4475073">GeneMapper®</a> software, or a similar expert system that exports tab-delimited text files, as inputs. The data exported from these software programs typically come in a very wide format, and on import it needs to be transformed into a long format more appropriate for data analysis. In Figure <a href="dnaval.html#fig:widelonggif">2.1</a>, we visualize the process of data being transformed from wide to long format and back. In wide format, variable values are column names, while in the long format these column names become part of the data.</p>
+<div class="figure" style="text-align: center"><span id="fig:widelonggif"></span>
+<img src="img/dna-anim.gif" alt="Animation heuristic showing the transformation from long form to wide form data and back. Code for GIF from [Omni Analytics Group](https://omnianalytics.io/2018/08/30/animating-the-data-transformation-process-with-gganimate/)" width="80%" />
+<p class="caption">
+Figure 2.1: Animation heuristic showing the transformation from long form to wide form data and back. Code for GIF from <a href="https://omnianalytics.io/2018/08/30/animating-the-data-transformation-process-with-gganimate/">Omni Analytics Group</a>
+</p>
+</div>
+<p>The <code>strvalidator</code> package contains import methods to make sure that the data imported from other software is in the right form for validation analysis. The GeneMapper® software creates one column for each possible allele observed at a locus and their corresponding sizes, heights, and data points. Once the data have been trimmed and slimmed, they look something like this:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(myDNAdata)</code></pre>
+<pre><code>##   Sample.Name  Marker Dye Allele Height
+## 1     03-A2.1    AMEL   B      X  27940
+## 2     03-A2.1    AMEL   B      Y    107
+## 3     03-A2.1 D3S1358   B     OL     80
+## 4     03-A2.1 D3S1358   B     OL    453
+## 5     03-A2.1 D3S1358   B     OL     85
+## 6     03-A2.1 D3S1358   B     OL    408</code></pre>
+<p>where</p>
+<ul>
+<li><code>Sample.Name</code> is the name of the sample being analyzed</li>
+<li><code>Marker</code> is the locus in the DNA analysis kit</li>
+<li><code>Dye</code> is the dye channel for that locus</li>
+<li><code>Allele</code> is the allele (# of sequence repeats) at that locus</li>
+<li><code>Height</code> is the observed peak height after amplification in RFUs (RFU = Relative Fluorescence Unit)</li>
+</ul>
+</div>
+<div id="r-package" class="section level2">
+<h2><span class="header-section-number">2.3</span> R Package</h2>
+<p>The package <code>strvalidator</code> has a <a href="glossary.html#def:gui">graphical user interface</a> (GUI) to perform analyses so that no coding knowledge is necessary to run these analyses. The author of the package, Oskar Hansson, has written an extensive tutorial<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> on the GUI. As this book is focused on open science, we do not use the GUI because it does not output the underlying code used for the point-and-click analyses. Instead, we use the code that powers the GUI directly. This code is called the “basic layer” of the package by <span class="citation">Hansson, Gill, and Egeland (<a href="#ref-strval">2014</a>)</span>.</p>
+<p>The data are read into R via the <code>import()</code> function. This function combines the processes of trimming and slimming the data. Trimming selects the columns of interest for your analysis (e.g. <code>Sample.Name</code>, <code>Allele</code>, <code>Height</code>), while slimming converts the data from wide format to long format, as shown in Figure <a href="dnaval.html#fig:widelonggif">2.1</a>.</p>
+<p>After the data has be loaded, there are four main families of functions in the <code>strvalidator</code> package that are used for analysis.</p>
+<ul>
+<li><code>add*()</code>: Add to the DNA data. For example, use <code>addMarker()</code> to add locus information or <code>addSize()</code> to add the fragment size in base pair (bp) for each allele.</li>
+<li><code>calculate*()</code>: Compute properties of the DNA data. For example, use <code>calculateHb()</code> to compute heterozygous balance for the data or <code>calculateLb()</code> to compute the inter-locus balance (profile balance) of the data.</li>
+<li><code>remove*()</code> : Remove artifacts from the data with <code>removeArtefact()</code> and remove spikes from the data with <code>removeSpike()</code>.</li>
+<li><code>table*()</code> : Summarize results from one of the <code>calculate*()</code> analyses. For example, <code>tableStutter()</code> summarizes the results from <code>calculateStutter()</code>.</li>
+</ul>
+<p>For complete definitions and explanations of all functions available in <code>strvalidator</code>, please see the <a href="https://drive.google.com/file/d/0B2v6NDpFIgvDMzlydllKaHVBYW8/view"><code>strvalidator</code> manual</a>. There are many other capabilities of <code>strvalidator</code> that do not cover in this chapter for the sake of brevity.</p>
+</div>
+<div id="drawing-conclusions" class="section level2">
+<h2><span class="header-section-number">2.4</span> Drawing Conclusions</h2>
+<p>There is no one tidy way to conclude a DNA validation analysis, which may be done for new machines, new kits, or any internal validation required. The <code>strvalidator</code> package’s primary purpose is to <em>import</em> large validation data sets and <em>analyze</em> the results of the validation experiment according to different metrics <span class="citation">(Riman et al. <a href="#ref-riman16">2016</a>)</span>. A more complete description of the necessary validation studies is found in <span class="citation">SWGDAM (<a href="#ref-swgdamval">2016</a>)</span>, and full step-by-step tutorials can be found in <span class="citation">Riman et al. (<a href="#ref-riman16">2016</a>)</span> and <span class="citation">Hansson (<a href="#ref-strvalweb">2018</a>)</span>.</p>
+<p>For validation analysis with respect to heterozygote balance, stutter ratio, inter-locus balance, and stochastic threshold, there are recommended guidelines to follow.</p>
+<div id="stutter-ratio" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> Stutter ratio</h3>
+<p>The <code>*Stutter()</code> functions in <code>strvalidator</code> can analyze ratios of different types of stutter such as the backward stutter, the forward stutter, and the allowed overlap (none, stutter, or allele), as shown in Figure <a href="dnaval.html#fig:stutterfig">2.4</a>. Each of <span class="citation">Hill et al. (<a href="#ref-hill2011">2011</a>)</span>, <span class="citation">Westen et al. (<a href="#ref-westen2012">2012</a>)</span>, <span class="citation">Brookes et al. (<a href="#ref-brookes2012">2012</a>)</span>, and <span class="citation">Tvedebrink et al. (<a href="#ref-tvedebrink2012">2012</a>)</span> show greater stutter with more repeats, and these results are similar to those in <span class="citation">Hansson, Gill, and Egeland (<a href="#ref-strval">2014</a>)</span>. In addition they found that some loci, such as TH01, experience less stutter on average than others.</p>
+</div>
+<div id="heterozygote-balance" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> Heterozygote balance</h3>
+<p>For guidelines specific to the PowerPlex® ESX 17 and ESI 17 systems featured in <span class="citation">Hansson, Gill, and Egeland (<a href="#ref-strval">2014</a>)</span>, refer to <span class="citation">Hill et al. (<a href="#ref-hill2011">2011</a>)</span>. Generally speaking, per <span class="citation">Gill, Sparkes, and Kimpton (<a href="#ref-gill97">1997</a>)</span>, the heterozygote balance should be no less less than 60%.</p>
+</div>
+<div id="inter-locus-balance" class="section level3">
+<h3><span class="header-section-number">2.4.3</span> Inter-locus balance</h3>
+<p>Per <span class="citation">Hansson, Gill, and Egeland (<a href="#ref-strval">2014</a>)</span>, there are two methods in <code>strvalidator</code> to compute inter-locus balance.</p>
+<ol style="list-style-type: decimal">
+<li>As the proportion of the total peak height of a profile</li>
+<li>Relative to the highest peak total within a single locus in the profile, with the option to compute this value for each dye channel.</li>
+</ol>
+<p>Ideally, the loci would be perfectly balanced and the total peak height in each locus would be equal to <span class="math inline">\(\frac{1}{n}\)</span> where <span class="math inline">\(n\)</span> is the number of loci in the kit <span class="citation">(Hansson, Gill, and Egeland <a href="#ref-strval">2014</a>)</span>.</p>
+</div>
+<div id="stochastic-threshold" class="section level3">
+<h3><span class="header-section-number">2.4.4</span> Stochastic threshold</h3>
+<p>The <em>stochastic threshold</em> (ST) or <em>interpretation threshold</em> is the “point above which there is a low probability that the second allele in a truly heterozygous sample has not dropped out” <span class="citation">(Butler <a href="#ref-butler09">2009</a>)</span>. The ST is used to assess dropout risk in <code>strvalidator</code>. Another important threshold in DNA interpretation is the analytical threshold (AT), which is a peak height (for example, 50 RFUs) above which peaks “are considered an analytical signal and thus recorded by the data analysis software” <span class="citation">(Butler <a href="#ref-butler09">2009</a>)</span>. <span class="citation">Hansson, Gill, and Egeland (<a href="#ref-strval">2014</a>)</span> refer to analytical threshold (AT) as the limit of detection threshold (LDT). Peaks above the AT are considered <em>signal</em>, and any peaks below the AT are considered <em>noise</em>. The ST is the RFU value above which it is reasonable to assume that, at a given locus, allelic dropout of a sister allele has not occurred. .<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> Peaks that appear to be homozygous but have heights above the AT and below the ST may not be true homozygotes and may have experienced stochastic effects, such as allele dropout or elevated stutter. Usually, these stochastic events only happen for very small amounts of DNA that have been amplified.</p>
+<p>In <code>strvalidator</code>, dropout is scored according to the user-provided LDT value and the reference data provided. The risk of dropout is then modeled using a logistic regression of the calculated dropout score on the allele heights. Then for an acceptable level of dropout risk, say 1%, the stochastic threshold is computed according to the logistic regression model. Thus, the ST is the peak height at which the probability of dropout is less than or equal to 1%.</p>
+</div>
+</div>
+<div id="case-study" class="section level2">
+<h2><span class="header-section-number">2.5</span> Case Study</h2>
+<p>We do a simple case study using eight repeated samples from the same individual that are included in the <code>strvalidator</code> package.</p>
+<!--
+There are four pieces in validation: 
+1. stutter ratio 
+2. heterozygote balance (intra-locus balance)
+3. inter-locus balance 
+4. stochastic threshold. 
+-->
+<div id="get-the-data" class="section level3">
+<h3><span class="header-section-number">2.5.1</span> Get the data</h3>
+<p>We’ll use the package data <code>set1</code>, which is data from the genotyping of eight replicate measurements of a positive control sample, one replicate of a negative control sample, and the ladder used in analysis. The PowerPlex® ESX 17 System from the Promega Corporation<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> was used on these samples for amplification of 17 loci recommended for analysis by the European Network of Forensic Science Institutes (ENFSI) and the European DNA Profiling Group (EDNAP), the European equivalent of SWGDAM. The known reference sample used is the <code>ref1</code> data in the <code>strvalidator</code> package.</p>
+<p>First, we load the data, then slim it for analysis. Then, we use <code>generateEPG()</code> to visualize an electropherogram-like plot of the data. This function, like the other plotting functions in <code>strvalidator</code>, is built on the <code>ggplot2</code> package <span class="citation">(Wickham et al. <a href="#ref-R-ggplot2">2018</a>)</span>. We also use the <a href="https://dplyr.tidyverse.org/"><code>dplyr</code></a> package throughout for data manipulation tasks <span class="citation">(Wickham et al. <a href="#ref-R-dplyr">2019</a>)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(strvalidator)
+<span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(ggplot2)
+<span class="kw">data</span>(set1)
+<span class="kw">head</span>(set1)</code></pre>
+<pre><code>##   Sample.Name   Marker Dye Allele.1 Allele.2 Allele.3 Allele.4 Allele.5
+## 1         PC1     AMEL   B        X       OL        Y     &lt;NA&gt;     &lt;NA&gt;
+## 2         PC1  D3S1358   B       16       17       18     &lt;NA&gt;     &lt;NA&gt;
+## 3         PC1     TH01   B        6      9.3     &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;
+## 4         PC1   D21S11   B       28       29     30.2     31.2     &lt;NA&gt;
+## 5         PC1   D18S51   B       15       16       17       18     &lt;NA&gt;
+## 6         PC1 D10S1248   G       12       13       14       15     &lt;NA&gt;
+##   Height.1 Height.2 Height.3 Height.4 Height.5
+## 1     2486       81     2850     &lt;NA&gt;     &lt;NA&gt;
+## 2      260     3251     2985     &lt;NA&gt;     &lt;NA&gt;
+## 3     3357     2687     &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;
+## 4      183     2036      180     1942     &lt;NA&gt;
+## 5      161     2051      203     1617     &lt;NA&gt;
+## 6      168     2142      243     2230     &lt;NA&gt;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># slim and trim the data</span>
+set1.slim &lt;-<span class="st"> </span><span class="kw">slim</span>(set1, <span class="dt">fix =</span> <span class="kw">c</span>(<span class="st">&quot;Sample.Name&quot;</span>, <span class="st">&quot;Marker&quot;</span>, <span class="st">&quot;Dye&quot;</span>), <span class="dt">stack =</span> <span class="kw">c</span>(<span class="st">&quot;Allele&quot;</span>, 
+    <span class="st">&quot;Height&quot;</span>), <span class="dt">keep.na =</span> <span class="ot">FALSE</span>)
+<span class="kw">dim</span>(set1)</code></pre>
+<pre><code>## [1] 170  13</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(set1.slim)</code></pre>
+<pre><code>## [1] 575   5</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(set1.slim)</code></pre>
+<pre><code>##   Sample.Name  Marker Dye Allele Height
+## 1         PC1    AMEL   B      X   2486
+## 2         PC1    AMEL   B     OL     81
+## 3         PC1    AMEL   B      Y   2850
+## 4         PC1 D3S1358   B     16    260
+## 5         PC1 D3S1358   B     17   3251
+## 6         PC1 D3S1358   B     18   2985</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>set1.slim <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Sample.Name <span class="op">!=</span><span class="st"> &quot;Ladder&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">generateEPG</span>(<span class="dt">kit =</span> <span class="st">&quot;ESX17&quot;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Mean peak heights for 8 samples from PC shown&quot;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:epg"></span>
+<img src="open-forensic-science-in-r_files/figure-html/epg-1.png" alt="Electropherogram-like `ggplot2` plot of the mean of all 8 samples in `set1`" width="672" />
+<p class="caption">
+Figure 2.2: Electropherogram-like <code>ggplot2</code> plot of the mean of all 8 samples in <code>set1</code>
+</p>
+</div>
+<p>Next, get the reference sample data.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(ref1)
+<span class="kw">head</span>(ref1)</code></pre>
+<pre><code>##   Sample.Name   Marker Allele.1 Allele.2
+## 1          PC     AMEL        X        Y
+## 2          PC  D3S1358       17       18
+## 3          PC     TH01        6      9.3
+## 4          PC   D21S11       29     31.2
+## 5          PC   D18S51       16       18
+## 6          PC D10S1248       13       15</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">ref1.slim &lt;-<span class="st"> </span><span class="kw">slim</span>(ref1, <span class="dt">fix =</span> <span class="kw">c</span>(<span class="st">&quot;Sample.Name&quot;</span>, <span class="st">&quot;Marker&quot;</span>), <span class="dt">stack =</span> <span class="st">&quot;Allele&quot;</span>, 
+    <span class="dt">keep.na =</span> <span class="ot">FALSE</span>)
+<span class="kw">head</span>(ref1.slim)</code></pre>
+<pre><code>##   Sample.Name  Marker Allele
+## 1          PC    AMEL      X
+## 2          PC    AMEL      Y
+## 3          PC D3S1358     17
+## 4          PC D3S1358     18
+## 5          PC    TH01      6
+## 6          PC    TH01    9.3</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">generateEPG</span>(ref1.slim, <span class="dt">kit =</span> <span class="st">&quot;ESX17&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;True profile for sample PC&quot;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">p</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:ref1epg"></span>
+<img src="open-forensic-science-in-r_files/figure-html/ref1epg-1.png" alt="The reference profile electrogpherogram, `ref1`." width="672" />
+<p class="caption">
+Figure 2.3: The reference profile electrogpherogram, <code>ref1</code>.
+</p>
+</div>
+</div>
+<div id="check-the-stutter-ratio" class="section level3">
+<h3><span class="header-section-number">2.5.2</span> Check the stutter ratio</h3>
+<div class="figure" style="text-align: center"><span id="fig:stutterfig"></span>
+<img src="img/strval-fig2.jpg" alt="Figure 2 from @strval. The analysis range, 2 back stutters and 1 forward stutter is shown at 3 levels of overlap." width="50%" />
+<p class="caption">
+Figure 2.4: Figure 2 from <span class="citation">Hansson, Gill, and Egeland (<a href="#ref-strval">2014</a>)</span>. The analysis range, 2 back stutters and 1 forward stutter is shown at 3 levels of overlap.
+</p>
+</div>
+<p>Stutter peaks are byproducts of the DNA amplification process, and their presence muddles data interpretation <span class="citation">(Hansson, Gill, and Egeland <a href="#ref-strval">2014</a>)</span>. Stutter is caused by strand slippage in PCR <span class="citation">(Butler <a href="#ref-butler09">2009</a>)</span>. This slippage causes small peaks to appear next to true peaks, and a threshold is needed to determine if a peak is caused by slippage or if it could be a mixture sample with a minor contributor. We calculate the stutter for the eight replicates in <code>set1</code> using one back stutter, no forward stutter and no overlap. We compare these values to the 95<span class="math inline">\(^{th}\)</span> percentiles in Table 3 of <span class="citation">Hansson, Gill, and Egeland (<a href="#ref-strval">2014</a>)</span>. See Figure <a href="dnaval.html#fig:stutterfig">2.4</a> for an example of stutter.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make sure the right samples are being analyzed</span>
+<span class="kw">checkSubset</span>(<span class="dt">data =</span> set1.slim, <span class="dt">ref =</span> ref1.slim)</code></pre>
+<pre><code>## Reference name: PC
+## Subsetted samples: PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># supply the false stutter and true stutter values for your data. these are</span>
+<span class="co"># from the GUI.</span>
+stutter_false_val &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="fl">1.9</span>, <span class="fl">-1.8</span>, <span class="fl">-1.7</span>, <span class="fl">-0.9</span>, <span class="fl">-0.8</span>, <span class="fl">-0.7</span>, <span class="fl">0.9</span>, <span class="fl">0.8</span>, <span class="fl">0.7</span>)
+stutter_replace_val &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="fl">1.3</span>, <span class="fl">-1.2</span>, <span class="fl">-1.1</span>, <span class="fl">-0.3</span>, <span class="fl">-0.2</span>, <span class="fl">-0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="fl">0.1</span>)
+<span class="co"># calculate the stutter values</span>
+set1_stutter &lt;-<span class="st"> </span><span class="kw">calculateStutter</span>(set1.slim, ref1.slim, <span class="dt">back =</span> <span class="dv">1</span>, <span class="dt">forward =</span> <span class="dv">0</span>, 
+    <span class="dt">interference =</span> <span class="dv">0</span>, <span class="dt">replace.val =</span> stutter_false_val, <span class="dt">by.val =</span> stutter_replace_val)
+
+stutterplot &lt;-<span class="st"> </span><span class="kw">addColor</span>(set1_stutter, <span class="dt">kit =</span> <span class="st">&quot;ESX17&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sortMarker</span>(<span class="dt">kit =</span> <span class="st">&quot;ESX17&quot;</span>, 
+    <span class="dt">add.missing.levels =</span> <span class="ot">FALSE</span>)
+marks &lt;-<span class="st"> </span><span class="kw">levels</span>(stutterplot<span class="op">$</span>Marker)[<span class="op">-</span><span class="dv">1</span>]
+stutterplot<span class="op">$</span>Marker &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">as.character</span>(stutterplot<span class="op">$</span>Marker), <span class="dt">levels =</span> marks)
+compare_dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Marker =</span> ref1<span class="op">$</span>Marker[<span class="op">-</span><span class="dv">1</span>], <span class="dt">perc95 =</span> (<span class="kw">c</span>(<span class="fl">11.9</span>, <span class="fl">4.6</span>, <span class="fl">10.9</span>, 
+    <span class="fl">10.7</span>, <span class="fl">12.1</span>, <span class="dv">12</span>, <span class="fl">11.1</span>, <span class="fl">10.4</span>, <span class="dv">16</span>, <span class="fl">11.4</span>, <span class="fl">9.1</span>, <span class="fl">10.1</span>, <span class="fl">8.3</span>, <span class="fl">14.4</span>, <span class="fl">10.1</span>, <span class="fl">12.8</span>))<span class="op">/</span><span class="dv">100</span>)
+compare_dat &lt;-<span class="st"> </span><span class="kw">filter</span>(compare_dat, Marker <span class="op">%in%</span><span class="st"> </span>stutterplot<span class="op">$</span>Marker)
+
+<span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">data =</span> stutterplot, <span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="dt">width =</span> <span class="fl">0.1</span>), 
+    <span class="kw">aes</span>(<span class="dt">x =</span> Allele, <span class="dt">y =</span> Ratio, <span class="dt">color =</span> <span class="kw">as.factor</span>(Type)), <span class="dt">alpha =</span> <span class="fl">0.7</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hline</span>(<span class="dt">data =</span> compare_dat, 
+    <span class="kw">aes</span>(<span class="dt">yintercept =</span> perc95), <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Marker, <span class="dt">ncol =</span> <span class="dv">4</span>, 
+    <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>, <span class="dt">drop =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;True Allele&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Stutter Ratio&quot;</span>, 
+    <span class="dt">color =</span> <span class="st">&quot;Type&quot;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:stutter1"></span>
+<img src="open-forensic-science-in-r_files/figure-html/stutter1-1.png" alt="Stutter ratios by allele for each of the eight samples in the `set1` data, computed for one back stutter, zero forward stutter, and no overlap. Note that SR increases with allele length (e.g. D10S1248; D2S1338; D12S391). Horizontal dotted lines represent the 95th percentile of stutter ratio values from the study done in @strval." width="672" />
+<p class="caption">
+Figure 2.5: Stutter ratios by allele for each of the eight samples in the <code>set1</code> data, computed for one back stutter, zero forward stutter, and no overlap. Note that SR increases with allele length (e.g. D10S1248; D2S1338; D12S391). Horizontal dotted lines represent the 95th percentile of stutter ratio values from the study done in <span class="citation">Hansson, Gill, and Egeland (<a href="#ref-strval">2014</a>)</span>.
+</p>
+</div>
+<p>Figure <a href="dnaval.html#fig:stutter1">2.5</a> shows the ratio of stutter for each of the eight control samples in <code>set1</code>. The horizontal dotted lines show the 95<span class="math inline">\(^{th}\)</span> percentile of the stutter ratio values computed in the same way from 220 samples in <span class="citation">Hansson, Gill, and Egeland (<a href="#ref-strval">2014</a>)</span>. There are a few stutter values above the dotted line, but overall the values correspond to what we expect to happen in a sample with only one contributor. Unusual values are shown in Table <a href="dnaval.html#tab:stuthigh">2.2</a>.</p>
+<table>
+<caption><span id="tab:stuthigh">Table 2.2: </span>Stutter peaks larger than the 95<span class="math inline">\(^{th}\)</span> percentile of peak values for the study in <span class="citation">Hansson, Gill, and Egeland (<a href="#ref-strval">2014</a>)</span>.</caption>
+<thead>
+<tr class="header">
+<th align="left">Sample.Name</th>
+<th align="left">Marker</th>
+<th align="left">Allele</th>
+<th align="right">HeightA</th>
+<th align="left">Stutter</th>
+<th align="right">HeightS</th>
+<th align="right">Ratio</th>
+<th align="right">Type</th>
+<th align="right">95th perc.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">PC1</td>
+<td align="left">D18S51</td>
+<td align="left">18</td>
+<td align="right">1617</td>
+<td align="left">17</td>
+<td align="right">203</td>
+<td align="right">0.126</td>
+<td align="right">-1</td>
+<td align="right">0.107</td>
+</tr>
+<tr class="even">
+<td align="left">PC3</td>
+<td align="left">D18S51</td>
+<td align="left">18</td>
+<td align="right">1681</td>
+<td align="left">17</td>
+<td align="right">195</td>
+<td align="right">0.116</td>
+<td align="right">-1</td>
+<td align="right">0.107</td>
+</tr>
+<tr class="odd">
+<td align="left">PC4</td>
+<td align="left">D2S1338</td>
+<td align="left">25</td>
+<td align="right">3133</td>
+<td align="left">24</td>
+<td align="right">352</td>
+<td align="right">0.112</td>
+<td align="right">-1</td>
+<td align="right">0.111</td>
+</tr>
+<tr class="even">
+<td align="left">PC5</td>
+<td align="left">D12S391</td>
+<td align="left">23</td>
+<td align="right">4378</td>
+<td align="left">22</td>
+<td align="right">640</td>
+<td align="right">0.146</td>
+<td align="right">-1</td>
+<td align="right">0.144</td>
+</tr>
+<tr class="odd">
+<td align="left">PC6</td>
+<td align="left">D2S1338</td>
+<td align="left">25</td>
+<td align="right">2337</td>
+<td align="left">24</td>
+<td align="right">261</td>
+<td align="right">0.112</td>
+<td align="right">-1</td>
+<td align="right">0.111</td>
+</tr>
+<tr class="even">
+<td align="left">PC6</td>
+<td align="left">vWA</td>
+<td align="left">19</td>
+<td align="right">1571</td>
+<td align="left">18</td>
+<td align="right">196</td>
+<td align="right">0.125</td>
+<td align="right">-1</td>
+<td align="right">0.114</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="check-heterozygote-balance-intra-locus-balance" class="section level3">
+<h3><span class="header-section-number">2.5.3</span> Check heterozygote balance (intra-locus balance)</h3>
+<p>Computing the heterozygote peak balance (Hb) is most important for analyzing samples with two or more contributors. We calculate Hb values for the eight repeated samples in <code>set1</code> below using Equation 3 from <span class="citation">Hansson, Gill, and Egeland (<a href="#ref-strval">2014</a>)</span> to compute the ratio.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># checkSubset(data = set3, ref = ref3)</span>
+set1_hb &lt;-<span class="st"> </span><span class="kw">calculateHb</span>(<span class="dt">data =</span> set1.slim, <span class="dt">ref =</span> ref1.slim, <span class="dt">hb =</span> <span class="dv">3</span>, <span class="dt">kit =</span> <span class="st">&quot;ESX17&quot;</span>, 
+    <span class="dt">sex.rm =</span> <span class="ot">TRUE</span>, <span class="dt">qs.rm =</span> <span class="ot">TRUE</span>, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>)
+hbplot &lt;-<span class="st"> </span><span class="kw">addColor</span>(set1_hb, <span class="dt">kit =</span> <span class="st">&quot;ESX17&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sortMarker</span>(<span class="dt">kit =</span> <span class="st">&quot;ESX17&quot;</span>, <span class="dt">add.missing.levels =</span> <span class="ot">FALSE</span>)
+hbplot<span class="op">$</span>Marker &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">as.character</span>(hbplot<span class="op">$</span>Marker), <span class="dt">levels =</span> marks)
+
+
+<span class="kw">ggplot</span>(<span class="dt">data =</span> hbplot) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> MPH, <span class="dt">y =</span> Hb, <span class="dt">color =</span> Dye), <span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="dt">width =</span> <span class="fl">0.1</span>)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.6</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Marker, 
+    <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>, <span class="dt">drop =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, 
+    <span class="st">&quot;green&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Mean Peak Height (RFU)&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Ratio&quot;</span>, 
+    <span class="dt">color =</span> <span class="st">&quot;Dye&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">guides</span>(<span class="dt">color =</span> <span class="kw">guide_legend</span>(<span class="dt">nrow =</span> <span class="dv">1</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="kw">rel</span>(<span class="fl">0.8</span>)), 
+    <span class="dt">legend.position =</span> <span class="st">&quot;top&quot;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:hb"></span>
+<img src="open-forensic-science-in-r_files/figure-html/hb-1.png" alt="Hb ratio values for the eight samples in `set1`. Most ratios are above the 0.6 threshold." width="672" />
+<p class="caption">
+Figure 2.6: Hb ratio values for the eight samples in <code>set1</code>. Most ratios are above the 0.6 threshold.
+</p>
+</div>
+<p>Figure <a href="dnaval.html#fig:hb">2.6</a> shows the Hb values for the eight samples in <code>set1</code>. The balance ratio is typically no less than 0.6 according to <span class="citation">Gill, Sparkes, and Kimpton (<a href="#ref-gill97">1997</a>)</span>, but there are a few exceptions to this rule in the <code>set1</code> sample, shown in Table <a href="dnaval.html#tab:smhb">2.3</a></p>
+<table>
+<caption><span id="tab:smhb">Table 2.3: </span>Observations in the <code>set1</code> data which have Hb value less than 0.6.</caption>
+<thead>
+<tr class="header">
+<th align="left">Sample.Name</th>
+<th align="left">Marker</th>
+<th align="left">Dye</th>
+<th align="right">Delta</th>
+<th align="right">Small</th>
+<th align="right">Large</th>
+<th align="right">MPH</th>
+<th align="right">Hb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">PC1</td>
+<td align="left">D12S391</td>
+<td align="left">R</td>
+<td align="right">5.0</td>
+<td align="right">2323</td>
+<td align="right">4017</td>
+<td align="right">3170.0</td>
+<td align="right">0.578</td>
+</tr>
+<tr class="even">
+<td align="left">PC3</td>
+<td align="left">SE33</td>
+<td align="left">R</td>
+<td align="right">1.0</td>
+<td align="right">4017</td>
+<td align="right">6761</td>
+<td align="right">5389.0</td>
+<td align="right">0.594</td>
+</tr>
+<tr class="odd">
+<td align="left">PC6</td>
+<td align="left">D10S1248</td>
+<td align="left">G</td>
+<td align="right">2.0</td>
+<td align="right">1760</td>
+<td align="right">3071</td>
+<td align="right">2415.5</td>
+<td align="right">0.573</td>
+</tr>
+<tr class="even">
+<td align="left">PC7</td>
+<td align="left">D21S11</td>
+<td align="left">B</td>
+<td align="right">2.2</td>
+<td align="right">1487</td>
+<td align="right">2678</td>
+<td align="right">2082.5</td>
+<td align="right">0.555</td>
+</tr>
+</tbody>
+</table>
+<!--Another way to look at the heterozygote balance is with a box plot shown in Figure \@ref(fig:hbbox). 
+
+
+```r
+ggplot(data = hbplot, aes(x = Marker, y = Hb, color = Dye)) + geom_boxplot(alpha = 0.7) + 
+    geom_hline(yintercept = 0.6, alpha = 0.6, linetype = "dotted") + scale_color_manual(values = c("blue", 
+    "green", "black", "red")) + labs(x = "Locus", y = "Ratio") + theme(axis.text.x = element_text(size = rel(0.8)), 
+    legend.position = "top")
+```
+
+<img src="open-forensic-science-in-r_files/figure-html/hbbox-1.png" width="672" style="display: block; margin: auto;" />
+-->
+</div>
+<div id="check-inter-locus-balance" class="section level3">
+<h3><span class="header-section-number">2.5.4</span> Check inter-locus balance</h3>
+<p>Inter-locus balance (Lb) is a measure of peak balances across loci <span class="citation">(Hansson, Gill, and Egeland <a href="#ref-strval">2014</a>)</span>. The total height of the peaks in all loci should be spread evenly across each individual locus in a sample. In the <code>set1</code> data, 17 loci are measured, thus each individual locus balance should be about <span class="math inline">\(\frac{1}{17}^{th}\)</span> of the total height of all peaks in RFUs.</p>
+<pre class="sourceCode r"><code class="sourceCode r">set1_lb &lt;-<span class="st"> </span><span class="kw">calculateLb</span>(<span class="dt">data =</span> set1.slim, <span class="dt">ref =</span> ref1.slim, <span class="dt">kit =</span> <span class="st">&quot;ESX17&quot;</span>, <span class="dt">option =</span> <span class="st">&quot;prop&quot;</span>, 
+    <span class="dt">by.dye =</span> <span class="ot">FALSE</span>, <span class="dt">ol.rm =</span> <span class="ot">TRUE</span>, <span class="dt">sex.rm =</span> <span class="ot">FALSE</span>, <span class="dt">qs.rm =</span> <span class="ot">TRUE</span>, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>, 
+    <span class="dt">na =</span> <span class="dv">0</span>)
+set1_height &lt;-<span class="st"> </span><span class="kw">calculateHeight</span>(<span class="dt">data =</span> set1.slim, <span class="dt">ref =</span> ref1.slim, <span class="dt">kit =</span> <span class="st">&quot;ESX17&quot;</span>, 
+    <span class="dt">sex.rm =</span> <span class="ot">FALSE</span>, <span class="dt">qs.rm =</span> <span class="ot">TRUE</span>, <span class="dt">na.replace =</span> <span class="dv">0</span>)
+set1_lb &lt;-<span class="st"> </span>set1_lb <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">left_join</span>(set1_height <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Sample.Name<span class="op">:</span>Marker, 
+    Dye, TPH, H, Expected, Proportion) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>(), <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;Sample.Name&quot;</span>, 
+    <span class="st">&quot;Marker&quot;</span>, <span class="st">&quot;Dye&quot;</span>, <span class="dt">TPPH =</span> <span class="st">&quot;TPH&quot;</span>))
+
+
+set1_lb &lt;-<span class="st"> </span><span class="kw">sortMarker</span>(set1_lb, <span class="dt">kit =</span> <span class="st">&quot;ESX17&quot;</span>, <span class="dt">add.missing.levels =</span> <span class="ot">TRUE</span>)
+
+<span class="kw">ggplot</span>(set1_lb) <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Marker, <span class="dt">y =</span> Lb, <span class="dt">color =</span> Dye), <span class="dt">alpha =</span> <span class="fl">0.7</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">17</span>, 
+    <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="kw">rel</span>(<span class="fl">0.8</span>), 
+    <span class="dt">angle =</span> <span class="dv">270</span>, <span class="dt">hjust =</span> <span class="dv">0</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;Lb (proportional method)&quot;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:lb"></span>
+<img src="open-forensic-science-in-r_files/figure-html/lb-1.png" alt="Inter-locus balance for the eight PC samples. At each locus, the value should be about 1/17. The peak heights should ideally be similar in each locus." width="672" />
+<p class="caption">
+Figure 2.7: Inter-locus balance for the eight PC samples. At each locus, the value should be about 1/17. The peak heights should ideally be similar in each locus.
+</p>
+</div>
+<!--
+
+```r
+ggplot(set1_lb) + geom_line(aes(x = Marker, y = Lb, group = Sample.Name, color = Sample.Name), 
+    alpha = 0.7) + scale_color_brewer(palette = "Set2") + geom_hline(yintercept = 1/17, 
+    linetype = "dotted") + theme(legend.position = "top", axis.text.x = element_text(size = rel(0.8), 
+    angle = 270, hjust = 0, vjust = 0.5))
+```
+-->
+<p>The inter-locus balance for this kit should ideally be about <span class="math inline">\(\frac{1}{17} \approx 0.059\)</span>. This value is shown by the horizontal dotted line in Figure <a href="dnaval.html#fig:lb">2.7</a>. However, the markers in the red dye channel have consistently higher than ideal peaks and those in the yellow channel have consistently lower than ideal peaks.</p>
+</div>
+<div id="check-stochastic-threshold" class="section level3">
+<h3><span class="header-section-number">2.5.5</span> Check stochastic threshold</h3>
+<p>The stochastic threshold is the value of interest for determining allele drop-out. If a peak is above the stochastic threshold, it is unlikely that an allele in a heterozygous sample “has dropped out” <span class="citation">(Butler <a href="#ref-butler09">2009</a>)</span>. Allele drop-out occurs when the allele peak height is less than the limit of detection threshold (LDT). As recommended in <span class="citation">Butler (<a href="#ref-butler09">2009</a>)</span>, we use an LDT of 50. The stochastic threshold is modeled with a logistic regression.</p>
+<pre class="sourceCode r"><code class="sourceCode r">set1_do &lt;-<span class="st"> </span><span class="kw">calculateDropout</span>(<span class="dt">data =</span> set1.slim, <span class="dt">ref =</span> ref1.slim, <span class="dt">threshold =</span> <span class="dv">50</span>, 
+    <span class="dt">method =</span> <span class="st">&quot;1&quot;</span>, <span class="dt">kit =</span> <span class="st">&quot;ESX17&quot;</span>)
+<span class="kw">table</span>(set1_do<span class="op">$</span>Dropout)</code></pre>
+<pre><code>## 
+##   0 
+## 264</code></pre>
+<p>In <code>set1</code>, there is no dropout, as the samples included are control samples, and thus enough DNA is present during amplification so there are no stochastic effects.</p>
+<p>For a more exciting dropout analysis, we use another data set with more appropriate information. The data <code>set4</code> was created specifically for drop-out analysis, and contains 32 samples from three different reference profiles. The <code>method = "1"</code> argument computes dropout with respect to the low molecular weight allele in the locus.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(set4)
+<span class="kw">data</span>(ref4)
+set4_do &lt;-<span class="st"> </span><span class="kw">calculateDropout</span>(<span class="dt">data =</span> set4, <span class="dt">ref =</span> ref4, <span class="dt">threshold =</span> <span class="dv">50</span>, <span class="dt">method =</span> <span class="st">&quot;1&quot;</span>, 
+    <span class="dt">kit =</span> <span class="st">&quot;ESX17&quot;</span>)
+
+
+<span class="kw">table</span>(set4_do<span class="op">$</span>Dropout)</code></pre>
+<pre><code>## 
+##   0   1   2 
+## 822  33  68</code></pre>
+<p>In the <code>set4</code> data, 33 alleles dropped out (<code>Dropout = 1</code>), and locus dropout (<code>Dropout = 2</code>) occurred in 9 samples (68 alleles). In one sample, all loci dropped out, while only one locus dropped out in three samples. The locus which most commonly dropped out was D22S1045 in seven samples, while loci D19S433 and D8S1179 only dropped out in two samples each.</p>
+<p>The probability of allele drop-out is computed via logistic regression of the dropout score with respect to the method <code>1</code>, on the the height of the allele with low molecular weight. The model parameters are also computed using the <code>calculateT()</code> function. This function also returns the smallest threshold value at which probability of dropout is less than or equal to a set value, typically 0.01 or 0.05, as well as a conservative threshold, which is the value at which the risk of observing a drop-out probability greater than the specified threshold limit is less than the set value of 0.01 or 0.05.</p>
+<pre class="sourceCode r"><code class="sourceCode r">set4_do2 &lt;-<span class="st"> </span>set4_do <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Dropout <span class="op">!=</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">Dep =</span> Method1, <span class="dt">Exp =</span> Height)
+do_mod &lt;-<span class="st"> </span><span class="kw">glm</span>(Dep <span class="op">~</span><span class="st"> </span>Exp, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> set4_do2)
+set4_ths &lt;-<span class="st"> </span><span class="kw">calculateT</span>(set4_do2, <span class="dt">pred.int =</span> <span class="fl">0.98</span>)</code></pre>
+<p>Next, we compute predicted dropout probabilities <span class="math inline">\(P(D)\)</span> and corresponding 95% confidence intervals and plot the results.</p>
+<pre class="sourceCode r"><code class="sourceCode r">xmin &lt;-<span class="st"> </span><span class="kw">min</span>(set4_do2<span class="op">$</span>Exp, <span class="dt">na.rm =</span> T)
+xmax &lt;-<span class="st"> </span><span class="kw">max</span>(set4_do2<span class="op">$</span>Exp, <span class="dt">na.rm =</span> T)
+predRange &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Exp =</span> <span class="kw">seq</span>(xmin, xmax))
+ypred &lt;-<span class="st"> </span><span class="kw">predict</span>(do_mod, predRange, <span class="dt">type =</span> <span class="st">&quot;link&quot;</span>, <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)
+<span class="co"># 95% prediction interval</span>
+ylower &lt;-<span class="st"> </span><span class="kw">plogis</span>(ypred<span class="op">$</span>fit <span class="op">-</span><span class="st"> </span><span class="kw">qnorm</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.05</span><span class="op">/</span><span class="dv">2</span>) <span class="op">*</span><span class="st"> </span>ypred<span class="op">$</span>se)  <span class="co"># Lower confidence limit.</span>
+yupper &lt;-<span class="st"> </span><span class="kw">plogis</span>(ypred<span class="op">$</span>fit <span class="op">+</span><span class="st"> </span><span class="kw">qnorm</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.05</span><span class="op">/</span><span class="dv">2</span>) <span class="op">*</span><span class="st"> </span>ypred<span class="op">$</span>se)  <span class="co"># Upper confidence limit.</span>
+<span class="co"># Calculate conservative prediction curve.</span>
+yconservative &lt;-<span class="st"> </span><span class="kw">plogis</span>(ypred<span class="op">$</span>fit <span class="op">+</span><span class="st"> </span><span class="kw">qnorm</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.05</span>) <span class="op">*</span><span class="st"> </span>ypred<span class="op">$</span>se)
+<span class="co"># Calculate y values for plot.</span>
+yplot &lt;-<span class="st"> </span><span class="kw">plogis</span>(ypred<span class="op">$</span>fit)
+<span class="co"># combine them into a data frame for plotting</span>
+predictionDf &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Exp =</span> predRange<span class="op">$</span>Exp, <span class="dt">Prob =</span> yplot, <span class="dt">yupper =</span> yupper, 
+    <span class="dt">ylower =</span> ylower)
+<span class="co"># plot</span>
+th_dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">500</span>, <span class="dt">y =</span> <span class="fl">0.5</span>, <span class="dt">label =</span> <span class="kw">paste0</span>(<span class="st">&quot;At &quot;</span>, <span class="kw">round</span>(set4_ths[<span class="dv">1</span>], 
+    <span class="dv">0</span>), <span class="st">&quot; RFUs,</span><span class="ch">\n</span><span class="st">the estimated probability</span><span class="ch">\n</span><span class="st">of dropout is 0.01.&quot;</span>))
+<span class="kw">ggplot</span>(<span class="dt">data =</span> predictionDf, <span class="kw">aes</span>(<span class="dt">x =</span> Exp, <span class="dt">y =</span> Prob)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_ribbon</span>(<span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, 
+    <span class="dt">alpha =</span> <span class="fl">0.4</span>, <span class="kw">aes</span>(<span class="dt">ymin =</span> ylower, <span class="dt">ymax =</span> yupper)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> set4_ths[<span class="dv">1</span>], 
+    <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="dt">data =</span> th_dat, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>, <span class="kw">aes</span>(<span class="dt">x =</span> x, 
+    <span class="dt">y =</span> y, <span class="dt">label =</span> label), <span class="dt">hjust =</span> <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1500</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Peak Height (RFUs)&quot;</span>, 
+    <span class="dt">y =</span> <span class="st">&quot;Probability of allele drop-out&quot;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:predictdo"></span>
+<img src="open-forensic-science-in-r_files/figure-html/predictdo-1.png" alt="Probability of dropout in `set4` for peaks from 100-1500 RFUs. 95% confidence interval for drop-out probability shown in red." width="672" />
+<p class="caption">
+Figure 2.8: Probability of dropout in <code>set4</code> for peaks from 100-1500 RFUs. 95% confidence interval for drop-out probability shown in red.
+</p>
+</div>
+<p>We can also look at a heat map of dropout for each marker by sample. All the loci in sample BC10.11 dropped-out, while most other samples have no dropout whatsoever.</p>
+<pre class="sourceCode r"><code class="sourceCode r">set4_do <span class="op">%&gt;%</span><span class="st"> </span>tidyr<span class="op">::</span><span class="kw">separate</span>(Sample.Name, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;num&quot;</span>, <span class="st">&quot;name&quot;</span>, <span class="st">&quot;num2&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">Sample.Name =</span> <span class="kw">paste</span>(name, num, <span class="kw">ifelse</span>(<span class="kw">is.na</span>(num2), <span class="st">&quot;&quot;</span>, num2), <span class="dt">sep =</span> <span class="st">&quot;.&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Sample.Name, <span class="dt">y =</span> Marker, <span class="dt">fill =</span> <span class="kw">as.factor</span>(Dropout))) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tile</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_fill_brewer</span>(<span class="dt">name =</span> <span class="st">&quot;Dropout&quot;</span>, <span class="dt">palette =</span> <span class="st">&quot;Set2&quot;</span>, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;none&quot;</span>, 
+        <span class="st">&quot;allele&quot;</span>, <span class="st">&quot;locus&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="kw">rel</span>(<span class="fl">0.8</span>), 
+    <span class="dt">angle =</span> <span class="dv">270</span>, <span class="dt">hjust =</span> <span class="dv">0</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>), <span class="dt">legend.position =</span> <span class="st">&quot;top&quot;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:heatmap"></span>
+<img src="open-forensic-science-in-r_files/figure-html/heatmap-1.png" alt="Dropout for all samples in `set4` by marker." width="100%" />
+<p class="caption">
+Figure 2.9: Dropout for all samples in <code>set4</code> by marker.
+</p>
+</div>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a></p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-strval">
+<p>Hansson, Oskar, Peter Gill, and Thore Egeland. 2014. “STR-Validator: An Open Source Platform for Validation and Process Control.” <em>Forensic Science International: Genetics</em> 13: 154–66. <a href="https://doi.org/10.1016/j.fsigen.2014.07.009">https://doi.org/10.1016/j.fsigen.2014.07.009</a>.</p>
+</div>
+<div id="ref-butler05">
+<p>Butler, John M. 2005. <em>Forensic Dna Typing: Biology, Technology, and Genetics of Str Markers</em>. 2nd ed. Elsevier Academic Press.</p>
+</div>
+<div id="ref-butler09">
+<p>Butler, John M. 2009. <em>Fundamentals of Forensic DNA Typing</em>. Elsevier Academic Press.</p>
+</div>
+<div id="ref-dnareview">
+<p>Liu, Yao-Yuan, and SallyAnn Harbison. 2018. “A Review of Bioinformatic Methods for Forensic DNA Analyses.” <em>Forensic Science International: Genetics</em> 33: 117–28.</p>
+</div>
+<div id="ref-loci27">
+<p>Butler, John M., Carolyn R. Hill, and Michael D. Coble. 2012. “Variability of New Str Loci and Kits in Us Population Groups.” <em>Promega Corporation Web Site: Profiles in DNA</em>.</p>
+</div>
+<div id="ref-codis">
+<p>FBI. 2017. “Frequently Asked Questions on Codis and Ndis.” 2017. <a href="https://www.fbi.gov/services/laboratory/biometric-analysis/codis/codis-and-ndis-fact-sheet">https://www.fbi.gov/services/laboratory/biometric-analysis/codis/codis-and-ndis-fact-sheet</a>.</p>
+</div>
+<div id="ref-swgdamval">
+<p>SWGDAM. 2016. “Validation Guidelines for DNA Analysis Methods,” December. <a href="https://docs.wixstatic.com/ugd/4344b0_813b241e8944497e99b9c45b163b76bd.pdf">https://docs.wixstatic.com/ugd/4344b0_813b241e8944497e99b9c45b163b76bd.pdf</a>.</p>
+</div>
+<div id="ref-riman16">
+<p>Riman, Sarah, Erica L. Romsos, Lisa Borsuk, and Peter M. Vallone. 2016. “Analysis of Internal Validation Datasets Using Open-Source Software Str-Validator.” November 2016. <a href="https://strbase.nist.gov/pub_pres/Riman_Analysis_of_Internal_Validation_Datasets_Using_Open-Source_Software_STR-validator_2016.pdf">https://strbase.nist.gov/pub_pres/Riman_Analysis_of_Internal_Validation_Datasets_Using_Open-Source_Software_STR-validator_2016.pdf</a>.</p>
+</div>
+<div id="ref-strvalweb">
+<p>Hansson, Oskar. 2018. “STR-Validator.” May 2018. <a href="https://sites.google.com/site/forensicapps/strvalidator">https://sites.google.com/site/forensicapps/strvalidator</a>.</p>
+</div>
+<div id="ref-hill2011">
+<p>Hill, Carolyn R, David L Duewer, Margaret C Kline, Cynthia J Sprecher, Robert S McLaren, Dawn R Rabbach, Benjamin E Krenke, et al. 2011. “Concordance and Population Studies Along with Stutter and Peak Height Ratio Analysis for the Powerplex Esx 17 and Esi 17 Systems.” <em>Forensic Science International: Genetics</em> 5 (4): 269–75.</p>
+</div>
+<div id="ref-westen2012">
+<p>Westen, Antoinette A, Laurens JW Grol, Joyce Harteveld, Anuska S Matai, Peter de Knijff, and Titia Sijen. 2012. “Assessment of the Stochastic Threshold, Back-and Forward Stutter Filters and Low Template Techniques for Ngm.” <em>Forensic Science International: Genetics</em> 6 (6): 708–15.</p>
+</div>
+<div id="ref-brookes2012">
+<p>Brookes, Clare, Jo-Anne Bright, SallyAnn Harbison, and John Buckleton. 2012. “Characterising Stutter in Forensic Str Multiplexes.” <em>Forensic Science International: Genetics</em> 6 (1): 58–63.</p>
+</div>
+<div id="ref-tvedebrink2012">
+<p>Tvedebrink, Torben, Helle Smidt Mogensen, Maria Charlotte Stene, and Niels Morling. 2012. “Performance of Two 17 Locus Forensic Identification Str Kits—Applied Biosystems’s Ampfℓstr Ngmselect™ and Promega’s Powerplex Esi17 Kits.” <em>Forensic Science International: Genetics</em> 6 (5): 523–31.</p>
+</div>
+<div id="ref-gill97">
+<p>Gill, Peter, R Sparkes, and C Kimpton. 1997. “Development of Guidelines to Designate Alleles Using an STR Multiplex System.” <em>Forensic Science International</em> 89 (3): 185–97.</p>
+</div>
+<div id="ref-R-ggplot2">
+<p>Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, and Kara Woo. 2018. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>.</p>
+</div>
+<div id="ref-R-dplyr">
+<p>Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2019. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="2">
+<li id="fn2"><p>See the interview (<a href="https://www.bbc.co.uk/sounds/play/b008fcdz" class="uri">https://www.bbc.co.uk/sounds/play/b008fcdz</a>) at 19:23.<a href="dnaval.html#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p><em>STR-validator</em> 2.0.0 tutorial, published 8 August 2017 (<a href="https://drive.google.com/file/d/0B2v6NDpFIgvDel9wSlFfb3hvekk/view" class="uri">https://drive.google.com/file/d/0B2v6NDpFIgvDel9wSlFfb3hvekk/view</a>).<a href="dnaval.html#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p>ThermoFisher has a great five minute video explainer of the two different threshold types (<a href="https://youtu.be/lbCQmMbfIoM" class="uri">https://youtu.be/lbCQmMbfIoM</a>).<a href="dnaval.html#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>Technical manual: <a href="https://www.promega.com/-/media/files/resources/protocols/technical-manuals/101/powerplex-esx-17-system-protocol.pdf?la=en" class="uri">https://www.promega.com/-/media/files/resources/protocols/technical-manuals/101/powerplex-esx-17-system-protocol.pdf?la=en</a><a href="dnaval.html#fnref5" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bullets.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/sctyner/OpenForSciR/edit/master/content/content/dna-validation.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["open-forensic-science-in-r.pdf", "open-forensic-science-in-r.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

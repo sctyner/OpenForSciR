@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 3 Firearms: bullets | Open Forensic Science in R</title>
+  <meta name="description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 3 Firearms: bullets | Open Forensic Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  <meta name="github-repo" content="sctyner/openforscir" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Firearms: bullets | Open Forensic Science in R" />
+  
+  <meta name="twitter:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  
+
+<meta name="author" content="Editor: Sam Tyner, Ph.D.">
+
+
+<meta name="date" content="2019-06-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="dnaval.html">
+<link rel="next" href="casings.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.5/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Open Forensic Science in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prologue</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a><ul>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#sam-tyner-ph.d."><i class="fa fa-check"></i>Sam Tyner, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#heike-hofmann-ph.d."><i class="fa fa-check"></i>Heike Hofmann, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#soyoung-park-ph.d."><i class="fa fa-check"></i>Soyoung Park, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#eric-hare-ph.d."><i class="fa fa-check"></i>Eric Hare, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#xiao-hui-tai"><i class="fa fa-check"></i>Xiao Hui Tai</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-kafadar-ph.d."><i class="fa fa-check"></i>Karen Kafadar, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-pan"><i class="fa fa-check"></i>Karen Pan</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#amanda-luby"><i class="fa fa-check"></i>Amanda Luby</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#ganesh-krishnan-m.sc."><i class="fa fa-check"></i>Ganesh Krishnan, M.Sc.</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#r-packages"><i class="fa fa-check"></i><b>1.1</b> R Packages</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#terminology-and-definitions"><i class="fa fa-check"></i><b>1.2</b> Terminology and Definitions</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#forscip"><i class="fa fa-check"></i><b>1.3</b> Forensic Science Problems</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dnaval.html"><a href="dnaval.html"><i class="fa fa-check"></i><b>2</b> Validation of DNA Interpretation Systems</a><ul>
+<li class="chapter" data-level="" data-path="dnaval.html"><a href="dnaval.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="2.1" data-path="dnaval.html"><a href="dnaval.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="dnaval.html"><a href="dnaval.html#procedure-for-dna-analysis-using-strs"><i class="fa fa-check"></i><b>2.1.1</b> Procedure for DNA Analysis using STRs</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="dnaval.html"><a href="dnaval.html#data"><i class="fa fa-check"></i><b>2.2</b> Data</a></li>
+<li class="chapter" data-level="2.3" data-path="dnaval.html"><a href="dnaval.html#r-package"><i class="fa fa-check"></i><b>2.3</b> R Package</a></li>
+<li class="chapter" data-level="2.4" data-path="dnaval.html"><a href="dnaval.html#drawing-conclusions"><i class="fa fa-check"></i><b>2.4</b> Drawing Conclusions</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="dnaval.html"><a href="dnaval.html#stutter-ratio"><i class="fa fa-check"></i><b>2.4.1</b> Stutter ratio</a></li>
+<li class="chapter" data-level="2.4.2" data-path="dnaval.html"><a href="dnaval.html#heterozygote-balance"><i class="fa fa-check"></i><b>2.4.2</b> Heterozygote balance</a></li>
+<li class="chapter" data-level="2.4.3" data-path="dnaval.html"><a href="dnaval.html#inter-locus-balance"><i class="fa fa-check"></i><b>2.4.3</b> Inter-locus balance</a></li>
+<li class="chapter" data-level="2.4.4" data-path="dnaval.html"><a href="dnaval.html#stochastic-threshold"><i class="fa fa-check"></i><b>2.4.4</b> Stochastic threshold</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="dnaval.html"><a href="dnaval.html#case-study"><i class="fa fa-check"></i><b>2.5</b> Case Study</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="dnaval.html"><a href="dnaval.html#get-the-data"><i class="fa fa-check"></i><b>2.5.1</b> Get the data</a></li>
+<li class="chapter" data-level="2.5.2" data-path="dnaval.html"><a href="dnaval.html#check-the-stutter-ratio"><i class="fa fa-check"></i><b>2.5.2</b> Check the stutter ratio</a></li>
+<li class="chapter" data-level="2.5.3" data-path="dnaval.html"><a href="dnaval.html#check-heterozygote-balance-intra-locus-balance"><i class="fa fa-check"></i><b>2.5.3</b> Check heterozygote balance (intra-locus balance)</a></li>
+<li class="chapter" data-level="2.5.4" data-path="dnaval.html"><a href="dnaval.html#check-inter-locus-balance"><i class="fa fa-check"></i><b>2.5.4</b> Check inter-locus balance</a></li>
+<li class="chapter" data-level="2.5.5" data-path="dnaval.html"><a href="dnaval.html#check-stochastic-threshold"><i class="fa fa-check"></i><b>2.5.5</b> Check stochastic threshold</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="bullets.html"><a href="bullets.html"><i class="fa fa-check"></i><b>3</b> Firearms: bullets</a><ul>
+<li class="chapter" data-level="3.1" data-path="bullets.html"><a href="bullets.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="bullets.html"><a href="bullets.html#data-1"><i class="fa fa-check"></i><b>3.2</b> Data</a></li>
+<li class="chapter" data-level="3.3" data-path="bullets.html"><a href="bullets.html#r-packages-1"><i class="fa fa-check"></i><b>3.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="bullets.html"><a href="bullets.html#x3ptools"><i class="fa fa-check"></i><b>3.3.1</b> x3ptools</a></li>
+<li class="chapter" data-level="3.3.2" data-path="bullets.html"><a href="bullets.html#bulletxtrctr"><i class="fa fa-check"></i><b>3.3.2</b> <code>bulletxtrctr</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="bullets.html"><a href="bullets.html#drawing-conclusions-1"><i class="fa fa-check"></i><b>3.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="3.5" data-path="bullets.html"><a href="bullets.html#case-study-1"><i class="fa fa-check"></i><b>3.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="casings.html"><a href="casings.html"><i class="fa fa-check"></i><b>4</b> Firearms: casings</a><ul>
+<li class="chapter" data-level="4.1" data-path="casings.html"><a href="casings.html#introduction-2"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="casings.html"><a href="casings.html#data-2"><i class="fa fa-check"></i><b>4.2</b> Data</a></li>
+<li class="chapter" data-level="4.3" data-path="casings.html"><a href="casings.html#r-packages-2"><i class="fa fa-check"></i><b>4.3</b> R Package(s)</a></li>
+<li class="chapter" data-level="4.4" data-path="casings.html"><a href="casings.html#casings-conclusions"><i class="fa fa-check"></i><b>4.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="4.5" data-path="casings.html"><a href="casings.html#casings-caseStudy"><i class="fa fa-check"></i><b>4.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fingerprints.html"><a href="fingerprints.html"><i class="fa fa-check"></i><b>5</b> Latent Fingerprints</a><ul>
+<li class="chapter" data-level="5.1" data-path="fingerprints.html"><a href="fingerprints.html#introduction-3"><i class="fa fa-check"></i><b>5.1</b> Introduction</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement"><i class="fa fa-check"></i><b>5.1.1</b> Contrast Gradient Quality Measurement</a></li>
+<li class="chapter" data-level="5.1.2" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement-illustration"><i class="fa fa-check"></i><b>5.1.2</b> Contrast Gradient Quality Measurement Illustration</a></li>
+<li class="chapter" data-level="5.1.3" data-path="fingerprints.html"><a href="fingerprints.html#test-for-usable-quality"><i class="fa fa-check"></i><b>5.1.3</b> Test for Usable Quality</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="fingerprints.html"><a href="fingerprints.html#data-3"><i class="fa fa-check"></i><b>5.2</b> Data</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="fingerprints.html"><a href="fingerprints.html#ace-v-and-afis"><i class="fa fa-check"></i><b>5.2.1</b> ACE-V and AFIS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="fingerprints.html"><a href="fingerprints.html#r-package-1"><i class="fa fa-check"></i><b>5.3</b> R Package</a></li>
+<li class="chapter" data-level="5.4" data-path="fingerprints.html"><a href="fingerprints.html#drawing-conclusions-2"><i class="fa fa-check"></i><b>5.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="5.5" data-path="fingerprints.html"><a href="fingerprints.html#case-study-2"><i class="fa fa-check"></i><b>5.5</b> Case Study</a><ul>
+<li class="chapter" data-level="" data-path="fingerprints.html"><a href="fingerprints.html#acknowledgements-1"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shoe.html"><a href="shoe.html"><i class="fa fa-check"></i><b>6</b> Shoe Outsole Impression Evidence</a><ul>
+<li class="chapter" data-level="6.1" data-path="shoe.html"><a href="shoe.html#introduction-4"><i class="fa fa-check"></i><b>6.1</b> Introduction</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="shoe.html"><a href="shoe.html#sources-of-variability-in-shoe-outsole-impressions"><i class="fa fa-check"></i><b>6.1.1</b> Sources of variability in shoe outsole impressions</a></li>
+<li class="chapter" data-level="6.1.2" data-path="shoe.html"><a href="shoe.html#current-practice"><i class="fa fa-check"></i><b>6.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="6.1.3" data-path="shoe.html"><a href="shoe.html#goal-of-this-chapter"><i class="fa fa-check"></i><b>6.1.3</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="shoe.html"><a href="shoe.html#data-4"><i class="fa fa-check"></i><b>6.2</b> Data</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="shoe.html"><a href="shoe.html#data-collection"><i class="fa fa-check"></i><b>6.2.1</b> Data collection</a></li>
+<li class="chapter" data-level="6.2.2" data-path="shoe.html"><a href="shoe.html#transformation-of-shoe-image"><i class="fa fa-check"></i><b>6.2.2</b> Transformation of shoe image</a></li>
+<li class="chapter" data-level="6.2.3" data-path="shoe.html"><a href="shoe.html#definition-of-classes"><i class="fa fa-check"></i><b>6.2.3</b> Definition of classes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="shoe.html"><a href="shoe.html#r-packages-3"><i class="fa fa-check"></i><b>6.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="shoe.html"><a href="shoe.html#one-subarea-matching"><i class="fa fa-check"></i><b>6.3.1</b> One subarea matching</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="shoe.html"><a href="shoe.html#drawing-conclusions-3"><i class="fa fa-check"></i><b>6.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="6.5" data-path="shoe.html"><a href="shoe.html#shoe-case-study"><i class="fa fa-check"></i><b>6.5</b> Case Study</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="shoe.html"><a href="shoe.html#sec:shoeqk1"><i class="fa fa-check"></i><b>6.5.1</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_1\)</span></a></li>
+<li class="chapter" data-level="6.5.2" data-path="shoe.html"><a href="shoe.html#compare-q-and-k_2"><i class="fa fa-check"></i><b>6.5.2</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_2\)</span></a></li>
+<li class="chapter" data-level="6.5.3" data-path="shoe.html"><a href="shoe.html#interpreting-comparisons-between-q-k_1-and-q-k_2"><i class="fa fa-check"></i><b>6.5.3</b> Interpreting Comparisons between <span class="math inline">\(Q, K_1\)</span> and <span class="math inline">\(Q, K_2\)</span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="glass.html"><a href="glass.html"><i class="fa fa-check"></i><b>7</b> Trace glass evidence: chemical composition</a><ul>
+<li class="chapter" data-level="7.1" data-path="glass.html"><a href="glass.html#introduction-5"><i class="fa fa-check"></i><b>7.1</b> Introduction</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="glass.html"><a href="glass.html#problems-of-interest"><i class="fa fa-check"></i><b>7.1.1</b> Problems of interest</a></li>
+<li class="chapter" data-level="7.1.2" data-path="glass.html"><a href="glass.html#current-practice-1"><i class="fa fa-check"></i><b>7.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="7.1.3" data-path="glass.html"><a href="glass.html#comparing-glass-fragments"><i class="fa fa-check"></i><b>7.1.3</b> Comparing glass fragments</a></li>
+<li class="chapter" data-level="7.1.4" data-path="glass.html"><a href="glass.html#goal-of-this-chapter-1"><i class="fa fa-check"></i><b>7.1.4</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="glass.html"><a href="glass.html#data-5"><i class="fa fa-check"></i><b>7.2</b> Data</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="glass.html"><a href="glass.html#chemical-composition-of-glass"><i class="fa fa-check"></i><b>7.2.1</b> Chemical composition of glass</a></li>
+<li class="chapter" data-level="7.2.2" data-path="glass.html"><a href="glass.html#data-source"><i class="fa fa-check"></i><b>7.2.2</b> Data source</a></li>
+<li class="chapter" data-level="7.2.3" data-path="glass.html"><a href="glass.html#data-structure"><i class="fa fa-check"></i><b>7.2.3</b> Data structure</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="glass.html"><a href="glass.html#glass_rpkgs"><i class="fa fa-check"></i><b>7.3</b> R Packages</a></li>
+<li class="chapter" data-level="7.4" data-path="glass.html"><a href="glass.html#drawing-conclusions-4"><i class="fa fa-check"></i><b>7.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="7.5" data-path="glass.html"><a href="glass.html#case-study-3"><i class="fa fa-check"></i><b>7.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="decision-making.html"><a href="decision-making.html"><i class="fa fa-check"></i><b>8</b> Decision-making in Forensic Identification Tasks</a><ul>
+<li class="chapter" data-level="8.1" data-path="decision-making.html"><a href="decision-making.html#introduction-6"><i class="fa fa-check"></i><b>8.1</b> Introduction</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="decision-making.html"><a href="decision-making.html#irt"><i class="fa fa-check"></i><b>8.1.1</b> A Brief Overview of Item Response Models</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="decision-making.html"><a href="decision-making.html#humans-data"><i class="fa fa-check"></i><b>8.2</b> Data</a></li>
+<li class="chapter" data-level="8.3" data-path="decision-making.html"><a href="decision-making.html#rpackages"><i class="fa fa-check"></i><b>8.3</b> R Packages</a></li>
+<li class="chapter" data-level="8.4" data-path="decision-making.html"><a href="decision-making.html#humans-conclusions"><i class="fa fa-check"></i><b>8.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="8.5" data-path="decision-making.html"><a href="decision-making.html#casestudy"><i class="fa fa-check"></i><b>8.5</b> Case Study</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="decision-making.html"><a href="decision-making.html#fitting-the-irt-model"><i class="fa fa-check"></i><b>8.5.1</b> Fitting the IRT model</a></li>
+<li class="chapter" data-level="8.5.2" data-path="decision-making.html"><a href="decision-making.html#irt-complements-an-error-rate-analysis"><i class="fa fa-check"></i><b>8.5.2</b> IRT complements an error rate analysis</a></li>
+<li class="chapter" data-level="8.5.3" data-path="decision-making.html"><a href="decision-making.html#scoring-method-affects-proficiency-estimates"><i class="fa fa-check"></i><b>8.5.3</b> Scoring method affects proficiency estimates</a></li>
+<li class="chapter" data-level="8.5.4" data-path="decision-making.html"><a href="decision-making.html#discussion"><i class="fa fa-check"></i><b>8.5.4</b> Discussion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="acknowledgements-2.html"><a href="acknowledgements-2.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="glossary.html"><a href="glossary.html"><i class="fa fa-check"></i><b>A</b> Glossary</a><ul>
+<li class="chapter" data-level="A.1" data-path="glossary.html"><a href="glossary.html#introduction-7"><i class="fa fa-check"></i><b>A.1</b> Introduction</a></li>
+<li class="chapter" data-level="A.2" data-path="glossary.html"><a href="glossary.html#validation-of-dna-interpretation-systems"><i class="fa fa-check"></i><b>A.2</b> Validation of DNA Interpretation Systems</a></li>
+<li class="chapter" data-level="A.3" data-path="glossary.html"><a href="glossary.html#firearms-bullets"><i class="fa fa-check"></i><b>A.3</b> Firearms: bullets</a></li>
+<li class="chapter" data-level="A.4" data-path="glossary.html"><a href="glossary.html#firearms-casings"><i class="fa fa-check"></i><b>A.4</b> Firearms: casings</a></li>
+<li class="chapter" data-level="A.5" data-path="glossary.html"><a href="glossary.html#latent-fingerprints"><i class="fa fa-check"></i><b>A.5</b> Latent Fingerprints</a></li>
+<li class="chapter" data-level="A.6" data-path="glossary.html"><a href="glossary.html#shoe-outsole-impression-evidence"><i class="fa fa-check"></i><b>A.6</b> Shoe Outsole Impression Evidence</a></li>
+<li class="chapter" data-level="A.7" data-path="glossary.html"><a href="glossary.html#trace-glass-evidence"><i class="fa fa-check"></i><b>A.7</b> Trace Glass Evidence</a></li>
+<li class="chapter" data-level="A.8" data-path="glossary.html"><a href="glossary.html#decision-making-in-forensic-identification-tasks"><i class="fa fa-check"></i><b>A.8</b> Decision-making in Forensic Identification Tasks</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Open Forensic Science in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="bullets" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Firearms: bullets</h1>
+<div id="eric-hare-heike-hofmann" class="section level4 unnumbered">
+<h4>Eric Hare, Heike Hofmann</h4>
+<div class="figure" style="text-align: center"><span id="fig:bulletcarver"></span>
+<img src="img/IMG_1480.png" alt="Close-up of a bullet under a Confocal Light Microscope in the Roy J Carver High-resolution microscopy lab at Iowa State University. Photo by Heike Hofmann. Source: [forensicstats.org](https://forensicstats.org/wp-content/uploads/2017/01/csafe-logo-90.png)" width="350" />
+<p class="caption">
+Figure 3.1: Close-up of a bullet under a Confocal Light Microscope in the Roy J Carver High-resolution microscopy lab at Iowa State University. Photo by Heike Hofmann. Source: <a href="https://forensicstats.org/wp-content/uploads/2017/01/csafe-logo-90.png">forensicstats.org</a>
+</p>
+</div>
+</div>
+<div id="introduction-1" class="section level2">
+<h2><span class="header-section-number">3.1</span> Introduction</h2>
+<p>When a <a href="glossary.html#def:bullet">bullet</a> is fired from a <a href="glossary.html#def:gunbarrel">gun barrel</a>, small imperfections in the barrel leave <a href="glossary.html#def:striations">striation</a> marks on the bullet. These marks are expressed most in the area of the bullet that has the closest contact to the barrel.</p>
+<p>These engravings are assumed to be unique to individual gun barrels, and as a result, traditional forensic science methods have employed trained forensic examiners to assess the likelihood of two bullets being fired from the same barrel (a “match”). Conventionally, this has been done using the metric Consecutively Matching Striae(CMS) <span class="citation">(Biasotti <a href="#ref-biasotti:1959">1959</a>)</span>. However, no official standards have been established to scientifically delineate a number that effectively separates matches from non-matches. Therefore, significant work has been done, and continues to be done, in order to add scientific rigor to the bullet matching process.</p>
+<p>The 2009 National Academy of Sciences Report <span class="citation">(National Research Council <a href="#ref-NAS:2009">2009</a><a href="#ref-NAS:2009">a</a>)</span> may have been the “call-to-arms” that the field needed. This report criticized the lack of rigor in the field at the time, but also described the “path forward”. As the authors saw it, the path forward included adoption of standards. A standard format to represent the structure of bullets opened the door for much of what you’ll read about in this chapter, including opening up the formerly unknown process of bullet matching to a much wider audience, and providing the foundations for truly automated, statistical algorithms to perform the procedure.</p>
+<p>In this chapter, we outline the new standard data format used to store three-dimensional bullet scans. We proceed by outlying relevant R packages for the processing and analysis of these scans. Finally, we discuss ways in which to draw conclusions based on these results, and tie it all together in the form of a relevant case study.</p>
+</div>
+<div id="data-1" class="section level2">
+<h2><span class="header-section-number">3.2</span> Data</h2>
+<p>Data on both <a href="glossary.html#def:breechface">breech face</a> impression and <a href="glossary.html#def:leas">land engraved areas</a> are available from the <a href="https://tsapps.nist.gov/NRBTD/Studies/Search">NIST Ballistics Toolmark Research Database</a> (NBTRD) in the <a href="https://tsapps.nist.gov/NRBTD/Home/DataFormat">x3p</a> (XML 3-D Surface Profile) format. The x3p format was designed to implement a standard for exchanging 3D profile data. It was adopted by the Open Forensic <a href="glossary.html#def:metrology">Metrology</a> Consortium, or <a href="https://www.openfmc.org/">OpenFMC</a>, a group of firearm forensics researchers whose aim is to establish best practices for researchers using metrology in forensic science.</p>
+<p>Figure <a href="bullets.html#fig:bullets-x3pcontain">3.2</a> shows an illustration of the internal structure of the x3p file format. x3p files contain an XML data file with metadata on the bullet scans, as well as binary data containing the surface topology measurements. The metadata includes information on the scanning equipment and operator, as well as information on the resolution of the scans.</p>
+<div class="figure" style="text-align: center"><span id="fig:bullets-x3pcontain"></span>
+<img src="img/x3p_container.png" alt="An illustration of the internal structure of the x3p file format. x3p files contain an XML data file with metadata on the bullet scans, as well as binary data containing the surface topology measurements. Source: [openGPS](https://sourceforge.net/p/open-gps/mwiki/X3p/)" width="75%" />
+<p class="caption">
+Figure 3.2: An illustration of the internal structure of the x3p file format. x3p files contain an XML data file with metadata on the bullet scans, as well as binary data containing the surface topology measurements. Source: <a href="https://sourceforge.net/p/open-gps/mwiki/X3p/">openGPS</a>
+</p>
+</div>
+<p>The use of the x3p format has positively impacted procedures relating to forensic analysis of bullets. Because the format is an open standard, researchers on a wide range of computing platforms can access and analyze the data. Due to the x3p container holding a rich set of metadata, the limitations of traditional “black box”-type file formats are eliminated. The source, parameters, and raw data contained within each 3D scan is readily available for critical analysis and examination.</p>
+</div>
+<div id="r-packages-1" class="section level2">
+<h2><span class="header-section-number">3.3</span> R Package(s)</h2>
+<p>The first R package created to read and process x3p files was <code>x3pr</code> <span class="citation">(OpenFMC <a href="#ref-x3pr">2014</a>)</span>. This package includes reading routines to read in both the data as well as the metadata of a particular bullet land. The package also has some plotting functions and a writing routine to create x3p files. A new package, <code>x3ptools</code> <span class="citation">(Hofmann et al. <a href="#ref-x3ptools">2018</a>)</span>, was created to handle some limitations in <code>x3pr</code> and expand upon the functionality. A companion package, <code>bulletxtrctr</code> <span class="citation">(Hofmann, Vanderplas, and Krishnan <a href="#ref-bulletxtrctr">2018</a>)</span>, expands upon x3ptools and provides functions to perform an automated bullet analysis routine based on the algorithms described in <span class="citation">Hare, Hofmann, and Carriquiry (<a href="#ref-hare2017">2017</a>)</span>.</p>
+<p>The two packages <a href="https://heike.github.io/x3ptools/"><code>x3ptools</code></a> and <a href="https://heike.github.io/bulletxtrctr/"><code>bulletxtrctr</code></a> will be the focus of the remainder of this chapter.</p>
+<div id="x3ptools" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> x3ptools</h3>
+<p>Although <code>x3ptools</code> isn’t written specifically for the purposes of handling bullet scans, it is the package of choice to begin a bullet analysis. In fact, the package itself is generic and can handle a wide range of data types that use the x3p container format.</p>
+<p>To begin, the package can be installed from <a href="https://cran.r-project.org/web/packages/x3ptools/">CRAN</a> (stable release) or <a href="https://github.com/heike/x3ptools">GitHub</a> (development version):</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># from CRAN: install.packages(&#39;x3ptools&#39;) install development version from</span>
+<span class="co"># GitHub:</span>
+devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;heike/x3ptools&quot;</span>)</code></pre>
+<p>We load the package and use some built-in x3p data to get a feel for the package functionality. We will work with the Center for Statistical Applications in Forensic Evidence (CSAFE) logo. In its original colored form, the logo looks like Figure <a href="bullets.html#fig:bullets-csafelogo">3.3</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:bullets-csafelogo"></span>
+<img src="img/csafe-logo.jpeg" alt="The CSAFE logo. Source: [CSAFE](https://forensicstats.org/)." width="178" />
+<p class="caption">
+Figure 3.3: The CSAFE logo. Source: <a href="https://forensicstats.org/">CSAFE</a>.
+</p>
+</div>
+<p>A 3D version of this logo is available in <code>x3ptools</code>, where portions of the logo are raised and recessed. This makes for a good test case in introducing <code>x3ptools</code> and the idea behind 3D scans of objects, as we transition towards bullet analysis.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(x3ptools)
+
+logo &lt;-<span class="st"> </span><span class="kw">read_x3p</span>(<span class="kw">system.file</span>(<span class="st">&quot;csafe-logo.x3p&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;x3ptools&quot;</span>))
+<span class="kw">names</span>(logo)</code></pre>
+<pre><code>## [1] &quot;header.info&quot;    &quot;surface.matrix&quot; &quot;feature.info&quot;   &quot;general.info&quot;  
+## [5] &quot;matrix.info&quot;</code></pre>
+<p>We can see that there are five elements to the list object returned:</p>
+<ul>
+<li><strong>header.info</strong> - Provides us information on the resolution of the scan</li>
+<li><strong>surface.matrix</strong> - The actual surface data of the scan</li>
+<li><strong>feature.info</strong> - Properties of the scan itself</li>
+<li><strong>general.info</strong> - Information on how the data was captured</li>
+<li><strong>matrix.info</strong> - Some information expanding upon header.info</li>
+</ul>
+<p>The two most relevant for our purposes are <strong>header.info</strong> and <strong>surface.matrix</strong>. To begin to understand this container format better, we can use the <code>image_x3p</code> function to produce a visualization of the surface, shown in Figure <a href="bullets.html#fig:bullets-csafelogoscan">3.4</a>. <!--In interactive mode, this would be an interactive display. Here we're using the `file` parameter to export as a static image for purposes of viewing in this book, shown in Figure \@ref(fig:bullets-csafelogoscan).--></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">image_x3p</span>(logo)</code></pre>
+<!--If the below doesn't render, run 
+install.packages("webshot")
+webshot::install_phantomjs()
+in your R console then restart R/RStudio and re-build. 
+-->
+<div class="figure" style="text-align: center"><span id="fig:bullets-csafelogoscan"></span>
+<iframe src="./img/3dlogo/index.html" width="672" height="200px">
+</iframe>
+<p class="caption">
+Figure 3.4: 3D surface scan of the CSAFE logo. (Rendered image has been down-sampled to speed up page load.)
+</p>
+</div>
+<p>We can use the function <code>x3p_to_df</code> in order to convert this structure into a standard R data frame, which will allow us to do any number of data manipulation and plotting routines. In this case, Figure <a href="bullets.html#fig:bullets-x3pplot">3.5</a> shows a simple scatter plot created with <code>ggplot2</code> of the height measurements across the surface of the bullet.</p>
+<pre class="sourceCode r"><code class="sourceCode r">logo_df &lt;-<span class="st"> </span><span class="kw">x3p_to_df</span>(logo)
+
+<span class="kw">ggplot</span>(<span class="dt">data =</span> logo_df, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">color =</span> value)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;white&quot;</span>, 
+    <span class="dt">high =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:bullets-x3pplot"></span>
+<img src="open-forensic-science-in-r_files/figure-html/bullets-x3pplot-1.png" alt="A simple scatterplot created with ggplot2 of the height measurements across the surface of the bullet." width="672" />
+<p class="caption">
+Figure 3.5: A simple scatterplot created with ggplot2 of the height measurements across the surface of the bullet.
+</p>
+</div>
+<p>A key feature of the data is that the <code>value</code> column represents the height of the pixel corresponding to the particular <span class="math inline">\((x,y)\)</span> location. In this logo, we can see that the fingerprint section of the logo is raised above the background quite clearly. As we transition to operating on images of bullets, this will be important to note.</p>
+<p>One other important feature of the package is the ability to sample. Depending on the size and resolution of a particular scan, the resulting object could be quite large. This CSAFE logo, despite being a relatively small physical size, still results in a 310,479 row data frame. Though manageable, this means that certain routines, such as producing the above scatter plot, can be quite slow.</p>
+<p>When high resolution is not needed, we may elect to sample the data to reduce the resulting size. This can be done with the <code>sample_x3p</code> function. The function takes a parameter <code>m</code> to indicate the sampling factor to use. For example, a value of <code>m = 4</code> will sample every 4th height value from the 3D scan, as illustrated in Figure <a href="bullets.html#fig:bullets-samp">3.6</a>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">sample_logo &lt;-<span class="st"> </span><span class="kw">sample_x3p</span>(logo, <span class="dt">m =</span> <span class="dv">4</span>)
+
+sample_logo_df &lt;-<span class="st"> </span><span class="kw">x3p_to_df</span>(sample_logo)
+
+<span class="kw">ggplot</span>(<span class="dt">data =</span> sample_logo_df, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">color =</span> value)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_color_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:bullets-samp"></span>
+<img src="open-forensic-science-in-r_files/figure-html/bullets-samp-1.png" alt="A sampled scan of an x3p file extracted using the sample_x3p function." width="672" />
+<p class="caption">
+Figure 3.6: A sampled scan of an x3p file extracted using the sample_x3p function.
+</p>
+</div>
+<p>You can see the clarity of the resulting plot has noticeably declined, but the overall structure has been maintained. Depending on the application, this could be a solution for making a slow analytical process a bit faster.</p>
+</div>
+<div id="bulletxtrctr" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> <code>bulletxtrctr</code></h3>
+<p>As mentioned, we will use the <code>bulletxtrctr</code> package to process 3D surface scans of bullets. This package depends on <code>x3ptools</code> for reading and writing x3p files but otherwise focuses on statistical routines for matching bullets. The package is not yet available on CRAN, but can be installed from GitHub:</p>
+<pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;heike/bulletxtrctr&quot;</span>)</code></pre>
+<p>To demonstrate the functionality of <code>bulletxtrctr</code>, we use data from the NBTRD at NIST. We download the surface scan for a bullet from the Hamby Study <span class="citation">(Hamby, Brundage, and Thorpe <a href="#ref-hamby:2009">2009</a>)</span>, using the <code>read_bullet</code> function, transform the measurements from meters to microns (<code>x3p_m_to_mum</code>), and rotate the images so that the long axis is the horizontal. Note that the object <code>hamby252demo</code> is a list object exported from <code>bulletxtrctr</code> that contains URLs to the NIST NBTRD.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(randomForest)
+<span class="kw">library</span>(bulletxtrctr)
+
+<span class="co"># note: length(hamby252demo[[1]]) is 6</span>
+br1_b1 &lt;-<span class="st"> </span><span class="kw">read_bullet</span>(<span class="dt">urllist =</span> hamby252demo[[<span class="dv">1</span>]]) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># x3p_m_to_mum: converts from meters to microns</span>
+<span class="kw">mutate</span>(<span class="dt">x3p =</span> x3p <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map</span>(<span class="dt">.f =</span> x3p_m_to_mum)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># rotate_x3p(angle = -90: change orientation by 90 degrees clockwise</span>
+<span class="co"># y_flip_x3p: flip image to conform to new ISO norm (see ??y_flip_x3p)</span>
+<span class="kw">mutate</span>(<span class="dt">x3p =</span> x3p <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map</span>(<span class="dt">.f =</span> <span class="cf">function</span>(x) x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rotate_x3p</span>(<span class="dt">angle =</span> <span class="dv">-90</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">y_flip_x3p</span>()))</code></pre>
+<p>When working with lots of bullet data, it’s important to stay organized when naming objects in your R session. The name of the object we just created is <code>br1_b1</code>.
+This indicates that we are looking at the first bullet (<code>b1</code>) that was fired from Barrel 1 (<code>br1</code>). A bullet is composed of a certain number of land engraved areas (LEAs), and each LEA is a separate file with a separate URL. So, the object <code>br1_b1</code> contains <code>nrow(br1_b1)</code> (6) observations, one for each land engraved area, which compose the whole bullet scan. The <a href="glossary.html#def:rifling">rifling</a> of the barrel induces these land engraved areas, which are a series of alternating raised and recessed portions on the fired bullet. In addition, manufacturing defects engrave striation marks on the bullet as it travels through the gun barrel when fired <span class="citation">(AFTE Criteria for Identification Committee <a href="#ref-afte:1992">1992</a><a href="#ref-afte:1992">b</a>)</span>.</p>
+<p>Let’s take a quick look at what we see one the first bullet land (Figure <a href="bullets.html#fig:bullets-b111">3.7</a>).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">image_x3p</span>(br1_b1<span class="op">$</span>x3p[[<span class="dv">1</span>]])</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:bullets-b111"></span>
+<iframe src="./img/br1b1l1/index.html" width="672" height="200px">
+</iframe>
+<p class="caption">
+Figure 3.7: Land 1 of Bullet 1 from Barrel 1 of the Hamby Study (Set 44). Source: <a href="https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/43567404-1611-4b40-ae74-a1e440e79f6a">NRBTD</a>. (Rendered image has been down-sampled to speed up page load.)
+</p>
+</div>
+<p>Immediately, we can clearly see the vertical striation marks. To better visualize these marks, we can extract a cross-section from the bullet and plot it in two dimensions. To accomplish this, <code>bulletxtrctr</code> provides us with a function <code>x3p_crosscut_optimize</code> to choose the ideal location at which to do so.</p>
+<pre class="sourceCode r"><code class="sourceCode r">cc_b11 &lt;-<span class="st"> </span><span class="kw">x3p_crosscut_optimize</span>(br1_b1<span class="op">$</span>x3p[[<span class="dv">1</span>]])
+cc_b11</code></pre>
+<pre><code>## [1] 100</code></pre>
+<p>This value provides us with the location (in microns) of a horizontal line that the algorithm determines to be a good place to extract a cross-section. The two primary criteria for determining this are:</p>
+<ol style="list-style-type: decimal">
+<li>The location should be close to the base of the bullet (<span class="math inline">\(y = 0\)</span>) because the striation marks are most pronounced there.</li>
+<li>Cross-sections taken near this location should be similar to this cross-section (stability).</li>
+</ol>
+<p>The <code>x3p_crosscut_optimize</code> function looks for the first cross-section meeting this criteria, searching upwards from the base of the bullet land. With this value, we can extract and plot the cross-section, shown in Figure <a href="bullets.html#fig:bullets-cc">3.8</a>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">ccdata_b11 &lt;-<span class="st"> </span><span class="kw">x3p_crosscut</span>(br1_b1<span class="op">$</span>x3p[[<span class="dv">1</span>]], <span class="dt">y =</span> cc_b11)
+
+<span class="kw">ggplot</span>(<span class="dt">data =</span> ccdata_b11, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> value)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:bullets-cc"></span>
+<img src="open-forensic-science-in-r_files/figure-html/bullets-cc-1.png" alt="Cross-section of the bullet land at the ideal cross-section location." width="672" />
+<p class="caption">
+Figure 3.8: Cross-section of the bullet land at the ideal cross-section location.
+</p>
+</div>
+<p>Most of the scans exhibit the pattern that we see here, where there are “wedges” on the left and right side. The wedge area is called the <strong>shoulder</strong>, and it is the area separating the land engraved area (the curved region in the middle) from the groove (the area not scanned because it doesn’t exhibit striations). In other words, to better hone in on the striation marks along the land, we should subset this region to include only the middle curved land engraved area portion. Fortunately, <code>bulletxtrctr</code> provides us with functionality to automatically do that. First, we use the <code>cc_locate_grooves</code> function to detect the location of the grooves. This returns a list object, with one element being the two locations along the axis, and the lother element being the plot, given in Figure <a href="bullets.html#fig:bullets-grooveloc">3.9</a>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">grooves_b11 &lt;-<span class="st"> </span><span class="kw">cc_locate_grooves</span>(ccdata_b11, <span class="dt">return_plot =</span> <span class="ot">TRUE</span>, <span class="dt">method =</span> <span class="st">&quot;middle&quot;</span>)
+grooves_b11<span class="op">$</span>plot</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:bullets-grooveloc"></span>
+<img src="open-forensic-science-in-r_files/figure-html/bullets-grooveloc-1.png" alt="Location of the grooves in our bullet scan, as detected by the `get_grooves` function." width="672" />
+<p class="caption">
+Figure 3.9: Location of the grooves in our bullet scan, as detected by the <code>get_grooves</code> function.
+</p>
+</div>
+<p>With the grooves detected, we can now smooth out the surface using locally estimated scatter plot smoothing (LOESS) <span class="citation">(Cleveland <a href="#ref-cleveland:1979">1979</a>)</span>. Once we do so, we obtain what we call a <strong>bullet signature</strong>, Figure <a href="bullets.html#fig:bullets-loess">3.10</a>, representing the clearest picture yet of the striation marks along the surface of the land.</p>
+<pre class="sourceCode r"><code class="sourceCode r">b111_processed &lt;-<span class="st"> </span><span class="kw">cc_get_signature</span>(<span class="dt">ccdata =</span> ccdata_b11, <span class="dt">grooves =</span> grooves_b11, 
+    <span class="dt">span1 =</span> <span class="fl">0.75</span>, <span class="dt">span2 =</span> <span class="fl">0.03</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sig), <span class="op">!</span><span class="kw">is.na</span>(raw_sig))
+
+<span class="kw">ggplot</span>(<span class="dt">data =</span> b111_processed, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> sig)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:bullets-loess"></span>
+<img src="open-forensic-science-in-r_files/figure-html/bullets-loess-1.png" alt="LOESS-smoothed version of our bullet profile, called the bullet signature." width="672" />
+<p class="caption">
+Figure 3.10: LOESS-smoothed version of our bullet profile, called the bullet signature.
+</p>
+</div>
+<p>The land signature is the element of analysis for feature extraction out of the <code>bulletxtrctr</code> package. With multiple bullet signatures, matches can quickly and easily be made using the <code>sig_align</code> function, in conjunction with the <code>extract_feature</code> family of functions, which we will discuss later on in the chapter.</p>
+</div>
+</div>
+<div id="drawing-conclusions-1" class="section level2">
+<h2><span class="header-section-number">3.4</span> Drawing Conclusions</h2>
+<p>We have seen the process of extracting the signature of a bullet and plotting it using R. But recall that the application of these procedures demands an answer to the question of whether this bullet was fired from the same gun barrel as another bullet. The question becomes, does this bullet signature “match” the signature of another bullet with high probability?</p>
+<p>This answer could be derived quite seamlessly in an ideal world given a reference database of all bullets in existence that have been fired from all gun barrels. With this database, we would compute the signatures for all of them and we could then make probabilistic judgments based on the similarities of signatures fired from the same barrel versus those from different barrels. Without this database, the best we can do is to begin a large data collection process resulting in a reference database, such as the approach in the NIST NBTRD. To come to a conclusion about the source of two fired bullets, we need to quantify the similarity of two land signatures that were part of bullets fired from the same barrel. This will be the focus of the Case Study section.</p>
+<p>One other approach to drawing conclusions is to use the generated signatures as a supplement to the manual examination by trained forensic examiners. This semi-automated procedure maintains the valuable expertise of the examiner and provides a scientific backing to some of the conclusions made. In the cases where conclusions may differ, this can lead to either refinement of the examination procedure, or refinement of the automated algorithms described.</p>
+</div>
+<div id="case-study-1" class="section level2">
+<h2><span class="header-section-number">3.5</span> Case Study</h2>
+<p>We will now walk through the process of performing a bullet match. Much of the code for this section has been adapted from the excellent <code>bulletxtrctr</code> <a href="https://github.com/heike/bulletxtrctr/blob/master/README.Rmd">README</a>. We take two bullets with 6 lands each for comparison. Thus, there are 36 land-to-land comparisons to be made, of which 6 are known matches, and 30 are known non-matches. We begin by reading the bullets:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># bullet 1</span>
+urllist1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/cd204983-465b-4ec3-9da8-cba515a779ff&quot;</span>, 
+    <span class="st">&quot;https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/0e72228c-5e39-4a42-8c4e-3da41a11f32c&quot;</span>, 
+    <span class="st">&quot;https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/b9d6e187-2de7-44e8-9b88-c83c29a8129d&quot;</span>, 
+    <span class="st">&quot;https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/fda92f6a-71ba-4735-ade0-02942d14d1e9&quot;</span>, 
+    <span class="st">&quot;https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/8fa798b4-c5bb-40e2-acf4-d9296865e8d4&quot;</span>, 
+    <span class="st">&quot;https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/81e817e5-15d8-409f-b5bd-d67c525941fe&quot;</span>)
+<span class="co"># bullet 2</span>
+urllist2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/288341e0-0fdf-4b0c-bd26-b31ac8c43f72&quot;</span>, 
+    <span class="st">&quot;https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/c97ada55-3a35-44fd-adf3-ac27dd202522&quot;</span>, 
+    <span class="st">&quot;https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/8a1805d9-9d01-4427-8873-aef4a0bd323a&quot;</span>, 
+    <span class="st">&quot;https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/a116e448-18e1-4500-859c-38a5f5cc38fd&quot;</span>, 
+    <span class="st">&quot;https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/0b7182d3-1275-456e-a9b4-ae378105e4af&quot;</span>, 
+    <span class="st">&quot;https://tsapps.nist.gov/NRBTD/Studies/BulletMeasurement/DownloadMeasurement/86934fcd-7317-4c74-86ae-f167dbc2f434&quot;</span>)
+
+b1 &lt;-<span class="st"> </span><span class="kw">read_bullet</span>(<span class="dt">urllist =</span> urllist1)
+b2 &lt;-<span class="st"> </span><span class="kw">read_bullet</span>(<span class="dt">urllist =</span> urllist2)</code></pre>
+<p>For ease of analysis, we bind the bullets in a single data frame, and identify them using numeric values inside the data frame. We also indicate the six different lands.</p>
+<pre class="sourceCode r"><code class="sourceCode r">b1<span class="op">$</span>bullet &lt;-<span class="st"> </span><span class="dv">1</span>
+b2<span class="op">$</span>bullet &lt;-<span class="st"> </span><span class="dv">2</span>
+b1<span class="op">$</span>land &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">6</span>
+b2<span class="op">$</span>land &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">6</span>
+bullets &lt;-<span class="st"> </span><span class="kw">rbind</span>(b1, b2)</code></pre>
+<p>As before, we want to rotate the bullets such that the long axis is along the horizontal, as the functions within <code>bulletxtrctr</code> assume this format.</p>
+<pre class="sourceCode r"><code class="sourceCode r">bullets &lt;-<span class="st"> </span>bullets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">x3p =</span> x3p <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map</span>(<span class="dt">.f =</span> x3p_m_to_mum)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">x3p =</span> x3p <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map</span>(<span class="dt">.f =</span> <span class="cf">function</span>(x) x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rotate_x3p</span>(<span class="dt">angle =</span> <span class="dv">-90</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">        </span><span class="kw">y_flip_x3p</span>()))</code></pre>
+<p>We extract the ideal cross-sections from all 12 bullet lands, which are shown in Figure <a href="bullets.html#fig:bullets-cscrosscut">3.11</a>. In each land, we see the standard curved pattern, with well defined and a pronounced shoulders indicating the cutoff location for extracting the land.</p>
+<pre class="sourceCode r"><code class="sourceCode r">bullets &lt;-<span class="st"> </span>bullets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">crosscut =</span> x3p <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map_dbl</span>(<span class="dt">.f =</span> x3p_crosscut_optimize))
+
+bullets &lt;-<span class="st"> </span>bullets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">ccdata =</span> purrr<span class="op">::</span><span class="kw">map2</span>(<span class="dt">.x =</span> x3p, <span class="dt">.y =</span> crosscut, 
+    <span class="dt">.f =</span> x3p_crosscut))
+
+crosscuts &lt;-<span class="st"> </span>bullets <span class="op">%&gt;%</span><span class="st"> </span>tidyr<span class="op">::</span><span class="kw">unnest</span>(ccdata)
+
+<span class="kw">ggplot</span>(<span class="dt">data =</span> crosscuts, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> value)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(bullet <span class="op">~</span><span class="st"> </span>
+<span class="st">    </span>land, <span class="dt">labeller =</span> <span class="st">&quot;label_both&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">30</span>, 
+    <span class="dt">hjust =</span> <span class="dv">1</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">size =</span> <span class="kw">rel</span>(<span class="fl">0.9</span>)))</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:bullets-cscrosscut"></span>
+<img src="open-forensic-science-in-r_files/figure-html/bullets-cscrosscut-1.png" alt="Ideal cross-sections for all 12 bullet lands." width="120%" />
+<p class="caption">
+Figure 3.11: Ideal cross-sections for all 12 bullet lands.
+</p>
+</div>
+<p>Next, with each of these profiles, we need to detect grooves to extract the bullet signature between them. In Figure <a href="bullets.html#fig:bullets-csgrooves">3.12</a>, we can see that the groove locations of the 12 bullet lands appear to be detected well, such that the middle portion between the two vertical blue lines represents a good sample of the land-engraved area.</p>
+<pre class="sourceCode r"><code class="sourceCode r">bullets &lt;-<span class="st"> </span>bullets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">grooves =</span> ccdata <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map</span>(<span class="dt">.f =</span> cc_locate_grooves, 
+    <span class="dt">method =</span> <span class="st">&quot;middle&quot;</span>, <span class="dt">adjust =</span> <span class="dv">30</span>, <span class="dt">return_plot =</span> <span class="ot">TRUE</span>))
+
+<span class="kw">do.call</span>(gridExtra<span class="op">::</span>grid.arrange, <span class="kw">lapply</span>(bullets<span class="op">$</span>grooves, <span class="st">`</span><span class="dt">[[</span><span class="st">`</span>, <span class="dv">2</span>))</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:bullets-csgrooves"></span>
+<img src="open-forensic-science-in-r_files/figure-html/bullets-csgrooves-1.png" alt="Groove locations of each of the 12 bullet lands." width="100%" />
+<p class="caption">
+Figure 3.12: Groove locations of each of the 12 bullet lands.
+</p>
+</div>
+<p>With the groove locations detected, we proceed as before by using LOESS to smooth out the curvature of the surface and focus on the striation marks. Figure <a href="bullets.html#fig:bullets-cssigs">3.13</a> shows us the raw signatures of the 12 lands. The striation marks are much more visible now.</p>
+<pre class="sourceCode r"><code class="sourceCode r">bullets &lt;-<span class="st"> </span>bullets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">sigs =</span> purrr<span class="op">::</span><span class="kw">map2</span>(<span class="dt">.x =</span> ccdata, <span class="dt">.y =</span> grooves, 
+    <span class="dt">.f =</span> <span class="cf">function</span>(x, y) {
+        <span class="kw">cc_get_signature</span>(<span class="dt">ccdata =</span> x, <span class="dt">grooves =</span> y, <span class="dt">span1 =</span> <span class="fl">0.75</span>, <span class="dt">span2 =</span> <span class="fl">0.03</span>)
+    }))
+
+signatures &lt;-<span class="st"> </span>bullets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(source, sigs) <span class="op">%&gt;%</span><span class="st"> </span>tidyr<span class="op">::</span><span class="kw">unnest</span>()
+bullet_info &lt;-<span class="st"> </span>bullets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(source, bullet, land)
+
+signatures <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sig), <span class="op">!</span><span class="kw">is.na</span>(raw_sig)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">left_join</span>(bullet_info, 
+    <span class="dt">by =</span> <span class="st">&quot;source&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y =</span> raw_sig), <span class="dt">colour =</span> <span class="st">&quot;grey70&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y =</span> sig), <span class="dt">colour =</span> <span class="st">&quot;grey30&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(bullet <span class="op">~</span><span class="st"> </span>land, <span class="dt">labeller =</span> <span class="st">&quot;label_both&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;value&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:bullets-cssigs"></span>
+<img src="open-forensic-science-in-r_files/figure-html/bullets-cssigs-1.png" alt="Signatures for the 12 bullet lands. Light gray lines show the raw data, while the dark gray lines are the smoothed signatures." width="120%" />
+<p class="caption">
+Figure 3.13: Signatures for the 12 bullet lands. Light gray lines show the raw data, while the dark gray lines are the smoothed signatures.
+</p>
+</div>
+<p>Because we are working with 12 signatures, our goal will be to align all pairwise comparisons (36 comparisons total) between the six lands in each bullet. Figure <a href="bullets.html#fig:bullets-csalign">3.14</a> shows the alignment of Bullet 2 Land 3 with Bullet 1 Land 2, two of the known matches. Immediately it is clear that the pattern of the signatures appears very similar between the two lands.</p>
+<pre class="sourceCode r"><code class="sourceCode r">bullets<span class="op">$</span>bulletland &lt;-<span class="st"> </span><span class="kw">paste0</span>(bullets<span class="op">$</span>bullet, <span class="st">&quot;-&quot;</span>, bullets<span class="op">$</span>land)
+lands &lt;-<span class="st"> </span><span class="kw">unique</span>(bullets<span class="op">$</span>bulletland)
+comparisons &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">expand.grid</span>(<span class="dt">land1 =</span> lands, <span class="dt">land2 =</span> lands), <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+
+comparisons &lt;-<span class="st"> </span>comparisons <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">aligned =</span> purrr<span class="op">::</span><span class="kw">map2</span>(<span class="dt">.x =</span> land1, <span class="dt">.y =</span> land2, 
+    <span class="dt">.f =</span> <span class="cf">function</span>(xx, yy) {
+        land1 &lt;-<span class="st"> </span>bullets<span class="op">$</span>sigs[bullets<span class="op">$</span>bulletland <span class="op">==</span><span class="st"> </span>xx][[<span class="dv">1</span>]]
+        land2 &lt;-<span class="st"> </span>bullets<span class="op">$</span>sigs[bullets<span class="op">$</span>bulletland <span class="op">==</span><span class="st"> </span>yy][[<span class="dv">1</span>]]
+        land1<span class="op">$</span>bullet &lt;-<span class="st"> &quot;first-land&quot;</span>
+        land2<span class="op">$</span>bullet &lt;-<span class="st"> &quot;second-land&quot;</span>
+        
+        <span class="kw">sig_align</span>(land1<span class="op">$</span>sig, land2<span class="op">$</span>sig)
+    }))
+
+<span class="kw">subset</span>(comparisons, land1 <span class="op">==</span><span class="st"> &quot;2-3&quot;</span> <span class="op">&amp;</span><span class="st"> </span>land2 <span class="op">==</span><span class="st"> &quot;1-2&quot;</span>)<span class="op">$</span>aligned[[<span class="dv">1</span>]]<span class="op">$</span>lands <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">b2-l3</span><span class="st">`</span> =<span class="st"> </span>sig1, <span class="st">`</span><span class="dt">b1-l2</span><span class="st">`</span> =<span class="st"> </span>sig2) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>sig1, <span class="op">-</span>sig2) <span class="op">%&gt;%</span><span class="st"> </span>tidyr<span class="op">::</span><span class="kw">gather</span>(sigs, 
+    value, <span class="st">`</span><span class="dt">b2-l3</span><span class="st">`</span>, <span class="st">`</span><span class="dt">b1-l2</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> value, <span class="dt">colour =</span> sigs)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Dark2&quot;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:bullets-csalign"></span>
+<img src="open-forensic-science-in-r_files/figure-html/bullets-csalign-1.png" alt="Alignment of two bullet lands (2-3 &amp; 1-2)" width="672" />
+<p class="caption">
+Figure 3.14: Alignment of two bullet lands (2-3 &amp; 1-2)
+</p>
+</div>
+<p>Though the visual evidence is strong, we want to quantify the similarity. To do this, we’re going to use a number of functions which extract features from the aligned signatures of the bullets. We’ll extract the <a href="glossary.html#def:crosscor">cross-correlation</a> (<code>extract_feature_ccf</code>), the <a href="glossary.html#def:matchingstria">matching striation count</a> (<code>bulletxtrctr:::extract_helper_feature_n_striae</code>), the <a href="glossary.html#def:nmatchingstria">non-matching striation count</a>, and many more (<code>extract_feature_*</code>).</p>
+<pre class="sourceCode r"><code class="sourceCode r">comparisons &lt;-<span class="st"> </span>comparisons <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">ccf0 =</span> aligned <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map_dbl</span>(<span class="dt">.f =</span> <span class="cf">function</span>(x) <span class="kw">extract_feature_ccf</span>(x<span class="op">$</span>lands)), 
+    <span class="dt">lag0 =</span> aligned <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map_dbl</span>(<span class="dt">.f =</span> <span class="cf">function</span>(x) <span class="kw">extract_feature_lag</span>(x<span class="op">$</span>lands)), 
+    <span class="dt">D0 =</span> aligned <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map_dbl</span>(<span class="dt">.f =</span> <span class="cf">function</span>(x) <span class="kw">extract_feature_D</span>(x<span class="op">$</span>lands)), 
+    <span class="dt">length0 =</span> aligned <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map_dbl</span>(<span class="dt">.f =</span> <span class="cf">function</span>(x) <span class="kw">extract_feature_length</span>(x<span class="op">$</span>lands)), 
+    <span class="dt">overlap0 =</span> aligned <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map_dbl</span>(<span class="dt">.f =</span> <span class="cf">function</span>(x) <span class="kw">extract_feature_overlap</span>(x<span class="op">$</span>lands)), 
+    <span class="dt">striae =</span> aligned <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map</span>(<span class="dt">.f =</span> sig_cms_max, <span class="dt">span =</span> <span class="dv">75</span>), <span class="dt">cms_per_mm =</span> purrr<span class="op">::</span><span class="kw">map2</span>(striae, 
+        aligned, <span class="dt">.f =</span> <span class="cf">function</span>(s, a) {
+            <span class="kw">extract_feature_cms_per_mm</span>(s<span class="op">$</span>lines, a<span class="op">$</span>lands, <span class="dt">resolution =</span> <span class="fl">1.5625</span>)
+        }), <span class="dt">matches0 =</span> striae <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map_dbl</span>(<span class="dt">.f =</span> <span class="cf">function</span>(s) {
+        bulletxtrctr<span class="op">:::</span><span class="kw">extract_helper_feature_n_striae</span>(s<span class="op">$</span>lines, <span class="dt">type =</span> <span class="st">&quot;peak&quot;</span>, 
+            <span class="dt">match =</span> <span class="ot">TRUE</span>)
+    }), <span class="dt">mismatches0 =</span> striae <span class="op">%&gt;%</span><span class="st"> </span>purrr<span class="op">::</span><span class="kw">map_dbl</span>(<span class="dt">.f =</span> <span class="cf">function</span>(s) {
+        bulletxtrctr<span class="op">:::</span><span class="kw">extract_helper_feature_n_striae</span>(s<span class="op">$</span>lines, <span class="dt">type =</span> <span class="st">&quot;peak&quot;</span>, 
+            <span class="dt">match =</span> <span class="ot">FALSE</span>)
+    }), <span class="dt">bulletA =</span> <span class="kw">gsub</span>(<span class="st">&quot;([1-2])-([1-6])&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">1&quot;</span>, land1), <span class="dt">bulletB =</span> <span class="kw">gsub</span>(<span class="st">&quot;([1-2])-([1-6])&quot;</span>, 
+        <span class="st">&quot;</span><span class="ch">\\</span><span class="st">1&quot;</span>, land2), <span class="dt">landA =</span> <span class="kw">gsub</span>(<span class="st">&quot;([1-2])-([1-6])&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">2&quot;</span>, land1), <span class="dt">landB =</span> <span class="kw">gsub</span>(<span class="st">&quot;([1-2])-([1-6])&quot;</span>, 
+        <span class="st">&quot;</span><span class="ch">\\</span><span class="st">2&quot;</span>, land2))</code></pre>
+<p>We are now ready to begin matching the bullets. We’ll start by looking at Figure <a href="bullets.html#fig:bullets-cscompare">3.15</a>, which aligns the two bullets by bullet land and colors each of the cells (comparisons) by the <a href="glossary.html#def:ccfval">cross-correlation function</a> (CCF) value. Encouragingly, we see a diagonal pattern in the matrix, which is to be expected given the assumption that the bullet scans were collected by rotating the bullet and are stored in rotational order. Note that we are also comparing each land to itself (top left and bottom right) in two of the four panels, which as expected exhibit the highest CCF for matches.</p>
+<pre class="sourceCode r"><code class="sourceCode r">comparisons &lt;-<span class="st"> </span>comparisons <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">features =</span> purrr<span class="op">::</span><span class="kw">map2</span>(<span class="dt">.x =</span> aligned, <span class="dt">.y =</span> striae, 
+    <span class="dt">.f =</span> extract_features_all, <span class="dt">resolution =</span> <span class="fl">1.5625</span>), <span class="dt">legacy_features =</span> purrr<span class="op">::</span><span class="kw">map</span>(striae, 
+    extract_features_all_legacy, <span class="dt">resolution =</span> <span class="fl">1.5625</span>)) <span class="op">%&gt;%</span><span class="st"> </span>tidyr<span class="op">::</span><span class="kw">unnest</span>(legacy_features)
+
+comparisons <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> landA, <span class="dt">y =</span> landB, <span class="dt">fill =</span> ccf)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tile</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_fill_gradient2</span>(<span class="dt">low =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;darkorange&quot;</span>, <span class="dt">midpoint =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">facet_grid</span>(bulletB <span class="op">~</span><span class="st"> </span>bulletA, <span class="dt">labeller =</span> <span class="st">&quot;label_both&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Land A&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Land B&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">aspect.ratio =</span> <span class="dv">1</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:bullets-cscompare"></span>
+<img src="open-forensic-science-in-r_files/figure-html/bullets-cscompare-1.png" alt="Land-to-Land Comparison of the two bullets colored by the CCF." width="672" />
+<p class="caption">
+Figure 3.15: Land-to-Land Comparison of the two bullets colored by the CCF.
+</p>
+</div>
+<p>We can improve upon these results by using a trained random forest, <code>bulletxtrctr::rtrees</code>, which was introduced in <span class="citation">Hare, Hofmann, and Carriquiry (<a href="#ref-hare2017">2017</a>)</span> in order to assess the probability of a match between bullet lands. Figure <a href="bullets.html#fig:bullets-csrf">3.16</a> displays the random forest score, or match probability, of each of the land-to-land comparisons. The results are stronger than using only the CCF in this case.</p>
+<pre class="sourceCode r"><code class="sourceCode r">comparisons<span class="op">$</span>rfscore &lt;-<span class="st"> </span><span class="kw">predict</span>(bulletxtrctr<span class="op">::</span>rtrees, <span class="dt">newdata =</span> comparisons, 
+    <span class="dt">type =</span> <span class="st">&quot;prob&quot;</span>)[, <span class="dv">2</span>]
+
+comparisons <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> landA, <span class="dt">y =</span> landB, <span class="dt">fill =</span> rfscore)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tile</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_fill_gradient2</span>(<span class="dt">low =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;darkorange&quot;</span>, <span class="dt">midpoint =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">facet_grid</span>(bulletB <span class="op">~</span><span class="st"> </span>bulletA, <span class="dt">labeller =</span> <span class="st">&quot;label_both&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Land A&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Land B&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">aspect.ratio =</span> <span class="dv">1</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:bullets-csrf"></span>
+<img src="open-forensic-science-in-r_files/figure-html/bullets-csrf-1.png" alt="Random forest matching probabilities of all land-to-land comparisons." width="672" />
+<p class="caption">
+Figure 3.16: Random forest matching probabilities of all land-to-land comparisons.
+</p>
+</div>
+<p>Finally, we can visualize the accuracy of our comparisons by highlighting the cells in which they were in fact matches (same-source). Figure <a href="bullets.html#fig:bullets-csss">3.17</a> shows this, indicating that for the comparison between the two bullets, a couple of the lands didn’t exhibit a high match probability. With that said, given that the other four lands exhibited a strong probability, this is high evidence these bullets were in fact fired from the same barrel. Methods for bullet-to-bullet matching using the random forest results of land-to-land comparisons are still in development at CSAFE. Currently, sequence average matching (SAM) from <span class="citation">Sensofar Metrology (<a href="#ref-sensofarsam">2016</a>)</span> is used in similar problems to compare the CCF values in sequence (by rotation of the bullet), and methods in development have been using SAM as a baseline.</p>
+<div class="figure" style="text-align: center"><span id="fig:bullets-csss"></span>
+<img src="open-forensic-science-in-r_files/figure-html/bullets-csss-1.png" alt="All Land-to-Land Comparisons of the bullets, highlighting same-source lands." width="672" />
+<p class="caption">
+Figure 3.17: All Land-to-Land Comparisons of the bullets, highlighting same-source lands.
+</p>
+</div>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a></p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-biasotti:1959">
+<p>Biasotti, Alfred A. 1959. “A Statistical Study of the Individual Characteristics of Fired Bullets.” <em>Journal of Forensic Sciences</em> 4 (1): 34–50.</p>
+</div>
+<div id="ref-NAS:2009">
+<p>National Research Council. 2009a. <em>Strengthening Forensic Science in the United States: A Path Forward</em>. Washington, DC: The National Academies Press. <a href="https://doi.org/10.17226/12589">https://doi.org/10.17226/12589</a>.</p>
+</div>
+<div id="ref-x3pr">
+<p>OpenFMC. 2014. <em>X3pr: Read/Write Functionality for X3p Surface Metrology Format</em>. <a href="https://www.openfmc.org/">https://www.openfmc.org/</a>.</p>
+</div>
+<div id="ref-x3ptools">
+<p>Hofmann, Heike, Susan VanderPlas, Ganesh Krishnan, and Eric Hare. 2018. <em>X3ptools: Tools for Working with 3D Surface Measurements</em>. <a href="https://CRAN.R-project.org/package=x3ptools">https://CRAN.R-project.org/package=x3ptools</a>.</p>
+</div>
+<div id="ref-bulletxtrctr">
+<p>Hofmann, Heike, Susan Vanderplas, and Ganesh Krishnan. 2018. <em>Bulletxtrctr: Automatic Matching of Bullet Striae</em>. <a href="https://heike.github.io/bulletxtrctr/">https://heike.github.io/bulletxtrctr/</a>.</p>
+</div>
+<div id="ref-hare2017">
+<p>Hare, Eric, Heike Hofmann, and Alicia Carriquiry. 2017. “Automatic Matching of Bullet Land Impressions.” <em>The Annals of Applied Statistics</em> 11 (4): 2332–56.</p>
+</div>
+<div id="ref-hamby:2009">
+<p>Hamby, James E., David J. Brundage, and James W. Thorpe. 2009. “The Identification of Bullets Fired from 10 Consecutively Rifled 9mm Ruger Pistol Barrels: A Research Project Involving 507 Participants from 20 Countries.” <em>AFTE Journal</em> 41 (2): 99–110.</p>
+</div>
+<div id="ref-afte:1992">
+<p>AFTE Criteria for Identification Committee. 1992b. “Theory of Identification, Range Striae Comparison Reports and Modified Glossary Definitions – Afte Criteria for Identification Committee Report.” <em>AFTE Journal</em> 24 (2): 336–40.</p>
+</div>
+<div id="ref-cleveland:1979">
+<p>Cleveland, William S. 1979. “Robust Locally Weighted Regression and Smoothing Scatterplots.” <em>Journal of the American Statistical Association</em> 74 (368): 829–36. <a href="http://www.jstor.org/stable/2286407">http://www.jstor.org/stable/2286407</a>.</p>
+</div>
+<div id="ref-sensofarsam">
+<p>Sensofar Metrology. 2016. Https://Www.sensofar.com/Wp-Content/Uploads/2016/06/Appnote-Sensomatch-Bullet-Comparison.pdf.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="dnaval.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="casings.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/sctyner/OpenForSciR/edit/master/content/content/pattern-firearms_bullets.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["open-forensic-science-in-r.pdf", "open-forensic-science-in-r.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

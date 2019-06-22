@@ -84,6 +84,7 @@ We can see that there are five elements to the list object returned:
 The two most relevant for our purposes are **header.info** and **surface.matrix**. To begin to understand this container format better, we can use the `image_x3p` function to produce a visualization of the surface, shown in Figure \@ref(fig:bullets-csafelogoscan). <!--In interactive mode, this would be an interactive display. Here we're using the `file` parameter to export as a static image for purposes of viewing in this book, shown in Figure \@ref(fig:bullets-csafelogoscan).-->
 
 ```{r getWebGL, echo=FALSE, message = FALSE, warning = FALSE,fig.show='hide'}
+library(rgl)
 logo_small <- sample_x3p(logo, m = 2)
 image_x3p(logo_small)
 filename <- writeWebGL(dir = file.path("img", "3dlogo"), 

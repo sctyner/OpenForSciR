@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>References | Open Forensic Science in R</title>
+  <meta name="description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="References | Open Forensic Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  <meta name="github-repo" content="sctyner/openforscir" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="References | Open Forensic Science in R" />
+  
+  <meta name="twitter:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  
+
+<meta name="author" content="Editor: Sam Tyner, Ph.D.">
+
+
+<meta name="date" content="2019-06-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="glossary.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.5/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Open Forensic Science in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prologue</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a><ul>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#sam-tyner-ph.d."><i class="fa fa-check"></i>Sam Tyner, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#heike-hofmann-ph.d."><i class="fa fa-check"></i>Heike Hofmann, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#soyoung-park-ph.d."><i class="fa fa-check"></i>Soyoung Park, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#eric-hare-ph.d."><i class="fa fa-check"></i>Eric Hare, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#xiao-hui-tai"><i class="fa fa-check"></i>Xiao Hui Tai</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-kafadar-ph.d."><i class="fa fa-check"></i>Karen Kafadar, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-pan"><i class="fa fa-check"></i>Karen Pan</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#amanda-luby"><i class="fa fa-check"></i>Amanda Luby</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#ganesh-krishnan-m.sc."><i class="fa fa-check"></i>Ganesh Krishnan, M.Sc.</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#r-packages"><i class="fa fa-check"></i><b>1.1</b> R Packages</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#terminology-and-definitions"><i class="fa fa-check"></i><b>1.2</b> Terminology and Definitions</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#forscip"><i class="fa fa-check"></i><b>1.3</b> Forensic Science Problems</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dnaval.html"><a href="dnaval.html"><i class="fa fa-check"></i><b>2</b> Validation of DNA Interpretation Systems</a><ul>
+<li class="chapter" data-level="" data-path="dnaval.html"><a href="dnaval.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="2.1" data-path="dnaval.html"><a href="dnaval.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="dnaval.html"><a href="dnaval.html#procedure-for-dna-analysis-using-strs"><i class="fa fa-check"></i><b>2.1.1</b> Procedure for DNA Analysis using STRs</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="dnaval.html"><a href="dnaval.html#data"><i class="fa fa-check"></i><b>2.2</b> Data</a></li>
+<li class="chapter" data-level="2.3" data-path="dnaval.html"><a href="dnaval.html#r-package"><i class="fa fa-check"></i><b>2.3</b> R Package</a></li>
+<li class="chapter" data-level="2.4" data-path="dnaval.html"><a href="dnaval.html#drawing-conclusions"><i class="fa fa-check"></i><b>2.4</b> Drawing Conclusions</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="dnaval.html"><a href="dnaval.html#stutter-ratio"><i class="fa fa-check"></i><b>2.4.1</b> Stutter ratio</a></li>
+<li class="chapter" data-level="2.4.2" data-path="dnaval.html"><a href="dnaval.html#heterozygote-balance"><i class="fa fa-check"></i><b>2.4.2</b> Heterozygote balance</a></li>
+<li class="chapter" data-level="2.4.3" data-path="dnaval.html"><a href="dnaval.html#inter-locus-balance"><i class="fa fa-check"></i><b>2.4.3</b> Inter-locus balance</a></li>
+<li class="chapter" data-level="2.4.4" data-path="dnaval.html"><a href="dnaval.html#stochastic-threshold"><i class="fa fa-check"></i><b>2.4.4</b> Stochastic threshold</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="dnaval.html"><a href="dnaval.html#case-study"><i class="fa fa-check"></i><b>2.5</b> Case Study</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="dnaval.html"><a href="dnaval.html#get-the-data"><i class="fa fa-check"></i><b>2.5.1</b> Get the data</a></li>
+<li class="chapter" data-level="2.5.2" data-path="dnaval.html"><a href="dnaval.html#check-the-stutter-ratio"><i class="fa fa-check"></i><b>2.5.2</b> Check the stutter ratio</a></li>
+<li class="chapter" data-level="2.5.3" data-path="dnaval.html"><a href="dnaval.html#check-heterozygote-balance-intra-locus-balance"><i class="fa fa-check"></i><b>2.5.3</b> Check heterozygote balance (intra-locus balance)</a></li>
+<li class="chapter" data-level="2.5.4" data-path="dnaval.html"><a href="dnaval.html#check-inter-locus-balance"><i class="fa fa-check"></i><b>2.5.4</b> Check inter-locus balance</a></li>
+<li class="chapter" data-level="2.5.5" data-path="dnaval.html"><a href="dnaval.html#check-stochastic-threshold"><i class="fa fa-check"></i><b>2.5.5</b> Check stochastic threshold</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="bullets.html"><a href="bullets.html"><i class="fa fa-check"></i><b>3</b> Firearms: bullets</a><ul>
+<li class="chapter" data-level="3.1" data-path="bullets.html"><a href="bullets.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="bullets.html"><a href="bullets.html#data-1"><i class="fa fa-check"></i><b>3.2</b> Data</a></li>
+<li class="chapter" data-level="3.3" data-path="bullets.html"><a href="bullets.html#r-packages-1"><i class="fa fa-check"></i><b>3.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="bullets.html"><a href="bullets.html#x3ptools"><i class="fa fa-check"></i><b>3.3.1</b> x3ptools</a></li>
+<li class="chapter" data-level="3.3.2" data-path="bullets.html"><a href="bullets.html#bulletxtrctr"><i class="fa fa-check"></i><b>3.3.2</b> <code>bulletxtrctr</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="bullets.html"><a href="bullets.html#drawing-conclusions-1"><i class="fa fa-check"></i><b>3.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="3.5" data-path="bullets.html"><a href="bullets.html#case-study-1"><i class="fa fa-check"></i><b>3.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="casings.html"><a href="casings.html"><i class="fa fa-check"></i><b>4</b> Firearms: casings</a><ul>
+<li class="chapter" data-level="4.1" data-path="casings.html"><a href="casings.html#introduction-2"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="casings.html"><a href="casings.html#data-2"><i class="fa fa-check"></i><b>4.2</b> Data</a></li>
+<li class="chapter" data-level="4.3" data-path="casings.html"><a href="casings.html#r-packages-2"><i class="fa fa-check"></i><b>4.3</b> R Package(s)</a></li>
+<li class="chapter" data-level="4.4" data-path="casings.html"><a href="casings.html#casings-conclusions"><i class="fa fa-check"></i><b>4.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="4.5" data-path="casings.html"><a href="casings.html#casings-caseStudy"><i class="fa fa-check"></i><b>4.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fingerprints.html"><a href="fingerprints.html"><i class="fa fa-check"></i><b>5</b> Latent Fingerprints</a><ul>
+<li class="chapter" data-level="5.1" data-path="fingerprints.html"><a href="fingerprints.html#introduction-3"><i class="fa fa-check"></i><b>5.1</b> Introduction</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement"><i class="fa fa-check"></i><b>5.1.1</b> Contrast Gradient Quality Measurement</a></li>
+<li class="chapter" data-level="5.1.2" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement-illustration"><i class="fa fa-check"></i><b>5.1.2</b> Contrast Gradient Quality Measurement Illustration</a></li>
+<li class="chapter" data-level="5.1.3" data-path="fingerprints.html"><a href="fingerprints.html#test-for-usable-quality"><i class="fa fa-check"></i><b>5.1.3</b> Test for Usable Quality</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="fingerprints.html"><a href="fingerprints.html#data-3"><i class="fa fa-check"></i><b>5.2</b> Data</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="fingerprints.html"><a href="fingerprints.html#ace-v-and-afis"><i class="fa fa-check"></i><b>5.2.1</b> ACE-V and AFIS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="fingerprints.html"><a href="fingerprints.html#r-package-1"><i class="fa fa-check"></i><b>5.3</b> R Package</a></li>
+<li class="chapter" data-level="5.4" data-path="fingerprints.html"><a href="fingerprints.html#drawing-conclusions-2"><i class="fa fa-check"></i><b>5.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="5.5" data-path="fingerprints.html"><a href="fingerprints.html#case-study-2"><i class="fa fa-check"></i><b>5.5</b> Case Study</a><ul>
+<li class="chapter" data-level="" data-path="fingerprints.html"><a href="fingerprints.html#acknowledgements-1"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shoe.html"><a href="shoe.html"><i class="fa fa-check"></i><b>6</b> Shoe Outsole Impression Evidence</a><ul>
+<li class="chapter" data-level="6.1" data-path="shoe.html"><a href="shoe.html#introduction-4"><i class="fa fa-check"></i><b>6.1</b> Introduction</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="shoe.html"><a href="shoe.html#sources-of-variability-in-shoe-outsole-impressions"><i class="fa fa-check"></i><b>6.1.1</b> Sources of variability in shoe outsole impressions</a></li>
+<li class="chapter" data-level="6.1.2" data-path="shoe.html"><a href="shoe.html#current-practice"><i class="fa fa-check"></i><b>6.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="6.1.3" data-path="shoe.html"><a href="shoe.html#goal-of-this-chapter"><i class="fa fa-check"></i><b>6.1.3</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="shoe.html"><a href="shoe.html#data-4"><i class="fa fa-check"></i><b>6.2</b> Data</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="shoe.html"><a href="shoe.html#data-collection"><i class="fa fa-check"></i><b>6.2.1</b> Data collection</a></li>
+<li class="chapter" data-level="6.2.2" data-path="shoe.html"><a href="shoe.html#transformation-of-shoe-image"><i class="fa fa-check"></i><b>6.2.2</b> Transformation of shoe image</a></li>
+<li class="chapter" data-level="6.2.3" data-path="shoe.html"><a href="shoe.html#definition-of-classes"><i class="fa fa-check"></i><b>6.2.3</b> Definition of classes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="shoe.html"><a href="shoe.html#r-packages-3"><i class="fa fa-check"></i><b>6.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="shoe.html"><a href="shoe.html#one-subarea-matching"><i class="fa fa-check"></i><b>6.3.1</b> One subarea matching</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="shoe.html"><a href="shoe.html#drawing-conclusions-3"><i class="fa fa-check"></i><b>6.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="6.5" data-path="shoe.html"><a href="shoe.html#shoe-case-study"><i class="fa fa-check"></i><b>6.5</b> Case Study</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="shoe.html"><a href="shoe.html#sec:shoeqk1"><i class="fa fa-check"></i><b>6.5.1</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_1\)</span></a></li>
+<li class="chapter" data-level="6.5.2" data-path="shoe.html"><a href="shoe.html#compare-q-and-k_2"><i class="fa fa-check"></i><b>6.5.2</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_2\)</span></a></li>
+<li class="chapter" data-level="6.5.3" data-path="shoe.html"><a href="shoe.html#interpreting-comparisons-between-q-k_1-and-q-k_2"><i class="fa fa-check"></i><b>6.5.3</b> Interpreting Comparisons between <span class="math inline">\(Q, K_1\)</span> and <span class="math inline">\(Q, K_2\)</span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="glass.html"><a href="glass.html"><i class="fa fa-check"></i><b>7</b> Trace glass evidence: chemical composition</a><ul>
+<li class="chapter" data-level="7.1" data-path="glass.html"><a href="glass.html#introduction-5"><i class="fa fa-check"></i><b>7.1</b> Introduction</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="glass.html"><a href="glass.html#problems-of-interest"><i class="fa fa-check"></i><b>7.1.1</b> Problems of interest</a></li>
+<li class="chapter" data-level="7.1.2" data-path="glass.html"><a href="glass.html#current-practice-1"><i class="fa fa-check"></i><b>7.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="7.1.3" data-path="glass.html"><a href="glass.html#comparing-glass-fragments"><i class="fa fa-check"></i><b>7.1.3</b> Comparing glass fragments</a></li>
+<li class="chapter" data-level="7.1.4" data-path="glass.html"><a href="glass.html#goal-of-this-chapter-1"><i class="fa fa-check"></i><b>7.1.4</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="glass.html"><a href="glass.html#data-5"><i class="fa fa-check"></i><b>7.2</b> Data</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="glass.html"><a href="glass.html#chemical-composition-of-glass"><i class="fa fa-check"></i><b>7.2.1</b> Chemical composition of glass</a></li>
+<li class="chapter" data-level="7.2.2" data-path="glass.html"><a href="glass.html#data-source"><i class="fa fa-check"></i><b>7.2.2</b> Data source</a></li>
+<li class="chapter" data-level="7.2.3" data-path="glass.html"><a href="glass.html#data-structure"><i class="fa fa-check"></i><b>7.2.3</b> Data structure</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="glass.html"><a href="glass.html#glass_rpkgs"><i class="fa fa-check"></i><b>7.3</b> R Packages</a></li>
+<li class="chapter" data-level="7.4" data-path="glass.html"><a href="glass.html#drawing-conclusions-4"><i class="fa fa-check"></i><b>7.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="7.5" data-path="glass.html"><a href="glass.html#case-study-3"><i class="fa fa-check"></i><b>7.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="decision-making.html"><a href="decision-making.html"><i class="fa fa-check"></i><b>8</b> Decision-making in Forensic Identification Tasks</a><ul>
+<li class="chapter" data-level="8.1" data-path="decision-making.html"><a href="decision-making.html#introduction-6"><i class="fa fa-check"></i><b>8.1</b> Introduction</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="decision-making.html"><a href="decision-making.html#irt"><i class="fa fa-check"></i><b>8.1.1</b> A Brief Overview of Item Response Models</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="decision-making.html"><a href="decision-making.html#humans-data"><i class="fa fa-check"></i><b>8.2</b> Data</a></li>
+<li class="chapter" data-level="8.3" data-path="decision-making.html"><a href="decision-making.html#rpackages"><i class="fa fa-check"></i><b>8.3</b> R Packages</a></li>
+<li class="chapter" data-level="8.4" data-path="decision-making.html"><a href="decision-making.html#humans-conclusions"><i class="fa fa-check"></i><b>8.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="8.5" data-path="decision-making.html"><a href="decision-making.html#casestudy"><i class="fa fa-check"></i><b>8.5</b> Case Study</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="decision-making.html"><a href="decision-making.html#fitting-the-irt-model"><i class="fa fa-check"></i><b>8.5.1</b> Fitting the IRT model</a></li>
+<li class="chapter" data-level="8.5.2" data-path="decision-making.html"><a href="decision-making.html#irt-complements-an-error-rate-analysis"><i class="fa fa-check"></i><b>8.5.2</b> IRT complements an error rate analysis</a></li>
+<li class="chapter" data-level="8.5.3" data-path="decision-making.html"><a href="decision-making.html#scoring-method-affects-proficiency-estimates"><i class="fa fa-check"></i><b>8.5.3</b> Scoring method affects proficiency estimates</a></li>
+<li class="chapter" data-level="8.5.4" data-path="decision-making.html"><a href="decision-making.html#discussion"><i class="fa fa-check"></i><b>8.5.4</b> Discussion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="acknowledgements-2.html"><a href="acknowledgements-2.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="glossary.html"><a href="glossary.html"><i class="fa fa-check"></i><b>A</b> Glossary</a><ul>
+<li class="chapter" data-level="A.1" data-path="glossary.html"><a href="glossary.html#introduction-7"><i class="fa fa-check"></i><b>A.1</b> Introduction</a></li>
+<li class="chapter" data-level="A.2" data-path="glossary.html"><a href="glossary.html#validation-of-dna-interpretation-systems"><i class="fa fa-check"></i><b>A.2</b> Validation of DNA Interpretation Systems</a></li>
+<li class="chapter" data-level="A.3" data-path="glossary.html"><a href="glossary.html#firearms-bullets"><i class="fa fa-check"></i><b>A.3</b> Firearms: bullets</a></li>
+<li class="chapter" data-level="A.4" data-path="glossary.html"><a href="glossary.html#firearms-casings"><i class="fa fa-check"></i><b>A.4</b> Firearms: casings</a></li>
+<li class="chapter" data-level="A.5" data-path="glossary.html"><a href="glossary.html#latent-fingerprints"><i class="fa fa-check"></i><b>A.5</b> Latent Fingerprints</a></li>
+<li class="chapter" data-level="A.6" data-path="glossary.html"><a href="glossary.html#shoe-outsole-impression-evidence"><i class="fa fa-check"></i><b>A.6</b> Shoe Outsole Impression Evidence</a></li>
+<li class="chapter" data-level="A.7" data-path="glossary.html"><a href="glossary.html#trace-glass-evidence"><i class="fa fa-check"></i><b>A.7</b> Trace Glass Evidence</a></li>
+<li class="chapter" data-level="A.8" data-path="glossary.html"><a href="glossary.html#decision-making-in-forensic-identification-tasks"><i class="fa fa-check"></i><b>A.8</b> Decision-making in Forensic Identification Tasks</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Open Forensic Science in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+
+<div id="refs" class="references">
+<div>
+<p>Adler, Daniel, and Duncan Murdoch. 2019. <em>Rgl: 3D Visualization Using Opengl</em>. <a href="https://CRAN.R-project.org/package=rgl">https://CRAN.R-project.org/package=rgl</a>.</p>
+</div>
+<div>
+<p>AFTE Criteria for Identification Committee. 1992a. “Theory of Identification, Range of Striae Comparison Reports, and Modified Glossary Definitions – an AFTE Criteria for Identification Committee Report.” <em>AFTE Journal</em> 24 (2): 336–40.</p>
+</div>
+<div>
+<p>———. 1992b. “Theory of Identification, Range Striae Comparison Reports and Modified Glossary Definitions – Afte Criteria for Identification Committee Report.” <em>AFTE Journal</em> 24 (2): 336–40.</p>
+</div>
+<div>
+<p>ASTM-E2330-12. 2012. “Standard Test Method for Determination of Concentrations of Elements in Glass Samples Using Inductively Coupled Plasma Mass Spectrometry (ICP-MS) for Forensic Comparisons, Retrieved from Https://Doi.org/10.1520/E2330-12.” ASTM International.</p>
+</div>
+<div>
+<p>ASTM-E2927-16. 2016. “Standard Test Method for Determination of Trace Elements in Soda-Lime Glass Samples Using Laser Ablation Inductively Coupled Plasma Mass Spectrometry for Forensic Comparisons, Retrieved from Https://Doi.org/10.1520/E2927-16.” ASTM International.</p>
+</div>
+<div>
+<p>Biasotti, Alfred A. 1959. “A Statistical Study of the Individual Characteristics of Fired Bullets.” <em>Journal of Forensic Sciences</em> 4 (1): 34–50.</p>
+</div>
+<div>
+<p>Bodziak, William J. 2017. <em>Footwear Impression Evidence: Detection, Recovery and Examination</em>. CRC Press.</p>
+</div>
+<div>
+<p>Bodziak, William J. 1986. “Manufacturing Processes for Athletic Shoe Outsoles and Their Significance in the Examination of Footwear Impression Evidence.” <em>Journal of Forensic Science</em> 31 (1): 153–76.</p>
+</div>
+<div>
+<p>Boeck, Paul de, and Mark Wilson. 2004. <em>Explanatory Item Response Models: A Generalized Linear and Nonlinear Approach</em>. New York: Springer.</p>
+</div>
+<div>
+<p>Bond, John W. 2008. “Visualization of Latent Fingerprint Corrosion of Metallic Surfaces.” <em>Journal of Forensic Sciences</em> 53(4): 812–22. <a href="https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1556-4029.2008.00738.x">https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1556-4029.2008.00738.x</a>.</p>
+</div>
+<div>
+<p>Bottrell, Maureen C. 2009. “Forensic Glass Comparison: Background Information Used in Data Interpretation. (Report).” <em>Forensic Science Communications</em> 11 (2). <a href="https://archives.fbi.gov/archives/about-us/lab/forensic-science-communications/fsc/april2009/review">https://archives.fbi.gov/archives/about-us/lab/forensic-science-communications/fsc/april2009/review</a>.</p>
+</div>
+<div>
+<p>Brookes, Clare, Jo-Anne Bright, SallyAnn Harbison, and John Buckleton. 2012. “Characterising Stutter in Forensic Str Multiplexes.” <em>Forensic Science International: Genetics</em> 6 (1): 58–63.</p>
+</div>
+<div>
+<p>Butler, John M. 2005. <em>Forensic Dna Typing: Biology, Technology, and Genetics of Str Markers</em>. 2nd ed. Elsevier Academic Press.</p>
+</div>
+<div>
+<p>———. 2009. <em>Fundamentals of Forensic DNA Typing</em>. Elsevier Academic Press.</p>
+</div>
+<div>
+<p>Butler, John M., Carolyn R. Hill, and Michael D. Coble. 2012. “Variability of New Str Loci and Kits in Us Population Groups.” <em>Promega Corporation Web Site: Profiles in DNA</em>.</p>
+</div>
+<div>
+<p>Cleveland, William S. 1979. “Robust Locally Weighted Regression and Smoothing Scatterplots.” <em>Journal of the American Statistical Association</em> 74 (368): 829–36. <a href="http://www.jstor.org/stable/2286407">http://www.jstor.org/stable/2286407</a>.</p>
+</div>
+<div>
+<p>Cook, R., I.W. Evett, G. Jackson, P.J. Jones, and J.A. Lambert. 1998. “A Hierarchy of Propositions: Deciding Which Level to Address in Casework.” <em>Science &amp; Justice</em> 38 (4): 231–39.</p>
+</div>
+<div>
+<p>Cook, Roger, Ian W Evett, Graham Jackson, PJ Jones, and JA Lambert. 1998. “A Hierarchy of Propositions: Deciding Which Level to Address in Casework.” <em>Science &amp; Justice</em> 38 (4): 231–39.</p>
+</div>
+<div>
+<p>CSAFE. 2019. “Longitudinal Shoe Study Database.”</p>
+</div>
+<div>
+<p>Curran, James Michael, Tacha Natalie Hicks, and John S. Buckleton. 2000. <em>Forensic Interpretation of Glass Evidence</em>. CRC Press.</p>
+</div>
+<div>
+<p>Dror, Itiel E, David Charlton, and Ailsa E Péron. 2006. “Contextual Information Renders Experts Vulnerable to Making Erroneous Identifications.” <em>Forensic Science International</em> 156 (1): 74–78.</p>
+</div>
+<div>
+<p>Dror, Itiel E, and Simon A Cole. 2010. “The Vision in ‘Blind’ Justice: Expert Perception, Judgment, and Visual Cognition in Forensic Pattern Recognition.” <em>Psychonomic Bulletin &amp; Review</em> 17 (2): 161–67.</p>
+</div>
+<div>
+<p>Dror, Itiel E, and Robert Rosenthal. 2008. “Meta-Analytically Quantifying the Reliability and Biasability of Forensic Experts.” <em>Journal of Forensic Sciences</em> 53 (4): 900–903.</p>
+</div>
+<div>
+<p>FBI. 2017. “Frequently Asked Questions on Codis and Ndis.” 2017. <a href="https://www.fbi.gov/services/laboratory/biometric-analysis/codis/codis-and-ndis-fact-sheet">https://www.fbi.gov/services/laboratory/biometric-analysis/codis/codis-and-ndis-fact-sheet</a>.</p>
+</div>
+<div>
+<p>Fischer, Gerhard H, and Ivo W Molenaar. 2012. <em>Rasch Models: Foundations, Recent Developments, and Applications</em>. New York: Springer Science &amp; Business Media.</p>
+</div>
+<div>
+<p>Fiumara, Greg. 2018. “The Making of Nist Special Database 302.”</p>
+</div>
+<div>
+<p>Friction Ridge Analysis Study, Scientific Working Group on, and Technology. 2012. “Standard for the Documentation of Analysis, Comparison, Evaluation, and Verification (Ace-V) (Latent).” <a href="http://clpex.com/swgfast/documents/documentation/121124_Standard-Documentation-ACE-V_2.0.pdf">http://clpex.com/swgfast/documents/documentation/121124_Standard-Documentation-ACE-V_2.0.pdf</a>.</p>
+</div>
+<div>
+<p>Friedman, Jerome, Trevor Hastie, and Robert Tibshirani. 2001. <em>The Elements of Statistical Learning</em>. Vol. 1. 10. Springer series in statistics New York.</p>
+</div>
+<div>
+<p>Galton, Francis. 1892. <em>Finger Prints</em>. Macmillan; Company.</p>
+</div>
+<div>
+<p>Gelman, Andrew, John B. Carlin, Hal S. Stern, David B. Dunson, Aki Vehtari, and Donald B. Rubin. 2013. <em>Bayesian Data Analysis</em>. Third. Taylor &amp; Francis.</p>
+</div>
+<div>
+<p>Geradts, Zeno J, Jurrien Bijhold, Rob Hermsen, and Fionn Murtagh. 2001. “Image Matching Algorithms for Breech Face Marks and Firing Pins in a Database of Spent Cartridge Cases of Firearms.” <em>Forensic Science International</em> 119 (1): 97–106.</p>
+</div>
+<div>
+<p>Gill, Peter, R Sparkes, and C Kimpton. 1997. “Development of Guidelines to Designate Alleles Using an STR Multiplex System.” <em>Forensic Science International</em> 89 (3): 185–97.</p>
+</div>
+<div>
+<p>Guo, Jiqiang, Jonah Gabry, and Ben Goodrich. 2018. <em>Rstan: R Interface to Stan</em>. <a href="https://CRAN.R-project.org/package=rstan">https://CRAN.R-project.org/package=rstan</a>.</p>
+</div>
+<div>
+<p>Hamby, James E., David J. Brundage, and James W. Thorpe. 2009. “The Identification of Bullets Fired from 10 Consecutively Rifled 9mm Ruger Pistol Barrels: A Research Project Involving 507 Participants from 20 Countries.” <em>AFTE Journal</em> 41 (2): 99–110.</p>
+</div>
+<div>
+<p>Hansson, Oskar. 2018. “STR-Validator.” May 2018. <a href="https://sites.google.com/site/forensicapps/strvalidator">https://sites.google.com/site/forensicapps/strvalidator</a>.</p>
+</div>
+<div>
+<p>Hansson, Oskar, Peter Gill, and Thore Egeland. 2014. “STR-Validator: An Open Source Platform for Validation and Process Control.” <em>Forensic Science International: Genetics</em> 13: 154–66. <a href="https://doi.org/10.1016/j.fsigen.2014.07.009">https://doi.org/10.1016/j.fsigen.2014.07.009</a>.</p>
+</div>
+<div>
+<p>Hare, Eric, Heike Hofmann, and Alicia Carriquiry. 2017. “Automatic Matching of Bullet Land Impressions.” <em>The Annals of Applied Statistics</em> 11 (4): 2332–56.</p>
+</div>
+<div>
+<p>Hare, Eric R. 2017. “Statistical Methods for Bullet Matching.” PhD thesis, https://lib.dr.iastate.edu/cgi/viewcontent.cgi?article=6322&amp;context=etd: Iowa State University.</p>
+</div>
+<div>
+<p>Henry, Lionel, and Hadley Wickham. 2019. <em>Purrr: Functional Programming Tools</em>. <a href="https://CRAN.R-project.org/package=purrr">https://CRAN.R-project.org/package=purrr</a>.</p>
+</div>
+<div>
+<p>Hepler, Amanda B, Christopher P Saunders, Linda J Davis, and JoAnn Buscaglia. 2012. “Score-Based Likelihood Ratios for Handwriting Evidence.” <em>Forensic Science International</em> 219 (1-3): 129–40.</p>
+</div>
+<div>
+<p>Hicklin, R. A., J. Buscaglia, M. A. Roberts, S. B. Meagher, W. Fellner, M. J. Burge, M. Monaco, et al. 2011. “Latent Fingerprint Quality: A Survey of Examiners.” <em>Journal of Forensic Identification</em> 61(4): 385–418. <a href="https://search.proquest.com/openview/c5ae411f5ed9ded6371f0b9b4c32774b/1?cbl=29772&amp;pq-origsite=gscholar">https://search.proquest.com/openview/c5ae411f5ed9ded6371f0b9b4c32774b/1?cbl=29772&amp;pq-origsite=gscholar</a>.</p>
+</div>
+<div>
+<p>Hill, Carolyn R, David L Duewer, Margaret C Kline, Cynthia J Sprecher, Robert S McLaren, Dawn R Rabbach, Benjamin E Krenke, et al. 2011. “Concordance and Population Studies Along with Stutter and Peak Height Ratio Analysis for the Powerplex Esx 17 and Esi 17 Systems.” <em>Forensic Science International: Genetics</em> 5 (4): 269–75.</p>
+</div>
+<div>
+<p>Hofmann, Heike, Susan Vanderplas, and Ganesh Krishnan. 2018. <em>Bulletxtrctr: Automatic Matching of Bullet Striae</em>. <a href="https://heike.github.io/bulletxtrctr/">https://heike.github.io/bulletxtrctr/</a>.</p>
+</div>
+<div>
+<p>Hofmann, Heike, Susan VanderPlas, Ganesh Krishnan, and Eric Hare. 2018. <em>X3ptools: Tools for Working with 3D Surface Measurements</em>. <a href="https://CRAN.R-project.org/package=x3ptools">https://CRAN.R-project.org/package=x3ptools</a>.</p>
+</div>
+<div>
+<p>INTERPOL. n.d. “Forensics – Fingerprints.” <a href="https://www.interpol.int/INTERPOL-expertise/Forensics/Fingerprints">https://www.interpol.int/INTERPOL-expertise/Forensics/Fingerprints</a>.</p>
+</div>
+<div>
+<p>Investigation, US Federal Bureau of. n.d.a. “FBI – Iafis.” <a href="https://web.archive.org/web/20160612100902/https://www.fbi.gov/about-us/cjis/fingerprints_biometrics/iafis/iafis">https://web.archive.org/web/20160612100902/https://www.fbi.gov/about-us/cjis/fingerprints_biometrics/iafis/iafis</a>.</p>
+</div>
+<div>
+<p>———. n.d.b. “Privacy Impact Assessment Integrated Automated Fingerprint Identification System (Iafis)/Next Generation Identification (Ngi) Biometric Interoperability.” <a href="https://www.fbi.gov/services/information-management/foipa/privacy-impact-assessments/iafis-ngi-biometric-interoperability">https://www.fbi.gov/services/information-management/foipa/privacy-impact-assessments/iafis-ngi-biometric-interoperability</a>.</p>
+</div>
+<div>
+<p>Jed Wing, Max Kuhn. Contributions from, Steve Weston, Andre Williams, Chris Keefer, Allan Engelhardt, Tony Cooper, Zachary Mayer, et al. 2018. <em>Caret: Classification and Regression Training</em>. <a href="https://CRAN.R-project.org/package=caret">https://CRAN.R-project.org/package=caret</a>.</p>
+</div>
+<div>
+<p>Kafadar, Karen, and Karen Pan. 2019. <em>Fingerprintr: A Quality Metric for Fingerprints</em>.</p>
+</div>
+<div>
+<p>Kassambara, Alboukadel. 2018. <em>Ggpubr: ’Ggplot2’ Based Publication Ready Plots</em>. <a href="https://CRAN.R-project.org/package=ggpubr">https://CRAN.R-project.org/package=ggpubr</a>.</p>
+</div>
+<div>
+<p>Kerkhoff, W., R.D. Stoel, C.E.H. Berger, E.J.A.T. Mattijssen, R. Hermsen, N. Smits, and H.J.J. Hardy. 2015. “Design and Results of an Exploratory Double Blind Testing Program in Firearms Examination.” <em>Science &amp; Justice</em> 55 (6): 514–19. <a href="https://doi.org/https://doi.org/10.1016/j.scijus.2015.06.007">https://doi.org/https://doi.org/10.1016/j.scijus.2015.06.007</a>.</p>
+</div>
+<div>
+<p>Lightstone, Laura. 2010. “The Potential for and Persistence of Subclass Characteristics on the Breech Faces of SW40VE Smith &amp; Wesson Sigma Pistols.” <em>AFTE Journal</em> 42 (4): 308–22.</p>
+</div>
+<div>
+<p>Liu, Yao-Yuan, and SallyAnn Harbison. 2018. “A Review of Bioinformatic Methods for Forensic DNA Analyses.” <em>Forensic Science International: Genetics</em> 33: 117–28.</p>
+</div>
+<div>
+<p>Lord, Frederic M. 1980. <em>Applications of Item Response Theory to Practical Testing Problems</em>. Hillsdale, NJ: Erlbaum.</p>
+</div>
+<div>
+<p>Luby, Amanda. 2019. <em>BlackboxstudyR: Fits Basic Irt Models to Fbi Black Box Data</em>.</p>
+</div>
+<div>
+<p>Luby, Amanda S, and Joseph B Kadane. 2018. “Proficiency Testing of Fingerprint Examiners with Bayesian Item Response Theory.” <em>Law, Probability and Risk</em> 17 (2): 111–21.</p>
+</div>
+<div>
+<p>Masters, Geoff N. 1982. “A Rasch Model for Partial Credit Scoring.” <em>Psychometrika</em> 47 (2): 149–74.</p>
+</div>
+<div>
+<p>National Institute of Standards and Technology. n.d. <em>ANSI/Nist Itl-1:2011, American National Standard for Information Systems Data Format for the Interchange of Fingerprint, Facial &amp; Other Biometric Information</em>.</p>
+</div>
+<div>
+<p>National Research Council. 2009a. <em>Strengthening Forensic Science in the United States: A Path Forward</em>. Washington, DC: The National Academies Press. <a href="https://doi.org/10.17226/12589">https://doi.org/10.17226/12589</a>.</p>
+</div>
+<div>
+<p>———. 2009b. <em>Strengthening Forensic Science in the United States: A Path Forward</em>. Washington, D.C.: The National Academies Press.</p>
+</div>
+<div>
+<p>Neuwirth, Erich. 2014. <em>RColorBrewer: ColorBrewer Palettes</em>. <a href="https://CRAN.R-project.org/package=RColorBrewer">https://CRAN.R-project.org/package=RColorBrewer</a>.</p>
+</div>
+<div>
+<p>NIST. n.d. “Biometric Special Databases and Software.” <a href="https://www.nist.gov/itl/iad/image-group/resources/biometric-special-databases-and-software#Fingerprint">https://www.nist.gov/itl/iad/image-group/resources/biometric-special-databases-and-software#Fingerprint</a>.</p>
+</div>
+<div>
+<p>Ommen, Danica M, Christopher P Saunders, and Cedric Neumann. 2015. “A Note on the Specific Source Identification Problem in Forensic Science in the Presence of Uncertainty About the Background Population.” <em>arXiv Preprint arXiv:1503.08234</em>. <a href="https://arxiv.org/abs/1503.08234">https://arxiv.org/abs/1503.08234</a>.</p>
+</div>
+<div>
+<p>OpenFMC. 2014. <em>X3pr: Read/Write Functionality for X3p Surface Metrology Format</em>. <a href="https://www.openfmc.org/">https://www.openfmc.org/</a>.</p>
+</div>
+<div>
+<p>Park, Soyoung. 2018. “Learning Algorithms for Forensic Science Applications.” PhD thesis, Iowa State University.</p>
+</div>
+<div>
+<p>Park, Soyoung, and Alicia Carriquiry. 2019a. “Learning Algorithms to Evaluate Forensic Glass Evidence.” <em>Annals of Applied Statistics</em>. <a href="https://www.e-publications.org/ims/submission/AOAS/user/submissionFile/36724?confirm=02d8a608">https://www.e-publications.org/ims/submission/AOAS/user/submissionFile/36724?confirm=02d8a608</a>.</p>
+</div>
+<div>
+<p>———. 2019b. <em>Shoeprintr: Performs an Automated Statistical Matching of Two Shoeprints</em>.</p>
+</div>
+<div>
+<p>PCAST, President’s Council of Advisors on Science and Technology. 2016. “Forensic Science in Criminal Courts: Ensuring Scientific Validity of Feature-Comparison Methods.” Executive Office of The President’s Council of Advisors on Science; Technology, Washington DC.</p>
+</div>
+<div>
+<p>Pedersen, Thomas Lin. 2017. <em>Patchwork: The Composer of Ggplots</em>. <a href="https://github.com/thomasp85/patchwork">https://github.com/thomasp85/patchwork</a>.</p>
+</div>
+<div>
+<p>Peskin, A., and K. Kafadar. n.d. “A New Measurement for the Quality of Individual Minutiae in Latent Fingerprints.”</p>
+</div>
+<div>
+<p>President’s Council of Advisors on Science and Technology. 2016. <em>Report to the President on Forensic Science in Criminal Courts: Ensuring Scientific Validity of Feature-Comparison Methods</em>. Washington, D.C.: Executive Office of the President.</p>
+</div>
+<div>
+<p>Rasch, Georg. 1960. <em>Probabilistic Models for Some Intelligence and Attainment Tests</em>. Chicago: University of Chicago Press.</p>
+</div>
+<div>
+<p>R Core Team. 2019. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.</p>
+</div>
+<div>
+<p>Riman, Sarah, Erica L. Romsos, Lisa Borsuk, and Peter M. Vallone. 2016. “Analysis of Internal Validation Datasets Using Open-Source Software Str-Validator.” November 2016. <a href="https://strbase.nist.gov/pub_pres/Riman_Analysis_of_Internal_Validation_Datasets_Using_Open-Source_Software_STR-validator_2016.pdf">https://strbase.nist.gov/pub_pres/Riman_Analysis_of_Internal_Validation_Datasets_Using_Open-Source_Software_STR-validator_2016.pdf</a>.</p>
+</div>
+<div>
+<p>Riva, Fabiano, and Christophe Champod. 2014. “Automatic Comparison and Evaluation of Impressions Left by a Firearm on Fired Cartridge Cases.” <em>Journal of Forensic Sciences</em> 59 (3): 637–47. <a href="https://doi.org/10.1111/1556-4029.12382">https://doi.org/10.1111/1556-4029.12382</a>.</p>
+</div>
+<div>
+<p>Roth, J., A. Carriveau, X. Liu, and A. K. Jain. 2015. “Learning-Based Ballistic Breech Face Impression Image Matching.” In <em>2015 Ieee 7th International Conference on Biometrics Theory, Applications and Systems (Btas)</em>, 1–8. Arlington, VA. <a href="https://doi.org/10.1109/BTAS.2015.7358774">https://doi.org/10.1109/BTAS.2015.7358774</a>.</p>
+</div>
+<div>
+<p>Scientific Working Group on Friction Ridge Analysis, Study, and Technology. 2011. <em>Fingerprint Sourcebook</em>. NCJRS. <a href="https://www.ncjrs.gov/App/Publications/abstract.aspx?ID=247300">https://www.ncjrs.gov/App/Publications/abstract.aspx?ID=247300</a>.</p>
+</div>
+<div>
+<p>Sensofar Metrology. 2016. Https://Www.sensofar.com/Wp-Content/Uploads/2016/06/Appnote-Sensomatch-Bullet-Comparison.pdf.</p>
+</div>
+<div>
+<p>Smith, Michael B. 2009. “The Forensic Analysis of Footwear Impression Evidence.(Report).” <em>Forensic Science Communications</em> 11 (3).</p>
+</div>
+<div>
+<p>Song, John. 2013. “Proposed ‘NIST Ballistics Identification System (NBIS)’ Based on 3D Topography Measurements on Correlation Cells.” <em>AFTE Journal</em> 45 (2): 184–94.</p>
+</div>
+<div>
+<p><em>Standard for Terminology Used for Forensic Footwear and Tire Impression Evidence</em>. 2013. The Organization of Scientific Area Committees for Forensic Science; Scientific Working Group for Shoeprint; Tire Tread Evidence (SWGTREAD). <a href="http://treadforensics.com/images/swgtread/standards/current/swgtread_10_conclusions_range_201303.pdf">http://treadforensics.com/images/swgtread/standards/current/swgtread_10_conclusions_range_201303.pdf</a>.</p>
+</div>
+<div>
+<p>Stoel, Reinoud, Charles Berger, Elisa van den Heuvel, and Wil Fagel. 2010. “The Shaky Criticism of Forensic Handwriting Analysis.”</p>
+</div>
+<div>
+<p>SWGDAM. 2016. “Validation Guidelines for DNA Analysis Methods,” December. <a href="https://docs.wixstatic.com/ugd/4344b0_813b241e8944497e99b9c45b163b76bd.pdf">https://docs.wixstatic.com/ugd/4344b0_813b241e8944497e99b9c45b163b76bd.pdf</a>.</p>
+</div>
+<div>
+<p>Tabassi, E., C. L. Wilson, and C. I. Watson. 2004. “Fingerint Image Quality, Nistir 7151.” 7151. National Institute of Standards; Technology. <a href="https://www.nist.gov/publications/fingerprint-image-qualitiy">https://www.nist.gov/publications/fingerprint-image-qualitiy</a>.</p>
+</div>
+<div>
+<p>Tai, Xiao Hui, and William F. Eddy. 2018. “A Fully Automatic Method for Comparing Cartridge Case Images,” <em>Journal of Forensic Sciences</em> 63 (2): 440–48. <a href="https://doi.org/10.1111/1556-4029.13577">https://doi.org/10.1111/1556-4029.13577</a>.</p>
+</div>
+<div>
+<p>Thumwarin, P. 2008. “An Automatic System for Firearm Identification.” In <em>2008 International Symposium on Communications and Information Technologies</em>, 100–103. <a href="https://doi.org/10.1109/ISCIT.2008.4700162">https://doi.org/10.1109/ISCIT.2008.4700162</a>.</p>
+</div>
+<div>
+<p>Tvedebrink, Torben, Helle Smidt Mogensen, Maria Charlotte Stene, and Niels Morling. 2012. “Performance of Two 17 Locus Forensic Identification Str Kits—Applied Biosystems’s Ampfℓstr Ngmselect™ and Promega’s Powerplex Esi17 Kits.” <em>Forensic Science International: Genetics</em> 6 (5): 523–31.</p>
+</div>
+<div>
+<p>Ulery, Bradford T., R. Austin Hicklin, JoAnn Buscaglia, and Maria Antonia Roberts. 2011. “Accuracy and Reliability of Forensic Latent Fingerprint Decisions.” <em>Proceedings of the National Academy of Sciences</em> 108 (19): 7733–8.</p>
+</div>
+<div>
+<p>Ulery, B. T., R. A. Hicklin, J. A. Buscaglia, and M. A. Roberts. 2011. “Accuracy and Reliability of Forensic Latent Fingerprint Decisions.” <em>Proceedings of the National Academy of Sciences</em> 108(19): 7733–8. <a href="https://www.pnas.org/content/pnas/108/19/7733.full.pdf">https://www.pnas.org/content/pnas/108/19/7733.full.pdf</a>.</p>
+</div>
+<div>
+<p>Ulery, B. T., R. A. Hicklin, J. Buscaglia, and M. A. Roberts. 2012. “Repeatability and Reproducibility of Decisions by Latent Fingerprint Examiners.” <em>PloS One</em> 7(3): e32800. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0032800">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0032800</a>.</p>
+</div>
+<div>
+<p>van der Linden, Wim J, and Ronald K Hambleton. 2013. <em>Handbook of Modern Item Response Theory</em>. Springer Science &amp; Business Media.</p>
+</div>
+<div>
+<p>Vorburger, T., J. Yen, B. Bachrach, T. Renegar, J. Filliben, L. Ma, H. Rhee, et al. 2007. “Surface Topography Analysis for a Feasibility Assessment of a National Ballistics Imaging Database.” NISTIR 7362. Gaithersburg, MD: National Institute of Standards; Technology.</p>
+</div>
+<div>
+<p>Watson, Craig. 2015. “NIST Fingerprint Data.”</p>
+</div>
+<div>
+<p>Weis, Peter, Marc Dücking, Peter Watzke, Sonja Menges, and Stefan Becker. 2011. “Establishing a match criterion in forensic comparison analysis of float glass using laser ablation inductively coupled plasma mass spectrometry.” <em>Journal of Analytical Atomic Spectrometry</em> 26 (6): 1273–84. <a href="https://doi.org/10.1039/c0ja00168f">https://doi.org/10.1039/c0ja00168f</a>.</p>
+</div>
+<div>
+<p>Westen, Antoinette A, Laurens JW Grol, Joyce Harteveld, Anuska S Matai, Peter de Knijff, and Titia Sijen. 2012. “Assessment of the Stochastic Threshold, Back-and Forward Stutter Filters and Low Template Techniques for Ngm.” <em>Forensic Science International: Genetics</em> 6 (6): 708–15.</p>
+</div>
+<div>
+<p>Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, and Kara Woo. 2018. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>.</p>
+</div>
+<div>
+<p>Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2019. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.</p>
+</div>
+<div>
+<p>Wickham, Hadley, and Lionel Henry. 2019. <em>Tidyr: Easily Tidy Data with ’Spread()’ and ’Gather()’ Functions</em>. <a href="https://CRAN.R-project.org/package=tidyr">https://CRAN.R-project.org/package=tidyr</a>.</p>
+</div>
+<div>
+<p>Wickham, Hadley, Jim Hester, and Winston Chang. 2019. <em>Devtools: Tools to Make Developing R Packages Easier</em>. <a href="https://CRAN.R-project.org/package=devtools">https://CRAN.R-project.org/package=devtools</a>.</p>
+</div>
+<div>
+<p>Yoon, W., E. Liu, and A. K. Jain. 2012. “Computational Forensics.” In. Springer, Cham.</p>
+</div>
+<div>
+<p>Yutani, Hiroaki. 2019. <em>Gghighlight: Highlight Lines and Points in ’Ggplot2’</em>. <a href="https://github.com/yutannihilation/gghighlight/">https://github.com/yutannihilation/gghighlight/</a>.</p>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="glossary.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/sctyner/OpenForSciR/edit/master/content/content/references.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["open-forensic-science-in-r.pdf", "open-forensic-science-in-r.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

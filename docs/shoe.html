@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 6 Shoe Outsole Impression Evidence | Open Forensic Science in R</title>
+  <meta name="description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 6 Shoe Outsole Impression Evidence | Open Forensic Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  <meta name="github-repo" content="sctyner/openforscir" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Shoe Outsole Impression Evidence | Open Forensic Science in R" />
+  
+  <meta name="twitter:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  
+
+<meta name="author" content="Editor: Sam Tyner, Ph.D.">
+
+
+<meta name="date" content="2019-06-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="fingerprints.html">
+<link rel="next" href="glass.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.5/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Open Forensic Science in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prologue</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a><ul>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#sam-tyner-ph.d."><i class="fa fa-check"></i>Sam Tyner, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#heike-hofmann-ph.d."><i class="fa fa-check"></i>Heike Hofmann, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#soyoung-park-ph.d."><i class="fa fa-check"></i>Soyoung Park, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#eric-hare-ph.d."><i class="fa fa-check"></i>Eric Hare, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#xiao-hui-tai"><i class="fa fa-check"></i>Xiao Hui Tai</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-kafadar-ph.d."><i class="fa fa-check"></i>Karen Kafadar, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-pan"><i class="fa fa-check"></i>Karen Pan</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#amanda-luby"><i class="fa fa-check"></i>Amanda Luby</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#ganesh-krishnan-m.sc."><i class="fa fa-check"></i>Ganesh Krishnan, M.Sc.</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#r-packages"><i class="fa fa-check"></i><b>1.1</b> R Packages</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#terminology-and-definitions"><i class="fa fa-check"></i><b>1.2</b> Terminology and Definitions</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#forscip"><i class="fa fa-check"></i><b>1.3</b> Forensic Science Problems</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dnaval.html"><a href="dnaval.html"><i class="fa fa-check"></i><b>2</b> Validation of DNA Interpretation Systems</a><ul>
+<li class="chapter" data-level="" data-path="dnaval.html"><a href="dnaval.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="2.1" data-path="dnaval.html"><a href="dnaval.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="dnaval.html"><a href="dnaval.html#procedure-for-dna-analysis-using-strs"><i class="fa fa-check"></i><b>2.1.1</b> Procedure for DNA Analysis using STRs</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="dnaval.html"><a href="dnaval.html#data"><i class="fa fa-check"></i><b>2.2</b> Data</a></li>
+<li class="chapter" data-level="2.3" data-path="dnaval.html"><a href="dnaval.html#r-package"><i class="fa fa-check"></i><b>2.3</b> R Package</a></li>
+<li class="chapter" data-level="2.4" data-path="dnaval.html"><a href="dnaval.html#drawing-conclusions"><i class="fa fa-check"></i><b>2.4</b> Drawing Conclusions</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="dnaval.html"><a href="dnaval.html#stutter-ratio"><i class="fa fa-check"></i><b>2.4.1</b> Stutter ratio</a></li>
+<li class="chapter" data-level="2.4.2" data-path="dnaval.html"><a href="dnaval.html#heterozygote-balance"><i class="fa fa-check"></i><b>2.4.2</b> Heterozygote balance</a></li>
+<li class="chapter" data-level="2.4.3" data-path="dnaval.html"><a href="dnaval.html#inter-locus-balance"><i class="fa fa-check"></i><b>2.4.3</b> Inter-locus balance</a></li>
+<li class="chapter" data-level="2.4.4" data-path="dnaval.html"><a href="dnaval.html#stochastic-threshold"><i class="fa fa-check"></i><b>2.4.4</b> Stochastic threshold</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="dnaval.html"><a href="dnaval.html#case-study"><i class="fa fa-check"></i><b>2.5</b> Case Study</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="dnaval.html"><a href="dnaval.html#get-the-data"><i class="fa fa-check"></i><b>2.5.1</b> Get the data</a></li>
+<li class="chapter" data-level="2.5.2" data-path="dnaval.html"><a href="dnaval.html#check-the-stutter-ratio"><i class="fa fa-check"></i><b>2.5.2</b> Check the stutter ratio</a></li>
+<li class="chapter" data-level="2.5.3" data-path="dnaval.html"><a href="dnaval.html#check-heterozygote-balance-intra-locus-balance"><i class="fa fa-check"></i><b>2.5.3</b> Check heterozygote balance (intra-locus balance)</a></li>
+<li class="chapter" data-level="2.5.4" data-path="dnaval.html"><a href="dnaval.html#check-inter-locus-balance"><i class="fa fa-check"></i><b>2.5.4</b> Check inter-locus balance</a></li>
+<li class="chapter" data-level="2.5.5" data-path="dnaval.html"><a href="dnaval.html#check-stochastic-threshold"><i class="fa fa-check"></i><b>2.5.5</b> Check stochastic threshold</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="bullets.html"><a href="bullets.html"><i class="fa fa-check"></i><b>3</b> Firearms: bullets</a><ul>
+<li class="chapter" data-level="3.1" data-path="bullets.html"><a href="bullets.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="bullets.html"><a href="bullets.html#data-1"><i class="fa fa-check"></i><b>3.2</b> Data</a></li>
+<li class="chapter" data-level="3.3" data-path="bullets.html"><a href="bullets.html#r-packages-1"><i class="fa fa-check"></i><b>3.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="bullets.html"><a href="bullets.html#x3ptools"><i class="fa fa-check"></i><b>3.3.1</b> x3ptools</a></li>
+<li class="chapter" data-level="3.3.2" data-path="bullets.html"><a href="bullets.html#bulletxtrctr"><i class="fa fa-check"></i><b>3.3.2</b> <code>bulletxtrctr</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="bullets.html"><a href="bullets.html#drawing-conclusions-1"><i class="fa fa-check"></i><b>3.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="3.5" data-path="bullets.html"><a href="bullets.html#case-study-1"><i class="fa fa-check"></i><b>3.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="casings.html"><a href="casings.html"><i class="fa fa-check"></i><b>4</b> Firearms: casings</a><ul>
+<li class="chapter" data-level="4.1" data-path="casings.html"><a href="casings.html#introduction-2"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="casings.html"><a href="casings.html#data-2"><i class="fa fa-check"></i><b>4.2</b> Data</a></li>
+<li class="chapter" data-level="4.3" data-path="casings.html"><a href="casings.html#r-packages-2"><i class="fa fa-check"></i><b>4.3</b> R Package(s)</a></li>
+<li class="chapter" data-level="4.4" data-path="casings.html"><a href="casings.html#casings-conclusions"><i class="fa fa-check"></i><b>4.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="4.5" data-path="casings.html"><a href="casings.html#casings-caseStudy"><i class="fa fa-check"></i><b>4.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fingerprints.html"><a href="fingerprints.html"><i class="fa fa-check"></i><b>5</b> Latent Fingerprints</a><ul>
+<li class="chapter" data-level="5.1" data-path="fingerprints.html"><a href="fingerprints.html#introduction-3"><i class="fa fa-check"></i><b>5.1</b> Introduction</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement"><i class="fa fa-check"></i><b>5.1.1</b> Contrast Gradient Quality Measurement</a></li>
+<li class="chapter" data-level="5.1.2" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement-illustration"><i class="fa fa-check"></i><b>5.1.2</b> Contrast Gradient Quality Measurement Illustration</a></li>
+<li class="chapter" data-level="5.1.3" data-path="fingerprints.html"><a href="fingerprints.html#test-for-usable-quality"><i class="fa fa-check"></i><b>5.1.3</b> Test for Usable Quality</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="fingerprints.html"><a href="fingerprints.html#data-3"><i class="fa fa-check"></i><b>5.2</b> Data</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="fingerprints.html"><a href="fingerprints.html#ace-v-and-afis"><i class="fa fa-check"></i><b>5.2.1</b> ACE-V and AFIS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="fingerprints.html"><a href="fingerprints.html#r-package-1"><i class="fa fa-check"></i><b>5.3</b> R Package</a></li>
+<li class="chapter" data-level="5.4" data-path="fingerprints.html"><a href="fingerprints.html#drawing-conclusions-2"><i class="fa fa-check"></i><b>5.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="5.5" data-path="fingerprints.html"><a href="fingerprints.html#case-study-2"><i class="fa fa-check"></i><b>5.5</b> Case Study</a><ul>
+<li class="chapter" data-level="" data-path="fingerprints.html"><a href="fingerprints.html#acknowledgements-1"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shoe.html"><a href="shoe.html"><i class="fa fa-check"></i><b>6</b> Shoe Outsole Impression Evidence</a><ul>
+<li class="chapter" data-level="6.1" data-path="shoe.html"><a href="shoe.html#introduction-4"><i class="fa fa-check"></i><b>6.1</b> Introduction</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="shoe.html"><a href="shoe.html#sources-of-variability-in-shoe-outsole-impressions"><i class="fa fa-check"></i><b>6.1.1</b> Sources of variability in shoe outsole impressions</a></li>
+<li class="chapter" data-level="6.1.2" data-path="shoe.html"><a href="shoe.html#current-practice"><i class="fa fa-check"></i><b>6.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="6.1.3" data-path="shoe.html"><a href="shoe.html#goal-of-this-chapter"><i class="fa fa-check"></i><b>6.1.3</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="shoe.html"><a href="shoe.html#data-4"><i class="fa fa-check"></i><b>6.2</b> Data</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="shoe.html"><a href="shoe.html#data-collection"><i class="fa fa-check"></i><b>6.2.1</b> Data collection</a></li>
+<li class="chapter" data-level="6.2.2" data-path="shoe.html"><a href="shoe.html#transformation-of-shoe-image"><i class="fa fa-check"></i><b>6.2.2</b> Transformation of shoe image</a></li>
+<li class="chapter" data-level="6.2.3" data-path="shoe.html"><a href="shoe.html#definition-of-classes"><i class="fa fa-check"></i><b>6.2.3</b> Definition of classes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="shoe.html"><a href="shoe.html#r-packages-3"><i class="fa fa-check"></i><b>6.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="shoe.html"><a href="shoe.html#one-subarea-matching"><i class="fa fa-check"></i><b>6.3.1</b> One subarea matching</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="shoe.html"><a href="shoe.html#drawing-conclusions-3"><i class="fa fa-check"></i><b>6.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="6.5" data-path="shoe.html"><a href="shoe.html#shoe-case-study"><i class="fa fa-check"></i><b>6.5</b> Case Study</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="shoe.html"><a href="shoe.html#sec:shoeqk1"><i class="fa fa-check"></i><b>6.5.1</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_1\)</span></a></li>
+<li class="chapter" data-level="6.5.2" data-path="shoe.html"><a href="shoe.html#compare-q-and-k_2"><i class="fa fa-check"></i><b>6.5.2</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_2\)</span></a></li>
+<li class="chapter" data-level="6.5.3" data-path="shoe.html"><a href="shoe.html#interpreting-comparisons-between-q-k_1-and-q-k_2"><i class="fa fa-check"></i><b>6.5.3</b> Interpreting Comparisons between <span class="math inline">\(Q, K_1\)</span> and <span class="math inline">\(Q, K_2\)</span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="glass.html"><a href="glass.html"><i class="fa fa-check"></i><b>7</b> Trace glass evidence: chemical composition</a><ul>
+<li class="chapter" data-level="7.1" data-path="glass.html"><a href="glass.html#introduction-5"><i class="fa fa-check"></i><b>7.1</b> Introduction</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="glass.html"><a href="glass.html#problems-of-interest"><i class="fa fa-check"></i><b>7.1.1</b> Problems of interest</a></li>
+<li class="chapter" data-level="7.1.2" data-path="glass.html"><a href="glass.html#current-practice-1"><i class="fa fa-check"></i><b>7.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="7.1.3" data-path="glass.html"><a href="glass.html#comparing-glass-fragments"><i class="fa fa-check"></i><b>7.1.3</b> Comparing glass fragments</a></li>
+<li class="chapter" data-level="7.1.4" data-path="glass.html"><a href="glass.html#goal-of-this-chapter-1"><i class="fa fa-check"></i><b>7.1.4</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="glass.html"><a href="glass.html#data-5"><i class="fa fa-check"></i><b>7.2</b> Data</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="glass.html"><a href="glass.html#chemical-composition-of-glass"><i class="fa fa-check"></i><b>7.2.1</b> Chemical composition of glass</a></li>
+<li class="chapter" data-level="7.2.2" data-path="glass.html"><a href="glass.html#data-source"><i class="fa fa-check"></i><b>7.2.2</b> Data source</a></li>
+<li class="chapter" data-level="7.2.3" data-path="glass.html"><a href="glass.html#data-structure"><i class="fa fa-check"></i><b>7.2.3</b> Data structure</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="glass.html"><a href="glass.html#glass_rpkgs"><i class="fa fa-check"></i><b>7.3</b> R Packages</a></li>
+<li class="chapter" data-level="7.4" data-path="glass.html"><a href="glass.html#drawing-conclusions-4"><i class="fa fa-check"></i><b>7.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="7.5" data-path="glass.html"><a href="glass.html#case-study-3"><i class="fa fa-check"></i><b>7.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="decision-making.html"><a href="decision-making.html"><i class="fa fa-check"></i><b>8</b> Decision-making in Forensic Identification Tasks</a><ul>
+<li class="chapter" data-level="8.1" data-path="decision-making.html"><a href="decision-making.html#introduction-6"><i class="fa fa-check"></i><b>8.1</b> Introduction</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="decision-making.html"><a href="decision-making.html#irt"><i class="fa fa-check"></i><b>8.1.1</b> A Brief Overview of Item Response Models</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="decision-making.html"><a href="decision-making.html#humans-data"><i class="fa fa-check"></i><b>8.2</b> Data</a></li>
+<li class="chapter" data-level="8.3" data-path="decision-making.html"><a href="decision-making.html#rpackages"><i class="fa fa-check"></i><b>8.3</b> R Packages</a></li>
+<li class="chapter" data-level="8.4" data-path="decision-making.html"><a href="decision-making.html#humans-conclusions"><i class="fa fa-check"></i><b>8.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="8.5" data-path="decision-making.html"><a href="decision-making.html#casestudy"><i class="fa fa-check"></i><b>8.5</b> Case Study</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="decision-making.html"><a href="decision-making.html#fitting-the-irt-model"><i class="fa fa-check"></i><b>8.5.1</b> Fitting the IRT model</a></li>
+<li class="chapter" data-level="8.5.2" data-path="decision-making.html"><a href="decision-making.html#irt-complements-an-error-rate-analysis"><i class="fa fa-check"></i><b>8.5.2</b> IRT complements an error rate analysis</a></li>
+<li class="chapter" data-level="8.5.3" data-path="decision-making.html"><a href="decision-making.html#scoring-method-affects-proficiency-estimates"><i class="fa fa-check"></i><b>8.5.3</b> Scoring method affects proficiency estimates</a></li>
+<li class="chapter" data-level="8.5.4" data-path="decision-making.html"><a href="decision-making.html#discussion"><i class="fa fa-check"></i><b>8.5.4</b> Discussion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="acknowledgements-2.html"><a href="acknowledgements-2.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="glossary.html"><a href="glossary.html"><i class="fa fa-check"></i><b>A</b> Glossary</a><ul>
+<li class="chapter" data-level="A.1" data-path="glossary.html"><a href="glossary.html#introduction-7"><i class="fa fa-check"></i><b>A.1</b> Introduction</a></li>
+<li class="chapter" data-level="A.2" data-path="glossary.html"><a href="glossary.html#validation-of-dna-interpretation-systems"><i class="fa fa-check"></i><b>A.2</b> Validation of DNA Interpretation Systems</a></li>
+<li class="chapter" data-level="A.3" data-path="glossary.html"><a href="glossary.html#firearms-bullets"><i class="fa fa-check"></i><b>A.3</b> Firearms: bullets</a></li>
+<li class="chapter" data-level="A.4" data-path="glossary.html"><a href="glossary.html#firearms-casings"><i class="fa fa-check"></i><b>A.4</b> Firearms: casings</a></li>
+<li class="chapter" data-level="A.5" data-path="glossary.html"><a href="glossary.html#latent-fingerprints"><i class="fa fa-check"></i><b>A.5</b> Latent Fingerprints</a></li>
+<li class="chapter" data-level="A.6" data-path="glossary.html"><a href="glossary.html#shoe-outsole-impression-evidence"><i class="fa fa-check"></i><b>A.6</b> Shoe Outsole Impression Evidence</a></li>
+<li class="chapter" data-level="A.7" data-path="glossary.html"><a href="glossary.html#trace-glass-evidence"><i class="fa fa-check"></i><b>A.7</b> Trace Glass Evidence</a></li>
+<li class="chapter" data-level="A.8" data-path="glossary.html"><a href="glossary.html#decision-making-in-forensic-identification-tasks"><i class="fa fa-check"></i><b>A.8</b> Decision-making in Forensic Identification Tasks</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Open Forensic Science in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="shoe" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Shoe Outsole Impression Evidence</h1>
+<div id="soyoung-park-sam-tyner" class="section level4 unnumbered">
+<h4><em>Soyoung Park, Sam Tyner</em></h4>
+<p><img src="img/shoesole.png" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="introduction-4" class="section level2">
+<h2><span class="header-section-number">6.1</span> Introduction</h2>
+<p>In the mess of a crime scene, one of the most abundant pieces of evidence is a <a href="glossary.html#def:shoeoutsole">shoe outsole</a> impression <span class="citation">(Bodziak <a href="#ref-bodziak2017footwear">2017</a>)</span>. A shoe outsole impression is the trace of a shoe that is left behind when the shoe comes in contact with walking surface. Shoe outsole impressions are often left in pliable materials such as sand, dirt, snow, or blood. Crime scene impressions are lifted using <a href="glossary.html#def:adhesivelift">adhesive</a> or <a href="glossary.html#def:electrolift">electrostatic</a> lifting, or <a href="glossary.html#def:casting">casting</a> to obtain the print left behind.</p>
+<p>When a shoe outsole impression is found at a crime scene, the question of interest is, “Which shoe left that impression?” Suppose we have a database of shoe outsole impressions. We want to find the close images in the database to the questioned shoe impression to determine the shoe brand, size, and other <a href="glossary.html#def:classchar">class characteristics</a>. Alternatively, if we have information about potential suspects’ shoes, then we need to investigate whether the questioned shoe impressions share characteristics. The <a href="glossary.html#def:summstat">summary statistic</a> we need is the degree of correspondence between the questioned shoe outsole impression from the crime scene (<span class="math inline">\(Q\)</span>) and the known shoeprint from a database or a suspect (<span class="math inline">\(K\)</span>). If the similarity between <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span> is high enough, then we may conclude that the source for <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span> is the same. Thus, the goal is to quantify the degree of correspondence between two shoe outsole impressions.</p>
+<p>Note that <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span> have different origins for shoe than they do for <a href="glass.html#glass">trace glass evidence</a>: for glass evidence, sample <span class="math inline">\(Q\)</span> comes from a suspect and <span class="math inline">\(K\)</span> comes from the crime scene, while for shoe outsole impression evidence, sample <span class="math inline">\(Q\)</span> comes from the crime scene and sample <span class="math inline">\(K\)</span> comes from a suspect or a <a href="glossary.html#def:database">database</a>.</p>
+<div id="sources-of-variability-in-shoe-outsole-impressions" class="section level3">
+<h3><span class="header-section-number">6.1.1</span> Sources of variability in shoe outsole impressions</h3>
+<p>There are many characteristics of shoes that are examined. First, the size of the shoe is determined, then the style and manufacturer. These characteristics are known as <a href="glossary.html#def:classchar"><em>class characteristics</em></a>: there are large numbers of shoes that share these characteristics, most other shoes that do not share class characteristics with the impression are easily excluded. For instance, a very popular shoe in the United States is the Nike Air Force one, pictured below <span class="citation">(Smith <a href="#ref-fbishoes">2009</a>)</span>. So, seeing a Nike logo and concentric circles in an impression from a Men’s size 13 instantly excludes all shoes that are not Nike Air Force Ones in Men’s size 13.</p>
+<div class="figure" style="text-align: center"><span id="fig:nikeaf1"></span>
+<img src="img/nikeshoewhite.png" alt="The outsole of a Nike Air Force One Shoe. This pattern is common across all shoes in the Air Force One model. Source: [nike.com](https://c.static-nike.com/a/images/t_PDP_1728_v1/f_auto/q3byyhcazwdatzj7si11/air-force-1-mid-07-womens-shoe-0nT1KyYW.jpg)" width="75%" />
+<p class="caption">
+Figure 6.1: The outsole of a Nike Air Force One Shoe. This pattern is common across all shoes in the Air Force One model. Source: <a href="https://c.static-nike.com/a/images/t_PDP_1728_v1/f_auto/q3byyhcazwdatzj7si11/air-force-1-mid-07-womens-shoe-0nT1KyYW.jpg">nike.com</a>
+</p>
+</div>
+<p>Next, <a href="glossary.html#def:subclasschar"><em>subclass characteristics</em></a> are examined. These characteristics are shared by a subset of elements in a class, but not by all elements in the class. In shoe impressions, subclass characteristics usually occur during the manufacturing process. For instance, air bubbles may form in one manufacturing run but not in another. Also, the different molds used to create the same style and size shoes can have slight differences, such as where pattern elements intersect <span class="citation">(Bodziak <a href="#ref-mfrshoes">1986</a>)</span>. Just like with class characteristics, subclass characteristics can be used to eliminate possible shoes very easily.</p>
+<p>Finally, the most unique parts of a shoe outsole impression are the <a href="glossary.html#def:racs">randomly acquired characteristics</a> (RACs) left behind. The RACs are smaller knicks, gouges, and debris in soles of shoes that are acquired over time, seemingly at random, as the shoes are worn. These are the <em>identifying</em> characteristics of shoe impressions, and examiners look for these irregularities in the crime scene impressions to make an identification.</p>
+</div>
+<div id="current-practice" class="section level3">
+<h3><span class="header-section-number">6.1.2</span> Current practice</h3>
+<p>Footwear examiners compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span> by considering class, subclass and identifying characteristics on two impressions. The guideline for comparing footwear impressions from the Scientific Working Group for Shoeprint and Tire Tread Evidence (SWGTREAD), details seven possible conclusions for comparing <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span> <span class="citation">(<em>Standard for Terminology Used for Forensic Footwear and Tire Impression Evidence</em> <a href="#ref-swgtreadconclude">2013</a>)</span>:</p>
+<ol style="list-style-type: decimal">
+<li>Lacks sufficient detail (comparison not possible)</li>
+<li>Exclusion</li>
+<li>Indications of non-association</li>
+<li>Limited association of class characteristics</li>
+<li>Association of class characteristics</li>
+<li>High degree of association</li>
+<li>Identification</li>
+</ol>
+<p>Examiners rely on their knowledge, experience, and <a href="http://treadforensics.com/images/swgtread/standards/current/swgtread_08_examination_200603.pdf">guidelines</a> from SWGTREAD to come to one of these seven conclusions for footwear impression examinations.</p>
+</div>
+<div id="goal-of-this-chapter" class="section level3">
+<h3><span class="header-section-number">6.1.3</span> Goal of this chapter</h3>
+<p>In this chapter, we will show our algorithmic approach to measure the degree of similarity between two shoe outsole impression. For this, <a href="https://forensicstats.org">CSAFE</a> collected shoe outsole impression data, developed the method for calculating similarity score between two shoe impressions and R package <a href="https://github.com/csafe-isu/shoeprintr"><code>shoeprintr</code></a> for the developed method <span class="citation">(Park and Carriquiry <a href="#ref-R-shoeprintr">2019</a><a href="#ref-R-shoeprintr">b</a>)</span>.</p>
+</div>
+</div>
+<div id="data-4" class="section level2">
+<h2><span class="header-section-number">6.2</span> Data</h2>
+<p>Crime scene data that we can utilize to develop and test a comparison algorithm for footwear comparison is very limited for several reasons:</p>
+<ol style="list-style-type: decimal">
+<li>Shoe impressions found at crime scenes are confidential because they are a part of cases involving real people.</li>
+<li>Although some real, anonymized crime scene data is available, we typically don’t know the true source of the impression.</li>
+<li>Most shoe outsole impressions found at the crime scene are partial, degraded, or otherwise imperfect. They are not appropriate to develop and test an algorithm.</li>
+</ol>
+<div id="data-collection" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> Data collection</h3>
+<p>CSAFE collected shoe impressions using the two-dimensional EverOS footwear scanner from <a href="https://www.shopevident.com/product/everos-laboratory-footwear-scanner">Evident, Inc.</a>. The scanner is designed to scan the shoe outsole as the shoe wearer steps onto the scanner. As more pressure is put on the scanner, there will be more detailed patterns detected from the outsole. The resulting images have resolution of 300 DPI. In addition, the images show a ruler to allow analysts to measure the size of the scanned impression. Figure <a href="shoe.html#fig:everosx">6.2</a> shows examples of impression images from the EverOS scanner. On the left, there are two replicates of the left shoe from one shoe style, while on the right, there are two replicates from the right shoe from a different shoe stle. The repeated impressions are very similar, but not exact because there are some differences in the amount and location of pressure from the shoe wearer while scanning.</p>
+<div class="figure" style="text-align: center"><span id="fig:everosx"></span>
+<img src="img/everos_ex.PNG" alt="Examples of images from the EverOS scanner. At left, two replicates of one left shoe. At right, two replicates from the right shoe of another pair of shoes." width="75%" />
+<p class="caption">
+Figure 6.2: Examples of images from the EverOS scanner. At left, two replicates of one left shoe. At right, two replicates from the right shoe of another pair of shoes.
+</p>
+</div>
+<p>This scanner enables us to collect shoe impressions and make comparisons where ground truth is known. By collecting repeated impressions from the same shoe, we can construct comparisons between known mates (same shoe) and known non-mates (different shoes). CSAFE has made available a large collection of shoe outsole impressions from the EverOS scanner <span class="citation">(CSAFE <a href="#ref-shoedb">2019</a>)</span>.</p>
+</div>
+<div id="transformation-of-shoe-image" class="section level3">
+<h3><span class="header-section-number">6.2.2</span> Transformation of shoe image</h3>
+<!-- replace wikipedia with actual references-->
+<p>The resulting image from the EverOS scanner is very large, making comparisons of images very time-consuming. To speed up the comparison process, we used <a href="https://www.mathworks.com/products/matlab.html">MATLAB</a>
+to downsample all of the images at 20%. Next, we apply <a href="https://en.wikipedia.org/wiki/Edge_detection">edge detection</a> to the images, which leaves us with outlines of important patterns of shoe outsoles. We extract the edges of the outsole impression using the <a href="https://en.wikipedia.org/wiki/Prewitt_operator">Prewitt operator</a> to obtain the (<span class="math inline">\(x\)</span>,<span class="math inline">\(y\)</span>) coordinates of the shoe patterns. All class and subclass characteristics, as well as possible RACs on the outsole impression are retained using this method.</p>
+<p>The final data we use for comparison are the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinate values of the impression area edges that we extracted from the original image in the <span class="math inline">\(Q\)</span> shoe and the <span class="math inline">\(K\)</span> shoe, as shown in Figure <a href="shoe.html#fig:datshoe">6.3</a>.</p>
+<!-- Sam, please locate Q on the left and K on the right. -->
+<pre class="sourceCode r"><code class="sourceCode r">shoeQ &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;dat/Q_03L_01.csv&quot;</span>)
+shoeK &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;dat/K_03L_05.csv&quot;</span>)
+shoeQ<span class="op">$</span>source &lt;-<span class="st"> &quot;Q&quot;</span>
+shoeK<span class="op">$</span>source &lt;-<span class="st"> &quot;K&quot;</span>
+
+<span class="kw">library</span>(tidyverse)
+<span class="kw">bind_rows</span>(shoeQ, shoeK) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y), <span class="dt">size =</span> <span class="fl">0.05</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>source, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:datshoe"></span>
+<img src="open-forensic-science-in-r_files/figure-html/datshoe-1.png" alt="Outsole impressions of two shoes, $K$ and $Q$." width="672" />
+<p class="caption">
+Figure 6.3: Outsole impressions of two shoes, <span class="math inline">\(K\)</span> and <span class="math inline">\(Q\)</span>.
+</p>
+</div>
+</div>
+<div id="definition-of-classes" class="section level3">
+<h3><span class="header-section-number">6.2.3</span> Definition of classes</h3>
+<p>We use the data CSAFE collected to construct pairs of known mates (KM) and known non-mates (KNM) for comparison. The KMs are two repeated impressions from the same shoe, while the KNMs are from two different shoes. For the known non-mates, the shoes are identical in size, style, and brand, but they come from two different pairs of shoes worn by two different people. We want to train a comparison method using this data because shoes that are the same size, style, and brand are the most similar to each other, and thus the detection of differences will be very hard. By training a method on the hardest comparisons, we make all comparisons stronger.</p>
+</div>
+</div>
+<div id="r-packages-3" class="section level2">
+<h2><span class="header-section-number">6.3</span> R Package(s)</h2>
+<p>The R package <code>shoeprintr</code> was created to perform shoe outsole comparisons (Chapter 3 in <span class="citation">Park (<a href="#ref-park2018learning">2018</a>)</span>).</p>
+<p>To begin, the package can be installed from GitHub using <a href="https://devtools.r-lib.org/"><code>devtools</code></a>:</p>
+<pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;CSAFE-ISU/shoeprintr&quot;</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</code></pre>
+<p>We then attach it and other packages below:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shoeprintr)
+<span class="kw">library</span>(patchwork)</code></pre>
+<p>We use the following method to quantify the similarity between two impressions:</p>
+<ol style="list-style-type: decimal">
+<li>Select “interesting” sub-areas in the <span class="math inline">\(Q\)</span> impression found at the crime scene.</li>
+<li>Find the closest corresponding sub-areas in the <span class="math inline">\(K\)</span> impression.</li>
+<li>Overlay sub-areas in <span class="math inline">\(Q\)</span> with the closest corresponding areas in <span class="math inline">\(K\)</span>.</li>
+<li>Define similarity features we can measure to create an outsole signature.</li>
+<li>Combine those features into one single score.</li>
+</ol>
+<p>To begin our comparison, we choose three circular sub-areas of interest in <span class="math inline">\(Q\)</span> by giving the information of their centers and their radii. These areas can be selected “by hand” by examiners, as we do here, or by computer, as we do in Section <a href="shoe.html#shoe-case-study">6.5</a>. The three circles of interest are given in <code>input_circles</code></p>
+<pre class="sourceCode r"><code class="sourceCode r">input_circ &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="fl">75.25</span>, <span class="dv">110</span>, <span class="dv">170</span>, <span class="fl">600.4</span>, <span class="dv">150</span>, <span class="dv">470</span>, <span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">50</span>), <span class="dt">nrow =</span> <span class="dv">3</span>, 
+    <span class="dt">ncol =</span> <span class="dv">3</span>)
+input_circ</code></pre>
+<pre><code>##        [,1]  [,2] [,3]
+## [1,]  75.25 600.4   50
+## [2,] 110.00 150.0   50
+## [3,] 170.00 470.0   50</code></pre>
+<p>For circle <span class="math inline">\(q_1\)</span>, we select the center of (75.25, 600.4) and the radius of 50. The second and the third rows in this matrix show center and radius for circle <span class="math inline">\(q_2, q_3\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">start_plot</span>(shoeQ[, <span class="dv">-3</span>], shoeK[, <span class="dv">-3</span>], input_circ)</code></pre>
+<p><img src="open-forensic-science-in-r_files/figure-html/startplot-1.png" width="672" style="display: block; margin: auto;" />
+Here, we can draw the graph of coordinates of edges from <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span>. For <span class="math inline">\(Q\)</span>, we use the function <code>start_plot</code> draw the <span class="math inline">\(Q\)</span> impressions colored by the three circular areas we chose. We call the red circle, <span class="math inline">\(q_1\)</span>, orange <span class="math inline">\(q_2\)</span>, and green <span class="math inline">\(q_3\)</span>. The goal here is to find the closest areas to <span class="math inline">\(q_1\)</span>, <span class="math inline">\(q_2\)</span>, and <span class="math inline">\(q_3\)</span> in shoe <span class="math inline">\(K\)</span>.</p>
+<p>To find the closest areas of <span class="math inline">\(q_1\)</span>, <span class="math inline">\(q_2\)</span>, and <span class="math inline">\(q_3\)</span> in shoe <span class="math inline">\(K\)</span>, we use the function <code>match_print_subarea</code>. In this particular comparisons with full impressions of <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span>, we know that circle <span class="math inline">\(q_1\)</span> is located in left toe area of <span class="math inline">\(Q\)</span>. Thus, the algorithm confines the searching area in <span class="math inline">\(K\)</span> into upper left area of <span class="math inline">\(K\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">match_print_subarea</span>(shoeQ, shoeK, input_circ)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:matchgraph"></span>
+<img src="img/matchgraph.png" alt="Final match result between shoe Q and shoe K" width="638" />
+<p class="caption">
+Figure 6.4: Final match result between shoe Q and shoe K
+</p>
+</div>
+<p>The function <code>match_print_subarea</code> will produce the best matching areas in shoe <span class="math inline">\(K\)</span> for circles of <span class="math inline">\(q_1\)</span>, <span class="math inline">\(q_2\)</span>, and <span class="math inline">\(q_3\)</span> in shoe <span class="math inline">\(Q\)</span>, which we fixed. Figure <a href="shoe.html#fig:matchgraph">6.4</a> shows the final result from the function <code>match_print_subarea</code>. Three circles of red, orange, green colors in the right panel in Figure <a href="shoe.html#fig:matchgraph">6.4</a> indicate that those circles that the algorithm found showed the best overlap with circles of <span class="math inline">\(q_1\)</span>, <span class="math inline">\(q_2\)</span>, and <span class="math inline">\(q_3\)</span> in shoe <span class="math inline">\(Q\)</span>.</p>
+<p>Next, we explore how the function <code>match_print_subarea</code> finds the corresponding areas between two shoe impressions. Too find the corresponding areas for circle <span class="math inline">\(q_1\)</span> in shoe <span class="math inline">\(K\)</span>, the underlying algorithm first finds many candidate circles in shoe <span class="math inline">\(K\)</span>, as shown in Figure <a href="shoe.html#fig:step1plot">6.5</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:step1plot"></span>
+<img src="img/step1_Q_K.png" alt="Circle $q_11$ in $Q$ (left) and candidate circles in $K$" width="931" />
+<p class="caption">
+Figure 6.5: Circle <span class="math inline">\(q_11\)</span> in <span class="math inline">\(Q\)</span> (left) and candidate circles in <span class="math inline">\(K\)</span>
+</p>
+</div>
+<p>For the comparison, the function selects many candidate circles in <span class="math inline">\(K\)</span> labeled as circle <span class="math inline">\(k_1, \dots, k_9\)</span> in Figure <a href="shoe.html#fig:step1plot">6.5</a>. For candidate circles in <span class="math inline">\(K\)</span>, we use larger radius than circle <span class="math inline">\(q_1\)</span> because we want any candidate circles to fully contain circle <span class="math inline">\(q_1\)</span> if they are mates. Ideally, the union of the candidate circles in <span class="math inline">\(K\)</span> should contain all edge points in <span class="math inline">\(K\)</span>. The algorithm compares all candidate circles in shoe <span class="math inline">\(K\)</span> with the fixed circle <span class="math inline">\(q_1\)</span>and picks the closest one as the area corresponding to <span class="math inline">\(q_1\)</span> in shoe <span class="math inline">\(K\)</span>. <!--But, to reduce the time to compare two impressions, we will confine the search area to $k_5$, ..., $k_9$ for circle $q1$. --></p>
+<!---Let's look details how to find the corresponding areas in $K$ for $q_1$ with center of (75.25, 600.4) and radius of 50. -->
+<!-- 
+For the comparison, we will select many candidate circles in $K$ labeled as circle $k_1$, ..., $k_9$ in Figure \@ref(fig:step1plot). For candidate circles in $K$, we use larger radius than circle $q_1$ because we want any of candidate circles can contain circle $q_1$ if they are mates. Ideally, the union of candidate circles in $K$ should contain entire edge points in $K$. However, we know that circle $q_1$ in $Q$ is located in the toe so that we limit the search area into upper left of $K$. We might try to compare circle $q_1$ to circles $k_7, k_8, k_9$ which are overlapped each other. As an example here, we will compare circle $q_1$ with circle $k_8$. 
+
+For the comparison of circle $q_1$ and circle $k_8$, we will use the concept of maximum clique. A graph is an object consisted with vertices or nodes connected with edges or lines. When comparing two graphs, the maximum clique from two graphs is defined as the largest complete subgraph, meaning the subset of nodes with the same geometrical relationship between two graphs. In the shoe outsole comparison application, The interest features detected from impression are becoming vertices and the distances among them become edges. The maximum clique is a good tool to reflect the fact that geometries in the patterns (at least class characteristics) of shoe outsole are not changing a lot. 
+
+<div class="figure" style="text-align: center">
+<img src="img/maxclique_ex2.png" alt="caption" width="576" />
+<p class="caption">(\#fig:mcgraph)caption</p>
+</div>
+
+In Figure \@ref(fig:mcgraph), we want to compare Image 1 and Image 2. In Image 1, a set of nodes is {a, b, c, d, e, f, g} and a set of nodes for Image 2 is {1, 2, 3, 4, 5, 6}. When we look closely, the distances between 'a' and three 'd','e' and 'g' in Image 1 are the same with distances between '1' and three '3', '6' and '5'. This way, pairwise distances among corresponding nodes between two images should have the same geometries and the set of largest complete correspondence between two images are \{'a1','d3','e6','g5'\}. This set is a set of maximum clique. Some nodes such as \{'b','c','f'\} in Image 1 and \{'2','4'\} in Image 2 are examples of noises that might be appeared in the outsole impressions.
+-->
+<div id="one-subarea-matching" class="section level3">
+<h3><span class="header-section-number">6.3.1</span> One subarea matching</h3>
+<p>In this section, we show one example of the matching process by examining the comparison between circle <span class="math inline">\(q_1\)</span> and circle <span class="math inline">\(k_8\)</span> in Figure <a href="shoe.html#fig:step1plot">6.5</a>. We selected <span class="math inline">\(k_8\)</span> because it is a close match to circle <span class="math inline">\(q_1\)</span> well.</p>
+<pre class="sourceCode r"><code class="sourceCode r">nseg =<span class="st"> </span><span class="dv">360</span>
+circle_q1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">int_inside_center</span>(<span class="kw">data.frame</span>(shoeQ), <span class="dv">50</span>, nseg, <span class="fl">75.25</span>, 
+    <span class="fl">600.4</span>))
+circle_k8 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">int_inside_center</span>(<span class="kw">data.frame</span>(shoeK), <span class="dv">65</span>, nseg, <span class="dv">49</span>, <span class="dv">700</span>))
+
+match_q1_k8 &lt;-<span class="st"> </span><span class="kw">boosted_clique</span>(circle_q1, circle_k8, <span class="dt">ncross_in_bins =</span> <span class="dv">30</span>, <span class="dt">xbins_in =</span> <span class="dv">20</span>, 
+    <span class="dt">ncross_in_bin_size =</span> <span class="dv">1</span>, <span class="dt">ncross_ref_bins =</span> <span class="ot">NULL</span>, <span class="dt">xbins_ref =</span> <span class="dv">30</span>, <span class="dt">ncross_ref_bin_size =</span> <span class="ot">NULL</span>, 
+    <span class="dt">eps =</span> <span class="fl">0.75</span>, <span class="dt">seed =</span> <span class="dv">1</span>, <span class="dt">num_cores =</span> parallel<span class="op">::</span><span class="kw">detectCores</span>(), <span class="dt">plot =</span> <span class="ot">TRUE</span>, 
+    <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">cl =</span> <span class="ot">NULL</span>)</code></pre>
+<p>The <code>shoeprinter</code> function <code>boosted_clique</code> finds the subset of pixels (the <a href="glossary.html#def:maxclique">maximal clique</a>) that can be used for alignment of circle <span class="math inline">\(q_1\)</span> and circle <span class="math inline">\(k_8\)</span>. Using corresponding pixels, the function computes the rotation angle and translation metric which result the best alignment between them. Circle <span class="math inline">\(q_1\)</span> is transformed to be on top of the circle <span class="math inline">\(k_8\)</span>, using the calculated alignment information. The function then produces summary plots as shown in Figure <a href="shoe.html#fig:MCresult">6.6</a> and a table of similarity features as shown in Table <a href="shoe.html#tab:resulttable">6.1</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:MCresult"></span>
+<img src="img/MC_result.png" alt="Resulting plot when comparing circle $q_1$ (blue points) and circle $k_8$ (red points)." width="603" />
+<p class="caption">
+Figure 6.6: Resulting plot when comparing circle <span class="math inline">\(q_1\)</span> (blue points) and circle <span class="math inline">\(k_8\)</span> (red points).
+</p>
+</div>
+<p>Figure <a href="shoe.html#fig:MCresult">6.6</a> has four sections. In the first row, first column, the distances between all points in the maximal clique are shown: the x-axis is the distance between points in circle <span class="math inline">\(k_8\)</span> and the y-axis is the distance between points in circle <span class="math inline">\(q_1\)</span>. These values should fall on or near the <span class="math inline">\(y=x\)</span> diagonal, because for identical circles, the points in the maximal clique are the same. The second plot in the first row of Figure <a href="shoe.html#fig:MCresult">6.6</a> shows the <span class="math inline">\((x,y)\)</span> values of the points in the maximal clique. Red points are from <span class="math inline">\(k_8\)</span>, blue circles are from <span class="math inline">\(q_1\)</span>. The bottom two plots show all points in the two circles after alignment. We can see that the two circles share a large area of overlap: the blue points are almost perfectly overlapping with the red points.</p>
+<!--In the second row, two plots show the alignment result of circle $q_1$ and circle $k_8$. The plot on the second row and second column shows the area of red pixels that are overlapped the best with blue pixels. This figure is to calculate the radius and center for the corresponding circle in $K$ for circle $q_1$. Thus, we see only blue pixels from circle $q_1$, but red pixels from circle $k_8$ is behind blue pixels. -->
+<table>
+<caption>
+<span id="tab:resulttable">Table 6.1: </span>Resulting table from the matching between q1 and k8
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Clique size
+</th>
+<th style="text-align:right;">
+Rot. angle
+</th>
+<th style="text-align:right;">
+Overlap on k8
+</th>
+<th style="text-align:right;">
+Overlap on q1
+</th>
+<th style="text-align:right;">
+Median distance
+</th>
+<th style="text-align:right;">
+center x
+</th>
+<th style="text-align:right;">
+center y
+</th>
+<th style="text-align:right;">
+radius
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+12.05
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+54.5
+</td>
+<td style="text-align:right;">
+688.5
+</td>
+<td style="text-align:right;">
+50.28
+</td>
+</tr>
+</tbody>
+</table>
+<p>Table <a href="shoe.html#tab:resulttable">6.1</a> contains the similarity measures and other information about <span class="math inline">\(k_8\)</span>, the closest matching circle to <span class="math inline">\(q_1\)</span>. The first five features measure the degree of similarity between circle <span class="math inline">\(q_1\)</span> and circle <span class="math inline">\(k_8\)</span>, after aligning them. There are 18 pixels in the maximal clique, and the rotation angle between them is 12.05<span class="math inline">\(^o\)</span>. The two overlap features indicate that 75% of circle <span class="math inline">\(k_8\)</span> pixels are overlapped with circle <span class="math inline">\(q_1\)</span> and 97% of circle <span class="math inline">\(q_1\)</span> pixels are overlapped with circle <span class="math inline">\(k_8\)</span> after alignment. The median value of the distance between two close points after aligning the circles is 0.3. For the clique size and overlap metrics, larger values indicate more similar circles, while the opposite is true for distance metrics. The last three columns are about information of the found circle in <span class="math inline">\(K\)</span> that is matched the best with circle <span class="math inline">\(q_1\)</span>. Thus, the center (54.5, 688.5) and the radius 50.28 in <span class="math inline">\(K\)</span> is the best matching circle to <span class="math inline">\(q_1\)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:graphq1"></span>
+<img src="img/graph_q1.png" alt="Circles $q_1$ and $k_8$ in context." width="627" />
+<p class="caption">
+Figure 6.7: Circles <span class="math inline">\(q_1\)</span> and <span class="math inline">\(k_8\)</span> in context.
+</p>
+</div>
+<p>Figure <a href="shoe.html#fig:graphq1">6.7</a> shows the two matching circles as part of the larger shoe impression. By fixing circle <span class="math inline">\(q_1\)</span> (in blue), we found the closest circle (in red) in shoe <span class="math inline">\(K\)</span>. The blue circle in <span class="math inline">\(Q\)</span> and red circle in <span class="math inline">\(K\)</span> look pretty similar. This process would be repeated for the two other circles that we fixed in <span class="math inline">\(Q\)</span>, using the function <code>match_print_subarea</code>.</p>
+</div>
+</div>
+<div id="drawing-conclusions-3" class="section level2">
+<h2><span class="header-section-number">6.4</span> Drawing Conclusions</h2>
+<p>To determine whether impressions <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span> were made by the same shoe or not, we need to define the signature of the questioned shoe outsole impression. We define the signature of shoe <span class="math inline">\(Q\)</span> as the three circular areas of the shoe after edge detection.</p>
+<div class="figure" style="text-align: center"><span id="fig:signature"></span>
+<img src="img/final3.png" alt="Comparing the lengths of the blue lines is important for determining if the same shoe made impression $Q$ and impression $K$." width="505" />
+<p class="caption">
+Figure 6.8: Comparing the lengths of the blue lines is important for determining if the same shoe made impression <span class="math inline">\(Q\)</span> and impression <span class="math inline">\(K\)</span>.
+</p>
+</div>
+<p>Figure <a href="shoe.html#fig:signature">6.8</a> shows the signature in <span class="math inline">\(Q\)</span> and the corresponding areas in <span class="math inline">\(K\)</span> found by the <code>match_print_subarea</code> function. We use the average of the five similarity features from the three circle matchings to draw a conclusion. If the circles in <span class="math inline">\(K\)</span> match the circle in <span class="math inline">\(Q\)</span>, then the corresponding geometry between the three circles in <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span> should be very similar. The blue lines in Figure <a href="shoe.html#fig:signature">6.8</a> form a triangle whose vertices are the centers of the three circles in each shoe impression. The difference of the side lengths (numbered 1,2,3 in the figure) between the two triangles are an additional feature used to determine if <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span> were made my the same shoe or not. If the two triangles in Figure <a href="shoe.html#fig:signature">6.8</a> have similar side lengths, this is evidence that shoe <span class="math inline">\(Q\)</span> and shoe <span class="math inline">\(K\)</span> are from the same source.</p>
+<table>
+<caption>
+<span id="tab:finaltable">Table 6.2: </span>Resulting table comparing Q and K.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Comparison
+</th>
+<th style="text-align:left;">
+Clique size
+</th>
+<th style="text-align:left;">
+Rot. angle
+</th>
+<th style="text-align:left;">
+Overlap on k*
+</th>
+<th style="text-align:left;">
+Overlap on q
+</th>
+<th style="text-align:left;">
+Median distance
+</th>
+<th style="text-align:left;">
+Diff in length from Triangle
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(q_1\)</span>-<span class="math inline">\(k^*_1\)</span>
+</td>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+12.05
+</td>
+<td style="text-align:left;">
+0.75
+</td>
+<td style="text-align:left;">
+0.97
+</td>
+<td style="text-align:left;">
+0.3
+</td>
+<td style="text-align:left;">
+0.58
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(q_2\)</span>-<span class="math inline">\(k^*_2\)</span>
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+10.57
+</td>
+<td style="text-align:left;">
+0.53
+</td>
+<td style="text-align:left;">
+0.91
+</td>
+<td style="text-align:left;">
+0.43
+</td>
+<td style="text-align:left;">
+0.55
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(q_3\)</span>-<span class="math inline">\(k^*_3\)</span>
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+12.14
+</td>
+<td style="text-align:left;">
+0.63
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+0.24
+</td>
+<td style="text-align:left;">
+1.03
+</td>
+</tr>
+</tbody>
+</table>
+<p>Table <a href="shoe.html#tab:finaltable">6.2</a> contains the summary features from comparing the signature with three circles in <span class="math inline">\(Q\)</span> to the corresponding areas in <span class="math inline">\(K\)</span> which are the closest match. There is one row for each comparison between <span class="math inline">\(q_i\)</span> and <span class="math inline">\(k^{*}_i\)</span> for <span class="math inline">\(i=1,2,3\)</span>. The last column is the absolute value of difference of the triangle side lengths from three circles in <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span>. Smaller differences indicate more similarity between <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span>. Finally, we take the average of all features except rotation angle over the three circle. For the rotation angle, we take the standard deviation of the three measurements instead of the mean. If the two prints come from the same shoe, the rotation angle will be very similar in all three circles, so we expect small values of the standard deviation to indicate mates, while large values indicate non-mates. <!-- ??? Soyoung, I am confused about the triangle lengths. Which length is which?? Also, how do you actually make a final decision?????? --></p>
+</div>
+<div id="shoe-case-study" class="section level2">
+<h2><span class="header-section-number">6.5</span> Case Study</h2>
+<p>Comparing two impressions with totally different outsole patterns is a very easy problem for humans and computers. But what if we are tasked to compare two impressions from two different shoes from different people that have the same brand, model, and size?</p>
+<p>Suppose we have one questioned shoe outsole impression (<span class="math inline">\(Q\)</span>) and two known shoe impressions (<span class="math inline">\(K_1, K_2\)</span>) from two different shoes. All three impressions share the same <a href="glossary.html#def:classchar">class characteristics</a>. How can we conclude if the source of <span class="math inline">\(Q\)</span> is the same as <span class="math inline">\(K_1\)</span> or <span class="math inline">\(K_2\)</span>?</p>
+<div class="figure" style="text-align: center"><span id="fig:eximgs"></span>
+<img src="img/NIKE_QK1K2.jpg" alt="Example images of shoe outsole impressions. The questioned impression ($Q$) and two known impressions ($K_1$, $K_2$). Does $Q$ have the same source as $K_1$ or $K_2$?" width="728" />
+<p class="caption">
+Figure 6.9: Example images of shoe outsole impressions. The questioned impression (<span class="math inline">\(Q\)</span>) and two known impressions (<span class="math inline">\(K_1\)</span>, <span class="math inline">\(K_2\)</span>). Does <span class="math inline">\(Q\)</span> have the same source as <span class="math inline">\(K_1\)</span> or <span class="math inline">\(K_2\)</span>?
+</p>
+</div>
+<p>Figure <a href="shoe.html#fig:eximgs">6.9</a> displays three outsole impressions. With a cursory glance, it looks like impression <span class="math inline">\(Q\)</span> could have been made by the same shoe as either <span class="math inline">\(K_1\)</span> or <span class="math inline">\(K_2\)</span>. The two known impressions are from the same brand and model of shoes, which were worn by two different people for about six months. Since the three impressions all share class and subclass characteristics, it is a very hard comparison. There are some differences among images <span class="math inline">\(Q, K_1, K_2\)</span> but it is hard to determine if these differences are due to measurement errors or variation in the EverOS scanner or to wear and tear of the outsole or RACs.</p>
+<div id="sec:shoeqk1" class="section level3">
+<h3><span class="header-section-number">6.5.1</span> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_1\)</span></h3>
+<p>Let’s compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_1\)</span> first. In <span class="math inline">\(Q\)</span>, we select three circular areas. For this, we use the function <code>initial_circle</code> to select three centers within the (30%, 80%), (20%, 40%), (70%, 70%) quantiles of the <span class="math inline">\((x, y)\)</span> ranges of the coordinates in <span class="math inline">\(Q\)</span>. The function automatically generates corresponding centers of the circles with radius of 50.</p>
+<pre class="sourceCode r"><code class="sourceCode r">input_circles_Q &lt;-<span class="st"> </span><span class="kw">initial_circle</span>(imgQ)
+input_circles_Q</code></pre>
+<pre><code>##       [,1]  [,2] [,3]
+## [1,]  89.7 578.2   50
+## [2,]  67.8 296.6   50
+## [3,] 177.3 507.8   50</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">start_plot</span>(imgQ, imgK1, input_circles_Q)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:startQK1"></span>
+<img src="open-forensic-science-in-r_files/figure-html/startQK1-1.png" alt="The input circles and the shoe $Q$ impression (left) and the shoe $K_1$ impression (right)." width="672" />
+<p class="caption">
+Figure 6.10: The input circles and the shoe <span class="math inline">\(Q\)</span> impression (left) and the shoe <span class="math inline">\(K_1\)</span> impression (right).
+</p>
+</div>
+<p>Next, run <code>match_print_subarea()</code> to find circles in <span class="math inline">\(K\)</span> that most closely correspond to the circles in <span class="math inline">\(Q\)</span>. The result is shown in Figure <a href="shoe.html#fig:exKM">6.11</a>. In <span class="math inline">\(K_1\)</span>, the algorithm finds the closest circles which show the most overlap with each of the circles that we fixed in <span class="math inline">\(Q\)</span>. The corresponding circle information and summary features are shown in Tables <a href="shoe.html#tab:KMtable1">6.3</a> and <a href="shoe.html#tab:KMtable2">6.4</a>, respectively. Each row in Table <a href="shoe.html#tab:KMtable2">6.4</a> shows the similarity features from circle <span class="math inline">\(q_i\)</span> and circle <span class="math inline">\(k^{1}_i\)</span> when <span class="math inline">\(i=1,2,3\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">match_print_subarea</span>(imgQ, imgK1, input_circles_Q)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:exKM"></span>
+<img src="img/Nike_edge_ex_KM.png" alt="The input circles ($q_1, q_2, q_3$) and the shoe $Q$ impression (left) and the closest matching circles ($k_1^1, k_2^1, k_3^1$) and shoe $K_1$ impression (right), which are the result of `match_print_subarea`." width="770" />
+<p class="caption">
+Figure 6.11: The input circles (<span class="math inline">\(q_1, q_2, q_3\)</span>) and the shoe <span class="math inline">\(Q\)</span> impression (left) and the closest matching circles (<span class="math inline">\(k_1^1, k_2^1, k_3^1\)</span>) and shoe <span class="math inline">\(K_1\)</span> impression (right), which are the result of <code>match_print_subarea</code>.
+</p>
+</div>
+<table>
+<caption>
+<span id="tab:KMtable1">Table 6.3: </span>Centers and radius information for circles in <span class="math inline">\(K_1\)</span> that are the closest match to the circles in <span class="math inline">\(Q\)</span> according to the matching algorithm.
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Reference_X
+</th>
+<th style="text-align:right;">
+Reference_Y
+</th>
+<th style="text-align:right;">
+Reference_radius
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+71.0
+</td>
+<td style="text-align:right;">
+567.5
+</td>
+<td style="text-align:right;">
+52.28
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+85.5
+</td>
+<td style="text-align:right;">
+286.0
+</td>
+<td style="text-align:right;">
+56.32
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+182.5
+</td>
+<td style="text-align:right;">
+495.0
+</td>
+<td style="text-align:right;">
+54.15
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>
+<span id="tab:KMtable2">Table 6.4: </span>Similarity features from comparing circles in <span class="math inline">\(Q\)</span> to the best matching circles in <span class="math inline">\(K_1\)</span>.
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+clique_size
+</th>
+<th style="text-align:right;">
+rotation_angle
+</th>
+<th style="text-align:right;">
+reference_overlap
+</th>
+<th style="text-align:right;">
+input_overlap
+</th>
+<th style="text-align:right;">
+med_dist_euc
+</th>
+<th style="text-align:right;">
+diff
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+1.23
+</td>
+<td style="text-align:right;">
+0.55
+</td>
+<td style="text-align:right;">
+0.86
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:right;">
+0.58
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+1.88
+</td>
+<td style="text-align:right;">
+0.42
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.09
+</td>
+<td style="text-align:right;">
+20.62
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+2.68
+</td>
+<td style="text-align:right;">
+0.65
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+<td style="text-align:right;">
+0.31
+</td>
+<td style="text-align:right;">
+7.49
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="compare-q-and-k_2" class="section level3">
+<h3><span class="header-section-number">6.5.2</span> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_2\)</span></h3>
+<p>We repeat the process from Section <a href="shoe.html#sec:shoeqk1">6.5.1</a> to find the best matching circles in <span class="math inline">\(K_2\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">match_print_subarea</span>(imgQ, imgK2, input_circles_Q)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:exKNM"></span>
+<img src="img/Nike_edge_ex_KNM.png" alt="The input circles ($q_1, q_2, q_3$) and the shoe $Q$ impression (left) and the closest matching circles ($k_1^2, k_2^2, k_3^2$) and shoe $K_2$ impression (right), which are the result of `match_print_subarea`." width="770" />
+<p class="caption">
+Figure 6.12: The input circles (<span class="math inline">\(q_1, q_2, q_3\)</span>) and the shoe <span class="math inline">\(Q\)</span> impression (left) and the closest matching circles (<span class="math inline">\(k_1^2, k_2^2, k_3^2\)</span>) and shoe <span class="math inline">\(K_2\)</span> impression (right), which are the result of <code>match_print_subarea</code>.
+</p>
+</div>
+<p>Figure <a href="shoe.html#fig:exKNM">6.12</a> shows the circles from the matching algorithm. In this comparison, <span class="math inline">\(k_3^2\)</span> is in a very different position compared to <span class="math inline">\(q_{3}\)</span>.</p>
+<table>
+<caption>
+<span id="tab:KNMtable1">Table 6.5: </span>Centers and radius information that the matching algorithm found as the best overlap circle in <span class="math inline">\(K_2\)</span> for fixed circles in <span class="math inline">\(Q\)</span>
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Reference_X
+</th>
+<th style="text-align:right;">
+Reference_Y
+</th>
+<th style="text-align:right;">
+Reference_radius
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+66.0
+</td>
+<td style="text-align:right;">
+582.5
+</td>
+<td style="text-align:right;">
+51.20
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+66.0
+</td>
+<td style="text-align:right;">
+302.0
+</td>
+<td style="text-align:right;">
+55.61
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+199.5
+</td>
+<td style="text-align:right;">
+431.0
+</td>
+<td style="text-align:right;">
+51.44
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>
+<span id="tab:KNMtable2">Table 6.6: </span>Similarity features by comparing circles in <span class="math inline">\(Q\)</span> to the best matching circles in <span class="math inline">\(K_2\)</span>.
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+clique_size
+</th>
+<th style="text-align:right;">
+rotation_angle
+</th>
+<th style="text-align:right;">
+reference_overlap
+</th>
+<th style="text-align:right;">
+input_overlap
+</th>
+<th style="text-align:right;">
+med_dist_euc
+</th>
+<th style="text-align:right;">
+diff
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+1.87
+</td>
+<td style="text-align:right;">
+0.64
+</td>
+<td style="text-align:right;">
+0.89
+</td>
+<td style="text-align:right;">
+0.53
+</td>
+<td style="text-align:right;">
+1.95
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+7.16
+</td>
+<td style="text-align:right;">
+0.39
+</td>
+<td style="text-align:right;">
+0.92
+</td>
+<td style="text-align:right;">
+0.52
+</td>
+<td style="text-align:right;">
+89.54
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+32.93
+</td>
+<td style="text-align:right;">
+0.26
+</td>
+<td style="text-align:right;">
+0.51
+</td>
+<td style="text-align:right;">
+0.58
+</td>
+<td style="text-align:right;">
+52.26
+</td>
+</tr>
+</tbody>
+</table>
+<p>Table <a href="shoe.html#tab:KNMtable1">6.5</a> and Table <a href="shoe.html#tab:KNMtable1">6.5</a> show the location information of matching circles in <span class="math inline">\(K_2\)</span> for fixed circles in <span class="math inline">\(Q\)</span> and their corresponding similarity features, respectively.</p>
+</div>
+<div id="interpreting-comparisons-between-q-k_1-and-q-k_2" class="section level3">
+<h3><span class="header-section-number">6.5.3</span> Interpreting Comparisons between <span class="math inline">\(Q, K_1\)</span> and <span class="math inline">\(Q, K_2\)</span></h3>
+<p>To summarize similarity features from the match of the two impressions, we will take the average of each similarity feature across the three circle matchings, and the standard deviation of the rotation angle estimates. For features such as clique size and overlap, larger values indicate more similar impressions. For the features median distance and absolute value of differences of lengths from two triangles in two impressions, smaller values indicate more similar impressions. For the rotation angle estimation, we use the standard deviation of the three values because we are interested in comparing the three values to each other, not in the value of the angles themselves. If all rotations are about the same, the algorithm is consistently finding those patterns, and the prints are likely from the same shoe, even if the image has been rotated . If the rotation angles are very different, however, the algorithm is forcing similarity where it doesn’t exist, and the prints are likely from different shoes.</p>
+<table>
+<caption>
+<span id="tab:summarytable">Table 6.7: </span>Summary table of two comparisons of <span class="math inline">\(Q-K_1\)</span> and <span class="math inline">\(Q-K_2\)</span>. Similarity features are averaged but rotation angles are summarized as standard deviation.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Match
+</th>
+<th style="text-align:right;">
+clique_size
+</th>
+<th style="text-align:right;">
+sd_rot_angle
+</th>
+<th style="text-align:right;">
+overlap_k
+</th>
+<th style="text-align:right;">
+overlap_q
+</th>
+<th style="text-align:right;">
+med_dist
+</th>
+<th style="text-align:right;">
+diff_length
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Q, <span class="math inline">\(K_1\)</span>
+</td>
+<td style="text-align:right;">
+16.67
+</td>
+<td style="text-align:right;">
+0.73
+</td>
+<td style="text-align:right;">
+0.54
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+9.56
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Q,<span class="math inline">\(K_2\)</span>
+</td>
+<td style="text-align:right;">
+16.00
+</td>
+<td style="text-align:right;">
+16.62
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+<td style="text-align:right;">
+0.77
+</td>
+<td style="text-align:right;">
+0.54
+</td>
+<td style="text-align:right;">
+47.92
+</td>
+</tr>
+</tbody>
+</table>
+<p>Table <a href="shoe.html#tab:summarytable">6.7</a> shows the summarized similarity features from two comparisons we did for <span class="math inline">\(Q,K_1\)</span> and <span class="math inline">\(Q, K_2\)</span>. In both comparisons, the average clique size and median distance look similar. The standard deviation (SD) of rotation angle estimations and difference in lengths from triangles, however, are very different. The comparison <span class="math inline">\(Q,K_1\)</span> results in similar rotation estimates (1.23, 1.88, 2.68), while the comparison <span class="math inline">\(Q,K_2\)</span> results in very different rotation estimates (1.87, 7.16, 32.93) in Table <a href="shoe.html#tab:KMtable2">6.4</a> and Table <a href="shoe.html#tab:KNMtable2">6.6</a>. The length comparison from <span class="math inline">\(Q,K_2\)</span> is five times larger than that from the <span class="math inline">\(Q,K_1\)</span> comparison. In addition, <span class="math inline">\(Q,K_1\)</span> has high overlap average chance of about 94% while <span class="math inline">\(Q-K_2\)</span> has about a 77% average. Therefore, we have evidence that prints <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_1\)</span> were left by the same shoe, while prints <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_2\)</span> were left by different shoes.</p>
+<p>Finally, we reveal the truth: the impressions <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_1\)</span> are from the same shoe. The impression <span class="math inline">\(K_2\)</span> is scanned from different shoe of the same size, brand, and style. Because the two shoes share class characteristics, the comparisons we did here were the hardest cases. To see what typical values we will have for mates and non-mates, we need to do more analyses to get similarity features from many comparisons. In other analyses, for instance in <span class="citation">Park (<a href="#ref-park2018learning">2018</a>)</span>, we use random forests to classify mates and non-mates using the definitions of clique size, overlap, etc. as the features. The empirical probability from the random forest could serve as a score, similar to what was done in Chapter <a href="glass.html#glass">7</a>.</p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a></p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-bodziak2017footwear">
+<p>Bodziak, William J. 2017. <em>Footwear Impression Evidence: Detection, Recovery and Examination</em>. CRC Press.</p>
+</div>
+<div id="ref-fbishoes">
+<p>Smith, Michael B. 2009. “The Forensic Analysis of Footwear Impression Evidence.(Report).” <em>Forensic Science Communications</em> 11 (3).</p>
+</div>
+<div id="ref-mfrshoes">
+<p>Bodziak, William J. 1986. “Manufacturing Processes for Athletic Shoe Outsoles and Their Significance in the Examination of Footwear Impression Evidence.” <em>Journal of Forensic Science</em> 31 (1): 153–76.</p>
+</div>
+<div id="ref-swgtreadconclude">
+<p><em>Standard for Terminology Used for Forensic Footwear and Tire Impression Evidence</em>. 2013. The Organization of Scientific Area Committees for Forensic Science; Scientific Working Group for Shoeprint; Tire Tread Evidence (SWGTREAD). <a href="http://treadforensics.com/images/swgtread/standards/current/swgtread_10_conclusions_range_201303.pdf">http://treadforensics.com/images/swgtread/standards/current/swgtread_10_conclusions_range_201303.pdf</a>.</p>
+</div>
+<div id="ref-R-shoeprintr">
+<p>Park, Soyoung, and Alicia Carriquiry. 2019b. <em>Shoeprintr: Performs an Automated Statistical Matching of Two Shoeprints</em>.</p>
+</div>
+<div id="ref-shoedb">
+<p>CSAFE. 2019. “Longitudinal Shoe Study Database.”</p>
+</div>
+<div id="ref-park2018learning">
+<p>Park, Soyoung. 2018. “Learning Algorithms for Forensic Science Applications.” PhD thesis, Iowa State University.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="fingerprints.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="glass.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/sctyner/OpenForSciR/edit/master/content/content/pattern-shoe.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["open-forensic-science-in-r.pdf", "open-forensic-science-in-r.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

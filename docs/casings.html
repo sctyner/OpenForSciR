@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 4 Firearms: casings | Open Forensic Science in R</title>
+  <meta name="description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 4 Firearms: casings | Open Forensic Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  <meta name="github-repo" content="sctyner/openforscir" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Firearms: casings | Open Forensic Science in R" />
+  
+  <meta name="twitter:description" content="This book is for anyone looking to do forensic science analysis in a data-driven and open way." />
+  
+
+<meta name="author" content="Editor: Sam Tyner, Ph.D.">
+
+
+<meta name="date" content="2019-06-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="bullets.html">
+<link rel="next" href="fingerprints.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.5/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Open Forensic Science in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prologue</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a><ul>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#sam-tyner-ph.d."><i class="fa fa-check"></i>Sam Tyner, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#heike-hofmann-ph.d."><i class="fa fa-check"></i>Heike Hofmann, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#soyoung-park-ph.d."><i class="fa fa-check"></i>Soyoung Park, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#eric-hare-ph.d."><i class="fa fa-check"></i>Eric Hare, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#xiao-hui-tai"><i class="fa fa-check"></i>Xiao Hui Tai</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-kafadar-ph.d."><i class="fa fa-check"></i>Karen Kafadar, Ph.D. </a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#karen-pan"><i class="fa fa-check"></i>Karen Pan</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#amanda-luby"><i class="fa fa-check"></i>Amanda Luby</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html#ganesh-krishnan-m.sc."><i class="fa fa-check"></i>Ganesh Krishnan, M.Sc.</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#r-packages"><i class="fa fa-check"></i><b>1.1</b> R Packages</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#terminology-and-definitions"><i class="fa fa-check"></i><b>1.2</b> Terminology and Definitions</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#forscip"><i class="fa fa-check"></i><b>1.3</b> Forensic Science Problems</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dnaval.html"><a href="dnaval.html"><i class="fa fa-check"></i><b>2</b> Validation of DNA Interpretation Systems</a><ul>
+<li class="chapter" data-level="" data-path="dnaval.html"><a href="dnaval.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="2.1" data-path="dnaval.html"><a href="dnaval.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="dnaval.html"><a href="dnaval.html#procedure-for-dna-analysis-using-strs"><i class="fa fa-check"></i><b>2.1.1</b> Procedure for DNA Analysis using STRs</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="dnaval.html"><a href="dnaval.html#data"><i class="fa fa-check"></i><b>2.2</b> Data</a></li>
+<li class="chapter" data-level="2.3" data-path="dnaval.html"><a href="dnaval.html#r-package"><i class="fa fa-check"></i><b>2.3</b> R Package</a></li>
+<li class="chapter" data-level="2.4" data-path="dnaval.html"><a href="dnaval.html#drawing-conclusions"><i class="fa fa-check"></i><b>2.4</b> Drawing Conclusions</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="dnaval.html"><a href="dnaval.html#stutter-ratio"><i class="fa fa-check"></i><b>2.4.1</b> Stutter ratio</a></li>
+<li class="chapter" data-level="2.4.2" data-path="dnaval.html"><a href="dnaval.html#heterozygote-balance"><i class="fa fa-check"></i><b>2.4.2</b> Heterozygote balance</a></li>
+<li class="chapter" data-level="2.4.3" data-path="dnaval.html"><a href="dnaval.html#inter-locus-balance"><i class="fa fa-check"></i><b>2.4.3</b> Inter-locus balance</a></li>
+<li class="chapter" data-level="2.4.4" data-path="dnaval.html"><a href="dnaval.html#stochastic-threshold"><i class="fa fa-check"></i><b>2.4.4</b> Stochastic threshold</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="dnaval.html"><a href="dnaval.html#case-study"><i class="fa fa-check"></i><b>2.5</b> Case Study</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="dnaval.html"><a href="dnaval.html#get-the-data"><i class="fa fa-check"></i><b>2.5.1</b> Get the data</a></li>
+<li class="chapter" data-level="2.5.2" data-path="dnaval.html"><a href="dnaval.html#check-the-stutter-ratio"><i class="fa fa-check"></i><b>2.5.2</b> Check the stutter ratio</a></li>
+<li class="chapter" data-level="2.5.3" data-path="dnaval.html"><a href="dnaval.html#check-heterozygote-balance-intra-locus-balance"><i class="fa fa-check"></i><b>2.5.3</b> Check heterozygote balance (intra-locus balance)</a></li>
+<li class="chapter" data-level="2.5.4" data-path="dnaval.html"><a href="dnaval.html#check-inter-locus-balance"><i class="fa fa-check"></i><b>2.5.4</b> Check inter-locus balance</a></li>
+<li class="chapter" data-level="2.5.5" data-path="dnaval.html"><a href="dnaval.html#check-stochastic-threshold"><i class="fa fa-check"></i><b>2.5.5</b> Check stochastic threshold</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="bullets.html"><a href="bullets.html"><i class="fa fa-check"></i><b>3</b> Firearms: bullets</a><ul>
+<li class="chapter" data-level="3.1" data-path="bullets.html"><a href="bullets.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="bullets.html"><a href="bullets.html#data-1"><i class="fa fa-check"></i><b>3.2</b> Data</a></li>
+<li class="chapter" data-level="3.3" data-path="bullets.html"><a href="bullets.html#r-packages-1"><i class="fa fa-check"></i><b>3.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="bullets.html"><a href="bullets.html#x3ptools"><i class="fa fa-check"></i><b>3.3.1</b> x3ptools</a></li>
+<li class="chapter" data-level="3.3.2" data-path="bullets.html"><a href="bullets.html#bulletxtrctr"><i class="fa fa-check"></i><b>3.3.2</b> <code>bulletxtrctr</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="bullets.html"><a href="bullets.html#drawing-conclusions-1"><i class="fa fa-check"></i><b>3.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="3.5" data-path="bullets.html"><a href="bullets.html#case-study-1"><i class="fa fa-check"></i><b>3.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="casings.html"><a href="casings.html"><i class="fa fa-check"></i><b>4</b> Firearms: casings</a><ul>
+<li class="chapter" data-level="4.1" data-path="casings.html"><a href="casings.html#introduction-2"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="casings.html"><a href="casings.html#data-2"><i class="fa fa-check"></i><b>4.2</b> Data</a></li>
+<li class="chapter" data-level="4.3" data-path="casings.html"><a href="casings.html#r-packages-2"><i class="fa fa-check"></i><b>4.3</b> R Package(s)</a></li>
+<li class="chapter" data-level="4.4" data-path="casings.html"><a href="casings.html#casings-conclusions"><i class="fa fa-check"></i><b>4.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="4.5" data-path="casings.html"><a href="casings.html#casings-caseStudy"><i class="fa fa-check"></i><b>4.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fingerprints.html"><a href="fingerprints.html"><i class="fa fa-check"></i><b>5</b> Latent Fingerprints</a><ul>
+<li class="chapter" data-level="5.1" data-path="fingerprints.html"><a href="fingerprints.html#introduction-3"><i class="fa fa-check"></i><b>5.1</b> Introduction</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement"><i class="fa fa-check"></i><b>5.1.1</b> Contrast Gradient Quality Measurement</a></li>
+<li class="chapter" data-level="5.1.2" data-path="fingerprints.html"><a href="fingerprints.html#contrast-gradient-quality-measurement-illustration"><i class="fa fa-check"></i><b>5.1.2</b> Contrast Gradient Quality Measurement Illustration</a></li>
+<li class="chapter" data-level="5.1.3" data-path="fingerprints.html"><a href="fingerprints.html#test-for-usable-quality"><i class="fa fa-check"></i><b>5.1.3</b> Test for Usable Quality</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="fingerprints.html"><a href="fingerprints.html#data-3"><i class="fa fa-check"></i><b>5.2</b> Data</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="fingerprints.html"><a href="fingerprints.html#ace-v-and-afis"><i class="fa fa-check"></i><b>5.2.1</b> ACE-V and AFIS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="fingerprints.html"><a href="fingerprints.html#r-package-1"><i class="fa fa-check"></i><b>5.3</b> R Package</a></li>
+<li class="chapter" data-level="5.4" data-path="fingerprints.html"><a href="fingerprints.html#drawing-conclusions-2"><i class="fa fa-check"></i><b>5.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="5.5" data-path="fingerprints.html"><a href="fingerprints.html#case-study-2"><i class="fa fa-check"></i><b>5.5</b> Case Study</a><ul>
+<li class="chapter" data-level="" data-path="fingerprints.html"><a href="fingerprints.html#acknowledgements-1"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shoe.html"><a href="shoe.html"><i class="fa fa-check"></i><b>6</b> Shoe Outsole Impression Evidence</a><ul>
+<li class="chapter" data-level="6.1" data-path="shoe.html"><a href="shoe.html#introduction-4"><i class="fa fa-check"></i><b>6.1</b> Introduction</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="shoe.html"><a href="shoe.html#sources-of-variability-in-shoe-outsole-impressions"><i class="fa fa-check"></i><b>6.1.1</b> Sources of variability in shoe outsole impressions</a></li>
+<li class="chapter" data-level="6.1.2" data-path="shoe.html"><a href="shoe.html#current-practice"><i class="fa fa-check"></i><b>6.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="6.1.3" data-path="shoe.html"><a href="shoe.html#goal-of-this-chapter"><i class="fa fa-check"></i><b>6.1.3</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="shoe.html"><a href="shoe.html#data-4"><i class="fa fa-check"></i><b>6.2</b> Data</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="shoe.html"><a href="shoe.html#data-collection"><i class="fa fa-check"></i><b>6.2.1</b> Data collection</a></li>
+<li class="chapter" data-level="6.2.2" data-path="shoe.html"><a href="shoe.html#transformation-of-shoe-image"><i class="fa fa-check"></i><b>6.2.2</b> Transformation of shoe image</a></li>
+<li class="chapter" data-level="6.2.3" data-path="shoe.html"><a href="shoe.html#definition-of-classes"><i class="fa fa-check"></i><b>6.2.3</b> Definition of classes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="shoe.html"><a href="shoe.html#r-packages-3"><i class="fa fa-check"></i><b>6.3</b> R Package(s)</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="shoe.html"><a href="shoe.html#one-subarea-matching"><i class="fa fa-check"></i><b>6.3.1</b> One subarea matching</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="shoe.html"><a href="shoe.html#drawing-conclusions-3"><i class="fa fa-check"></i><b>6.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="6.5" data-path="shoe.html"><a href="shoe.html#shoe-case-study"><i class="fa fa-check"></i><b>6.5</b> Case Study</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="shoe.html"><a href="shoe.html#sec:shoeqk1"><i class="fa fa-check"></i><b>6.5.1</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_1\)</span></a></li>
+<li class="chapter" data-level="6.5.2" data-path="shoe.html"><a href="shoe.html#compare-q-and-k_2"><i class="fa fa-check"></i><b>6.5.2</b> Compare <span class="math inline">\(Q\)</span> and <span class="math inline">\(K_2\)</span></a></li>
+<li class="chapter" data-level="6.5.3" data-path="shoe.html"><a href="shoe.html#interpreting-comparisons-between-q-k_1-and-q-k_2"><i class="fa fa-check"></i><b>6.5.3</b> Interpreting Comparisons between <span class="math inline">\(Q, K_1\)</span> and <span class="math inline">\(Q, K_2\)</span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="glass.html"><a href="glass.html"><i class="fa fa-check"></i><b>7</b> Trace glass evidence: chemical composition</a><ul>
+<li class="chapter" data-level="7.1" data-path="glass.html"><a href="glass.html#introduction-5"><i class="fa fa-check"></i><b>7.1</b> Introduction</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="glass.html"><a href="glass.html#problems-of-interest"><i class="fa fa-check"></i><b>7.1.1</b> Problems of interest</a></li>
+<li class="chapter" data-level="7.1.2" data-path="glass.html"><a href="glass.html#current-practice-1"><i class="fa fa-check"></i><b>7.1.2</b> Current practice</a></li>
+<li class="chapter" data-level="7.1.3" data-path="glass.html"><a href="glass.html#comparing-glass-fragments"><i class="fa fa-check"></i><b>7.1.3</b> Comparing glass fragments</a></li>
+<li class="chapter" data-level="7.1.4" data-path="glass.html"><a href="glass.html#goal-of-this-chapter-1"><i class="fa fa-check"></i><b>7.1.4</b> Goal of this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="glass.html"><a href="glass.html#data-5"><i class="fa fa-check"></i><b>7.2</b> Data</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="glass.html"><a href="glass.html#chemical-composition-of-glass"><i class="fa fa-check"></i><b>7.2.1</b> Chemical composition of glass</a></li>
+<li class="chapter" data-level="7.2.2" data-path="glass.html"><a href="glass.html#data-source"><i class="fa fa-check"></i><b>7.2.2</b> Data source</a></li>
+<li class="chapter" data-level="7.2.3" data-path="glass.html"><a href="glass.html#data-structure"><i class="fa fa-check"></i><b>7.2.3</b> Data structure</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="glass.html"><a href="glass.html#glass_rpkgs"><i class="fa fa-check"></i><b>7.3</b> R Packages</a></li>
+<li class="chapter" data-level="7.4" data-path="glass.html"><a href="glass.html#drawing-conclusions-4"><i class="fa fa-check"></i><b>7.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="7.5" data-path="glass.html"><a href="glass.html#case-study-3"><i class="fa fa-check"></i><b>7.5</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="decision-making.html"><a href="decision-making.html"><i class="fa fa-check"></i><b>8</b> Decision-making in Forensic Identification Tasks</a><ul>
+<li class="chapter" data-level="8.1" data-path="decision-making.html"><a href="decision-making.html#introduction-6"><i class="fa fa-check"></i><b>8.1</b> Introduction</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="decision-making.html"><a href="decision-making.html#irt"><i class="fa fa-check"></i><b>8.1.1</b> A Brief Overview of Item Response Models</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="decision-making.html"><a href="decision-making.html#humans-data"><i class="fa fa-check"></i><b>8.2</b> Data</a></li>
+<li class="chapter" data-level="8.3" data-path="decision-making.html"><a href="decision-making.html#rpackages"><i class="fa fa-check"></i><b>8.3</b> R Packages</a></li>
+<li class="chapter" data-level="8.4" data-path="decision-making.html"><a href="decision-making.html#humans-conclusions"><i class="fa fa-check"></i><b>8.4</b> Drawing Conclusions</a></li>
+<li class="chapter" data-level="8.5" data-path="decision-making.html"><a href="decision-making.html#casestudy"><i class="fa fa-check"></i><b>8.5</b> Case Study</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="decision-making.html"><a href="decision-making.html#fitting-the-irt-model"><i class="fa fa-check"></i><b>8.5.1</b> Fitting the IRT model</a></li>
+<li class="chapter" data-level="8.5.2" data-path="decision-making.html"><a href="decision-making.html#irt-complements-an-error-rate-analysis"><i class="fa fa-check"></i><b>8.5.2</b> IRT complements an error rate analysis</a></li>
+<li class="chapter" data-level="8.5.3" data-path="decision-making.html"><a href="decision-making.html#scoring-method-affects-proficiency-estimates"><i class="fa fa-check"></i><b>8.5.3</b> Scoring method affects proficiency estimates</a></li>
+<li class="chapter" data-level="8.5.4" data-path="decision-making.html"><a href="decision-making.html#discussion"><i class="fa fa-check"></i><b>8.5.4</b> Discussion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="acknowledgements-2.html"><a href="acknowledgements-2.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="glossary.html"><a href="glossary.html"><i class="fa fa-check"></i><b>A</b> Glossary</a><ul>
+<li class="chapter" data-level="A.1" data-path="glossary.html"><a href="glossary.html#introduction-7"><i class="fa fa-check"></i><b>A.1</b> Introduction</a></li>
+<li class="chapter" data-level="A.2" data-path="glossary.html"><a href="glossary.html#validation-of-dna-interpretation-systems"><i class="fa fa-check"></i><b>A.2</b> Validation of DNA Interpretation Systems</a></li>
+<li class="chapter" data-level="A.3" data-path="glossary.html"><a href="glossary.html#firearms-bullets"><i class="fa fa-check"></i><b>A.3</b> Firearms: bullets</a></li>
+<li class="chapter" data-level="A.4" data-path="glossary.html"><a href="glossary.html#firearms-casings"><i class="fa fa-check"></i><b>A.4</b> Firearms: casings</a></li>
+<li class="chapter" data-level="A.5" data-path="glossary.html"><a href="glossary.html#latent-fingerprints"><i class="fa fa-check"></i><b>A.5</b> Latent Fingerprints</a></li>
+<li class="chapter" data-level="A.6" data-path="glossary.html"><a href="glossary.html#shoe-outsole-impression-evidence"><i class="fa fa-check"></i><b>A.6</b> Shoe Outsole Impression Evidence</a></li>
+<li class="chapter" data-level="A.7" data-path="glossary.html"><a href="glossary.html#trace-glass-evidence"><i class="fa fa-check"></i><b>A.7</b> Trace Glass Evidence</a></li>
+<li class="chapter" data-level="A.8" data-path="glossary.html"><a href="glossary.html#decision-making-in-forensic-identification-tasks"><i class="fa fa-check"></i><b>A.8</b> Decision-making in Forensic Identification Tasks</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Open Forensic Science in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="casings" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Firearms: casings</h1>
+<div id="xiao-hui-tai-1" class="section level4 unnumbered">
+<h4><em>Xiao Hui Tai</em></h4>
+<p><img src="img/casings.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="introduction-2" class="section level2">
+<h2><span class="header-section-number">4.1</span> Introduction</h2>
+<p>Marks are left on <a href="glossary.html#def:cartridges">cartridge cases</a> due to the firing process of a gun, in a similar way that marks are left on bullets. In the case of cartridge cases, there are at least two types of marks that are of interest. First, the <a href="glossary.html#def:firingpin">firing pin</a> hits the <a href="#def:primer">primer</a> at the base of the cartridge, leaving a firing pin impression. The subsequent explosion (which launches the bullet) also causes the cartridge case to be pressed against the breech block of the gun, leaving impressed marks known as <a href="glossary.html#def:breechface">breechface</a> marks. Both these types of marks are thought to <a href="glossary.html#def:individualize">individualize</a> a gun, hence law enforcement officers frequently collect cartridge cases from crime scenes, in hopes of connecting these to retrieved guns, or connecting crimes where the same weapon was used.</p>
+<p>In current practice, retrieved cartridge cases are entered into a national database called the National Integrated Ballistics Information Network (<a href="https://www.atf.gov/firearms/national-integrated-ballistic-information-network-nibin">NIBIN</a>), through a computer-based platform which was developed and is maintained by <a href="https://www.ultra-forensictechnology.com/en/">Ultra Electronics Forensic Technology Inc.</a> (FTI). This platform captures an image of the “new” cartridge case and runs a <a href="glossary.html#def:proprietary">proprietary</a> search algorithm, returning a list of top ranked potential matches from the database. Firearms examiners then examine this list and the associated images, to make a judgment about which potential matches warrant further investigation. The physical cartridge cases associated with these images are then located and examined under a comparison microscope. The firearms examiner decides if there are any matches, based on whether there is “sufficient agreement” between the marks <span class="citation">(AFTE Criteria for Identification Committee <a href="#ref-AFTE1992">1992</a><a href="#ref-AFTE1992">a</a>)</span>, and may bring this evidence to court.</p>
+<!-- Sam's comment: how to make [@PCAST2016] show up as (PCAST 2016) without changing the author name to "PCAST"? Solution: [PCAST -@PCAST2016]-->
+<p>There has been much public criticism in recent years about the current system. For example, PCAST <span class="citation">(PCAST <a href="#ref-PCAST2016">2016</a>)</span> expressed concern that there had been insufficient studies establishing the reliability of conclusions made by examiners, and the associated error rates had not been adequately estimated. They suggested two directions for the path forward. The first is to “continue to improve firearms analysis as a subjective method,” and the second is to “convert firearms analysis from a subjective method to an objective method,” through the use of automated methods and image-analysis algorithms <span class="citation">(PCAST <a href="#ref-PCAST2016">2016</a>)</span>.</p>
+<p>There have been efforts by various groups, both commercial and academic, in line with this second recommendation. A full review is out of the scope of the current text, but we refer the interested reader to <span class="citation">Roth et al. (<a href="#ref-Roth2015">2015</a>)</span>, <span class="citation">Geradts et al. (<a href="#ref-Geradts2001">2001</a>)</span>, <span class="citation">Thumwarin (<a href="#ref-Thumwarin2008">2008</a>)</span>, <span class="citation">Riva and Champod (<a href="#ref-Riva2014">2014</a>)</span>, <span class="citation">Vorburger et al. (<a href="#ref-Vorburger2007">2007</a>)</span>, <span class="citation">Song (<a href="#ref-Song2013">2013</a>)</span>, and others. One point to note is that as far as we know, none of these methods are <a href="glossary.html#def:openss">open-source</a>. We have developed methodology to process and compare cartridge cases in a fully automatic, open-source manner, and in this chapter, we describe R packages to accomplish these tasks.</p>
+</div>
+<div id="data-2" class="section level2">
+<h2><span class="header-section-number">4.2</span> Data</h2>
+<p>NIST maintains a Ballistics Toolmark Research Database (<a href="https://tsapps.nist.gov/NRBTD" class="uri">https://tsapps.nist.gov/NRBTD</a>), an open-access research database of bullet and cartridge case toolmark data. The database contains images from test fires originating from studies conducted by various groups in the firearm and toolmark community. These cartridge cases were originally collected for different purposes, for example the Laura Lightstone study investigated whether firearms examiners were able to differentiate cartridge cases from consecutively manufactured pistol slides <span class="citation">(Lightstone <a href="#ref-Lightstone2010">2010</a>)</span>. The majority of available data are cartridge cases that were sent to NIST for imaging, but the website also allows users to upload their own data in a standardized format.</p>
+<p>There are a total of 2,305 images (as of 3/4/2019), and among these are data sets involving consecutively manufactured <a href="glossary.html#def:slide">pistol slides</a>, a large number of firings (termed persistence studies because they investigate the persistence of marks), as well as different makes and models of guns and ammunition. Gun manufacturers in the database include Glock, Hi-Point, Ruger, Sig Sauer, and Smith &amp; Wesson, and ammunition brands include CCI, Federal, PMC, Remington, Speer, Wolf and Winchester.</p>
+<p>Measurements are primarily made using a Leica FS M 2D reflectance microscope, and a Nanofocus uSurf disc scanning confocal microscope. The former captures photo images while the latter captures 3D topographies. Detailed metadata are available for each of these images, for example for photo images, the magnification was 2X with a lateral resolution of <span class="math inline">\(2.53 \mu m\)</span>, producing <span class="math inline">\(2592 \times 1944\)</span> pixel, 256-grayscale PNG images. For 3D, various magnifications were used, for example an objective of 10X results in a lateral resolution of <span class="math inline">\(3.125 \mu m\)</span>, and images that are around <span class="math inline">\(1200 \times 1200\)</span>. The 3D data are in x3p format, and more information about this file format can be found in Chapter <a href="bullets.html#bullets">3</a>.</p>
+<p>Examples of images are in Section <a href="casings.html#casings-caseStudy">4.5</a>.</p>
+</div>
+<div id="r-packages-2" class="section level2">
+<h2><span class="header-section-number">4.3</span> R Package(s)</h2>
+<p>The goal of the analysis is to derive a measure of similarity between a pair of cartridge case images. There are a few steps involved in such an analysis. Broadly, we first need to process the images so that they are ready for analysis. This might involve selecting relevant marks or highlighting specific features. Next, given two images, they need to be aligned so that any similarity measure extracted is meaningful. The final step is to estimate the similarity score.</p>
+<p>We have developed R packages to analyze images in the standard format in NIST’s database. <a href="https://github.com/xhtai/cartridges"><code>cartridges</code></a> analyzes 2D photo images, while <a href="https://github.com/xhtai/cartridges3D"><code>cartridges3D</code></a> analyzes 3D topographies. A complete description of methodology used in <code>cartridges</code> is in <span class="citation">Tai and Eddy (<a href="#ref-Tai2018">2018</a>)</span>. <code>cartridges3D</code> modifies this for 3D topographies, with the major difference being in pre-processing. More details can be found in the package <a href="https://github.com/xhtai/cartridges3D">README</a>.</p>
+<p>The primary functions of the package are <code>allPreprocess</code> and <code>calculateCCFmaxSearch</code>. The former performs all pre-processing steps, while the latter does both alignment and computation of a similarity score. The corresponding function for processing 3D data is <code>allPreprocess3D</code>. The end result is a similarity score for a pair of images being compared.</p>
+</div>
+<div id="casings-conclusions" class="section level2">
+<h2><span class="header-section-number">4.4</span> Drawing Conclusions</h2>
+<p>Depending on the goal of the analysis, as well as the availability of data, there are a few ways in which conclusions may be drawn. The analysis produces a similarity score for a pair of images. This could be sufficient for the analysis, for example if we have two pairs of images being compared, the goal might be simply to estimate which of the two pairs are more similar to each other. This situation is straightforward, and we can make a conclusion such as “Comparison 1 contains images that are more similar than Comparison 2.” If a set of comparisons are being done, the conclusion might be of the form “these are the top 10 pairs with highest similarity scores out of the 100 comparisons being made.” This could be used to generate investigative leads, where we select the top 10 (say) pairs for further investigation. A different context in which this type of conclusion could be used is by examiners for blind verification. This means that an examiner first comes to their own conclusion, and then verifies this using an automatic method, making a conclusion such as “Based on my experience and training, these two cartridge cases come from the same gun. This pair that I identified also had a score of .7, the highest similarity score returned by <em>[[insert algorithm]]</em> among <em>[[insert subset of pairs being considered]]</em>.”</p>
+<p>In other situations, we might be interested in designating a similarity cutoff above which some action is taken. The selection of such a cutoff depends on the goal. For example, similar to the above situation, we might be interested in selecting pairs above a cutoff for further manual investigation, instead of simply picking the top 10 pairs. Alternatively, a cutoff could be used to decide if pairs are matches or non-matches. This could be of interest in criminal cases, where a conclusion of match or non-match is required to decide if a person should be implicated in a crime. In the first case a lower cutoff might be set to ensure high recall, while in the second case a much higher cutoff might be necessary.</p>
+<p>Given appropriate data on the distribution of similarity scores for non-matching pairs in some population of interest, a third type of conclusion that we can draw is to estimate a probability of getting a higher similarity score by chance. For example, if we obtain a similarity of .7 for the pair of interest, we compare .7 to some distribution of similarity scores for non-matching pairs, that might have been obtained from prior studies. The probability of interest is the probability that a random draw from that distribution is larger than .7, say <span class="math inline">\(p_0\)</span>. The conclusion that we can then draw is that if the pair was a non-match, the probability of getting a score higher than .7 is <span class="math inline">\(p_0\)</span>. If the value of <span class="math inline">\(p_0\)</span> is small, this provides evidence against the hypothesis that the pair of interest is a non-matching pair. Such a probability can be used as a measure of the probative value of the evidence.</p>
+</div>
+<div id="casings-caseStudy" class="section level2">
+<h2><span class="header-section-number">4.5</span> Case Study</h2>
+<p>The following case study uses two 2D photo images from the NBIDE study in NIST’s database, coming from the same Ruger gun, firing PMC ammunition. Referring to the study metadata, these are cartridge cases RR054 and RR072, corresponding to the files “NBIDE R BF 054.png” and “NBIDE R BF 072.png”.</p>
+<p>We first load the package:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cartridges)</code></pre>
+<p>We can read in and plot the images as follows. If using a user-downloaded image, one can simply replace the file path with the location of the downloaded image.</p>
+<pre class="sourceCode r"><code class="sourceCode r">exImage1 &lt;-<span class="st"> </span><span class="kw">readCartridgeImage</span>(<span class="st">&quot;./img/casings_NBIDE054.png&quot;</span>)
+<span class="kw">plotImage</span>(exImage1, <span class="dt">type =</span> <span class="st">&quot;original&quot;</span>)</code></pre>
+<p><img src="open-forensic-science-in-r_files/figure-html/unnamed-chunk-16-1.png" width="384" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">exImage2 &lt;-<span class="st"> </span><span class="kw">readCartridgeImage</span>(<span class="st">&quot;./img/casings_NBIDE072.png&quot;</span>)
+<span class="kw">plotImage</span>(exImage2, <span class="dt">type =</span> <span class="st">&quot;original&quot;</span>)</code></pre>
+<p><img src="open-forensic-science-in-r_files/figure-html/unnamed-chunk-16-2.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Now, all the pre-processing can be done using <code>allPreprocess</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">processedEx1 &lt;-<span class="st"> </span><span class="kw">allPreprocess</span>(<span class="st">&quot;./img/casings_NBIDE054.png&quot;</span>)
+processedEx2 &lt;-<span class="st"> </span><span class="kw">allPreprocess</span>(<span class="st">&quot;./img/casings_NBIDE072.png&quot;</span>)</code></pre>
+<p>The processed images can be plotted using <code>plotImage</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotImage</span>(processedEx1, <span class="dt">type =</span> <span class="st">&quot;any&quot;</span>)</code></pre>
+<p><img src="open-forensic-science-in-r_files/figure-html/unnamed-chunk-18-1.png" width="288" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotImage</span>(processedEx2, <span class="dt">type =</span> <span class="st">&quot;any&quot;</span>)</code></pre>
+<p><img src="open-forensic-science-in-r_files/figure-html/unnamed-chunk-18-2.png" width="288" style="display: block; margin: auto;" /></p>
+<p>Now, to compare these two images, we use</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">calculateCCFmaxSearch</span>(processedEx1, processedEx2)</code></pre>
+<p>This produces a score of .40. As discussed in Section <a href="casings.html#casings-conclusions">4.4</a>, the conclusions to be drawn depend on the goals of the analysis, as well as the availability of data. The first type of conclusion could be that this pair of images is more similar to each other than some other pair of images. The second type of conclusion could be that this score is high enough to warrant further manual investigation. Finally, if we have some prior information on some reference distribution of non-matching scores, we can compute the probability of obtaining a higher score by chance as follows. Given a reference population of interest, one can perform the appropriate pairwise comparisons and obtain non-match distributions empirically. Here we use a normal distribution for purposes of illustration.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">0</span>)
+<span class="kw">computeProb</span>(<span class="fl">0.4</span>, <span class="kw">rnorm</span>(<span class="dv">50</span>, <span class="fl">0.02</span>, <span class="fl">0.3</span>))</code></pre>
+<pre><code>## [1] 0.08</code></pre>
+<p>The conclusion then is that the probability of obtaining a score higher than .40, for a non-matching pair, is .08.</p>
+<p>The same type of analysis can be done with 3D topographies using the corresponding functions in <code>cartridges3D</code>.</p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a></p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-AFTE1992">
+<p>AFTE Criteria for Identification Committee. 1992a. “Theory of Identification, Range of Striae Comparison Reports, and Modified Glossary Definitions – an AFTE Criteria for Identification Committee Report.” <em>AFTE Journal</em> 24 (2): 336–40.</p>
+</div>
+<div id="ref-PCAST2016">
+<p>President’s Council of Advisors on Science and Technology. 2016. <em>Report to the President on Forensic Science in Criminal Courts: Ensuring Scientific Validity of Feature-Comparison Methods</em>. Washington, D.C.: Executive Office of the President.</p>
+</div>
+<div id="ref-Roth2015">
+<p>Roth, J., A. Carriveau, X. Liu, and A. K. Jain. 2015. “Learning-Based Ballistic Breech Face Impression Image Matching.” In <em>2015 Ieee 7th International Conference on Biometrics Theory, Applications and Systems (Btas)</em>, 1–8. Arlington, VA. <a href="https://doi.org/10.1109/BTAS.2015.7358774">https://doi.org/10.1109/BTAS.2015.7358774</a>.</p>
+</div>
+<div id="ref-Geradts2001">
+<p>Geradts, Zeno J, Jurrien Bijhold, Rob Hermsen, and Fionn Murtagh. 2001. “Image Matching Algorithms for Breech Face Marks and Firing Pins in a Database of Spent Cartridge Cases of Firearms.” <em>Forensic Science International</em> 119 (1): 97–106.</p>
+</div>
+<div id="ref-Thumwarin2008">
+<p>Thumwarin, P. 2008. “An Automatic System for Firearm Identification.” In <em>2008 International Symposium on Communications and Information Technologies</em>, 100–103. <a href="https://doi.org/10.1109/ISCIT.2008.4700162">https://doi.org/10.1109/ISCIT.2008.4700162</a>.</p>
+</div>
+<div id="ref-Riva2014">
+<p>Riva, Fabiano, and Christophe Champod. 2014. “Automatic Comparison and Evaluation of Impressions Left by a Firearm on Fired Cartridge Cases.” <em>Journal of Forensic Sciences</em> 59 (3): 637–47. <a href="https://doi.org/10.1111/1556-4029.12382">https://doi.org/10.1111/1556-4029.12382</a>.</p>
+</div>
+<div id="ref-Vorburger2007">
+<p>Vorburger, T., J. Yen, B. Bachrach, T. Renegar, J. Filliben, L. Ma, H. Rhee, et al. 2007. “Surface Topography Analysis for a Feasibility Assessment of a National Ballistics Imaging Database.” NISTIR 7362. Gaithersburg, MD: National Institute of Standards; Technology.</p>
+</div>
+<div id="ref-Song2013">
+<p>Song, John. 2013. “Proposed ‘NIST Ballistics Identification System (NBIS)’ Based on 3D Topography Measurements on Correlation Cells.” <em>AFTE Journal</em> 45 (2): 184–94.</p>
+</div>
+<div id="ref-Lightstone2010">
+<p>Lightstone, Laura. 2010. “The Potential for and Persistence of Subclass Characteristics on the Breech Faces of SW40VE Smith &amp; Wesson Sigma Pistols.” <em>AFTE Journal</em> 42 (4): 308–22.</p>
+</div>
+<div id="ref-Tai2018">
+<p>Tai, Xiao Hui, and William F. Eddy. 2018. “A Fully Automatic Method for Comparing Cartridge Case Images,” <em>Journal of Forensic Sciences</em> 63 (2): 440–48. <a href="https://doi.org/10.1111/1556-4029.13577">https://doi.org/10.1111/1556-4029.13577</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="bullets.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="fingerprints.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/sctyner/OpenForSciR/edit/master/content/content/pattern-firearms_casings.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["open-forensic-science-in-r.pdf", "open-forensic-science-in-r.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
