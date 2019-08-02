@@ -14,8 +14,10 @@ knitr::include_graphics("img/science-decide.png")
 ## Introduction
 
 Although forensic measurement and analysis tools are increasingly accurate and objective, many final decisions are largely left to individual examiners [@pcast]. Human decision-makers will continue to play a central role in forensic science for the foreseeable future, and it is unrealistic to assume that, within the United States' current criminal justice system,
+
 - there are no differences in the decision-making process between examiners, 
-- day-to-day forensic decision-making tasks are equally difficult, or - human decision-making can be removed from the process entirely. 
+- day-to-day forensic decision-making tasks are equally difficult, or
+- human decision-making can be removed from the process entirely. 
 
 The role of human decisions in forensic science is perhaps most studied in the fingerprint domain, which will be the focus of this chapter.<!--citation?--> High-profile examples of misidentification have inspired studies showing that fingerprint examiners, like all humans, may be susceptible to biased instructions and unreliable in final decisions [@dror2008meta] or influenced by external factors or contextual information [@dror2006; @dror2010vision]. These studies contradict common perceptions of the accuracy of fingerprint examination, and demonstrate that fingerprint analysis is far from error-free. 
 

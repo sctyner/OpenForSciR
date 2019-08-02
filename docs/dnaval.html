@@ -25,7 +25,7 @@
 <meta name="author" content="Editor: Sam Tyner, Ph.D.">
 
 
-<meta name="date" content="2019-06-22">
+<meta name="date" content="2019-08-02">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -435,7 +435,7 @@ There are four pieces in validation:
 <div id="get-the-data" class="section level3">
 <h3><span class="header-section-number">2.5.1</span> Get the data</h3>
 <p>We’ll use the package data <code>set1</code>, which is data from the genotyping of eight replicate measurements of a positive control sample, one replicate of a negative control sample, and the ladder used in analysis. The PowerPlex® ESX 17 System from the Promega Corporation<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> was used on these samples for amplification of 17 loci recommended for analysis by the European Network of Forensic Science Institutes (ENFSI) and the European DNA Profiling Group (EDNAP), the European equivalent of SWGDAM. The known reference sample used is the <code>ref1</code> data in the <code>strvalidator</code> package.</p>
-<p>First, we load the data, then slim it for analysis. Then, we use <code>generateEPG()</code> to visualize an electropherogram-like plot of the data. This function, like the other plotting functions in <code>strvalidator</code>, is built on the <code>ggplot2</code> package <span class="citation">(Wickham et al. <a href="#ref-R-ggplot2">2018</a>)</span>. We also use the <a href="https://dplyr.tidyverse.org/"><code>dplyr</code></a> package throughout for data manipulation tasks <span class="citation">(Wickham et al. <a href="#ref-R-dplyr">2019</a>)</span>.</p>
+<p>First, we load the data, then slim it for analysis. Then, we use <code>generateEPG()</code> to visualize an electropherogram-like plot of the data. This function, like the other plotting functions in <code>strvalidator</code>, is built on the <code>ggplot2</code> package <span class="citation">(Wickham, Chang, et al. <a href="#ref-R-ggplot2">2019</a>)</span>. We also use the <a href="https://dplyr.tidyverse.org/"><code>dplyr</code></a> package throughout for data manipulation tasks <span class="citation">(Wickham, François, et al. <a href="#ref-R-dplyr">2019</a>)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(strvalidator)
 <span class="kw">library</span>(dplyr)
 <span class="kw">library</span>(ggplot2)
@@ -880,10 +880,10 @@ Figure 2.9: Dropout for all samples in <code>set4</code> by marker.
 <p>Gill, Peter, R Sparkes, and C Kimpton. 1997. “Development of Guidelines to Designate Alleles Using an STR Multiplex System.” <em>Forensic Science International</em> 89 (3): 185–97.</p>
 </div>
 <div id="ref-R-ggplot2">
-<p>Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, and Kara Woo. 2018. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>.</p>
+<p>Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, and Hiroaki Yutani. 2019. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>.</p>
 </div>
 <div id="ref-R-dplyr">
-<p>Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2019. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.</p>
+<p>Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2019. <em>Dplyr: A Grammar of Data Manipulation</em>.</p>
 </div>
 </div>
 <div class="footnotes">
