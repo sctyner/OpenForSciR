@@ -1,5 +1,7 @@
 # *Open Forensic Science in R* <img src="img/openforscir-hex.png" align="right" width="200" />
 
+[![DOI](https://zenodo.org/badge/99443778.svg)](https://zenodo.org/badge/latestdoi/99443778)
+
 ## About
 
 This project was funded by [rOpenSci](https://ropensci.org/about/) through their [Research Fellowship program](https://ropensci.org/blog/2018/02/14/announcing-2018-ropensci-fellows/).
