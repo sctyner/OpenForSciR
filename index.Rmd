@@ -32,6 +32,8 @@ This book is for anyone looking to do [forensic science](#def:forsci) analysis i
 2. **You are interested in forensic science.** Hopefully that's why you're here! You may only be interested in DNA or firearms, so we've split the book up into chapters by forensic science subfield. You also don't have to be an expert in the field. We will explain the basics of the field in the introduction of each chapter. You can also download this book by clicking [here](https://github.com/sctyner/OpenForSciR/archive/master.zip) or by cloning it on [GitHub](https://github.com/sctyner/OpenForSciR) and follow along, running the code on your own computer.
 3. **You care about [open source software](#def:openss).** This doesn't really affect your ability to read this book, but it's a nice quality to have. The purpose of this book is to make forensic science more accessible. Right now, most databases, algorithms, and programs that get used every day in forensic science are [proprietary](#def:proprietary), meaning that only the owners know how these systems work, how they were made, and what the [source code](#def:sourcecode) looks like. This closed approach has lead to [miscarriages of justice](https://www.propublica.org/article/thousands-of-criminal-cases-in-new-york-relied-on-disputed-dna-testing-techniques). With this free online book that relies *solely* on open-source software for analysis, we hope to demonstrate the impact open source software can have on forensic science, both in research and in practice. And in this spirit of openness, we ask that you contribute if you find an error or want to add a chapter on a topic we did not cover. You can open an issue [here](https://github.com/sctyner/OpenForSciR/issues) or fork the book's [Github repository](https://github.com/sctyner/OpenForSciR/) and submit your changes via a pull request. If you'd like to contribute, we ask that you follow our [contributor code of conduct]("https://github.com/sctyner/OpenForSciR/blob/master/CODE_OF_CONDUCT.md") and these [recommended practices](https://happygitwithr.com/fork-and-clone.html) from [Jenny Bryan](https://jennybryan.org/) and [Jim Hester](https://github.com/jimhester) of RStudio. 
 
+<p><a href="https://zenodo.org/badge/latestdoi/99443778"><img src="https://zenodo.org/badge/99443778.svg" alt="DOI"></a></p>
+
 This book **free** and is licensed under a [Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License](http://creativecommons.org/licenses/by-nc-nd/3.0/us/). 
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a>
@@ -81,7 +83,7 @@ Ganesh is a Ph.D. student in Statistics & Human Computer Interaction at Iowa Sta
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/"><img alt="Creative Commons License" style="border-width:0; display: block; margin-left: auto; margin-right: auto;" src="https://i.creativecommons.org/l/by-nc-nd/3.0/us/88x31.png" /></a>
 
-<a href="https://zenodo.org/badge/latestdoi/99443778"><img src="https://zenodo.org/badge/99443778.svg" alt="DOI"></a>
+
 
 
 ```{r include=FALSE}
